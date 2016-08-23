@@ -1,7 +1,9 @@
-package com.teamrm.teamrm;
+package com.teamrm.teamrm.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.teamrm.teamrm.R;
 
 public class MainActivity extends AppCompatActivity {
 
