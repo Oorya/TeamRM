@@ -17,6 +17,7 @@ import com.alamkanak.weekview.WeekViewEvent;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
+import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Utility.CalendarUtil;
 
 import java.text.SimpleDateFormat;
