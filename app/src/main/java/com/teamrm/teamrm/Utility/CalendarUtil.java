@@ -40,6 +40,7 @@ import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
+import com.teamrm.teamrm.Interfaces.CalendarHelper;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -70,10 +71,10 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
     private ProgressDialog mProgress;
     private CalendarAdpter mAdpter;
     private List<CalendarListEntry> items1;
-    private static   Resolt resolt;
+    private static CalendarHelper resolt;
     private static List<CalendarListEntry> calList;
 
-public CalendarUtil(Context context , Resolt resolt )
+public CalendarUtil(Context context , Object  resolt )
 {
     this._context = context;
     mProgress = new ProgressDialog(context);
@@ -89,7 +90,7 @@ public CalendarUtil(Context context , Resolt resolt )
             transport, jsonFactory, this.mCredential)
             .setApplicationName("Google Calendar API Android Quickstart")
             .build();
-    this.resolt=resolt;
+    this.resolt=(CalendarHelper) resolt;
 
     calList.addAll(getCalList());
     
