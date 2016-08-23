@@ -17,6 +17,7 @@ import com.alamkanak.weekview.WeekViewEvent;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
+import com.teamrm.teamrm.Utility.CalendarUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class CalVeiw extends AppCompatActivity implements WeekView.EventClickLis
     private static WeekView mWeekView;
     private static List<WeekViewEvent> mWeeViewEvent;
     private static List<Event> mEvent;
-    private static  CalendarUtil cal;
+    private static CalendarUtil cal;
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
