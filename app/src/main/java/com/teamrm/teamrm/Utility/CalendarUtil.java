@@ -473,7 +473,7 @@ public CalendarUtil(Context context , Object  resolt )
 
     public void update(String Id, String updateString) {
         Log.d(TAG, "update:in update ");
-        new EventAction(Id, 2, updateString,this).execute();
+        new EventAction(Id, 2, updateString, this).execute();
     }
 
     public Event getEvent(String Id) {
