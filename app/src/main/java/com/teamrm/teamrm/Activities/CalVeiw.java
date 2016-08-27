@@ -145,11 +145,8 @@ public class CalVeiw extends AppCompatActivity implements WeekView.EventClickLis
         for (Event EVENT : mEvent)
         {
             id++;
-            // Log.d("list  getColorId = ",EVENT.getColorId());
-
-            // int color = Color.parseColor(EVENT.getColorId());
+          
             WeekViewEvent Wevent = new WeekViewEvent(id,EVENT.getSummary(), convertStart(EVENT),convertEnd(EVENT));
-            // Wevent.setColor(color);
             mWeeViewEvent.add(Wevent);
 
         }
@@ -215,21 +212,23 @@ public class CalVeiw extends AppCompatActivity implements WeekView.EventClickLis
 
     }
 
-
     @Override
-    public void getResolt(List<Event> eventUtil) {
+    public void getResolt(Event event) {
+        
+    }
+    
 
+   
+    
+    @Override
+    public void getCalLst(List<Event> calList)
+    {
         Log.d("list get resolt","start");
 
         mEvent.clear();
-        mEvent = eventUtil;
+        mEvent = calList;
         Log.d("list = ",mEvent.size()+"");
         mWeekView.notifyDatasetChanged();
-    }
-
-    @Override
-    public void getCalLst(List<CalendarListEntry> calList) {
-        cal.getResultsFromApi();
     }
 
     @Override

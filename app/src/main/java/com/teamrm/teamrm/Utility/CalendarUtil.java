@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -37,6 +38,8 @@ import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.AclRule;
 import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
+import com.google.api.services.calendar.model.ColorDefinition;
+import com.google.api.services.calendar.model.Colors;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
@@ -49,6 +52,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -70,7 +74,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
     private GoogleAccountCredential mCredential;
     private ProgressDialog mProgress;
     private List<CalendarListEntry> items1;
-    private static CalendarHelper resolt;
+    private static CalendarHelper calendarHelper;
     private static List<CalendarListEntry> calList;
 
 public CalendarUtil(Context context , Object  resolt )
@@ -89,7 +93,7 @@ public CalendarUtil(Context context , Object  resolt )
             transport, jsonFactory, this.mCredential)
             .setApplicationName("Google Calendar API Android Quickstart")
             .build();
-    this.resolt=(CalendarHelper) resolt;
+    this.calendarHelper=(CalendarHelper) resolt;
 
     calList.addAll(getCalList());
     
@@ -353,10 +357,12 @@ public CalendarUtil(Context context , Object  resolt )
         private List<Event> getDataFromApi() throws IOException {
 
             List<Event> items=null;
+            List<String> colore = null;
+            Colors colors=null;
             for (CalendarListEntry calenderAdd : calenders)
             {
                 Events events = mService.events().list(calenderAdd.getId())
-                        .setMaxResults(100)
+                        .setMaxResults(10)
                         .setOrderBy("startTime")
                         .setSingleEvents(true)
                         .execute();
@@ -381,7 +387,7 @@ public CalendarUtil(Context context , Object  resolt )
             }
             else
             {
-               resolt.getCalLst(output);
+                calendarHelper.getCalLst(output);
             }
         }
 
