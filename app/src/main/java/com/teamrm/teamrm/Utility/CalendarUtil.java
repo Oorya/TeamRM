@@ -96,25 +96,7 @@ public CalendarUtil(Context context , Object  resolt )
 }
     
     
-    public CalendarUtil(Context context) {
-       
-        this._context = context;
-        mProgress = new ProgressDialog(context);
-        mProgress.setMessage("Calling Google Calendar API ...");
-
-        // Initialize credentials and service object.
-        this.mCredential = GoogleAccountCredential.usingOAuth2(
-                context, Arrays.asList(SCOPES))
-                .setBackOff(new ExponentialBackOff());
-        mCredential.setSelectedAccountName("shealtiel84@gmail.com");
-        // Initialize calendar service object.
-        mService = new com.google.api.services.calendar.Calendar.Builder(
-                transport, jsonFactory, this.mCredential)
-                .setApplicationName("Google Calendar API Android Quickstart")
-                .build();
-
-        calList.addAll(getCalList());
-    }
+   
 
     /**
      * Attempt to call the API, after verifying that all the preconditions are
