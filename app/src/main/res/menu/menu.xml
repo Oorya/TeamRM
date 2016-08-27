@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item android:id="@+id/action_today"
+        android:title="today"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom"/>
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/action_day_view"
+            android:title="day_view"
+            android:orderInCategory="100" />
+
+        <item
+            android:id="@+id/action_three_day_view"
+            android:title="three_day_view"
+            android:orderInCategory="100"
+            android:checked="true" />
+
+        <item
+            android:id="@+id/action_week_view"
+            android:title="week_view"
+            android:orderInCategory="100" />
+
+    </group>
+
+</menu>
