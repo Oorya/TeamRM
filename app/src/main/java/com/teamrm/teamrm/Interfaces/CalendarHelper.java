@@ -10,6 +10,6 @@ import java.util.List;
  */
 public interface CalendarHelper {
 
-    public void getResolt(List<Event> eventUtil);
+    public void getResolt(Event  event);
     public void getCalLst(List<CalendarListEntry> eventUtil);
 }

@@ -69,7 +69,6 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
 
     private GoogleAccountCredential mCredential;
     private ProgressDialog mProgress;
-    private CalendarAdpter mAdpter;
     private List<CalendarListEntry> items1;
     private static CalendarHelper resolt;
     private static List<CalendarListEntry> calList;
@@ -97,8 +96,8 @@ public CalendarUtil(Context context , Object  resolt )
 }
     
     
-    public CalendarUtil(Context context, CalendarAdpter adapter) {
-        this.mAdpter = adapter;
+    public CalendarUtil(Context context) {
+       
         this._context = context;
         mProgress = new ProgressDialog(context);
         mProgress.setMessage("Calling Google Calendar API ...");
@@ -463,24 +462,22 @@ public CalendarUtil(Context context , Object  resolt )
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 Toast.makeText(_context, "event add...", Toast.LENGTH_LONG).show();
-                EventUtil eventUtil = new EventUtil(event.getStart().toString(), event.getSummary(), event.getId());
-                mAdpter.addToList(eventUtil);
-                mAdpter.notifyDataSetChanged();
+               
             }
         }.execute();
     }
 
     public void delete(String Id) {
-        new EventAction(Id, 1, mAdpter).execute();
+        new EventAction(Id, 1,this).execute();
     }
 
     public void update(String Id, String updateString) {
         Log.d(TAG, "update:in update ");
-        new EventAction(Id, 2, updateString, mAdpter).execute();
+        new EventAction(Id, 2, updateString,this).execute();
     }
 
-    public EventUtil getEvent(String Id) {
-        new EventAction(Id, 3, mAdpter).execute();
+    public Event getEvent(String Id) {
+        new EventAction(Id, 3,this).execute();
         return null;
     }
 
@@ -488,13 +485,16 @@ public CalendarUtil(Context context , Object  resolt )
         int task;
         String updateString, Id;
         Event event;
+        CalendarHelper CalendarHelper;
 
-        public EventAction(String id, int task, CalendarAdpter AD) {
+        public EventAction(String id, int task,Object  CalendarHelper ) {
+            this.CalendarHelper=(CalendarHelper) CalendarHelper;
             this.Id = id;
             this.task = task;
         }
 
-        public EventAction(String id, int task, String updateString, CalendarAdpter AD) {
+        public EventAction(String id, int task, String updateString,Object  CalendarHelper) {
+            this.CalendarHelper=(CalendarHelper) CalendarHelper;
             this.Id = id;
             this.task = task;
             this.updateString = updateString;
@@ -547,18 +547,13 @@ public CalendarUtil(Context context , Object  resolt )
         protected void onPostExecute(Event event) {
             super.onPostExecute(event);
             Log.d(TAG, "update:in onPostExecute ");
-
-            EventUtil eventUtil = null;
-            if (this.task == 3) {
-                eventUtil = new EventUtil(event.getStart().toString(), event.getSummary(), event.getId());
+            
+            if (this.task == 1)
+            {
+                Toast.makeText(_context,"EVENT DELIT",Toast.LENGTH_LONG).show();
+            }else if(this.task == 3||this.task == 2) {
+                this.CalendarHelper.getResolt(event);
             }
-            if (this.task == 2) {
-                eventUtil = new EventUtil(event.getStart().toString(), event.getSummary(), event.getId());
-            }
-            if (eventUtil != null) {
-                mAdpter.addToList(eventUtil);
-            }
-            mAdpter.notifyDataSetChanged();
         }
 
     }
