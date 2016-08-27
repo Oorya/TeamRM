@@ -4,6 +4,7 @@ import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by shalty on 08/08/2016.
@@ -11,5 +12,5 @@ import java.util.List;
 public interface CalendarHelper {
 
     public void getResolt(Event  event);
-    public void getCalLst(List<CalendarListEntry> eventUtil);
+    public void getCalLst(List<Event> eventUtil);
 }

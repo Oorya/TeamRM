@@ -381,7 +381,7 @@ public CalendarUtil(Context context , Object  resolt )
             }
             else
             {
-               resolt.getResolt(output);
+               resolt.getCalLst(output);
             }
         }
 
