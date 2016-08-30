@@ -221,7 +221,7 @@ public class CalVeiw extends AppCompatActivity implements WeekView.EventClickLis
    
     
     @Override
-    public void getCalLst(List<Event> calList)
+    public void getCalList(List<Event> calList)
     {
         Log.d("list get resolt","start");
 

@@ -12,5 +12,5 @@ import java.util.Map;
 public interface CalendarHelper {
 
     public void getResolt(Event  event);
-    public void getCalLst(List<Event> eventUtil);
+    public void getCalList(List<Event> eventUtil);
 }

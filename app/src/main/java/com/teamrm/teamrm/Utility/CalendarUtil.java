@@ -131,9 +131,9 @@ public CalendarUtil(Context context , Object  resolt )
 
 
 
-        //if (!isGooglePlayServicesAvailable()) {
-        //  acquireGooglePlayServices();
-        // } else
+        if (!isGooglePlayServicesAvailable()) {
+          acquireGooglePlayServices();
+         } else
         if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
         } else if (!isDeviceOnline()) {
@@ -387,7 +387,7 @@ public CalendarUtil(Context context , Object  resolt )
             }
             else
             {
-                calendarHelper.getCalLst(output);
+                calendarHelper.getCalList(output);
             }
         }
 
@@ -670,11 +670,12 @@ public CalendarUtil(Context context , Object  resolt )
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                for (CalendarListEntry calendarListEntry : items)
-                Toast.makeText(_context,calendarListEntry.getId(),Toast.LENGTH_LONG).show();
-
+                for (CalendarListEntry calendarListEntry : items) {
+                    Toast.makeText(_context, calendarListEntry.getId(), Toast.LENGTH_LONG).show();
+                }
+                calList=items;
             }
         }.execute();
-        return items1;
+        return calList;
     }
 }
