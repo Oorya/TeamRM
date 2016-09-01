@@ -2,8 +2,10 @@ package com.teamrm.teamrm.Utility;
 
 
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,10 +25,25 @@ public class UtlFirebase {
     private static String status;
     private static Ticket returnTicket;
     private static boolean isWait=false;
+    private static FirebaseAuth firebaseAuth;
     private static List<Ticket> ticketList = new ArrayList<Ticket>();
 
     public UtlFirebase() {}
 
+
+    public static void signOut()
+    {
+        firebaseAuth=FirebaseAuth.getInstance();
+        firebaseAuth.signOut();
+
+        // this listener will be called when there is change in firebase user session
+        FirebaseAuth.AuthStateListener authListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+            }
+        };
+    }
 
     public static void getTicketByKey(final String key, Object object) {
 
