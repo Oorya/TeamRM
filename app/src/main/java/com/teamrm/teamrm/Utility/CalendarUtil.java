@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -37,9 +38,12 @@ import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.AclRule;
 import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
+import com.google.api.services.calendar.model.ColorDefinition;
+import com.google.api.services.calendar.model.Colors;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
+import com.teamrm.teamrm.Interfaces.CalendarHelper;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -48,6 +52,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -68,36 +73,35 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
 
     private GoogleAccountCredential mCredential;
     private ProgressDialog mProgress;
-    private CalendarAdpter mAdpter;
     private List<CalendarListEntry> items1;
-    private static   Resolt resolt;
+    private static CalendarHelper calendarHelper;
     private static List<CalendarListEntry> calList;
 
-public CalendarUtil(Context context , Resolt resolt )
-{
-    this._context = context;
-    mProgress = new ProgressDialog(context);
-    mProgress.setMessage("Calling Google Calendar API ...");
+    public CalendarUtil(Context context , Object  resolt )
+    {
+        this._context = context;
+        mProgress = new ProgressDialog(context);
+        mProgress.setMessage("Calling Google Calendar API ...");
 
-    // Initialize credentials and service object.
-    this.mCredential = GoogleAccountCredential.usingOAuth2(
-            context, Arrays.asList(SCOPES))
-            .setBackOff(new ExponentialBackOff());
-    mCredential.setSelectedAccountName("shealtiel84@gmail.com");
-    // Initialize calendar service object.
-    mService = new com.google.api.services.calendar.Calendar.Builder(
-            transport, jsonFactory, this.mCredential)
-            .setApplicationName("Google Calendar API Android Quickstart")
-            .build();
-    this.resolt=resolt;
+        // Initialize credentials and service object.
+        this.mCredential = GoogleAccountCredential.usingOAuth2(
+                context, Arrays.asList(SCOPES))
+                .setBackOff(new ExponentialBackOff());
+        mCredential.setSelectedAccountName("shealtiel84@gmail.com");
+        // Initialize calendar service object.
+        mService = new com.google.api.services.calendar.Calendar.Builder(
+                transport, jsonFactory, this.mCredential)
+                .setApplicationName("Google Calendar API Android Quickstart")
+                .build();
+        this.calendarHelper=(CalendarHelper) resolt;
 
-    calList.addAll(getCalList());
-    
-}
-    
-    
-    public CalendarUtil(Context context, CalendarAdpter adapter) {
-        this.mAdpter = adapter;
+        calList.addAll(getCalList());
+
+    }
+
+
+    public CalendarUtil(Context context) {
+
         this._context = context;
         mProgress = new ProgressDialog(context);
         mProgress.setMessage("Calling Google Calendar API ...");
@@ -127,9 +131,9 @@ public CalendarUtil(Context context , Resolt resolt )
 
 
 
-        //if (!isGooglePlayServicesAvailable()) {
-        //  acquireGooglePlayServices();
-        // } else
+        if (!isGooglePlayServicesAvailable()) {
+            acquireGooglePlayServices();
+        } else
         if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
         } else if (!isDeviceOnline()) {
@@ -335,7 +339,7 @@ public CalendarUtil(Context context , Resolt resolt )
         private MonthLoader.MonthChangeListener lesenar  ;
         private List<CalendarListEntry> calenders;
 
-        
+
         public MakeRequestTask(List<CalendarListEntry> calenders)
         {
             this.calenders=calenders;
@@ -353,14 +357,16 @@ public CalendarUtil(Context context , Resolt resolt )
         private List<Event> getDataFromApi() throws IOException {
 
             List<Event> items=null;
+            List<String> colore = null;
+            Colors colors=null;
             for (CalendarListEntry calenderAdd : calenders)
             {
                 Events events = mService.events().list(calenderAdd.getId())
-                        .setMaxResults(100)
+                        .setMaxResults(10)
                         .setOrderBy("startTime")
                         .setSingleEvents(true)
                         .execute();
-               items.addAll(events.getItems());
+                items.addAll(events.getItems());
             }
             return items;
         }
@@ -381,10 +387,10 @@ public CalendarUtil(Context context , Resolt resolt )
             }
             else
             {
-               resolt.getResolt(output);
+                calendarHelper.getCalList(output);
             }
         }
-
+ 
         /*
         @Override
         protected void onCancelled() {
@@ -407,7 +413,6 @@ public CalendarUtil(Context context , Resolt resolt )
             }
         }
     }
-
    */
 
     }
@@ -462,24 +467,22 @@ public CalendarUtil(Context context , Resolt resolt )
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 Toast.makeText(_context, "event add...", Toast.LENGTH_LONG).show();
-                EventUtil eventUtil = new EventUtil(event.getStart().toString(), event.getSummary(), event.getId());
-                mAdpter.addToList(eventUtil);
-                mAdpter.notifyDataSetChanged();
+
             }
         }.execute();
     }
 
     public void delete(String Id) {
-        new EventAction(Id, 1, mAdpter).execute();
+        new EventAction(Id, 1,this).execute();
     }
 
     public void update(String Id, String updateString) {
         Log.d(TAG, "update:in update ");
-        new EventAction(Id, 2, updateString, mAdpter).execute();
+        new EventAction(Id, 2, updateString, this).execute();
     }
 
-    public EventUtil getEvent(String Id) {
-        new EventAction(Id, 3, mAdpter).execute();
+    public Event getEvent(String Id) {
+        new EventAction(Id, 3, this).execute();
         return null;
     }
 
@@ -487,13 +490,16 @@ public CalendarUtil(Context context , Resolt resolt )
         int task;
         String updateString, Id;
         Event event;
+        CalendarHelper CalendarHelper;
 
-        public EventAction(String id, int task, CalendarAdpter AD) {
+        public EventAction(String id, int task,Object  CalendarHelper ) {
+            this.CalendarHelper=(CalendarHelper) CalendarHelper;
             this.Id = id;
             this.task = task;
         }
 
-        public EventAction(String id, int task, String updateString, CalendarAdpter AD) {
+        public EventAction(String id, int task, String updateString,Object  CalendarHelper) {
+            this.CalendarHelper=(CalendarHelper) CalendarHelper;
             this.Id = id;
             this.task = task;
             this.updateString = updateString;
@@ -547,17 +553,12 @@ public CalendarUtil(Context context , Resolt resolt )
             super.onPostExecute(event);
             Log.d(TAG, "update:in onPostExecute ");
 
-            EventUtil eventUtil = null;
-            if (this.task == 3) {
-                eventUtil = new EventUtil(event.getStart().toString(), event.getSummary(), event.getId());
+            if (this.task == 1)
+            {
+                Toast.makeText(_context,"EVENT DELIT",Toast.LENGTH_LONG).show();
+            }else if(this.task == 3||this.task == 2) {
+                this.CalendarHelper.getResolt(event);
             }
-            if (this.task == 2) {
-                eventUtil = new EventUtil(event.getStart().toString(), event.getSummary(), event.getId());
-            }
-            if (eventUtil != null) {
-                mAdpter.addToList(eventUtil);
-            }
-            mAdpter.notifyDataSetChanged();
         }
 
     }
@@ -576,7 +577,7 @@ public CalendarUtil(Context context , Resolt resolt )
 
     public String createdCalendar()
     {
-        
+
         final Uri CAL_URI = CalendarContract.Calendars.CONTENT_URI;
 
         final ContentValues cv = new ContentValues();
@@ -604,19 +605,19 @@ public CalendarUtil(Context context , Resolt resolt )
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-           Toast.makeText(_context,"NO permission ",Toast.LENGTH_LONG).show();
+            Toast.makeText(_context,"NO permission ",Toast.LENGTH_LONG).show();
         }
         Uri newUri = cr.insert(CAL_URI, cv);
 
         final Long calId = Long.parseLong(newUri.getLastPathSegment());
-        
+
 
         return null;
     }
     public void sherCal(String scopeValue)
     {
-       final AclRule rule = new AclRule();
-       final AclRule.Scope scope = new AclRule.Scope();
+        final AclRule rule = new AclRule();
+        final AclRule.Scope scope = new AclRule.Scope();
         scope.setType("user").setValue(scopeValue);
         rule.setScope(scope).setRole("writer");
 
@@ -624,14 +625,14 @@ public CalendarUtil(Context context , Resolt resolt )
         {
 
             @Override
-            protected Void doInBackground(Void... params) 
+            protected Void doInBackground(Void... params)
             {
                 try {
                     AclRule createdRule =mService.acl().insert("primary", rule).execute();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                
+
                 return null;
             }
 
@@ -641,7 +642,7 @@ public CalendarUtil(Context context , Resolt resolt )
                 Toast.makeText(_context,"ACL INSERT  success...",Toast.LENGTH_LONG).show();
             }
         }.execute();
-     
+
     }
     public List<CalendarListEntry> getCalList()
     {
@@ -649,7 +650,7 @@ public CalendarUtil(Context context , Resolt resolt )
         {
             List<CalendarListEntry> items;
             String pageToken = null;
-           
+
             @Override
             protected Void doInBackground(Void... params)
             {
@@ -668,11 +669,13 @@ public CalendarUtil(Context context , Resolt resolt )
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                for (CalendarListEntry calendarListEntry : items)
-                Toast.makeText(_context,calendarListEntry.getId(),Toast.LENGTH_LONG).show();
-
+                for (CalendarListEntry calendarListEntry : items) {
+                    Toast.makeText(_context, calendarListEntry.getId(), Toast.LENGTH_LONG).show();
+                }
+                calList=items;
             }
         }.execute();
-        return items1;
+        return calList;
     }
 }
+
