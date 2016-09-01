@@ -10,6 +10,6 @@ import java.util.List;
  */
 public interface FireBaseAble
 {
-    public void result(Ticket ticket);
-    public void resultList(List<Ticket> ticket);
+    void result(Ticket ticket);
+    void resultList(List<Ticket> ticket);
 }
