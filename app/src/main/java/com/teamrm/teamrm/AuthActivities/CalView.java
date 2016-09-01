@@ -1,8 +1,8 @@
 package com.teamrm.teamrm.AuthActivities;
 
 import android.graphics.RectF;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -17,6 +17,7 @@ import com.alamkanak.weekview.WeekViewEvent;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
+import com.teamrm.teamrm.Interfaces.CalendarHelper;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Utility.CalendarUtil;
 
@@ -29,7 +30,7 @@ import java.util.Locale;
 
 public class CalView extends AppCompatActivity implements WeekView.EventClickListener,
         MonthLoader.MonthChangeListener,
-        Resolt,
+        CalendarHelper,
         WeekView.EventLongPressListener,
         WeekView.EmptyViewLongPressListener,
         WeekView.EmptyViewClickListener//WeekView.ScrollListener
@@ -39,40 +40,40 @@ public class CalView extends AppCompatActivity implements WeekView.EventClickLis
     private static final int TYPE_THREE_DAY_VIEW = 2;
     private static final int TYPE_WEEK_VIEW = 3;
     private int mWeekViewType = TYPE_THREE_DAY_VIEW;
-    private static WeekView mWeekView;
+    private static   WeekView mWeekView;
     private static List<WeekViewEvent> mWeeViewEvent;
     private static List<Event> mEvent;
     private static CalendarUtil cal;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cal_veiw);
+        setContentView(R.layout.activity_cal_veiw);
         mWeekView = (WeekView) findViewById(R.id.weekView);
         mWeeViewEvent = new ArrayList<>();
         mEvent = new ArrayList<>();
         cal = new CalendarUtil(this,new CalView());
         cal.getCalList();
         mWeekView.setMonthChangeListener(this);
-       
-       
-       
-       
 
-         mWeekView.setOnEventClickListener(this);
-         mWeekView.setEventLongPressListener(this);
+
+
+
+
+        mWeekView.setOnEventClickListener(this);
+        mWeekView.setEventLongPressListener(this);
         mWeekView.setEmptyViewLongPressListener(this);
         // setupDateTimeInterpreter(false);
-       
 
-        
+
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.show_menu, menu);
+        inflater.inflate(R.menu.menu, menu);
         return true;
     }
 
@@ -130,13 +131,13 @@ public class CalView extends AppCompatActivity implements WeekView.EventClickLis
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
         Toast.makeText(this, "onEventClick ", Toast.LENGTH_SHORT).show();
 
-        
-        }
+
+    }
 
     @Override
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
 
-     
+
         Log.d("list  mEvent = ",mEvent.size()+"");
 
         mWeeViewEvent.clear();
@@ -144,13 +145,10 @@ public class CalView extends AppCompatActivity implements WeekView.EventClickLis
         for (Event EVENT : mEvent)
         {
             id++;
-          // Log.d("list  getColorId = ",EVENT.getColorId());
-
-            // int color = Color.parseColor(EVENT.getColorId());
+          
             WeekViewEvent Wevent = new WeekViewEvent(id,EVENT.getSummary(), convertStart(EVENT),convertEnd(EVENT));
-           // Wevent.setColor(color);
             mWeeViewEvent.add(Wevent);
-            
+
         }
 
         List<WeekViewEvent> matchedEvents = new ArrayList<>();
@@ -158,12 +156,12 @@ public class CalView extends AppCompatActivity implements WeekView.EventClickLis
         {
             if (mWeeViewEvent.contains(event) && eventMatches(event, newYear, newMonth))
             {
-                    matchedEvents.add(event);
+                matchedEvents.add(event);
             }
         }
-               Log.d("list  mWeeViewEvent = ",mWeeViewEvent.size()+"");
-               Log.d("list  matchedEvents = ",matchedEvents.size()+"");
-     
+        Log.d("list  mWeeViewEvent = ",mWeeViewEvent.size()+"");
+        Log.d("list  matchedEvents = ",matchedEvents.size()+"");
+
         return matchedEvents;
     }
     private boolean eventMatches(WeekViewEvent event, int year, int month) {
@@ -183,7 +181,7 @@ public class CalView extends AppCompatActivity implements WeekView.EventClickLis
         }else {
             calendar.setTime(new Date(start.getValue()));
         }
-        return calendar; 
+        return calendar;
     }
     private Calendar convertEnd(Event event)
     {
@@ -198,9 +196,9 @@ public class CalView extends AppCompatActivity implements WeekView.EventClickLis
         }else {
             calendar.setTime(new Date(end.getValue()));
         }
-            return calendar;
+        return calendar;
     }
-  
+
 
     @Override
     public void onEmptyViewLongPress(Calendar time) {
@@ -213,53 +211,55 @@ public class CalView extends AppCompatActivity implements WeekView.EventClickLis
         Toast.makeText(this, "Empty view  pressed: ", Toast.LENGTH_SHORT).show();
 
     }
+
+    @Override
+    public void getResolt(Event event) {
+        
+    }
     
 
+   
+    
     @Override
-    public void getResolt(List<Event> eventUtil) {
-
-        Log.d("list get resolt","start");
- 
-        mEvent.clear();
-        mEvent = eventUtil;
-        Log.d("list = ",mEvent.size()+"");
-      mWeekView.notifyDatasetChanged();
-    }
-
-    @Override
-    public void getCalLst(List<CalendarListEntry> calList) {
-        cal.getResultsFromApi();
-    }
-
-    @Override
-      public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
-          Toast.makeText(this, "onEventLongPress ", Toast.LENGTH_SHORT).show();
-
-
-     }
-            /*
-     protected String getEventTitle(Calendar time) 
-     {
-          return String.format("Event of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH)+1, time.get(Calendar.DAY_OF_MONTH));
-     }  */
-    private void setupDateTimeInterpreter(final boolean shortDate) 
+    public void getCalList(List<Event> calList)
     {
-        mWeekView.setDateTimeInterpreter(new DateTimeInterpreter() 
+        Log.d("list get resolt","start");
+
+        mEvent.clear();
+        mEvent = calList;
+        Log.d("list = ",mEvent.size()+"");
+        mWeekView.notifyDatasetChanged();
+    }
+
+    @Override
+    public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
+        Toast.makeText(this, "onEventLongPress ", Toast.LENGTH_SHORT).show();
+
+
+    }
+    /*
+protected String getEventTitle(Calendar time) 
+{
+  return String.format("Event of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH)+1, time.get(Calendar.DAY_OF_MONTH));
+}  */
+    private void setupDateTimeInterpreter(final boolean shortDate)
+    {
+        mWeekView.setDateTimeInterpreter(new DateTimeInterpreter()
         {
             @Override
-            public String interpretDate(Calendar date) 
+            public String interpretDate(Calendar date)
             {
-                        SimpleDateFormat weekdayNameFormat = new SimpleDateFormat("EEE", Locale.getDefault());
-                        String weekday = weekdayNameFormat.format(date.getTime());
-                        SimpleDateFormat format = new SimpleDateFormat(" M/d", Locale.getDefault());
+                SimpleDateFormat weekdayNameFormat = new SimpleDateFormat("EEE", Locale.getDefault());
+                String weekday = weekdayNameFormat.format(date.getTime());
+                SimpleDateFormat format = new SimpleDateFormat(" M/d", Locale.getDefault());
 
-                        // All android api level do not have a standard way of getting the first letter of
-                        // the week day name. Hence we get the first char programmatically.
-                        // Details: http://stackoverflow.com/questions/16959502/get-one-letter-abbreviation-of-week-day-of-a-date-in-java#answer-16959657
-                        if (shortDate)
-                            weekday = String.valueOf(weekday.charAt(0));
-                        return weekday.toUpperCase() + format.format(date.getTime());
-               }
+                // All android api level do not have a standard way of getting the first letter of
+                // the week day name. Hence we get the first char programmatically.
+                // Details: http://stackoverflow.com/questions/16959502/get-one-letter-abbreviation-of-week-day-of-a-date-in-java#answer-16959657
+                if (shortDate)
+                    weekday = String.valueOf(weekday.charAt(0));
+                return weekday.toUpperCase() + format.format(date.getTime());
+            }
 
             @Override
             public String interpretTime(int hour)
@@ -267,6 +267,6 @@ public class CalView extends AppCompatActivity implements WeekView.EventClickLis
                 return hour > 11 ? (hour - 12) + " PM" : (hour == 0 ? "12 AM" : hour + " AM");
             }
         });
-       }
-    
+    }
+
 }
