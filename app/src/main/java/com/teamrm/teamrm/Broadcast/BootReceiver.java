@@ -52,6 +52,11 @@ public class BootReceiver extends BroadcastReceiver implements FireBaseAble {
             {
                 //send a notification eventTime/ttl/wait for tech.
                 // pass deadline notification start activities display all pass deadline  event
+
+                //CREATE INTENT AND MSG ICON FOR NOTIFICATION
+                //Intent intent=new Intent(MainActivity.context,TicketList.class);
+                //UtlNotification notification = new UtlNotification(R.drawable.new_msg_icon, "Status changed",  " status", intent, MainActivity.context);
+                //notification.sendNotification();
             }
         }
     }
