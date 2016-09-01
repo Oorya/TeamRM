@@ -41,7 +41,7 @@ public class BootReceiver extends BroadcastReceiver implements FireBaseAble {
     }
 
     @Override
-    public void result(List<Ticket> ticket) {
+    public void resultList(List<Ticket> ticket) {
 
 
         Calendar cal = Calendar.getInstance();
@@ -51,7 +51,7 @@ public class BootReceiver extends BroadcastReceiver implements FireBaseAble {
             if(tickets.endTime.getTime()-cal.getTime().getTime()<0)
             {
                 //send a notification eventTime/ttl/wait for tech. pass deadline
-                //notification start activitie desply all pass deadline  event 
+                //notification start activities display all pass deadline  event
             }
         }
     }
