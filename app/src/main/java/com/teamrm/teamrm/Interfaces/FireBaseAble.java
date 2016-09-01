@@ -1,9 +1,10 @@
 package com.teamrm.teamrm.Interfaces;
 
-import com.example.android.finalproject.Ticket;
+
+import com.teamrm.teamrm.Type.Ticket;
 
 /**
- * Created by אוריה on 08/08/2016.
+ * Created by Oorya on 08/08/2016.
  */
 public interface FireBaseAble
 {

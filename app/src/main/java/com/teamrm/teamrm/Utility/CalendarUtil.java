@@ -64,7 +64,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
     private static final String TAG = "CalendarUtil";
 
     private static com.google.api.services.calendar.Calendar mService;
-    private static Context _context;
+    private static Context context;
 
     private GoogleAccountCredential mCredential;
     private ProgressDialog mProgress;
@@ -75,7 +75,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
 
 public CalendarUtil(Context context , Resolt resolt )
 {
-    this._context = context;
+    this.context = context;
     mProgress = new ProgressDialog(context);
     mProgress.setMessage("Calling Google Calendar API ...");
 
@@ -98,7 +98,7 @@ public CalendarUtil(Context context , Resolt resolt )
     
     public CalendarUtil(Context context, CalendarAdpter adapter) {
         this.mAdpter = adapter;
-        this._context = context;
+        this.context = context;
         mProgress = new ProgressDialog(context);
         mProgress.setMessage("Calling Google Calendar API ...");
 
@@ -133,7 +133,7 @@ public CalendarUtil(Context context , Resolt resolt )
         if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
         } else if (!isDeviceOnline()) {
-            Toast.makeText(_context, "isDeviceOnline false", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "isDeviceOnline false", Toast.LENGTH_LONG).show();
         } else {
 
 
@@ -155,22 +155,22 @@ public CalendarUtil(Context context , Resolt resolt )
     @AfterPermissionGranted(REQUEST_PERMISSION_GET_ACCOUNTS)
     private void chooseAccount() {
         if (EasyPermissions.hasPermissions(
-                _context, Manifest.permission.GET_ACCOUNTS)) {
-            String accountName = ((Activity) _context).getPreferences(Context.MODE_PRIVATE)
+                context, Manifest.permission.GET_ACCOUNTS)) {
+            String accountName = ((Activity) context).getPreferences(Context.MODE_PRIVATE)
                     .getString(PREF_ACCOUNT_NAME, null);
             if (accountName != null) {
                 mCredential.setSelectedAccountName(accountName);
                 getResultsFromApi();
             } else {
                 // Start a dialog from which the user can choose an account
-                ((Activity) _context).startActivityForResult(
+                ((Activity) context).startActivityForResult(
                         mCredential.newChooseAccountIntent(),
                         REQUEST_ACCOUNT_PICKER);
             }
         } else {
             // Request the GET_ACCOUNTS permission via a user dialog
             EasyPermissions.requestPermissions(
-                    _context,
+                    context,
                     "This app needs to access your Google account (via Contacts).",
                     REQUEST_PERMISSION_GET_ACCOUNTS,
                     Manifest.permission.GET_ACCOUNTS);
@@ -195,7 +195,7 @@ public CalendarUtil(Context context , Resolt resolt )
 
             case REQUEST_GOOGLE_PLAY_SERVICES:
                 if (resultCode != RESULT_OK) {
-                    Toast.makeText(_context, "This app requires Google Play Services. Please install " +
+                    Toast.makeText(context, "This app requires Google Play Services. Please install " +
                             "Google Play Services on your device and relaunch this app.", Toast.LENGTH_LONG).show();
                 } else {
                     getResultsFromApi();
@@ -274,7 +274,7 @@ public CalendarUtil(Context context , Resolt resolt )
      */
     private boolean isDeviceOnline() {
         ConnectivityManager connMgr =
-                (ConnectivityManager) _context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
     }
@@ -289,7 +289,7 @@ public CalendarUtil(Context context , Resolt resolt )
         GoogleApiAvailability apiAvailability =
                 GoogleApiAvailability.getInstance();
         final int connectionStatusCode =
-                apiAvailability.isGooglePlayServicesAvailable(_context);
+                apiAvailability.isGooglePlayServicesAvailable(context);
         return connectionStatusCode == ConnectionResult.SUCCESS;
     }
 
@@ -301,7 +301,7 @@ public CalendarUtil(Context context , Resolt resolt )
         GoogleApiAvailability apiAvailability =
                 GoogleApiAvailability.getInstance();
         final int connectionStatusCode =
-                apiAvailability.isGooglePlayServicesAvailable(_context);
+                apiAvailability.isGooglePlayServicesAvailable(context);
         if (apiAvailability.isUserResolvableError(connectionStatusCode)) {
             showGooglePlayServicesAvailabilityErrorDialog(connectionStatusCode);
         }
@@ -318,7 +318,7 @@ public CalendarUtil(Context context , Resolt resolt )
     void showGooglePlayServicesAvailabilityErrorDialog(final int connectionStatusCode) {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         Dialog dialog = apiAvailability.getErrorDialog(
-                (Activity) this._context,
+                (Activity) this.context,
                 connectionStatusCode,
                 REQUEST_GOOGLE_PLAY_SERVICES);
         dialog.show();
@@ -377,7 +377,7 @@ public CalendarUtil(Context context , Resolt resolt )
             mProgress.hide();
             if (output == null || output.size() == 0)
             {
-                Toast.makeText(_context, "no resolt", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "no resolt", Toast.LENGTH_LONG).show();
             }
             else
             {
@@ -461,7 +461,7 @@ public CalendarUtil(Context context , Resolt resolt )
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                Toast.makeText(_context, "event add...", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "event add...", Toast.LENGTH_LONG).show();
                 EventUtil eventUtil = new EventUtil(event.getStart().toString(), event.getSummary(), event.getId());
                 mAdpter.addToList(eventUtil);
                 mAdpter.notifyDataSetChanged();
@@ -569,7 +569,7 @@ public CalendarUtil(Context context , Resolt resolt )
         ContentUris.appendId(builder, NOW.getTime());
         Intent intent = new Intent(Intent.ACTION_VIEW)
                 .setData(builder.build());
-        _context.startActivity(intent);
+        context.startActivity(intent);
         Log.d(TAG, NOW.toString());
 
     }
@@ -592,11 +592,11 @@ public CalendarUtil(Context context , Resolt resolt )
         cv.put(CalendarContract.Calendars.SYNC_EVENTS, 1);
 
 
-        ContentResolver cr = _context.getContentResolver();
+        ContentResolver cr = context.getContentResolver();
 
 
         //insert the calendar into the database
-        if (ActivityCompat.checkSelfPermission(_context, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -604,7 +604,7 @@ public CalendarUtil(Context context , Resolt resolt )
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-           Toast.makeText(_context,"NO permission ",Toast.LENGTH_LONG).show();
+           Toast.makeText(context,"NO permission ",Toast.LENGTH_LONG).show();
         }
         Uri newUri = cr.insert(CAL_URI, cv);
 
@@ -638,7 +638,7 @@ public CalendarUtil(Context context , Resolt resolt )
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                Toast.makeText(_context,"ACL INSERT  success...",Toast.LENGTH_LONG).show();
+                Toast.makeText(context,"ACL INSERT  success...",Toast.LENGTH_LONG).show();
             }
         }.execute();
      
@@ -669,7 +669,7 @@ public CalendarUtil(Context context , Resolt resolt )
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 for (CalendarListEntry calendarListEntry : items)
-                Toast.makeText(_context,calendarListEntry.getId(),Toast.LENGTH_LONG).show();
+                Toast.makeText(context,calendarListEntry.getId(),Toast.LENGTH_LONG).show();
 
             }
         }.execute();

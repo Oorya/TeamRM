@@ -13,11 +13,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.android.finalproject.Activities.DetailsTicket;
-import com.example.android.finalproject.Activities.MainActivity;
-import com.example.android.finalproject.Ticket;
-import com.example.android.finalproject.Utility.UtlFirebase;
-import com.example.android.finalproject.Utility.UtlImage;
+import com.teamrm.teamrm.TicketActivities.DetailsTicket;
+import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Utility.UtlFirebase;
+import com.teamrm.teamrm.Utility.UtlImage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +38,8 @@ public class TicketListAdapter extends BaseAdapter {
     {
         this.context=context;
         ticketList=new ArrayList<>();
-        ticketList = MainActivity.isAdmin()?UtlFirebase.getAllTicket()
-                :UtlFirebase.getTicketByName("userName",MainActivity.userLogged(),"yosi");
+        //ticketList = MainActivity.isAdmin()?UtlFirebase.getAllTicket()
+        //        : UtlFirebase.getTicketByName("userName",MainActivity.userLogged(),"yosi");
 
     }
 

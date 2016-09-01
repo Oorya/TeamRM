@@ -1,6 +1,5 @@
 package com.teamrm.teamrm.Type;
 
-import com.example.android.finalproject.Activities.MainActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -37,7 +36,7 @@ public class Ticket {
     public Ticket(String product, String classification, String subClassification, String ticketName, String ticketDes,
                   String phone, String status, String area, String address, String ticketImage1, String ticketImage2, String ticketId)
     {
-        this.userName = MainActivity.userLogged();
+        this.userName = "Test";
         this.product=product;
         this.classification=classification;
         this.subClassification=subClassification;

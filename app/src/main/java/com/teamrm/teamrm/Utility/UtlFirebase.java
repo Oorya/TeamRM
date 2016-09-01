@@ -5,13 +5,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.android.finalproject.Activities.ChatTicket;
-import com.example.android.finalproject.Activities.MainActivity;
-import com.example.android.finalproject.Activities.TicketList;
-import com.example.android.finalproject.Chat;
-import com.example.android.finalproject.Interfaces.FireBaseAble;
-import com.example.android.finalproject.R;
-import com.example.android.finalproject.Ticket;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,6 +12,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Type.Chat;
 import com.teamrm.teamrm.Type.Ticket;
 

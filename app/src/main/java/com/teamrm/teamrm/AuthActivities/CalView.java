@@ -1,4 +1,4 @@
-package com.teamrm.teamrm.Activities;
+package com.teamrm.teamrm.AuthActivities;
 
 import android.graphics.RectF;
 import android.os.Bundle;
@@ -27,7 +27,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class CalVeiw extends AppCompatActivity implements WeekView.EventClickListener,
+public class CalView extends AppCompatActivity implements WeekView.EventClickListener,
         MonthLoader.MonthChangeListener,
         Resolt,
         WeekView.EventLongPressListener,
@@ -52,7 +52,7 @@ public class CalVeiw extends AppCompatActivity implements WeekView.EventClickLis
         mWeekView = (WeekView) findViewById(R.id.weekView);
         mWeeViewEvent = new ArrayList<>();
         mEvent = new ArrayList<>();
-        cal = new CalendarUtil(this,new CalVeiw());
+        cal = new CalendarUtil(this,new CalView());
         cal.getCalList();
         mWeekView.setMonthChangeListener(this);
        

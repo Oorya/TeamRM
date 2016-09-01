@@ -1,4 +1,4 @@
-package com.teamrm.teamrm.Activities;
+package com.teamrm.teamrm.AuthActivities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

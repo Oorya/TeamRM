@@ -6,14 +6,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.android.finalproject.Chat;
-import com.example.android.finalproject.Utility.UtlFirebase;
+import com.teamrm.teamrm.Type.Chat;
+import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by אוריה on 22/07/2016.
+ * Created by Oorya on 22/07/2016.
  */
 public class ChatAdapter extends BaseAdapter {
     List<Chat> chatList;
