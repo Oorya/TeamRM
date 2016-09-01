@@ -1,9 +1,7 @@
 package com.teamrm.teamrm.Type;
 
-import com.teamrm.teamrm.Type.Users;
-
 /**
- * Created by אוריה on 10/08/2016.
+ * Created by oorya on 10/08/2016.
  */
 public class Admin extends Users {
 

@@ -1,7 +1,6 @@
 package com.teamrm.teamrm.Utility;
 
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -90,7 +89,8 @@ public class UtlFirebase {
                 }
                 Log.e("LIST SIZE: ", ticketList.size() + "");
 
-                TicketList.listAdapter.notifyDataSetChanged();
+                //Need to notify for current list adapter
+                //TicketList.listAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -122,7 +122,8 @@ public class UtlFirebase {
                 }
                 Log.e("LIST SIZE: ", ticketList.size() + "");
 
-                TicketList.listAdapter.notifyDataSetChanged();
+                //Need to notify for current list adapter
+                //TicketList.listAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -194,9 +195,10 @@ public class UtlFirebase {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Intent intent=new Intent(MainActivity.context,TicketList.class);
-                UtlNotification notification = new UtlNotification(R.drawable.new_msg_icon, "Status changed",  " status", intent, MainActivity.context);
-                notification.sendNotification();
+                //CREATE INTENT AND MSG ICON FOR NOTIFICATION
+                //Intent intent=new Intent(MainActivity.context,TicketList.class);
+                //UtlNotification notification = new UtlNotification(R.drawable.new_msg_icon, "Status changed",  " status", intent, MainActivity.context);
+                //notification.sendNotification();
             }
 
             @Override
@@ -220,11 +222,13 @@ public class UtlFirebase {
         myRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                //CREATE INTENT AND MSG ICON FOR NOTIFICATION
+                /*
                 if (MainActivity.isAdmin()){
                     Intent intent = new Intent(MainActivity.context, TicketList.class);
                     UtlNotification notification = new UtlNotification(R.drawable.new_msg_icon, "ADDED", " added", intent, MainActivity.context);
                     notification.sendNotification();
-                }
+                }*/
             }
 
             @Override
@@ -267,7 +271,8 @@ public class UtlFirebase {
                 }
                 Log.e("LIST SIZE: ", chatList.size() + "");
 
-                ChatTicket.chatAdapter.notifyDataSetChanged();
+                //Need to notify for current list adapter
+                //ChatTicket.chatAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -284,10 +289,5 @@ public class UtlFirebase {
         DatabaseReference myRef = database.getReference("Chat");
 
         myRef.child(ticketID).removeValue();
-    }
-
-    public static boolean isListEmpty()
-    {
-        return ticketList.isEmpty();
     }
 }
