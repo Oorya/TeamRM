@@ -213,7 +213,7 @@ public class CalView extends AppCompatActivity implements WeekView.EventClickLis
     }
 
     @Override
-    public void getResolt(Event event) {
+    public void getResult(Event event) {
         
     }
     

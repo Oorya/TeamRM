@@ -13,7 +13,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -38,7 +37,6 @@ import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.AclRule;
 import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
-import com.google.api.services.calendar.model.ColorDefinition;
 import com.google.api.services.calendar.model.Colors;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
@@ -52,7 +50,6 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -77,7 +74,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
     private static CalendarHelper calendarHelper;
     private static List<CalendarListEntry> calList;
 
-    public CalendarUtil(Context context , Object  resolt )
+    public CalendarUtil(Context context , Object  result )
     {
         this._context = context;
         mProgress = new ProgressDialog(context);
@@ -93,7 +90,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                 transport, jsonFactory, this.mCredential)
                 .setApplicationName("Google Calendar API Android Quickstart")
                 .build();
-        this.calendarHelper=(CalendarHelper) resolt;
+        this.calendarHelper=(CalendarHelper) result;
 
         calList.addAll(getCalList());
 
@@ -557,7 +554,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             {
                 Toast.makeText(_context,"EVENT DELIT",Toast.LENGTH_LONG).show();
             }else if(this.task == 3||this.task == 2) {
-                this.CalendarHelper.getResolt(event);
+                this.CalendarHelper.getResult(event);
             }
         }
 
