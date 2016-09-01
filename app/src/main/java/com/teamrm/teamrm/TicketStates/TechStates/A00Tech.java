@@ -1,7 +1,6 @@
 package com.teamrm.teamrm.TicketStates.TechStates;
 
-import com.teamrm.teamrm.TicketStates.TicketStatable;
-import com.teamrm.teamrm.TicketStates.TicketStateAdmin;
+import com.teamrm.teamrm.Interfaces.TicketStatable;
 import com.teamrm.teamrm.TicketStates.TicketStateTech;
 
 /**
