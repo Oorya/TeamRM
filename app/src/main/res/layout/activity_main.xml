@@ -18,8 +18,33 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" 
+        android:id="@+id/logout"
         android:text="logout"
         android:onClick="signOut"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="start 10 sec alert"
+        android:layout_below="@id/logout"
+        android:onClick="alert10Sec"
+        android:id="@+id/alert1"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="start 1 sec alert"
+        android:layout_below="@id/alert1"
+        android:id="@+id/alert2"
+        android:onClick="alert1Sec"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="stop Alert"
+        android:layout_below="@id/alert2"
+        android:id="@+id/stopAlert"
+        android:onClick="stopAlert"
         />
 
 </RelativeLayout>

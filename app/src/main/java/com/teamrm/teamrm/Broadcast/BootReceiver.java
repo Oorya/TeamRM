@@ -3,6 +3,7 @@ package com.teamrm.teamrm.Broadcast;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
@@ -15,22 +16,26 @@ import java.util.List;
 /**
  * Created by shalty on 30/08/2016.
  */
-public class BootReceiver extends BroadcastReceiver implements FireBaseAble {
+public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAble {
     
    
     List<Ticket> tickets;
 
     @Override
-    public void onReceive(Context context, Intent intent) 
+    public void onReceive(final Context context, Intent intent) 
     {
 
-        if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) 
-        {
-            Log.e("MESSEGE","BootReceiver is activate");
+       // if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) 
+       // {
+            Log.d("MESSEGE","BootReceiver is activate after booting");
            
-            tickets = UtlFirebase.getAllTicket();
+           // tickets = UtlFirebase.getAllTicket();
             
-        }
+       // }else 
+      //  {
+          //  Log.d("MESSEGE","BootReceiver is activate wen alarm start ");
+
+      //  }
         
         
     }
