@@ -22,16 +22,22 @@ public class UtlAlarmManager extends Activity{
     private Context context;
     private  AlarmManager alarmManager ;
     private  PendingIntent pendingIntent;
+    private  Intent myIntent;
+    private  Activity activity;
     
     public UtlAlarmManager(Context context, Activity activity)
     {
-        alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent myIntent = new Intent(activity, BootReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(activity, 0, myIntent, 0);
+        this.alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        this.myIntent = new Intent(activity, BootReceiver.class);
+        this.activity=activity;
+        this.context=context;
         
     }
     public void setAlarm(Long calendarTaim){
-       
+
+
+         int Id = (int) System.currentTimeMillis();
+        pendingIntent = PendingIntent.getBroadcast(activity,Id , myIntent, PendingIntent.FLAG_ONE_SHOT);
         this.alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendarTaim, this.pendingIntent);
         Log.d("MESSEGE","setAlarm");
 
