@@ -28,6 +28,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -41,12 +43,14 @@ import com.google.api.services.calendar.model.Colors;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
+import com.teamrm.teamrm.AuthActivities.MainActivity;
 import com.teamrm.teamrm.Interfaces.CalendarHelper;
 
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -72,7 +76,11 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
     private ProgressDialog mProgress;
     private List<CalendarListEntry> items1;
     private static CalendarHelper calendarHelper;
-    private static List<CalendarListEntry> calList;
+    private static List<CalendarListEntry> calList= new ArrayList<>();
+    
+
+
+    private Exception mLastError = null;
 
     public CalendarUtil(Context context , Object  result )
     {
@@ -114,7 +122,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                 .setApplicationName("Google Calendar API Android Quickstart")
                 .build();
 
-        calList.addAll(getCalList());
+       // calList.addAll(getCalList());
     }
 
     /**
@@ -136,9 +144,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
         } else if (!isDeviceOnline()) {
             Toast.makeText(_context, "isDeviceOnline false", Toast.LENGTH_LONG).show();
         } else {
-
-
-            new MakeRequestTask(this.calList).execute();
+             new MakeRequestTask().execute();
         }
     }
 
@@ -332,39 +338,39 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
      */
     private class MakeRequestTask extends AsyncTask<Void, List<Event>, List<Event>> {
 
-        private Exception mLastError = null;
-        private MonthLoader.MonthChangeListener lesenar  ;
-        private List<CalendarListEntry> calenders;
-
-
-        public MakeRequestTask(List<CalendarListEntry> calenders)
+        List<CalendarListEntry> calenders = new ArrayList<>();
+       
+        public MakeRequestTask() 
         {
-            this.calenders=calenders;
+            calenders = getCalList();
         }
         @Override
         protected List<Event> doInBackground(Void... params) {
             try {
                 return getDataFromApi();
             } catch (Exception e) {
-                mLastError = e;
+               mLastError = e;
                 cancel(true);
                 return null;
             }
         }
         private List<Event> getDataFromApi() throws IOException {
 
-            List<Event> items=null;
-            List<String> colore = null;
-            Colors colors=null;
+           
+            //  List<String> colore = null;
+           // Colors colors=null;
+            List<Event>  items = new ArrayList<>();
             for (CalendarListEntry calenderAdd : calenders)
-            {
+           {
+            String pageToken = mCredential.getSelectedAccountName();
                 Events events = mService.events().list(calenderAdd.getId())
-                        .setMaxResults(10)
+                        .setMaxResults(500)
                         .setOrderBy("startTime")
                         .setSingleEvents(true)
                         .execute();
-                items.addAll(events.getItems());
-            }
+                 items.addAll(events.getItems());
+             
+          }
             return items;
         }
 
@@ -388,7 +394,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             }
         }
  
-        /*
+        
         @Override
         protected void onCancelled() {
             mProgress.hide();
@@ -398,21 +404,24 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                             ((GooglePlayServicesAvailabilityIOException) mLastError)
                                     .getConnectionStatusCode());
                 } else if (mLastError instanceof UserRecoverableAuthIOException) {
-                    startActivityForResult(
-                            ((UserRecoverableAuthIOException) mLastError).getIntent(),
-                            MainActivity.REQUEST_AUTHORIZATION);
+                    UserRecoverable();
                 } else {
-                    mOutputText.setText("The following error occurred:\n"
-                            + mLastError.getMessage());
+                  //  mOutputText.setText("The following error occurred:\n"
+                        //    + mLastError.getMessage());
                 }
             } else {
-                mOutputText.setText("Request cancelled.");
+               // mOutputText.setText("Request cancelled.");
             }
         }
     }
-   */
-
+    private void  UserRecoverable()
+    {
+        ((Activity) _context).startActivityForResult(((UserRecoverableAuthIOException) mLastError).getIntent(),this.REQUEST_AUTHORIZATION);
+        
     }
+   
+                        
+    
 
     public void addNewEvent(final String[] eventDitile) {
 

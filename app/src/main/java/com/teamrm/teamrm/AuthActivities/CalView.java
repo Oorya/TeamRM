@@ -53,8 +53,8 @@ public class CalView extends AppCompatActivity implements WeekView.EventClickLis
         mWeekView = (WeekView) findViewById(R.id.weekView);
         mWeeViewEvent = new ArrayList<>();
         mEvent = new ArrayList<>();
-        cal = new CalendarUtil(this,new CalView());
-        cal.getCalList();
+        cal = new CalendarUtil(CalView.this,new CalView());
+        cal.getResultsFromApi();
         mWeekView.setMonthChangeListener(this);
 
 
