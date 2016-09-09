@@ -7,4 +7,7 @@ import com.teamrm.teamrm.TicketStates.TicketStateUser;
  * Created by root on 01/09/2016.
  */
 public class E05User extends TicketStateUser implements TicketStatable {
+    public E05User(TicketStatable ticketStat) {
+        super(ticketStat);
+    }
 }

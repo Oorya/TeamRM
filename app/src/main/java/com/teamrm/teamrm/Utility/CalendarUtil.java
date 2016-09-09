@@ -355,14 +355,10 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             }
         }
         private List<Event> getDataFromApi() throws IOException {
-
-           
-            //  List<String> colore = null;
-           // Colors colors=null;
+            
             List<Event>  items = new ArrayList<>();
             for (CalendarListEntry calenderAdd : calenders)
            {
-            String pageToken = mCredential.getSelectedAccountName();
                 Events events = mService.events().list(calenderAdd.getId())
                         .setMaxResults(500)
                         .setOrderBy("startTime")
@@ -416,13 +412,10 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
     }
     private void  UserRecoverable()
     {
-        ((Activity) _context).startActivityForResult(((UserRecoverableAuthIOException) mLastError).getIntent(),this.REQUEST_AUTHORIZATION);
+        ((Activity) _context).startActivityForResult(((UserRecoverableAuthIOException) mLastError)
+                                                        .getIntent(),this.REQUEST_AUTHORIZATION);
         
     }
-   
-                        
-    
-
     public void addNewEvent(final String[] eventDitile) {
 
 
@@ -675,9 +668,6 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                for (CalendarListEntry calendarListEntry : items) {
-                    Toast.makeText(_context, calendarListEntry.getId(), Toast.LENGTH_LONG).show();
-                }
                 calList=items;
             }
         }.execute();

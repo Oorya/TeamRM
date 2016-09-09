@@ -7,4 +7,7 @@ import com.teamrm.teamrm.TicketStates.TicketStateTech;
  * Created by root on 01/09/2016.
  */
 public class A01Tech extends TicketStateTech implements TicketStatable {
+    public A01Tech(TicketStatable ticketStat) {
+        super(ticketStat);
+    }
 }

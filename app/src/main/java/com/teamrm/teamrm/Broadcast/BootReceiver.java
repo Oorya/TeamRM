@@ -39,6 +39,12 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
         if (intent != null) {
             if(intent.getAction() != null){
                 Log.d("MESSEGE", "Intent: " + intent.getAction());
+
+                Log.d("MESSEGE", "Intent: !null, Action: null");
+                Intent intentt =new Intent(context,CalView.class);
+                UtlNotification notification = new UtlNotification(R.drawable.icon, "Status changed",  " status", intentt,context);
+                notification.sendNotification();
+                
             }else{
                 Log.d("MESSEGE", "Intent: !null, Action: null");
                 Intent intentt =new Intent(context,CalView.class);

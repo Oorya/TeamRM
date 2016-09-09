@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         
        
         Calendar calendar = GregorianCalendar.getInstance();
-        calendar.add(Calendar.SECOND,10);//(Calendar.DATE)
+        calendar.add(Calendar.SECOND,180);//(Calendar.DATE)
         utlAlarmManager.setAlarm(calendar.getTimeInMillis());
         Log.d("MESSEGE","alert10Sec");
 
@@ -185,9 +185,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
        // calendar.add(Calendar.SECOND, 10);
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY,Calendar.HOUR_OF_DAY );
-        calendar.set(Calendar.MINUTE, Calendar.MINUTE);
-        calendar.set(Calendar.SECOND, Calendar.SECOND);
+        calendar.add(Calendar.SECOND,10);//(Calendar.DATE)
         utlAlarmManager.setAlarm(calendar.getTimeInMillis());
         Log.d("MESSEGE","alert1Sec");
     }
