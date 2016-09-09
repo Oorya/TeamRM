@@ -9,5 +9,10 @@ import com.teamrm.teamrm.TicketStates.TicketStateAdmin;
 public class A03Admin extends TicketStateAdmin implements TicketStatable {
     public A03Admin(TicketStatable ticketStat) {
         super(ticketStat);
+        ttl();
+    }
+    private void ttl()
+    {
+        //ttl  after 8 Hours 
     }
 }

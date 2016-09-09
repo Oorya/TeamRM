@@ -10,4 +10,9 @@ public class E00User extends TicketStateUser implements TicketStatable {
     public E00User(TicketStatable ticketStat) {
         super(ticketStat);
     }
+    private void ClosesTicket()
+    {
+        //SEND NOTIFY  TICKET Closes Success
+    }
+
 }

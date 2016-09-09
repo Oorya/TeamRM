@@ -10,4 +10,8 @@ public class A03User extends TicketStateUser implements TicketStatable {
     public A03User(TicketStatable ticketStat) {
         super(ticketStat);
     }
+    private void sendNotify()
+    {
+        //send  notification Confirmation date 
+    }
 }

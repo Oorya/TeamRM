@@ -10,4 +10,12 @@ public class A01User extends TicketStateUser implements TicketStatable {
     public A01User(TicketStatable ticketStat) {
         super(ticketStat);
     }
+    private void alertNewTicket()
+    {
+        //SEND NOTIFY NEW TICKET Success
+    }
+    
+    
+    
 }
+   

@@ -10,4 +10,10 @@ public class B01User extends TicketStateUser implements TicketStatable {
     public B01User(TicketStatable ticketStat) {
         super(ticketStat);
     }
+    private void sendNotify()
+    {
+        //send  notification date  Confirm  Success
+        //setup ttl
+
+    }
 }

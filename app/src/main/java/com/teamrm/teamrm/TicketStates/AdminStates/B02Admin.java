@@ -10,4 +10,10 @@ public class B02Admin extends TicketStateAdmin implements TicketStatable {
     public B02Admin(TicketStatable ticketStat) {
         super(ticketStat);
     }
+    private void sendNotify()
+    {
+        //send  notification date not  Confirm  by user
+        //setup ttl
+
+    }
 }

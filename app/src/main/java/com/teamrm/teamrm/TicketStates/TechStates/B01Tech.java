@@ -9,5 +9,12 @@ import com.teamrm.teamrm.TicketStates.TicketStateTech;
 public class B01Tech extends TicketStateTech implements TicketStatable {
     public B01Tech(TicketStatable ticketStat) {
         super(ticketStat);
+        sendNotify();
+    }
+    private void sendNotify()
+    {
+        //send  notification approve  a new ticket
+       
+
     }
 }

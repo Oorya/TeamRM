@@ -10,4 +10,8 @@ public class A02CNUser extends TicketStateUser implements TicketStatable {
     public A02CNUser(TicketStatable ticketStat) {
         super(ticketStat);
     }
+    private void alertConfirmedTicket()
+    {
+        //SEND NOTIFY  TICKET Confirmed  
+    }
 }

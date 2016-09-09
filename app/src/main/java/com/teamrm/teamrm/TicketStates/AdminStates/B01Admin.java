@@ -9,5 +9,11 @@ import com.teamrm.teamrm.TicketStates.TicketStateAdmin;
 public class B01Admin extends TicketStateAdmin implements TicketStatable {
     public B01Admin(TicketStatable ticketStat) {
         super(ticketStat);
+        sendNotify();
+    }
+    private void sendNotify()
+    {
+        //send  notification date Confirm  by user
+        //setup ttl
     }
 }

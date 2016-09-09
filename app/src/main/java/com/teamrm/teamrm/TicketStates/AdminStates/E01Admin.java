@@ -9,5 +9,14 @@ import com.teamrm.teamrm.TicketStates.TicketStateAdmin;
 public class E01Admin extends TicketStateAdmin implements TicketStatable {
     public E01Admin(TicketStatable ticketStat) {
         super(ticketStat);
+        
+    }
+    private void sendNotify()
+    {
+        //send  notification ticket clo's by user 
+    }
+    private void saveToData()
+    {
+        //SAVE TICKET IN SQL AND DELETE TICKET
     }
 }
