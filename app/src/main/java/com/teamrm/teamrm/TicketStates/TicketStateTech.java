@@ -1,7 +1,5 @@
 package com.teamrm.teamrm.TicketStates;
 
-import com.teamrm.teamrm.Interfaces.TicketStatable;
-
 /**
  * Created by root on 01/09/2016.
  */

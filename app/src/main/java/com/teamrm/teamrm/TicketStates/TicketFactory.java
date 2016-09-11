@@ -1,6 +1,6 @@
 package com.teamrm.teamrm.TicketStates;
 
-import com.teamrm.teamrm.Interfaces.TicketStatable;
+import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.AdminStates.A00Admin;
 import com.teamrm.teamrm.TicketStates.TechStates.A00Tech;
 import com.teamrm.teamrm.TicketStates.UserStates.A00User;
@@ -8,17 +8,17 @@ import com.teamrm.teamrm.TicketStates.UserStates.A00User;
 /**
  * Created by root on 01/09/2016.
  */
-public class TicketFactory implements TicketStatable
+public class TicketFactory implements TicketStateAble
 {
     public TicketFactory ( ) {}
 
     @Override
-    public TicketStatable getNewState(String newState, TicketStatable ticketState)
+    public TicketStateAble getNewState(String newState, TicketStateAble ticketState)
     {
         
         switch (newState)
         {
-            case TicketStatable.FOREWORD_STAT:
+            case TicketStateAble.FOREWORD_STAT:
                 switch(((TicketStateAdmin)ticketState).getUserType())
                     {
                         case "admin": 

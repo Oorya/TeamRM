@@ -1,13 +1,13 @@
 package com.teamrm.teamrm.TicketStates.TechStates;
 
-import com.teamrm.teamrm.Interfaces.TicketStatable;
+import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketStateTech;
 
 /**
  * Created by root on 01/09/2016.
  */
-public class E02Tech extends TicketStateTech implements TicketStatable {
-    public E02Tech(TicketStatable ticketStat) {
+public class E02Tech extends TicketStateTech implements TicketStateAble {
+    public E02Tech(TicketStateAble ticketStat) {
         super(ticketStat);
     }
 }
