@@ -7,11 +7,16 @@ import com.teamrm.teamrm.Interfaces.TicketStatable;
  */
 public abstract class TicketStateTech extends TicketFactory {
 
-    private TicketStatable ticketStat;
+   
+    private String userType;
     
-    public TicketStateTech(TicketStatable ticketStat) {
+    public TicketStateTech(String userType) {
 
-        this.ticketStat = ticketStat;
+        this.userType = userType;
         
     }
+    public String getUserType() {
+        return userType;
+    }
+
 }

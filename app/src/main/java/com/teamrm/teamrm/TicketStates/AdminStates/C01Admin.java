@@ -7,7 +7,7 @@ import com.teamrm.teamrm.TicketStates.TicketStateAdmin;
  * Created by root on 01/09/2016.
  */
 public class C01Admin extends TicketStateAdmin implements TicketStatable {
-    public C01Admin(TicketStatable ticketStat) {
-        super(ticketStat);
+    public C01Admin(String userTaype) {
+        super(userTaype);
     }
 }

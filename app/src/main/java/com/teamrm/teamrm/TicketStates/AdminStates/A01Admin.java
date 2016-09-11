@@ -8,9 +8,9 @@ import com.teamrm.teamrm.Utility.UtlNotification;
  * Created by root on 01/09/2016.
  */
 public class A01Admin extends TicketStateAdmin implements TicketStatable {
-    public A01Admin(TicketStatable ticketStat) {
-        super(ticketStat);
-    }
+    public A01Admin(String userTaype) {
+        super(userTaype);
+    }   
     private void alertNewTicket()
     {
        //SEND NOTIFY NEW TICKET 

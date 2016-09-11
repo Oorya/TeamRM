@@ -7,10 +7,14 @@ import com.teamrm.teamrm.Interfaces.TicketStatable;
  */
 public abstract class TicketStateAdmin extends TicketFactory {
     
-    private TicketStatable ticketStat;
+    private String userType;
     
-    public TicketStateAdmin(TicketStatable ticketStat) {
+    public TicketStateAdmin(String userType) {
         
-        this.ticketStat = ticketStat;
+        this.userType = userType;
+    }
+    public String getUserType()
+    {
+        return this.userType;
     }
 }
