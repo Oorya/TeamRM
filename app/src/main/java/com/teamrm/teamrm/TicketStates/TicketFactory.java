@@ -18,7 +18,7 @@ public class TicketFactory implements TicketStateAble
         
         switch (newState)
         {
-            case TicketStateAble.FOREWORD_STAT:
+            case TicketStateAble.FORWARD_STATE:
                 switch(((TicketStateAdmin)ticketState).getUserType())
                     {
                         case "admin": 

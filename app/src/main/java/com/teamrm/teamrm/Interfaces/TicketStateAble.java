@@ -5,7 +5,7 @@ package com.teamrm.teamrm.Interfaces;
  */
 public interface TicketStateAble {
     
-    String FOREWORD_STAT="A0U1";
+    String FORWARD_STATE ="A0U1";
     String AFTER_USER_OPEN="A0U1";
     
     TicketStateAble getNewState(String nextStat, TicketStateAble ticketStat);
