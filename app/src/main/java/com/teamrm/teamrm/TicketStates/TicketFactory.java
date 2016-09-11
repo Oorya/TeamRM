@@ -13,13 +13,13 @@ public class TicketFactory implements TicketStatable
     public TicketFactory ( ) {}
 
     @Override
-    public TicketStatable nextStat(String nextStat,TicketStatable ticketStat)
+    public TicketStatable getNewState(String newState, TicketStatable ticketState)
     {
         
-        switch (nextStat)
+        switch (newState)
         {
             case TicketStatable.FOREWORD_STAT:
-                switch(((TicketStateAdmin)ticketStat).getUserType())
+                switch(((TicketStateAdmin)ticketState).getUserType())
                     {
                         case "admin": 
                              return new A00Admin("admin");

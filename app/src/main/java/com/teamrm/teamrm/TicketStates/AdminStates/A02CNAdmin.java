@@ -7,8 +7,8 @@ import com.teamrm.teamrm.TicketStates.TicketStateAdmin;
  * Created by root on 01/09/2016.
  */
 public class A02CNAdmin extends TicketStateAdmin implements TicketStatable {
-    public A02CNAdmin(String userTaype) {
-        super(userTaype);
+    public A02CNAdmin(String userType) {
+        super(userType);
         remainder();
         
     }

@@ -12,6 +12,6 @@ public interface TicketStatable {
     String FOREWORD_STAT="A0U1";
     String AFTER_USER_OPEN="A0U1";
     
-    TicketStatable nextStat(String nextStat,TicketStatable ticketStat);
+    TicketStatable getNewState(String nextStat, TicketStatable ticketStat);
          
 }
