@@ -9,7 +9,9 @@ import com.teamrm.teamrm.TicketStates.TicketStateUser;
  */
 public interface TicketStatable {
     
-    String TICKET_STAT="A0U1";
+    String FOREWORD_STAT="A0U1";
+    String AFTER_USER_OPEN="A0U1";
+    
     TicketStatable nextStat(String nextStat,TicketStatable ticketStat);
          
 }
