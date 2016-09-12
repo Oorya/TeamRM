@@ -5,15 +5,6 @@ package com.teamrm.teamrm.TicketStates;
  */
 public abstract  class TicketStateUser extends TicketFactory {
 
-   
+    public TicketStateUser() {}
 
-    private String userType;
-    
-    public TicketStateUser(String userType) {
-        
-        this.userType = userType;
-    }
-    public String getUserType() {
-        return userType;
-    }
 }

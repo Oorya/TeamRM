@@ -1,17 +1,28 @@
 package com.teamrm.teamrm.TicketStates.UserStates;
 
+import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
+import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.TicketStates.TicketStateUser;
 
 /**
  * Created by root on 01/09/2016.
  */
 public class A00User extends TicketStateUser implements TicketStateAble {
-    
-    String userType;
 
+    static {
+        TicketFactory.registerProduct(ProductID.TICKET_ID_A00T,new A00User());
+    }
+    public A00User() {
+        super();
+    }
+    public A00User(int ttl)
+    {
+        //initials ttl example
+    }
 
-    public A00User(String userType) {
-        super(userType);
+    @Override
+    public TicketStateAble getNewState() {
+        return new A00User();
     }
 }

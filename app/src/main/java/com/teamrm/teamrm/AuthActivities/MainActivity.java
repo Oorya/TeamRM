@@ -194,4 +194,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         utlAlarmManager.cancelAlarm();
         Log.d("MESSEGE","stopAlert");
     }
+
+    public void getCal(View view) {
+
+        Intent cal = new Intent(this,CalView.class);
+        startActivity(cal);
+    }
 }
