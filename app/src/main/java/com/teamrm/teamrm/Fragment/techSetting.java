@@ -11,11 +11,11 @@ import android.view.ViewGroup;
 import com.teamrm.teamrm.R;
 
 
-public class techSetting extends Fragment {
+public class TechSetting extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public techSetting() {}
+    public TechSetting() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

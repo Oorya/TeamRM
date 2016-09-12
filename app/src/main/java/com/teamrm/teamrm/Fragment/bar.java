@@ -12,7 +12,7 @@ import com.teamrm.teamrm.R;
 
 
 
-public class bar extends Fragment {
+public class Bar extends Fragment {
 
 
 
@@ -21,7 +21,7 @@ public class bar extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public bar() {}
+    public Bar() {}
 
 
 

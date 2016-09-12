@@ -1,10 +1,6 @@
 package com.teamrm.teamrm.TicketStates;
 
-import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
-import com.teamrm.teamrm.TicketStates.AdminStates.A00Admin;
-import com.teamrm.teamrm.TicketStates.TechStates.A00Tech;
-import com.teamrm.teamrm.TicketStates.UserStates.A00User;
 
 import java.util.HashMap;
 

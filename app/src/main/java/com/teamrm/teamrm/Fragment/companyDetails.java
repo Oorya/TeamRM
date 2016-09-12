@@ -13,17 +13,17 @@ import com.teamrm.teamrm.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link companyDetails.OnFragmentInteractionListener} interface
+ * {@link CompanyDetails.OnFragmentInteractionListener} interface
  * to handle interaction events.
  * create an instance of this fragment.
  */
-public class companyDetails extends Fragment {
+public class CompanyDetails extends Fragment {
 
 
 
     private OnFragmentInteractionListener mListener;
 
-    public companyDetails() {}
+    public CompanyDetails() {}
 
 
 
