@@ -15,14 +15,16 @@
       },
       "oauth_client": [
         {
-          "client_id": "840847860575-6dao2i9t3knl325517pm9rd3h7b5rt43.apps.googleusercontent.com",          "client_type": 1,
+          "client_id": "840847860575-6dao2i9t3knl325517pm9rd3h7b5rt43.apps.googleusercontent.com",
+          "client_type": 1,
           "android_info": {
             "package_name": "com.teamrm.teamrm",
             "certificate_hash": "1C4C62636DD7B0DD28B4B36C0CB5105EDEA18902"
           }
         },
         {
-          "client_id": "840847860575-tcsdcj9r5c4o2243f3janvug66kdclrg.apps.googleusercontent.com",          "client_type": 3
+          "client_id": "840847860575-tcsdcj9r5c4o2243f3janvug66kdclrg.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [
