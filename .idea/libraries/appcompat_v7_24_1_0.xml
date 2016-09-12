@@ -9,8 +9,8 @@
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.support/appcompat-v7/24.1.0/d17a0ac956cbb4b8aba4a752fe44d07f83cf740e/appcompat-v7-24.1.0-sources.jar!/" />
       <root url="jar://C:/android_sdk/extras/android/m2repository/com/android/support/appcompat-v7/24.1.0/appcompat-v7-24.1.0-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.support/appcompat-v7/24.1.0/d17a0ac956cbb4b8aba4a752fe44d07f83cf740e/appcompat-v7-24.1.0-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

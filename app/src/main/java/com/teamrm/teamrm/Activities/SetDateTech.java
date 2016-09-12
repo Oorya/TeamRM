@@ -5,11 +5,11 @@ import android.os.Bundle;
 
 import com.teamrm.teamrm.R;
 
-public class SetDaiteTech extends AppCompatActivity {
+public class SetDateTech extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_set_daite_tech);
+        setContentView(R.layout.activity_set_date_tech);
     }
 }

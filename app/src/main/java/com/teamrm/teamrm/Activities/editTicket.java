@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.teamrm.teamrm.R;
 
-public class editTicket extends AppCompatActivity {
+public class EditTicket extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

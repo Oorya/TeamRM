@@ -51,8 +51,8 @@
         <activity android:name=".Activities.TechManagement" />
         <activity android:name=".Activities.NewTicket" />
         <activity android:name=".Activities.TicketView" />
-        <activity android:name=".Activities.SetDaiteTech" />
-        <activity android:name=".Activities.editTicket" />
+        <activity android:name=".Activities.SetDateTech" />
+        <activity android:name=".Activities.EditTicket" />
         <activity android:name=".Activities.Chat"></activity>
     </application>
 
