@@ -2,10 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.teamrm.teamrm"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0">
+
     <uses-sdk android:minSdkVersion="19" />
-    
-   
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -16,8 +15,10 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -25,19 +26,34 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AuthActivities.MainActivity">
+        <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AuthActivities.CalView"></activity>
+        <activity android:name=".Activities.CalView" />
+
         <receiver android:name=".Broadcast.BootReceiver">
             <intent-filter>
-               <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".Activities.Entry" />
+        <activity android:name=".Activities.UserAgreement" />
+        <activity android:name=".Activities.ProductsSetting" />
+        <activity android:name=".Activities.ClassificationSetting" />
+        <activity android:name=".Activities.Definition" />
+        <activity android:name=".Activities.HomeScreen" />
+        <activity android:name=".Activities.CallsManage" />
+        <activity android:name=".Activities.TechManagement" />
+        <activity android:name=".Activities.NewTicket" />
+        <activity android:name=".Activities.TicketView" />
+        <activity android:name=".Activities.SetDaiteTech" />
+        <activity android:name=".Activities.editTicket" />
+        <activity android:name=".Activities.Chat"></activity>
     </application>
 
 </manifest>

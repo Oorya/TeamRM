@@ -1,4 +1,4 @@
-package com.teamrm.teamrm.AuthActivities;
+package com.teamrm.teamrm.Activities;
 
 import android.graphics.RectF;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +15,6 @@ import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.google.api.client.util.DateTime;
-import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
 import com.teamrm.teamrm.Interfaces.CalendarHelper;
 import com.teamrm.teamrm.R;

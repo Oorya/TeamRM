@@ -1,8 +1,5 @@
-package com.teamrm.teamrm.AuthActivities;
+package com.teamrm.teamrm.Activities;
 
-import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -23,11 +20,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.teamrm.teamrm.Broadcast.BootReceiver;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
 
-import java.sql.Driver;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 

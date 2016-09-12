@@ -1,20 +1,15 @@
 package com.teamrm.teamrm.Broadcast;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.IBinder;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
-import com.teamrm.teamrm.AuthActivities.CalView;
-import com.teamrm.teamrm.AuthActivities.MainActivity;
+import com.teamrm.teamrm.Activities.CalView;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
-import com.teamrm.teamrm.Utility.UtlFirebase;
 import com.teamrm.teamrm.Utility.UtlNotification;
 
 import java.util.Calendar;
