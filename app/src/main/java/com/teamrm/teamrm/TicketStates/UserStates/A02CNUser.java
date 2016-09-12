@@ -1,17 +1,28 @@
 package com.teamrm.teamrm.TicketStates.UserStates;
 
+import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
+import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.TicketStates.TicketStateUser;
 
 /**
  * Created by root on 01/09/2016.
  */
 public class A02CNUser extends TicketStateUser implements TicketStateAble {
-    public A02CNUser(TicketStateAble ticketStat) {
-        super(ticketStat);
+    static {
+        TicketFactory.registerProduct(ProductID.TICKET_ID_A00T,new A02CNUser());
     }
-    private void alertConfirmedTicket()
+    public A02CNUser() {
+        super();
+    }
+    public A02CNUser(int ttl)
     {
-        //SEND NOTIFY  TICKET Confirmed  
+        //initials ttl example
     }
+
+    @Override
+    public TicketStateAble getNewState() {
+        return new A02CNUser();
+    }
+
 }

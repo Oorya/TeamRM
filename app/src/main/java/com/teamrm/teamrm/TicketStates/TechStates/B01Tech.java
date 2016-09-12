@@ -1,20 +1,27 @@
 package com.teamrm.teamrm.TicketStates.TechStates;
 
+import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
+import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.TicketStates.TicketStateTech;
 
 /**
  * Created by root on 01/09/2016.
  */
 public class B01Tech extends TicketStateTech implements TicketStateAble {
-    public B01Tech(TicketStateAble ticketStat) {
-        super(ticketStat);
-        sendNotify();
+    static {
+        TicketFactory.registerProduct(ProductID.TICKET_ID_A00A,new B01Tech());
     }
-    private void sendNotify()
+    public B01Tech() {
+        super();
+    }
+    public B01Tech(int ttl)
     {
-        //send  notification approve  a new ticket
-       
+        //initials ttl example
+    }
 
+    @Override
+    public TicketStateAble getNewState() {
+        return new B01Tech();
     }
 }
