@@ -11,11 +11,11 @@ import android.view.ViewGroup;
 import com.teamrm.teamrm.R;
 
 
-public class TechSetting extends Fragment {
+public class TechSetting11111 extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public TechSetting() {}
+    public TechSetting11111() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,7 @@ public class TechSetting extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tech_setting, container, false);
-  }
+    }
 
     @Override
     public void onAttach(Context context) {

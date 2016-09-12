@@ -1,6 +1,6 @@
 package com.teamrm.teamrm.TicketStates.TechStates;
 
-import com.teamrm.teamrm.Interfaces.ProductID;
+import com.teamrm.teamrm.Interfaces.ProductID1111;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.TicketStates.TicketStateTech;
@@ -10,7 +10,7 @@ import com.teamrm.teamrm.TicketStates.TicketStateTech;
  */
 public class A00Tech extends TicketStateTech implements TicketStateAble {
     static {
-        TicketFactory.registerProduct(ProductID.TICKET_ID_A00T,new A00Tech());
+        TicketFactory.registerProduct(ProductID1111.TICKET_ID_A00T,new A00Tech());
     }
     public A00Tech() {
         super();
