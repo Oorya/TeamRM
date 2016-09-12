@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "787361860556",
-    "project_id": "teamrm-141215"
+    "project_number": "840847860575",
+        "firebase_url": "https://teamrm-b1c06.firebaseio.com",
+        "project_id": "teamrm-b1c06",
+        "storage_bucket": "teamrm-b1c06.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:787361860556:android:092bd043dd129928",
+        "mobilesdk_app_id": "1:840847860575:android:092bd043dd129928",
         "android_client_info": {
           "package_name": "com.teamrm.teamrm"
         }
       },
       "oauth_client": [
         {
-          "client_id": "787361860556-1rj4np2ld99p4dkjm4utdbs3jejnvltb.apps.googleusercontent.com",
-          "client_type": 1,
+          "client_id": "840847860575-6dao2i9t3knl325517pm9rd3h7b5rt43.apps.googleusercontent.com",          "client_type": 1,
           "android_info": {
             "package_name": "com.teamrm.teamrm",
-            "certificate_hash": "5DDE41E692C35161C32C35B926767F86ED868F96"
+            "certificate_hash": "1C4C62636DD7B0DD28B4B36C0CB5105EDEA18902"
           }
         },
         {
-          "client_id": "787361860556-m9ietsg9qcf90gte337lo0moal04tbli.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "840847860575-tcsdcj9r5c4o2243f3janvug66kdclrg.apps.googleusercontent.com",          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBlPHvZD8CsTtGF1rTZmTHFrAgLN89B8Kw"
+          "current_key": "AIzaSyDWXGB09UhuHPg5-zDkQDtye8xSB8KYvg4"
         }
       ],
       "services": {
@@ -35,11 +35,16 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+                    "other_platform_oauth_client": [
+                        {
+                    "client_id": "840847860575-tcsdcj9r5c4o2243f3janvug66kdclrg.apps.googleusercontent.com",
+                  "client_type": 3
+                }
+              ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }
