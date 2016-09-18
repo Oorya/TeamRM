@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/action_today"
+        android:title="setting"
+        android:orderInCategory="100"
+        />
+   
+        <item
+            android:id="@+id/action_day_view"
+            android:title="hom page"
+            android:orderInCategory="100" />
+
+        <item
+            android:id="@+id/action_three_day_view"
+            android:title="new ticket"
+            android:orderInCategory="100"
+            android:checked="true" />
+
+        <item
+            android:id="@+id/action_week_view"
+            android:title="ticket list"
+            android:orderInCategory="100" />
+
+   
+    
+    
+</menu>

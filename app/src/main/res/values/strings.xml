@@ -1,6 +1,14 @@
 <resources>
     <string name="app_name">Team RM</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <string-array name="sports_array">
+        <item>GENERAL SETTING</item>
+        <item>TECH SETTING</item>
+        <item>COMPANY DETAILS</item>
+        <item>ClASSIFICATION</item>
+        <item>ADVANCE</item>
+    </string-array>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="drawer_open">drawer_open</string>
+    <string name="drawer_close">drawer_close</string>
 </resources>

@@ -54,4 +54,12 @@
         android:id="@+id/cal"
         android:onClick="getCal"
         />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="stop Alert"
+        android:layout_below="@id/cal"
+        android:id="@+id/nev"
+        android:onClick="nev"
+        />
 </RelativeLayout>

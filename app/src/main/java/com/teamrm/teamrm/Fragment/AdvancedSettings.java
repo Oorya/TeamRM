@@ -1,8 +1,8 @@
 package com.teamrm.teamrm.Fragment;
 
 
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +14,11 @@ import com.teamrm.teamrm.R;
  */
 public class AdvancedSettings extends Fragment {
 
+    private   final String CLASS_NAME = "AdvancedSettings"; 
+    
+    public  String getName(){
+        return CLASS_NAME;
+    }
 
     public AdvancedSettings() {
         // Required empty public constructor

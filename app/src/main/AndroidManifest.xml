@@ -17,8 +17,7 @@
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -34,13 +33,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.CalView" />
-
-        <receiver android:name=".Broadcast.BootReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-
         <activity android:name=".Activities.Entry" />
         <activity android:name=".Activities.UserAgreement" />
         <activity android:name=".Activities.ProductsSetting" />
@@ -53,7 +45,15 @@
         <activity android:name=".Activities.TicketView" />
         <activity android:name=".Activities.SetDateTech" />
         <activity android:name=".Activities.EditTicket" />
-        <activity android:name=".Activities.Chat"></activity>
+        <activity android:name=".Activities.Chat" /> 
+        <activity android:name=".Activities.navBar"
+            android:theme="@style/barTheme.Theme"/>
+        
+        <receiver android:name=".Broadcast.BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

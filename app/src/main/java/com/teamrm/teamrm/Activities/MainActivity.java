@@ -4,8 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private ProgressDialog mProgressDialog;
     private Context context;
     private UtlAlarmManager utlAlarmManager;
-
+  
 
 
     @Override
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context=this;
+
         
         utlAlarmManager = new UtlAlarmManager(this,MainActivity.this);
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -194,5 +197,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         Intent cal = new Intent(this,CalView.class);
         startActivity(cal);
+    }
+
+    public void nev(View view) {
+        Intent nav = new Intent(this,navBar.class);
+        startActivity(nav);
     }
 }
