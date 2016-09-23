@@ -4,10 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -200,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     public void nev(View view) {
-        Intent nav = new Intent(this,navBar.class);
+        Intent nav = new Intent(this,HomeScreen.class);
         startActivity(nav);
     }
 }

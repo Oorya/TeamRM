@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent"
+    android:background="@color/event_color_04"
+    >
 
-    <RelativeLayout
+    <ImageView
         android:id="@+id/nav_header_container"
         android:layout_width="match_parent"
         android:layout_height="140dp"
+        android:src="@drawable/crm"
         android:layout_alignParentTop="true"
-        android:background="@color/colorPrimary">
+        android:background="@color/event_color_04">
         
 
-    </RelativeLayout>
+    </ImageView>
 
 
     <android.support.v7.widget.RecyclerView
