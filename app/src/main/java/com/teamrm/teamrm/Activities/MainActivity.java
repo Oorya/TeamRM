@@ -20,6 +20,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.teamrm.teamrm.Fragment.CalendarVeiw;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
 
@@ -151,23 +152,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
     public void alert10Sec(View view) {
-/*
-       AlarmManager  alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent myIntent = new Intent(MainActivity.this, BootReceiver.class);
-       PendingIntent  pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, myIntent, 0);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY,Calendar.HOUR_OF_DAY );
-        calendar.set(Calendar.MINUTE, Calendar.MINUTE);
-        calendar.set(Calendar.SECOND, Calendar.SECOND);
-       
-
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-        */
-        
-        
-        
-       
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.add(Calendar.SECOND,180);//(Calendar.DATE)
         utlAlarmManager.setAlarm(calendar.getTimeInMillis());
@@ -189,12 +174,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public void stopAlert(View view) {
         utlAlarmManager.cancelAlarm();
         Log.d("MESSEGE","stopAlert");
-    }
-
-    public void getCal(View view) {
-
-        Intent cal = new Intent(this,CalView.class);
-        startActivity(cal);
     }
 
     public void nev(View view) {

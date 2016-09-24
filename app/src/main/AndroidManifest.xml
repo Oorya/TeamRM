@@ -34,17 +34,6 @@
         </activity>
         <activity android:name=".Activities.CalView" />
         <activity android:name=".Activities.Entry" />
-        <activity android:name=".Activities.UserAgreement" />
-        <activity android:name=".Activities.ProductsSetting" />
-        <activity android:name=".Activities.ClassificationSetting" />
-        <activity android:name=".Activities.Definition" />
-        <activity android:name=".Activities.CallsManage" />
-        <activity android:name=".Activities.TechManagement" />
-        <activity android:name=".Activities.NewTicket" />
-        <activity android:name=".Activities.TicketView" />
-        <activity android:name=".Activities.SetDateTech" />
-        <activity android:name=".Activities.EditTicket" />
-        <activity android:name=".Activities.Chat" /> 
         <activity android:name=".Activities.HomeScreen"
             android:theme="@style/barTheme.Theme"/>
         

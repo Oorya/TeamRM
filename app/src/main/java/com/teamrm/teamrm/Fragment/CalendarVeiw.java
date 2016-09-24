@@ -1,14 +1,18 @@
-package com.teamrm.teamrm.Activities;
+package com.teamrm.teamrm.Fragment;
+
 
 import android.graphics.RectF;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.app.Fragment;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
@@ -27,14 +31,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class CalView extends AppCompatActivity implements WeekView.EventClickListener,
-        MonthLoader.MonthChangeListener,
-        CalendarHelper,
-        WeekView.EventLongPressListener,
-        WeekView.EmptyViewLongPressListener,
-        WeekView.EmptyViewClickListener//WeekView.ScrollListener
-{
 
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class CalendarVeiw extends android.support.v4.app.Fragment implements WeekView.EventClickListener,
+    MonthLoader.MonthChangeListener,
+    CalendarHelper,
+    WeekView.EventLongPressListener,
+    WeekView.EmptyViewLongPressListener,
+    WeekView.EmptyViewClickListener//WeekView.ScrollListener
+        {
     private static final int TYPE_DAY_VIEW = 1;
     private static final int TYPE_THREE_DAY_VIEW = 2;
     private static final int TYPE_WEEK_VIEW = 3;
@@ -43,37 +50,40 @@ public class CalView extends AppCompatActivity implements WeekView.EventClickLis
     private static List<WeekViewEvent> mWeeViewEvent;
     private static List<Event> mEvent;
     private static CalendarUtil cal;
+    
+    public CalendarVeiw() {
+        // Required empty public constructor
+    }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cal_veiw);
-        mWeekView = (WeekView) findViewById(R.id.weekView);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_calendar_veiw, container, false);
+
+        mWeekView = (WeekView) view.findViewById(R.id.weekView);
         mWeeViewEvent = new ArrayList<>();
         mEvent = new ArrayList<>();
-        cal = new CalendarUtil(CalView.this,new CalView());
+        cal = new CalendarUtil(getActivity(),new CalendarVeiw());
         cal.getResultsFromApi();
         mWeekView.setMonthChangeListener(this);
-
-
-
-
 
         mWeekView.setOnEventClickListener(this);
         mWeekView.setEventLongPressListener(this);
         mWeekView.setEmptyViewLongPressListener(this);
         // setupDateTimeInterpreter(false);
 
-
-
+        return view;
     }
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu, menu);
-        return true;
+        super.onCreateOptionsMenu(menu,inflater);
     }
 
     @Override
@@ -128,7 +138,7 @@ public class CalView extends AppCompatActivity implements WeekView.EventClickLis
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
-        Toast.makeText(this, "onEventClick ", Toast.LENGTH_SHORT).show();
+
 
 
     }
@@ -144,7 +154,7 @@ public class CalView extends AppCompatActivity implements WeekView.EventClickLis
         for (Event EVENT : mEvent)
         {
             id++;
-          
+
             WeekViewEvent Wevent = new WeekViewEvent(id,EVENT.getSummary(), convertStart(EVENT),convertEnd(EVENT));
             mWeeViewEvent.add(Wevent);
 
@@ -201,24 +211,24 @@ public class CalView extends AppCompatActivity implements WeekView.EventClickLis
 
     @Override
     public void onEmptyViewLongPress(Calendar time) {
-        Toast.makeText(this," time = "+time.toString(), Toast.LENGTH_SHORT).show();
+
 
 
     }
     @Override
     public void onEmptyViewClicked(Calendar time) {
-        Toast.makeText(this, "Empty view  pressed: ", Toast.LENGTH_SHORT).show();
+
 
     }
 
     @Override
     public void getResult(Event event) {
-        
-    }
-    
 
-   
-    
+    }
+
+
+
+
     @Override
     public void getCalList(List<Event> calList)
     {
@@ -232,15 +242,10 @@ public class CalView extends AppCompatActivity implements WeekView.EventClickLis
 
     @Override
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
-        Toast.makeText(this, "onEventLongPress ", Toast.LENGTH_SHORT).show();
 
 
     }
-    /*
-protected String getEventTitle(Calendar time) 
-{
-  return String.format("Event of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH)+1, time.get(Calendar.DAY_OF_MONTH));
-}  */
+
     private void setupDateTimeInterpreter(final boolean shortDate)
     {
         mWeekView.setDateTimeInterpreter(new DateTimeInterpreter()
@@ -267,5 +272,6 @@ protected String getEventTitle(Calendar time)
             }
         });
     }
+
 
 }

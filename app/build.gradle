@@ -21,9 +21,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
 
-    apply plugin: 'com.google.gms.google-services'
+    
     compile('com.google.api-client:google-api-client-android:1.22.0') {
         exclude group: 'org.apache.httpcomponents'
     }
@@ -39,19 +38,22 @@ dependencies {
     //Preference support
     //compile 'com.android.support:design:24.2.0' //Design support-already inside?
 
-    compile 'com.android.support:appcompat-v7:24.1.0'
-    compile 'com.google.firebase:firebase-core:9.0.0'
-    compile 'com.google.firebase:firebase-database:9.0.0'
-    compile 'com.google.firebase:firebase-auth:9.0.0'
-    compile 'com.google.android.gms:play-services-auth:9.0.0'
+
+
+    
     compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.google.firebase:firebase-core:9.2.0'
+    compile 'com.google.firebase:firebase-database:9.2.0'
+    compile 'com.google.firebase:firebase-auth:9.2.0'
+    compile 'com.google.android.gms:play-services-auth:9.2.0'
     compile 'com.github.alamkanak:android-week-view:1.2.6'
     compile 'pub.devrel:easypermissions:0.1.5'
     compile 'junit:junit:4.12'
     compile 'com.android.support:cardview-v7:24.2.1'
     compile 'com.android.support:gridlayout-v7:24.2.1'
     compile 'com.android.support:recyclerview-v7:24.2.1'
-    compile 'com.android.support:preference-v7:24.1.0'
+    compile 'com.android.support:preference-v7:24.2.1'
     compile 'com.android.support:support-v4:24.2.1'
+    testCompile 'junit:junit:4.12'
+    apply plugin: 'com.google.gms.google-services'
 }
-apply plugin: 'com.google.gms.google-services'

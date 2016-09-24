@@ -2,6 +2,9 @@ package com.teamrm.teamrm.Activities;
 
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,21 +12,27 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
+
+import com.teamrm.teamrm.Fragment.CalendarVeiw;
 import com.teamrm.teamrm.Fragment.FragmentDrawer;
 import com.teamrm.teamrm.R;
+
+import static android.support.v7.appcompat.R.attr.title;
 
 
 public class HomeScreen extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener{
 
 private Toolbar mToolbar;
 private FragmentDrawer drawerFragment;
+    private FrameLayout frameLayout;
 
             @Override
             protected void onCreate(Bundle savedInstanceState)
                 {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_home_screen);
-        
+                frameLayout = (FrameLayout)findViewById(R.id.container_body); 
                 mToolbar=(Toolbar)findViewById(R.id.toolbar);
         
                 setSupportActionBar(mToolbar);
@@ -58,7 +67,13 @@ private FragmentDrawer drawerFragment;
         @Override
         public void onDrawerItemSelected(View view, int position)
         {
-            
+            CalendarVeiw calendarVeiw = new CalendarVeiw();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container_body, calendarVeiw);
+            fragmentTransaction.commit();
+
+           
         }
         
 }
