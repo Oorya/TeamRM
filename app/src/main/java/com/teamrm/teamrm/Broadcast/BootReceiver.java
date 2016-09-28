@@ -37,13 +37,13 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
 
                 Log.d("MESSEGE", "Intent: !null, Action: null");
                 Intent intentt =new Intent(context,CalendarVeiw.class);
-                UtlNotification notification = new UtlNotification(R.drawable.icon, "Status changed",  " status", intentt,context);
+                UtlNotification notification = new UtlNotification(R.drawable.icon, "Status changed",  " status", intentt);
                 notification.sendNotification();
                 
             }else{
                 Log.d("MESSEGE", "Intent: !null, Action: null");
                 Intent intentt =new Intent(context,CalendarVeiw.class);
-                UtlNotification notification = new UtlNotification(R.drawable.icon, "Status changed",  " status", intentt,context);
+                UtlNotification notification = new UtlNotification(R.drawable.icon, "Status changed",  " status", intentt);
                 notification.sendNotification();
             }
         }else{
@@ -66,7 +66,7 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
 
 
     @Override
-    public void result(Ticket ticket) {
+    public void resultTicket(Ticket ticket) {
 
     }
 
@@ -95,4 +95,8 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
     }
 
 
+    @Override
+    public void resultBoolean(boolean bool) {
+
+    }
 }
