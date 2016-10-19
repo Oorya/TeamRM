@@ -1,0 +1,28 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.teamrm.teamrm.Fragment.OpenTiket">
+
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/title">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:text=""
+            android:textAlignment="center"
+            android:id="@+id/hadLine"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:src="@drawable/ic_call_24px"
+            
+            />
+        
+    </RelativeLayout>
+
+</FrameLayout>

@@ -62,4 +62,11 @@
         android:id="@+id/nev"
         android:onClick="nev"
         />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:text="set font"
+        android:layout_below="@id/nev"
+        android:id="@+id/fontX"
+        />
 </RelativeLayout>

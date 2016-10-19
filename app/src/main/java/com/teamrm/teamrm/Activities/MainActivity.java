@@ -3,11 +3,13 @@ package com.teamrm.teamrm.Activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -27,8 +29,12 @@ import com.teamrm.teamrm.Utility.UtlAlarmManager;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import static java.security.AccessController.getContext;
+
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
+
+    private Typeface tf; 
     GoogleSignInOptions gso;
     GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 9001;
@@ -36,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private ProgressDialog mProgressDialog;
     private Context context;
     private UtlAlarmManager utlAlarmManager;
+    private TextView fontX;
+    
   
 
 
@@ -44,8 +52,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context=this;
-
-        
+        tf = Typeface.createFromAsset(getAssets(), "Assistant-ExtraBold.ttf");
+        fontX = (TextView)findViewById(R.id.fontX);
+        fontX.setTypeface(tf);
         utlAlarmManager = new UtlAlarmManager(this,MainActivity.this);
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()

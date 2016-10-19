@@ -1,0 +1,245 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#b3e5fc"
+    tools:context="com.teamrm.teamrm.Fragment.tiket">
+
+    
+   
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/title"
+        android:id="@+id/had">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="קריאה A20160811"
+            android:textAlignment="center"
+            android:id="@+id/ticketNum"/>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/time"
+            android:background="#f7f7f7"
+            android:layout_below="@id/status">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="15dp"
+                android:id="@+id/clock"
+                android:src="@drawable/ic_icon_clock"
+                android:layout_alignParentRight="true"/>
+
+            <TextView
+                android:layout_width="121dp"
+                android:layout_height="wrap_content"
+                android:text= "פתיחה:21:01 01/09/2016"
+                android:textAlignment="center"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="6dp"
+                android:id="@+id/dateTimeOpen"
+                android:layout_toStartOf="@id/clock" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="|"
+                android:textAlignment="center"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="6dp"
+                android:id="@+id/buffer"
+                android:layout_toStartOf="@id/dateTimeOpen" />
+            <TextView
+                android:layout_width="166dp"
+                android:layout_height="wrap_content"
+                android:text="שינוי סטטוס:21:01 01/09/2016"
+                android:textAlignment="center"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="6dp"
+                android:id="@+id/dateTimeChange"
+                android:layout_toStartOf="@id/buffer" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/status"
+            android:background="#ff7043"
+            android:layout_below="@+id/ticketNum"
+            android:layout_alignParentStart="true">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="15dp"
+            android:id="@+id/alert"
+            android:src="@drawable/ic_icon_alert2"
+            android:layout_alignParentRight="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="קריאה ממתינה לאישור פתיח"
+            android:textAlignment="center"
+            android:layout_marginEnd="8dp"
+            android:id="@+id/statusTxt"
+            android:layout_marginTop="10dp"
+            android:layout_toStartOf="@id/alert" />
+            
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+   
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/had"
+    >
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="8dp"
+        android:layout_marginLeft="8dp">
+    <android.support.v7.widget.CardView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layoutDirection="rtl"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        android:onClick="expand"
+       
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginRight="15dp"
+            android:id="@+id/userIcon"
+            android:src="@drawable/ic_icon_person"
+           />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:text="ישראל ישראלי"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/userIcon"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentLeft="true"
+                android:id="@+id/expandButton"
+                android:src="@drawable/ic_icon_down"
+                />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+    </ScrollView>
+</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="24.5dp"
+        >
+    <android.support.v7.widget.CardView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content" 
+       android:paddingRight="10dp"
+       android:paddingLeft="10dp"
+       android:layoutDirection="rtl"
+       app:cardCornerRadius="10dp"
+       app:cardElevation="10dp"
+       app:cardBackgroundColor="#f44336"
+       >
+      
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:id="@+id/Reject"
+            android:src="@drawable/ic_icon_cancel"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="12dp"
+            android:text="דחה פתיחת קריאה"
+            android:layout_marginLeft="8dp"/>
+        
+       
+    </android.support.v7.widget.CardView>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="12dp"
+        android:layout_marginRight="24.5dp"
+        >
+        <android.support.v7.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:layoutDirection="rtl"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp"
+            app:cardBackgroundColor="#4caf50"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"
+                android:id="@+id/Approve"
+                android:src="@drawable/ic_icon_ok"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="12dp"
+                android:text="אשר פתיחת קריאה"
+                android:layout_marginLeft="8dp"/>
+
+
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+</RelativeLayout>
+    
+</FrameLayout>
