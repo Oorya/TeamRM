@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.NotificationCompat;
 
+import com.teamrm.teamrm.Activities.HomeScreen;
+
 public class UtlNotification {
 
     private Context context;
@@ -21,14 +23,14 @@ public class UtlNotification {
 
     public UtlNotification(){}
 
-    public UtlNotification(int icon, CharSequence title, String text, Intent intent, Context context)
+    public UtlNotification(int icon, CharSequence title, String text, Intent intent)
     {
         notificationID=++notificationCounter;
         this.icon=icon;
         this.title=title;
         this.text=text;
         this.intent=intent;
-        this.context=context;
+        this.context= HomeScreen.context;
 
         resultPendingIntent = PendingIntent.getActivity(context,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
