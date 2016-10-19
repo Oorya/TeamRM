@@ -25,6 +25,7 @@ public class UtlFirebase {
     private static String status;
     private static Ticket returnTicket;
     private static boolean isWait=false;
+    private static boolean ticketExist;
     private static FirebaseAuth firebaseAuth;
     private static List<Ticket> ticketList = new ArrayList<Ticket>();
 
@@ -44,6 +45,49 @@ public class UtlFirebase {
             }
         };
     }
+
+
+
+    public static void ticketSaved(final String ticketID, Object object)
+    {
+        final FireBaseAble fireBaseAble = (FireBaseAble)object;
+
+        new AsyncTask<Void, Boolean, Boolean>() {
+
+
+            @Override
+            protected Boolean doInBackground(Void... voids) {
+                FirebaseDatabase database=FirebaseDatabase.getInstance();
+                DatabaseReference ref = database.getReference("Ticket");
+
+                ref.child(ticketID).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ticketExist=dataSnapshot.exists();
+                        isWait=true;
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                while (!isWait)
+                {
+                    Log.e("WAIT ", "");
+                }
+
+                return ticketExist;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean aBoolean) {
+                fireBaseAble.resultBoolean(aBoolean);
+                isWait=false;
+            }
+        }.execute();
+    }
+
 
     public static void getTicketByKey(final String key, Object object) {
 
@@ -82,7 +126,7 @@ public class UtlFirebase {
 
             @Override
             protected void onPostExecute(Ticket ticket) {
-                fireBaseAble.result(ticket);
+                fireBaseAble.resultTicket(ticket);
                 Log.e("RETURN METHOD ", returnTicket==null?"NULL":"NOT NULL");
                 isWait=false;
             }

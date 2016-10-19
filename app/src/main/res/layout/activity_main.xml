@@ -57,7 +57,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="stop Alert"
+        android:text="nevBar"
         android:layout_below="@id/cal"
         android:id="@+id/nev"
         android:onClick="nev"
@@ -69,4 +69,5 @@
         android:layout_below="@id/nev"
         android:id="@+id/fontX"
         />
+    
 </RelativeLayout>
