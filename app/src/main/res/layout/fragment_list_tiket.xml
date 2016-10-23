@@ -1,0 +1,139 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.teamrm.teamrm.Fragment.OpenTiket">
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/had"> 
+      <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+          android:id="@+id/title"
+        android:background="@color/title">
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="קריאות פתוחות"
+           android:textColor="@android:color/primary_text_dark"
+           android:textAlignment="center"
+           />
+      </RelativeLayout>
+      <LinearLayout
+          
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@color/title"
+          android:layout_below="@id/title"
+          android:paddingLeft="16dp"
+          android:paddingRight="16dp"
+          android:orientation="horizontal"
+          android:id="@+id/actionBra"
+         
+          
+         >
+
+          <LinearLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:id="@+id/filter"
+              android:layoutDirection="rtl"
+              android:layout_gravity="center"
+            
+              
+              >
+              <ImageView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="6dp"
+                  android:layout_marginLeft="8dp"
+                  android:layout_marginTop="6dp"
+                  android:id="@+id/filterImg"
+                  android:src="@drawable/ic_icon_filter"
+                  />
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="10dp"
+                  android:textColor="@android:color/white"
+                  android:text="סינון"/>
+          </LinearLayout>
+
+          <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/sort" 
+          android:layoutDirection="rtl"
+          android:layout_weight="1"
+          android:layout_gravity="center"
+          >
+          
+          <ImageView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="6dp"
+              android:layout_marginLeft="5dp"
+              android:layout_marginTop="6dp"
+             android:layout_marginRight="5dp"
+              android:id="@+id/sortimg"
+              android:src="@drawable/ic_icon_sort"
+              />
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="10dp"
+              android:layout_toLeftOf="@id/sortimg"
+              android:textColor="@android:color/white"
+
+              android:text="סדר מחדש לישן"/>
+          
+      </LinearLayout>
+
+          <LinearLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/search"
+              android:layoutDirection="rtl"
+              android:layout_weight="1"
+              android:layout_gravity="center"
+              >
+
+              <ImageView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="6dp"
+                  android:layout_marginLeft="5dp"
+                  android:layout_marginTop="6dp"
+                  android:layout_marginRight="5dp"
+                  android:id="@+id/searchImg"
+                  android:src="@drawable/ic_icon_loupe_white"
+                  />
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="10dp"
+                  android:layout_toLeftOf="@id/sortimg"
+                  android:textColor="@android:color/white"
+                  android:text="חיפוס"/>
+
+          </LinearLayout>
+          
+      </LinearLayout>
+   
+  
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:paddingTop="12dp"
+        android:paddingRight="12dp"
+        android:paddingLeft="12dp"
+        android:layout_below="@id/actionBra">
+        
+    </android.support.v7.widget.RecyclerView>
+</RelativeLayout>
+</FrameLayout>

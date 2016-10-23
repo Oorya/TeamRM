@@ -16,7 +16,7 @@ import com.teamrm.teamrm.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class tiket extends Fragment implements View.OnClickListener {
+public class Tiket extends Fragment implements View.OnClickListener {
 
     CardView userDetailCard;
     RelativeLayout userDetailOpen;
@@ -24,7 +24,7 @@ public class tiket extends Fragment implements View.OnClickListener {
     RelativeLayout tiketDetailOpen;
     
     
-    public tiket() {
+    public Tiket() {
         // Required empty public constructor
     }
 
