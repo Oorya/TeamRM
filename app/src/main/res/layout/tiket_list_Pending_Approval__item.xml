@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layoutDirection="rtl"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
 
         >
         <RelativeLayout
@@ -99,13 +105,12 @@
                     android:layout_marginLeft="8dp"
                     android:layout_toStartOf="@id/tech"/>
 
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" 
+                <View android:layout_width="fill_parent"
+                    android:layout_height="1dip"
                     android:layout_below="@id/tech"
                     android:layout_marginRight="9dp"
-                    android:text="________________________________________________________"/>
+                    android:layout_marginLeft="9dp"
+                    android:background="#b3e5fc" />
             </RelativeLayout>
            >
             <RelativeLayout
