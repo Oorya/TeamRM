@@ -35,16 +35,7 @@
                 android:textColor="@android:color/white"
                 android:layout_toEndOf="@id/userIcon"
                 android:text="קריאה ממתינה לאישור פתיח"/>
-            <TextView 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="A20160811"
-                android:textColor="@android:color/white"
-                android:layout_marginLeft="8dp"
-                android:layout_toStartOf="@id/editIcon"/>
-
-
+                
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -55,6 +46,15 @@
                     android:id="@+id/editIcon"
                     android:src="@drawable/ic_edit_24px_white"
                     />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ticketNum"
+                    android:layout_marginTop="10dp"
+                    android:text="A20160811"
+                    android:textColor="@android:color/white"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toStartOf="@id/editIcon"/>
             </RelativeLayout>
        
             <RelativeLayout
@@ -80,15 +80,7 @@
                     android:textAlignment="center"
                     android:layout_toEndOf="@id/personIcon"
                     android:text=" קריבורוז'סקי"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="אין טכנאי מצוות"
-                    android:layout_marginLeft="8dp"
-                    android:layout_toStartOf="@id/tech"/>
-
-
+                
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -99,6 +91,15 @@
                     android:id="@+id/tech"
                     android:src="@drawable/ic_edit_24px_white"
                     />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="אין טכנאי מצוות"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toStartOf="@id/tech"/>
+
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" 

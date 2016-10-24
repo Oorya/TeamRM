@@ -33,6 +33,11 @@ public class Ticket {
 
     public Ticket(){}  //empty constructor, must have
 
+    public Ticket(String name)
+    {
+        this.userName = name;
+    }
+    
     public Ticket(String product, String classification, String subClassification, String ticketName, String ticketDes,
                   String phone, String status, String area, String address, String ticketImage1, String ticketImage2, String ticketId)
     {
