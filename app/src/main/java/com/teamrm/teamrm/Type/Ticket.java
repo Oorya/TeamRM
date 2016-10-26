@@ -18,6 +18,7 @@ public class Ticket {
     public String subClassification;
     public String ticketName;  //hold userName
     public String ticketDes;
+    public String description;
     public String area;
     public String address;
     public String ticketImage1;

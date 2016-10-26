@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Ticket;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,7 +45,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
     @Override
     public void onBindViewHolder(MyRecyclerAdapter.CustomViewHolder holder, int position) {
         Ticket Item = mTiketListItem.get(position);
-        holder.textView.setText(Item.userName);
+        holder.userName.setText(Item.userName);
         setFont(holder);
     }
 
@@ -54,12 +55,30 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
     }
     public class CustomViewHolder extends RecyclerView.ViewHolder {
         
-        protected TextView textView;
+        protected TextView userName;
+        protected TextView product;
+        protected TextView classification;
+        protected TextView subClassification;
+        protected TextView area;
+        protected TextView address;
+        protected TextView ticketNumber;
+        protected TextView description;
+        protected TextView time;
+        protected Date endTime;
+
 
         public CustomViewHolder(View view) {
             super(view);
           
-            this.textView = (TextView) view.findViewById(R.id.equipment);
+            this.product = (TextView) view.findViewById(R.id.equipment);
+            this.ticketNumber = (TextView) view.findViewById(R.id.ticketNum);
+            this.userName = (TextView) view.findViewById(R.id.personName);
+            this.classification = (TextView) view.findViewById(R.id.Type);
+            this.subClassification = (TextView) view.findViewById(R.id.Type2);
+            this.area = (TextView) view.findViewById(R.id.eriaZon);
+            this.address = (TextView) view.findViewById(R.id.add);
+            this.description = (TextView) view.findViewById(R.id.DescriptionTxt);
+            this.time = (TextView) view.findViewById(R.id.openDate);
         }
     }
     private void setFont(CustomViewHolder holder)
@@ -71,7 +90,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
        Typeface r = Typeface.createFromAsset(mContext.getAssets(), "Assistant-Regular.ttf");
        Typeface SB = Typeface.createFromAsset(mContext.getAssets(), "Assistant-SemiBold.ttf");
        
-        holder.textView.setTypeface(EB);
+        holder.userName.setTypeface(EB);
         
     }
 }
