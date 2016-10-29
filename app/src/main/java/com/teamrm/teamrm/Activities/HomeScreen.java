@@ -16,7 +16,6 @@ import android.widget.FrameLayout;
 
 import com.teamrm.teamrm.Fragment.FragmentDrawer;
 import com.teamrm.teamrm.Fragment.OpenTiket;
-import com.teamrm.teamrm.Fragment.Tiket;
 import com.teamrm.teamrm.R;
 
 
@@ -67,7 +66,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     @Override
     public void onDrawerItemSelected(View view, int position) {
         //CalendarVeiw calendarVeiw = new CalendarVeiw();
-       // Tiket tiket = new Tiket();
+       // TicketView tiket = new TicketView();
         OpenTiket openTiket =new  OpenTiket();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

@@ -36,7 +36,10 @@ public class OpenTiket extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list_tiket, container, false);
 
         mTiketListItem = new ArrayList<>(); 
-        mTiketListItem.add(new Ticket("שאלתיאל"));
+        mTiketListItem.add(new Ticket("שאלתיאל",1));
+        mTiketListItem.add(new Ticket("אוריה",2));
+        mTiketListItem.add(new Ticket("מארק",3));
+
         mRecyclerView = (RecyclerView)view.findViewById(R.id.RecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         myRecyclerAdapter = new MyRecyclerAdapter(getContext(),mTiketListItem);

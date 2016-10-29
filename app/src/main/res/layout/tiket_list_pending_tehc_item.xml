@@ -84,6 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:textAlignment="center"
+                    android:id="@+id/personName"
                     android:layout_toEndOf="@id/personIcon"
                     android:text=" קריבורוז'סקי"/>
 

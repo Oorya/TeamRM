@@ -2,6 +2,7 @@ package com.teamrm.teamrm.Type;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.teamrm.teamrm.Interfaces.TicketStateAble;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -25,7 +26,8 @@ public class Ticket {
     public String ticketImage2;
     public String phone;
     public String ticketId;
-    public String status;
+    public TicketStateAble TicketState;
+    public int status;
     public String time;
     public Date endTime;
     public String ticketNumber;
@@ -34,13 +36,14 @@ public class Ticket {
 
     public Ticket(){}  //empty constructor, must have
 
-    public Ticket(String name)
+    public Ticket(String name,int ststus)
     {
+        this.status = ststus;
         this.userName = name;
     }
     
     public Ticket(String product, String classification, String subClassification, String ticketName, String ticketDes,
-                  String phone, String status, String area, String address, String ticketImage1, String ticketImage2, String ticketId)
+                  String phone, String area, String address, String ticketImage1, String ticketImage2, String ticketId)
     {
         this.userName = "Test";
         this.product=product;
@@ -54,7 +57,6 @@ public class Ticket {
         this.ticketImage2=ticketImage2;
         this.phone=phone;
         this.ticketId=ticketId;
-        this.status=status;
         this.time=getCurrentTime();
         this.ticketNumber="ticket number";
     }
@@ -63,7 +65,7 @@ public class Ticket {
     {
         //create an instance of User class
         Ticket ticket=new Ticket(product,classification,subClassification,ticketName,ticketDes, phone
-                , status,area, address, ticketImage1,ticketImage2, ticketId);
+               ,area, address, ticketImage1,ticketImage2, ticketId);
 
         //creating a connection to fire base
         FirebaseDatabase database= FirebaseDatabase.getInstance();

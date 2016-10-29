@@ -83,6 +83,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:textAlignment="center"
+                    android:id="@+id/personName"
                     android:layout_toEndOf="@id/personIcon"
                     android:text=" קריבורוז'סקי"/>
 
@@ -245,6 +246,16 @@
                     android:textAlignment="center"
                     android:text="פתיחה"
                     android:id="@+id/openDate"/>
+               
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="16dp"
+                    android:textAlignment="center"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="16dp"
+                    android:id="@+id/closeDate"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -252,9 +263,9 @@
                     android:layout_marginRight="16dp"
                     android:textAlignment="center"
                     android:text="מועד טיפול"
-                    android:layout_alignParentLeft="true"
                     android:layout_marginLeft="16dp"
-                    android:id="@+id/closeDate"/>
+                    android:layout_toStartOf="@id/closeDate"
+                    />
 
             </RelativeLayout>
 
