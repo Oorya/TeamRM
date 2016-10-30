@@ -1,6 +1,7 @@
 package com.teamrm.teamrm.Fragment;
 
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.teamrm.teamrm.R;
@@ -35,10 +37,14 @@ public class TicketView extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
        View view =  inflater.inflate(R.layout.fragment_tiket, container, false);
         setListeners(view);
+        Typeface REGULAR = Typeface.createFromAsset(this.getContext().getAssets(), "Assistant-Regular.ttf");
+        Typeface SEMI_BOLD = Typeface.createFromAsset(this.getContext().getAssets(), "Assistant-SemiBold.ttf");
+
+        ((TextView)view.findViewById(R.id.statusTxt)).setTypeface(REGULAR);
+        ((TextView)view.findViewById(R.id.dateTimeChange)).setTypeface(REGULAR);
+        ((TextView)view.findViewById(R.id.dateTimeOpen)).setTypeface(REGULAR);
+        ((TextView)view.findViewById(R.id.ticketNum)).setTypeface(SEMI_BOLD);
         
-        
-        
-       
         return view;   
     }
 

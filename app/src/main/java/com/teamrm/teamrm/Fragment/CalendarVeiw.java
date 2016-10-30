@@ -69,7 +69,7 @@ public class CalendarVeiw extends android.support.v4.app.Fragment implements Wee
         mWeekView = (WeekView) view.findViewById(R.id.weekView);
         mWeeViewEvent = new ArrayList<>();
         mEvent = new ArrayList<>();
-        cal = new CalendarUtil(getActivity(),new CalendarVeiw());
+        cal = new CalendarUtil(this.getActivity(),new CalendarVeiw());
         cal.getResultsFromApi();
         mWeekView.setMonthChangeListener(this);
 

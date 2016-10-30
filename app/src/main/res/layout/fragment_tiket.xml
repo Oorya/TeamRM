@@ -19,6 +19,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:textColor="@android:color/white"
             android:text="קריאה A20160811"
             android:textAlignment="center"
             android:id="@+id/ticketNum"/>
@@ -31,8 +33,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/status"
             android:background="#ff7043"
+            android:gravity="right"
             android:layout_below="@id/ticketNum"
-            android:layout_alignParentStart="true">
+           >
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,7 +44,7 @@
             android:layout_marginRight="15dp"
             android:id="@+id/alert"
             android:src="@drawable/ic_icon_alert2"
-            android:layout_alignParentRight="true"/>
+           />
 
         <TextView
             android:layout_width="wrap_content"
@@ -49,9 +52,10 @@
             android:text="קריאה ממתינה לאישור פתיח"
             android:textAlignment="center"
             android:layout_marginEnd="8dp"
+            android:textColor="@android:color/white"
             android:id="@+id/statusTxt"
             android:layout_marginTop="10dp"
-            android:layout_toStartOf="@id/alert" />
+            android:layout_toLeftOf="@id/alert" />
             
         </RelativeLayout>
 
@@ -71,16 +75,22 @@
                 android:id="@+id/clock"
                 android:src="@drawable/ic_icon_clock"
                 android:layout_alignParentRight="true"/>
-
-            <TextView
-                android:layout_width="121dp"
+            <LinearLayout
+                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text= "פתיחה:21:01 01/09/2016"
+                android:orientation="horizontal"
+               
+                android:layout_toLeftOf="@id/clock">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text= "פתיחה"
                 android:textAlignment="center"
                 android:layout_marginEnd="8dp"
                 android:layout_marginTop="6dp"
                 android:id="@+id/dateTimeOpen"
-                android:layout_toStartOf="@id/clock" />
+                 />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -91,17 +101,19 @@
                 android:layout_marginEnd="6dp"
                 android:layout_marginTop="6dp"
                 android:id="@+id/buffer"
-                android:layout_toStartOf="@id/dateTimeOpen" />
+               />
             <TextView
-                android:layout_width="166dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="שינוי סטטוס:21:01 01/09/2016"
+                android:layout_weight="1"
+                android:text="שינוי "
                 android:textAlignment="center"
                 android:layout_marginEnd="6dp"
                 android:layout_marginTop="6dp"
                 android:id="@+id/dateTimeChange"
-                android:layout_toStartOf="@id/buffer" />
-
+                
+                />
+</LinearLayout>
         </RelativeLayout>
 
 

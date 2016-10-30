@@ -2,6 +2,7 @@ package com.teamrm.teamrm.Activities;
 
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -13,9 +14,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
+import com.teamrm.teamrm.Fragment.CalendarVeiw;
 import com.teamrm.teamrm.Fragment.FragmentDrawer;
 import com.teamrm.teamrm.Fragment.OpenTiket;
+import com.teamrm.teamrm.Fragment.TicketView;
 import com.teamrm.teamrm.R;
 
 
@@ -33,11 +37,14 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         context=this;
         frameLayout = (FrameLayout) findViewById(R.id.container_body);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-
+        TextView appIcon = (TextView)findViewById(R.id.appIcon);
+        appIcon.setTypeface(Typeface.createFromAsset(this.getAssets(), "Assistant-Bold.ttf"));
+       
         setSupportActionBar(mToolbar);
 
         ActionBar ab = getSupportActionBar();
         ab.setDisplayShowHomeEnabled(true);
+        ab.setTitle("קריאות פתוחות");
 
         drawerFragment = (FragmentDrawer)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
@@ -65,15 +72,36 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
     @Override
     public void onDrawerItemSelected(View view, int position) {
-        //CalendarVeiw calendarVeiw = new CalendarVeiw();
-       // TicketView tiket = new TicketView();
-        OpenTiket openTiket =new  OpenTiket();
+       
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container_body, openTiket);
-        fragmentTransaction.commit();
-
-
+        OpenTiket openTiket =new  OpenTiket();
+        switch (position)
+        {
+            case 0:
+               
+                fragmentTransaction.replace(R.id.container_body, openTiket);
+                fragmentTransaction.commit();
+                setTitle("קריאות פתוחות");
+                break;
+            case 1:
+                TicketView tiket = new TicketView();
+                fragmentTransaction.replace(R.id.container_body, tiket);
+                fragmentTransaction.commit();
+                break;
+            case 2:
+                CalendarVeiw calendarVeiw = new CalendarVeiw();
+                fragmentTransaction.replace(R.id.container_body, calendarVeiw);
+                fragmentTransaction.commit();
+                break;
+            default:
+               
+                fragmentTransaction.replace(R.id.container_body, openTiket);
+                fragmentTransaction.commit();
+                setTitle("קריאות פתוחות");
+        }
+        
+        
     }
 
 }

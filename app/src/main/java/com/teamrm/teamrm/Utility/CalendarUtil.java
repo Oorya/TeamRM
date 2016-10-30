@@ -13,10 +13,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -62,6 +64,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
     private static final int REQUEST_AUTHORIZATION = 1001;
     private static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     private static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
+    private static final int REQUEST_LOCATION = 1004;
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = {CalendarScopes.CALENDAR};
     private static final String TAG = "CalendarUtil";
@@ -81,7 +84,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
 
     public CalendarUtil(Context context , Object  result )
     {
-        this._context = context;
+        _context = context;
         mProgress = new ProgressDialog(context);
         mProgress.setMessage("Calling Google Calendar API ...");
 
@@ -95,7 +98,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                 transport, jsonFactory, this.mCredential)
                 .setApplicationName("Google Calendar API Android Quickstart")
                 .build();
-        this.calendarHelper=(CalendarHelper) result;
+        calendarHelper=(CalendarHelper) result;
 
         calList.addAll(getCalList());
 
@@ -104,7 +107,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
 
     public CalendarUtil(Context context) {
 
-        this._context = context;
+        _context = context;
         mProgress = new ProgressDialog(context);
         mProgress.setMessage("Calling Google Calendar API ...");
 
@@ -173,11 +176,26 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             }
         } else {
             // Request the GET_ACCOUNTS permission via a user dialog
-            EasyPermissions.requestPermissions(
-                    _context,
-                    "This app needs to access your Google account (via Contacts).",
-                    REQUEST_PERMISSION_GET_ACCOUNTS,
-                    Manifest.permission.GET_ACCOUNTS);
+            int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+            if (currentapiVersion >= Build.VERSION_CODES.M){
+                if (ActivityCompat.checkSelfPermission(_context, Manifest.permission.ACCESS_FINE_LOCATION)
+                        != _context.getPackageManager().PERMISSION_GRANTED) {
+                    // Check Permissions Now
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                            REQUEST_LOCATION);
+                } else {
+                    // permission has been granted, continue as usual
+                    getResultsFromApi();
+                }
+            } else{
+                EasyPermissions.requestPermissions(
+                        _context,
+                        "This app needs to access your Google account (via Contacts).",
+                        REQUEST_PERMISSION_GET_ACCOUNTS,
+                        Manifest.permission.GET_ACCOUNTS);
+            }
+            
         }
     }
 
@@ -197,6 +215,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
 
+            
             case REQUEST_GOOGLE_PLAY_SERVICES:
                 if (resultCode != RESULT_OK) {
                     Toast.makeText(_context, "This app requires Google Play Services. Please install " +
@@ -228,6 +247,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                 break;
         }
     }
+    
 
     /**
      * Respond to requests for permissions at runtime for API 23 and above.
@@ -240,9 +260,15 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(
-                requestCode, permissions, grantResults, this);
+        if (requestCode == REQUEST_LOCATION) {
+            if(grantResults.length == 1
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // We can now safely use the API we requested access to
+                getResultsFromApi();
+            } else {
+                // Permission was denied or request was cancelled
+            }
+        }
     }
 
     /**
@@ -322,7 +348,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
     void showGooglePlayServicesAvailabilityErrorDialog(final int connectionStatusCode) {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         Dialog dialog = apiAvailability.getErrorDialog(
-                (Activity) this._context,
+                (Activity) _context,
                 connectionStatusCode,
                 REQUEST_GOOGLE_PLAY_SERVICES);
         dialog.show();
@@ -410,7 +436,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
     private void  UserRecoverable()
     {
         ((Activity) _context).startActivityForResult(((UserRecoverableAuthIOException) mLastError)
-                                                        .getIntent(),this.REQUEST_AUTHORIZATION);
+                                                        .getIntent(), REQUEST_AUTHORIZATION);
         
     }
     public void addNewEvent(final String[] eventDitile) {

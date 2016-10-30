@@ -8,8 +8,37 @@
     android:minHeight="?attr/actionBarSize"
     android:background="?attr/colorPrimary"
     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-    android:paddingTop="15dp"
+   
     android:id="@+id/toolbar"
    >
+  
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:orientation="horizontal"
+        android:layout_marginRight="55dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="20dp"
+            android:id="@+id/appIcon"
+            android:text="TeamRM"
+           
+            />
+      
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgIcon"
+        android:src="@drawable/ic_templogo3_white"
+        />
+       
+        
+   
+    </LinearLayout>
+   
 
 </android.support.v7.widget.Toolbar>
