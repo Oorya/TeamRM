@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.teamrm.teamrm.Adapter.MyRecycleAdapter;
+import com.teamrm.teamrm.Adapter.MyRecyclerAdapter;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Ticket;
 
@@ -24,7 +24,7 @@ import java.util.List;
 public class OpenTicket extends Fragment {
 
     private RecyclerView mRecyclerView; 
-    private MyRecycleAdapter myRecycleAdapter;
+    private MyRecyclerAdapter myRecyclerAdapter;
     private List<Ticket> mTiketListItem;
     private TextView titel,Filter,search,order;
     public OpenTicket() {
@@ -59,8 +59,8 @@ public class OpenTicket extends Fragment {
 
         mRecyclerView = (RecyclerView)view.findViewById(R.id.RecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        myRecycleAdapter = new MyRecycleAdapter(getContext(),mTiketListItem);
-        mRecyclerView.setAdapter(myRecycleAdapter);
+        myRecyclerAdapter = new MyRecyclerAdapter(getContext(),mTiketListItem);
+        mRecyclerView.setAdapter(myRecyclerAdapter);
         return view;
     }
 

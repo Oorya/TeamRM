@@ -18,7 +18,7 @@ import java.util.List;
  * Created by shalty on 24/10/2016.
  */
 
-public class MyRecycleAdapter extends RecyclerView.Adapter<MyRecycleAdapter.CustomViewHolder> {
+public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.CustomViewHolder> {
 
 
     private Typeface EXTRA_BOLD; 
@@ -35,7 +35,7 @@ public class MyRecycleAdapter extends RecyclerView.Adapter<MyRecycleAdapter.Cust
    
 
 
-    public MyRecycleAdapter(Context context, List<Ticket> TiketListItem) {
+    public MyRecyclerAdapter(Context context, List<Ticket> TiketListItem) {
         this.mTiketListItem = TiketListItem;
         this.mContext = context;
         setFont();
@@ -45,7 +45,7 @@ public class MyRecycleAdapter extends RecyclerView.Adapter<MyRecycleAdapter.Cust
         
     }
     @Override
-    public MyRecycleAdapter.CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyRecyclerAdapter.CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         CustomViewHolder viewHolder;
         switch (viewType)
@@ -97,7 +97,7 @@ public class MyRecycleAdapter extends RecyclerView.Adapter<MyRecycleAdapter.Cust
     }
 
     @Override
-    public void onBindViewHolder(MyRecycleAdapter.CustomViewHolder holder, int position) {
+    public void onBindViewHolder(MyRecyclerAdapter.CustomViewHolder holder, int position) {
         Ticket Item = mTiketListItem.get(position);
         holder.userName.setText(Item.userName);
        
