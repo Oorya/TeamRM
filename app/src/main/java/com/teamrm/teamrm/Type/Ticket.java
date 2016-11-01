@@ -36,9 +36,9 @@ public class Ticket {
 
     public Ticket(){}  //empty constructor, must have
 
-    public Ticket(String name,int ststus)
+    public Ticket(String name,int status)
     {
-        this.status = ststus;
+        this.status = status;
         this.userName = name;
     }
     

@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.NotificationCompat;
 
-import com.teamrm.teamrm.Activities.HomeScreen;
+import com.teamrm.teamrm.Activities.TestStates;
 
 public class UtlNotification {
 
@@ -30,7 +30,7 @@ public class UtlNotification {
         this.title=title;
         this.text=text;
         this.intent=intent;
-        this.context= HomeScreen.context;
+        this.context= TestStates.context;
 
         resultPendingIntent = PendingIntent.getActivity(context,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }

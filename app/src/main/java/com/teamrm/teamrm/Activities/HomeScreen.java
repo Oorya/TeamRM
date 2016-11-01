@@ -34,12 +34,12 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-        context=this;
+        context = this;
         frameLayout = (FrameLayout) findViewById(R.id.container_body);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView appIcon = (TextView)findViewById(R.id.appIcon);
+        TextView appIcon = (TextView) findViewById(R.id.appIcon);
         appIcon.setTypeface(Typeface.createFromAsset(this.getAssets(), "Assistant-Bold.ttf"));
-       
+
         setSupportActionBar(mToolbar);
 
         ActionBar ab = getSupportActionBar();
@@ -72,14 +72,13 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
     @Override
     public void onDrawerItemSelected(View view, int position) {
-       
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        OpenTicket openTicket =new OpenTicket();
-        switch (position)
-        {
+        OpenTicket openTicket = new OpenTicket();
+        switch (position) {
             case 0:
-               
+
                 fragmentTransaction.replace(R.id.container_body, openTicket);
                 fragmentTransaction.commit();
                 setTitle("קריאות פתוחות");
@@ -95,13 +94,13 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 fragmentTransaction.commit();
                 break;
             default:
-               
+
                 fragmentTransaction.replace(R.id.container_body, openTicket);
                 fragmentTransaction.commit();
                 setTitle("קריאות פתוחות");
         }
-        
-        
+
+
     }
 
 }

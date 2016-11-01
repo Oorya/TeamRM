@@ -186,6 +186,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Intent nav = new Intent(this,HomeScreen.class);
         startActivity(nav);
     }
-    
-    
+
+
+    public void btnTestStates(View view) {
+        startActivity(new Intent(this,TestStates.class));
+    }
 }

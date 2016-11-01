@@ -5,7 +5,8 @@
     android:versionName="1.0">
 
     <uses-sdk android:minSdkVersion="19" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -34,14 +35,17 @@
         </activity>
         <activity android:name=".Activities.CalView" />
         <activity android:name=".Activities.Entry" />
-        <activity android:name=".Activities.HomeScreen"
-            android:theme="@style/barTheme.Theme"/>
-        
+        <activity
+            android:name=".Activities.HomeScreen"
+            android:theme="@style/barTheme.Theme" />
+
         <receiver android:name=".Broadcast.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".Activities.TestStates"></activity>
     </application>
 
 </manifest>

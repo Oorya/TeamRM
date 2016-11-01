@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_test_states"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.teamrm.teamrm.Activities.TestStates">
+
+    <Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="state A01"
+    android:id="@+id/a01"
+        android:layout_marginTop="100dp"
+    android:onClick="btnStateA01"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="state A02"
+        android:id="@+id/a02"
+        android:layout_below="@+id/a01"
+        android:onClick="btnStateA02"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="state A03"
+        android:id="@+id/a03"
+        android:layout_below="@+id/a02"
+        android:onClick="btnStateA03"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="state B01"
+        android:id="@+id/b01"
+        android:layout_below="@+id/a03"
+        android:onClick="btnStateB01"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="state B02"
+        android:id="@+id/b02"
+        android:layout_below="@+id/b01"
+        android:onClick="btnStateB02"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="state B03"
+        android:id="@+id/b03"
+        android:layout_below="@+id/b02"
+        android:onClick="btnStateB03"/>
+
+
+
+</RelativeLayout>
