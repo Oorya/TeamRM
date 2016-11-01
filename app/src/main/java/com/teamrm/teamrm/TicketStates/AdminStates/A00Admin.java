@@ -1,5 +1,7 @@
 package com.teamrm.teamrm.TicketStates.AdminStates;
 
+import android.util.Log;
+
 import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
@@ -20,6 +22,7 @@ public class A00Admin extends TicketStateAdmin implements TicketStateAble {
     public A00Admin(int ttl)
     {
         //initials ttl example
+        Log.e("TAG", "A001");
     }
 
     @Override
