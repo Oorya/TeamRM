@@ -16,9 +16,9 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.teamrm.teamrm.Fragment.CalendarVeiw;
+import com.teamrm.teamrm.Fragment.CalendarView;
 import com.teamrm.teamrm.Fragment.FragmentDrawer;
-import com.teamrm.teamrm.Fragment.OpenTiket;
+import com.teamrm.teamrm.Fragment.OpenTicket;
 import com.teamrm.teamrm.Fragment.TicketView;
 import com.teamrm.teamrm.R;
 
@@ -75,12 +75,12 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
        
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        OpenTiket openTiket =new  OpenTiket();
+        OpenTicket openTicket =new OpenTicket();
         switch (position)
         {
             case 0:
                
-                fragmentTransaction.replace(R.id.container_body, openTiket);
+                fragmentTransaction.replace(R.id.container_body, openTicket);
                 fragmentTransaction.commit();
                 setTitle("קריאות פתוחות");
                 break;
@@ -90,13 +90,13 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 fragmentTransaction.commit();
                 break;
             case 2:
-                CalendarVeiw calendarVeiw = new CalendarVeiw();
-                fragmentTransaction.replace(R.id.container_body, calendarVeiw);
+                CalendarView calendarView = new CalendarView();
+                fragmentTransaction.replace(R.id.container_body, calendarView);
                 fragmentTransaction.commit();
                 break;
             default:
                
-                fragmentTransaction.replace(R.id.container_body, openTiket);
+                fragmentTransaction.replace(R.id.container_body, openTicket);
                 fragmentTransaction.commit();
                 setTitle("קריאות פתוחות");
         }

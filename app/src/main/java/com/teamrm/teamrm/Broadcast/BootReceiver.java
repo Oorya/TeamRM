@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
-import com.teamrm.teamrm.Fragment.CalendarVeiw;
+import com.teamrm.teamrm.Fragment.CalendarView;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Ticket;
@@ -36,13 +36,13 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
                 Log.d("MESSEGE", "Intent: " + intent.getAction());
 
                 Log.d("MESSEGE", "Intent: !null, Action: null");
-                Intent intentt =new Intent(context,CalendarVeiw.class);
+                Intent intentt =new Intent(context,CalendarView.class);
                 UtlNotification notification = new UtlNotification(R.drawable.icon, "Status changed",  " status", intentt);
                 notification.sendNotification();
                 
             }else{
                 Log.d("MESSEGE", "Intent: !null, Action: null");
-                Intent intentt =new Intent(context,CalendarVeiw.class);
+                Intent intentt =new Intent(context,CalendarView.class);
                 UtlNotification notification = new UtlNotification(R.drawable.icon, "Status changed",  " status", intentt);
                 notification.sendNotification();
             }

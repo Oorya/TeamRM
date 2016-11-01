@@ -35,7 +35,7 @@ import java.util.Locale;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CalendarVeiw extends android.support.v4.app.Fragment implements WeekView.EventClickListener,
+public class CalendarView extends android.support.v4.app.Fragment implements WeekView.EventClickListener,
     MonthLoader.MonthChangeListener,
     CalendarHelper,
     WeekView.EventLongPressListener,
@@ -51,7 +51,7 @@ public class CalendarVeiw extends android.support.v4.app.Fragment implements Wee
     private static List<Event> mEvent;
     private static CalendarUtil cal;
     
-    public CalendarVeiw() {
+    public CalendarView() {
         // Required empty public constructor
     }
     @Override
@@ -69,7 +69,7 @@ public class CalendarVeiw extends android.support.v4.app.Fragment implements Wee
         mWeekView = (WeekView) view.findViewById(R.id.weekView);
         mWeeViewEvent = new ArrayList<>();
         mEvent = new ArrayList<>();
-        cal = new CalendarUtil(this.getActivity(),new CalendarVeiw());
+        cal = new CalendarUtil(this.getActivity(),new CalendarView());
         cal.getResultsFromApi();
         mWeekView.setMonthChangeListener(this);
 
