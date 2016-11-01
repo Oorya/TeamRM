@@ -10,5 +10,5 @@ import java.util.List;
 public interface CalendarHelper {
 
     void getResult(Event  event);
-    void getCalList(List<Event> eventUtil);
+    void getEventList(List<Event> eventUtil);
 }
