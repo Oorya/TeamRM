@@ -20,6 +20,7 @@ import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
+import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Interfaces.CalendarHelper;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Utility.CalendarUtil;
@@ -69,7 +70,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
         mWeekView = (WeekView) view.findViewById(R.id.weekView);
         mWeeViewEvent = new ArrayList<>();
         mEvent = new ArrayList<>();
-        cal = new CalendarUtil(this.getActivity(),new CalendarView());
+        cal = new CalendarUtil(HomeScreen.context,new CalendarView());
         cal.getResultsFromApi();
         mWeekView.setMonthChangeListener(this);
 
@@ -230,7 +231,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
 
 
     @Override
-    public void getCalList(List<Event> calList)
+    public void getEventList(List<Event> calList)
     {
         Log.d("list get resolt","start");
 

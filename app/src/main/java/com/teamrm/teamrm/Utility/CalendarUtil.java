@@ -13,7 +13,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -100,7 +99,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                 .build();
         calendarHelper=(CalendarHelper) result;
 
-        calList.addAll(getCalList());
+       
 
     }
 
@@ -122,7 +121,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                 .setApplicationName("Google Calendar API Android Quickstart")
                 .build();
 
-       // calList.addAll(getCalList());
+       // calList.addAll(getEventList());
     }
 
     /**
@@ -144,6 +143,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
         } else if (!isDeviceOnline()) {
             Toast.makeText(_context, "isDeviceOnline false", Toast.LENGTH_LONG).show();
         } else {
+            calList.addAll(getCalList());
              new MakeRequestTask().execute();
         }
     }
@@ -178,14 +178,15 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             // Request the GET_ACCOUNTS permission via a user dialog
             int currentapiVersion = android.os.Build.VERSION.SDK_INT;
             if (currentapiVersion >= Build.VERSION_CODES.M){
-                if (ActivityCompat.checkSelfPermission(_context, Manifest.permission.ACCESS_FINE_LOCATION)
+                if (ActivityCompat.checkSelfPermission(_context, Manifest.permission.GET_ACCOUNTS)
                         != _context.getPackageManager().PERMISSION_GRANTED) {
                     // Check Permissions Now
-                    ActivityCompat.requestPermissions(this,
+                    ActivityCompat.requestPermissions(((Activity) _context),
                             new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                             REQUEST_LOCATION);
+                   
                 } else {
-                    // permission has been granted, continue as usual
+
                     getResultsFromApi();
                 }
             } else{
@@ -269,6 +270,13 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                 // Permission was denied or request was cancelled
             }
         }
+/*
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(
+                requestCode, permissions, grantResults, this);
+        
+  */      
+        
     }
 
     /**
@@ -361,11 +369,11 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
      */
     private class MakeRequestTask extends AsyncTask<Void, List<Event>, List<Event>> {
 
-        List<CalendarListEntry> calenders = new ArrayList<>();
+        
        
         public MakeRequestTask() 
         {
-            calenders = getCalList();
+           
         }
         @Override
         protected List<Event> doInBackground(Void... params) {
@@ -380,16 +388,16 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
         private List<Event> getDataFromApi() throws IOException {
             
             List<Event>  items = new ArrayList<>();
-            for (CalendarListEntry calenderAdd : calenders)
-           {
-                Events events = mService.events().list(calenderAdd.getId())
-                        .setMaxResults(500)
+           // for (CalendarListEntry calenders : CalendarUtil.calList)
+          // {
+                Events events = mService.events().list("primary")//calenders.getId())
+                        .setMaxResults(1)
                         .setOrderBy("startTime")
                         .setSingleEvents(true)
                         .execute();
-                 items.addAll(events.getItems());
+                 items=events.getItems();
              
-          }
+         // }
             return items;
         }
 
@@ -397,6 +405,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
         @Override
         protected void onPreExecute() {
             mProgress.show();
+          
         }
 
         @Override
@@ -409,7 +418,9 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             }
             else
             {
-                calendarHelper.getCalList(output);
+                Toast.makeText(_context, "resolt ok ", Toast.LENGTH_LONG).show();
+
+                calendarHelper.getEventList(output);
             }
         }
  

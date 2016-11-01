@@ -1,6 +1,7 @@
 package com.teamrm.teamrm.Activities;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     private FragmentDrawer drawerFragment;
     private FrameLayout frameLayout;
     public static Context context;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
