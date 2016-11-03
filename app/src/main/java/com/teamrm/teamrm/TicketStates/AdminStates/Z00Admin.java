@@ -21,6 +21,6 @@ public class Z00Admin extends TicketStateAdmin implements TicketStateAble {
 
     @Override
     public TicketStateAble getNewState() {
-        return new Z00Admin();
+        return new Z00Admin(1);
     }
 }

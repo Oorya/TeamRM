@@ -29,6 +29,6 @@ public class E04Tech extends TicketStateTech implements TicketStateAble {
 
     @Override
     public TicketStateAble getNewState() {
-        return new E04Tech();
+        return new E04Tech(1);
     }
 }

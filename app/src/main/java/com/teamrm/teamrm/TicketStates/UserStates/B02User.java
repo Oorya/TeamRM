@@ -9,7 +9,7 @@ import com.teamrm.teamrm.Interfaces.ProductID;
  */
 public class B02User extends TicketStateUser implements TicketStateAble {
     static {
-        TicketFactory.registerProduct(ProductID.TICKET_ID_A00T,new B02User());
+        TicketFactory.registerProduct(ProductID.TICKET_ID_A00A,new B02User());
     }
     public B02User() {
         super();
@@ -21,7 +21,7 @@ public class B02User extends TicketStateUser implements TicketStateAble {
 
     @Override
     public TicketStateAble getNewState() {
-        return new B02User();
+        return new B02User(1);
     }
 
 }

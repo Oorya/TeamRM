@@ -21,6 +21,6 @@ public class B03Tech extends TicketStateTech implements TicketStateAble {
 
     @Override
     public TicketStateAble getNewState() {
-        return new B03Tech();
+        return new B03Tech(1);
     }
 }

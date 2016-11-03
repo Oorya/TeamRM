@@ -4,6 +4,7 @@ package com.teamrm.teamrm.Fragment;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.annotation.IntRange;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.TypedValue;
@@ -174,9 +175,10 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
 
         return matchedEvents;
     }
-    private boolean eventMatches(WeekViewEvent event, int year, int month) {
-        return (event.getStartTime().get(Calendar.YEAR) == year && event.getStartTime().get(Calendar.MONTH) == month - 1)
-                || (event.getEndTime().get(Calendar.YEAR) == year && event.getEndTime().get(Calendar.MONTH) == month - 1);
+    private boolean eventMatches(WeekViewEvent event, int year,@IntRange(from=0,to=255) int month) {
+       
+        return (event.getStartTime().get(Calendar.YEAR) == year && event.getStartTime().get(Calendar.MONTH) ==  month-1 )
+                || (event.getEndTime().get(Calendar.YEAR) == year && event.getEndTime().get(Calendar.MONTH) == month-1);
     }
     private Calendar convertStart(Event event)
     {

@@ -205,7 +205,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                     REQUEST_PERMISSION_GET_ACCOUNTS);
 
         } else {
-            mCredential.setSelectedAccountName("shealtiel84@gmail.com");
+           // mCredential.setSelectedAccountName("shealtiel84@gmail.com");
             getResultsFromApi();
         }
     

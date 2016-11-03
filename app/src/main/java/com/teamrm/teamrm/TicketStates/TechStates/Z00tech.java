@@ -30,6 +30,6 @@ class Z00Tech extends TicketStateTech implements TicketStateAble {
 
      @Override
      public TicketStateAble getNewState() {
-      return new Z00Tech();
+      return new Z00Tech(1);
      }
 }

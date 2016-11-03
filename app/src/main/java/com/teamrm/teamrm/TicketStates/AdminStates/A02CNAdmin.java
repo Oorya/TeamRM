@@ -22,7 +22,7 @@ public class A02CNAdmin extends TicketStateAdmin implements TicketStateAble {
 
     @Override
     public TicketStateAble getNewState() {
-        return new A02CNAdmin();
+        return new A02CNAdmin(1);
     }
     
     

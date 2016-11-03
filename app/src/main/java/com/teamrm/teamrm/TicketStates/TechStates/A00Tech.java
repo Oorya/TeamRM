@@ -10,7 +10,7 @@ import com.teamrm.teamrm.TicketStates.TicketStateTech;
  */
 public class A00Tech extends TicketStateTech implements TicketStateAble {
     static {
-        TicketFactory.registerProduct(ProductID.TICKET_ID_A00T,new A00Tech());
+        TicketFactory.registerProduct(ProductID.TICKET_ID_A00A,new A00Tech());
     }
     public A00Tech() {
         super();
@@ -22,6 +22,6 @@ public class A00Tech extends TicketStateTech implements TicketStateAble {
 
     @Override
     public TicketStateAble getNewState() {
-        return new A00Tech();
+        return new A00Tech(1);
     }
 }

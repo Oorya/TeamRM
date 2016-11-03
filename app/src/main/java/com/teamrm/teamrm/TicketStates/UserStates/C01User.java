@@ -14,7 +14,7 @@ import com.teamrm.teamrm.Utility.UtlNotification;
  */
 public class C01User extends TicketStateUser implements TicketStateAble {
     static {
-        TicketFactory.registerProduct(ProductID.TICKET_ID_A00T,new C01User());
+        TicketFactory.registerProduct(ProductID.TICKET_ID_A00A,new C01User());
     }
     public C01User() {
         super();
@@ -29,7 +29,7 @@ public class C01User extends TicketStateUser implements TicketStateAble {
 
     @Override
     public TicketStateAble getNewState() {
-        return new C01User();
+        return new C01User(1);
     }
 
 }

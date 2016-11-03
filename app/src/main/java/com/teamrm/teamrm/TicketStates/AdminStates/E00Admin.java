@@ -29,6 +29,6 @@ public class E00Admin extends TicketStateAdmin implements TicketStateAble {
 
     @Override
     public TicketStateAble getNewState() {
-        return new E00Admin();
+        return new E00Admin(1);
     }
 }
