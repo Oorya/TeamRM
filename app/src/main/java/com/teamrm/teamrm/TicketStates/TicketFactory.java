@@ -14,14 +14,14 @@ public class TicketFactory
 
     public TicketFactory(){}
 
-    public TicketStateAble getNewState(String TICKET_ID)
+    public TicketStateAble getNewState(String stateName)
     {
-        return ((TicketStateAble)m_RegisteredProducts.get(TICKET_ID)).getNewState();
+        return ((TicketStateAble)m_RegisteredProducts.get(stateName)).getNewState();
 
     }
-    public static void registerProduct(String TICKET_ID, TicketStateAble T)
+    public static void registerProduct(String ticketID, TicketStateAble T)
     {
-        m_RegisteredProducts.put(TICKET_ID, T);
+        m_RegisteredProducts.put(ticketID, T);
     }
 
 

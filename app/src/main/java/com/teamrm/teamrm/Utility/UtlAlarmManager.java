@@ -3,16 +3,11 @@ package com.teamrm.teamrm.Utility;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.renderscript.RenderScript;
 import android.util.Log;
 
 import com.teamrm.teamrm.Broadcast.BootReceiver;
-
-import java.sql.Time;
-import java.util.Calendar;
 
 /**
  * Created by shalty on 05/09/2016.
@@ -33,19 +28,18 @@ public class UtlAlarmManager extends Activity{
         this.context=context;
         
     }
-    public void setAlarm(Long calendarTaim){
+    public void setAlarm(Long calendarTime){
 
-
-         int Id = (int) System.currentTimeMillis();
+        int Id = (int) System.currentTimeMillis();
         pendingIntent = PendingIntent.getBroadcast(activity,Id , myIntent, PendingIntent.FLAG_ONE_SHOT);
-        this.alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendarTaim, this.pendingIntent);
-        Log.d("MESSEGE","setAlarm");
+        this.alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendarTime, this.pendingIntent);
+        Log.d("MESSAGE","setAlarm");
 
     }
     public  void cancelAlarm() {
         if (this.alarmManager!= null) {
             this.alarmManager.cancel(this.pendingIntent);
-            Log.d("MESSEGE","cancelAlarm");
+            Log.d("MESSAGE","cancelAlarm");
 
         }
     }
