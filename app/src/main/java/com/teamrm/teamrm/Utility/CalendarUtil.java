@@ -121,7 +121,8 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                 .setApplicationName("Google Calendar API Android Quickstart")
                 .build();
 
-       // calList.addAll(getEventList());
+      
+        
     }
 
     /**
@@ -144,7 +145,9 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             Toast.makeText(_context, "isDeviceOnline false", Toast.LENGTH_LONG).show();
         } else {
             calList.addAll(getCalList());
-             new MakeRequestTask().execute();
+           
+            
+            
         }
     }
 
@@ -161,43 +164,51 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
      */
     @AfterPermissionGranted(REQUEST_PERMISSION_GET_ACCOUNTS)
     private void chooseAccount() {
-        if (EasyPermissions.hasPermissions(
-                _context, Manifest.permission.GET_ACCOUNTS)) {
-            String accountName = ((Activity) _context).getPreferences(Context.MODE_PRIVATE)
-                    .getString(PREF_ACCOUNT_NAME, null);
-            if (accountName != null) {
-                mCredential.setSelectedAccountName(accountName);
-                getResultsFromApi();
-            } else {
-                // Start a dialog from which the user can choose an account
-                ((Activity) _context).startActivityForResult(
-                        mCredential.newChooseAccountIntent(),
-                        REQUEST_ACCOUNT_PICKER);
-            }
-        } else {
-            // Request the GET_ACCOUNTS permission via a user dialog
-            int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-            if (currentapiVersion >= Build.VERSION_CODES.M){
-                if (ActivityCompat.checkSelfPermission(_context, Manifest.permission.GET_ACCOUNTS)
-                        != _context.getPackageManager().PERMISSION_GRANTED) {
-                    // Check Permissions Now
-                    ActivityCompat.requestPermissions(((Activity) _context),
-                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                            REQUEST_LOCATION);
-                   
-                } else {
-
+        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+        if (currentapiVersion < Build.VERSION_CODES.M) 
+        {
+            if (EasyPermissions.hasPermissions(
+                    _context, Manifest.permission.GET_ACCOUNTS)) 
+            {
+                String accountName = ((Activity) _context).getPreferences(Context.MODE_PRIVATE)
+                        .getString(PREF_ACCOUNT_NAME, null);
+                if (accountName != null) 
+                {
+                    mCredential.setSelectedAccountName(accountName);
                     getResultsFromApi();
+                } 
+                else 
+                {
+                    // Start a dialog from which the user can choose an account
+                    ((Activity) _context).startActivityForResult(
+                            mCredential.newChooseAccountIntent(),
+                            REQUEST_ACCOUNT_PICKER);
                 }
-            } else{
+                // Request the GET_ACCOUNTS permission via a user dialog
+            } 
+            else 
+            {
                 EasyPermissions.requestPermissions(
                         _context,
                         "This app needs to access your Google account (via Contacts).",
                         REQUEST_PERMISSION_GET_ACCOUNTS,
                         Manifest.permission.GET_ACCOUNTS);
             }
-            
+
         }
+        if (ActivityCompat.checkSelfPermission(_context, Manifest.permission.GET_ACCOUNTS)
+                != _context.getPackageManager().PERMISSION_GRANTED) 
+        {
+            // Check Permissions Now
+            ActivityCompat.requestPermissions(((Activity) _context),
+                    new String[]{Manifest.permission.GET_ACCOUNTS},
+                    REQUEST_PERMISSION_GET_ACCOUNTS);
+
+        } else {
+            mCredential.setSelectedAccountName("shealtiel84@gmail.com");
+            getResultsFromApi();
+        }
+    
     }
 
     /**
@@ -261,7 +272,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_LOCATION) {
+        if (requestCode == REQUEST_PERMISSION_GET_ACCOUNTS) {
             if(grantResults.length == 1
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // We can now safely use the API we requested access to
@@ -371,10 +382,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
 
         
        
-        public MakeRequestTask() 
-        {
-           
-        }
+        public MakeRequestTask() {}
         @Override
         protected List<Event> doInBackground(Void... params) {
             try {
@@ -388,16 +396,16 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
         private List<Event> getDataFromApi() throws IOException {
             
             List<Event>  items = new ArrayList<>();
-           // for (CalendarListEntry calenders : CalendarUtil.calList)
-          // {
-                Events events = mService.events().list("primary")//calenders.getId())
-                        .setMaxResults(1)
+            for (CalendarListEntry calenders : calList)
+           {
+                Events events = mService.events().list(calenders.getId())
+                        .setMaxResults(100000)
                         .setOrderBy("startTime")
                         .setSingleEvents(true)
                         .execute();
-                 items=events.getItems();
+                 items.addAll(events.getItems());
              
-         // }
+          }
             return items;
         }
 
@@ -703,6 +711,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 calList=items;
+                new MakeRequestTask().execute();
             }
         }.execute();
         return calList;
