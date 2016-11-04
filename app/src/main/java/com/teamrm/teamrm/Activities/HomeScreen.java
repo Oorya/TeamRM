@@ -3,14 +3,17 @@ package com.teamrm.teamrm.Activities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +25,9 @@ import com.teamrm.teamrm.Fragment.FragmentDrawer;
 import com.teamrm.teamrm.Fragment.OpenTicket;
 import com.teamrm.teamrm.Fragment.TicketView;
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Utility.CalendarUtil;
+
+import pub.devrel.easypermissions.EasyPermissions;
 
 
 public class HomeScreen extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
@@ -30,7 +36,8 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     private FragmentDrawer drawerFragment;
     private FrameLayout frameLayout;
     public static Context context;
-    
+    private static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +62,16 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     }
 
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        
+       CalendarView.cal.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+    
+    
+    
+  
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

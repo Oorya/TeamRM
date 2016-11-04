@@ -5,6 +5,6 @@ package com.teamrm.teamrm.Interfaces;
  */
 public interface ProductID {
     String TICKET_ID_A00A = "A00Admin";
-    String TICKET_ID_A00T = "A00Tech";
+    String TICKET_ID_A01A = "A01Admin";
 
 }

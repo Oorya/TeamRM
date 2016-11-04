@@ -44,6 +44,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
     WeekView.EmptyViewLongPressListener,
     WeekView.EmptyViewClickListener//WeekView.ScrollListener
         {
+     
     private static final int TYPE_DAY_VIEW = 1;
     private static final int TYPE_THREE_DAY_VIEW = 2;
     private static final int TYPE_WEEK_VIEW = 3;
@@ -51,7 +52,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
     private static   WeekView mWeekView;
     private static List<WeekViewEvent> mWeeViewEvent;
     private static List<Event> mEvent;
-    private static CalendarUtil cal;
+    public static CalendarUtil cal;
     
     public CalendarView() {
         // Required empty public constructor
