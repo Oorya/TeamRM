@@ -11,12 +11,23 @@ public class TicketFactory
 {
 
     private static HashMap m_RegisteredProducts = new HashMap();
+    
+
 
     public TicketFactory(){}
 
-    public TicketStateAble getNewState(String stateName)
+    public TicketStateAble getNewState(String nextStateName)
     {
-        return ((TicketStateAble)m_RegisteredProducts.get(stateName)).getNewState();
+        //Checking if class was recorded in HashMap if not force her to sign up 
+        if(m_RegisteredProducts.get(nextStateName)==null)
+        {
+            try {
+                Class.forName("com.teamrm.teamrm.TicketStates.AdminStates." + nextStateName);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return ((TicketStateAble)m_RegisteredProducts.get(nextStateName)).getNewState();
 
     }
     public static void registerProduct(String ticketID, TicketStateAble T)
