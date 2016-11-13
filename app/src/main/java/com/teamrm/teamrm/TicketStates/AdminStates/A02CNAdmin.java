@@ -10,7 +10,7 @@ import com.teamrm.teamrm.TicketStates.TicketStateAdmin;
  */
 public class A02CNAdmin extends TicketStateAdmin implements TicketStateAble {
     static {
-        TicketFactory.registerProduct(ProductID.TICKET_ID_A00A,new A02CNAdmin());
+        TicketFactory.registerProduct(ProductID.TICKET_CLASS_NAME_A00A,new A02CNAdmin());
     }
     public A02CNAdmin() {
         super();

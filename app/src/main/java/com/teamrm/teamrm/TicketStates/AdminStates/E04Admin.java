@@ -14,7 +14,7 @@ import com.teamrm.teamrm.Utility.UtlNotification;
  */
 public class E04Admin extends TicketStateAdmin implements TicketStateAble {
     static {
-        TicketFactory.registerProduct(ProductID.TICKET_ID_A00A,new E04Admin());
+        TicketFactory.registerProduct(ProductID.TICKET_CLASS_NAME_A00A,new E04Admin());
     }
     public E04Admin() {
         super();

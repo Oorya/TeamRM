@@ -18,21 +18,22 @@ public class Ticket {
     public String classification;
     public String subClassification;
     public String ticketName;  //hold userName
-    public String ticketDes;
-    public String description;
+    public String ticketDes; //Description
     public String area;
     public String address;
     public String ticketImage1;
     public String ticketImage2;
     public String phone;
     public String ticketId;
-    public TicketStateAble TicketState;
+    public TicketStateAble ticketState;
+    public String state;
     public int status;
     public String time;
     public Date endTime;
     public String ticketNumber;
     public String calenderID;
     public String eventID;
+    public String company;
 
     public Ticket(){}  //empty constructor, must have
 
@@ -40,6 +41,15 @@ public class Ticket {
     {
         this.status = status;
         this.userName = name;
+    }
+
+    //FROM TESTING ONLY!!!
+    public Ticket(String ticketId, String userName, String state, String company)
+    {
+        this.ticketId=ticketId;
+        this.userName=userName;
+        this.state=state;
+        this.company=company;
     }
     
     public Ticket(String product, String classification, String subClassification, String ticketName, String ticketDes,
@@ -66,6 +76,21 @@ public class Ticket {
         //create an instance of User class
         Ticket ticket=new Ticket(product,classification,subClassification,ticketName,ticketDes, phone
                ,area, address, ticketImage1,ticketImage2, ticketId);
+
+        //creating a connection to fire base
+        FirebaseDatabase database= FirebaseDatabase.getInstance();
+
+        //creating a reference to Users object
+        DatabaseReference myRef=database.getReference("Ticket");
+
+        //saving the user under the UUID
+        myRef.child(ticketId).setValue(ticket);
+    }
+
+    //FROM TESTING ONLY!!!
+    public void saveTest()
+    {
+        Ticket ticket=new Ticket(ticketId,userName,state,company);
 
         //creating a connection to fire base
         FirebaseDatabase database= FirebaseDatabase.getInstance();

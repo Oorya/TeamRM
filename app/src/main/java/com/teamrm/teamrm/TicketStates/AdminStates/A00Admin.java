@@ -14,8 +14,8 @@ public class A00Admin extends TicketStateAdmin implements TicketStateAble {
 
 
     static {
-        TicketFactory.registerProduct(ProductID.TICKET_ID_A00A,new A00Admin());
-        Log.d("registerProduct = ",ProductID.TICKET_ID_A00A);
+        TicketFactory.registerProduct(ProductID.TICKET_CLASS_NAME_A00A,new A00Admin());
+        Log.d("registerProduct = ",ProductID.TICKET_CLASS_NAME_A00A);
 
     }
     public A00Admin() {
