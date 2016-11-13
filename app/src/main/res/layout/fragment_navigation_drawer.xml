@@ -1,35 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/event_color_04"
+    android:background="@color/colorPrimaryDark"
     tools:context=".Activities.HomeScreen">
 
-   
-    <LinearLayout
-        android:layout_marginTop="30dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/nav_header_container"> 
-    <ImageView
-        
+    <RelativeLayout
+        android:id="@+id/nav_header_container"
         android:layout_width="match_parent"
         android:layout_height="140dp"
-        android:src="@drawable/crm"
-       />
-    </LinearLayout>
+        android:paddingTop="64dp"
+        android:background="@color/colorPrimary"
+        >
+
+        <ImageView
+            android:id="@+id/appLogo"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:minHeight="48dp"
+            android:src="@drawable/ic_templogo3_white" />
+
+        <ImageView
+            android:id="@+id/userAvatar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_toRightOf="@+id/appLogo"
+            android:background="@drawable/ic_icon_person_white" />
+
+        <TextView
+            android:id="@+id/userNameString"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/userAvatar"
+            android:text="ישראל ישראלי"
+            android:textColor="#fff"
+            android:textSize="24sp"/>
+    </RelativeLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/drawerList"
-        android:layout_marginTop="30dp"
-        android:layout_below="@id/nav_header_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        
-       
-        />
-    
-   
+        android:layout_marginTop="24dp"
+        android:layout_below="@id/nav_header_container" />
+
 
 </RelativeLayout>

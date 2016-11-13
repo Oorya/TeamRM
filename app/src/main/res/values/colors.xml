@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <!--https://www.materialui.co/colors-->
+    <color name="colorPrimary">#0277bd</color> <!--Light Blue 800-->
+    <color name="colorPrimaryDark">#01579B</color> <!--Light Blue 900-->
+    <color name="colorAccent">#039BE5</color> <!--Light Blue 600-->
     <color name="event_color_01">#59dbe0</color>
     <color name="event_color_02">#f57f68</color>
     <color name="event_color_03">#87d288</color>
@@ -11,5 +12,6 @@
     <color name="toolbar_text">#efefef</color>
     <color name="accent">#2789e4</color>
     <color name="title">#039be5</color>
+    <color name="menu_bg">#3F51B5</color> <!--Indigo 500-->
     
 </resources>
