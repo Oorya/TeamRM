@@ -1,5 +1,6 @@
 package com.teamrm.teamrm.Activities;
 
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.teamrm.teamrm.R;
+
+import static com.teamrm.teamrm.R.id.fontX;
 
 public class SplashScreen extends AppCompatActivity {
 
