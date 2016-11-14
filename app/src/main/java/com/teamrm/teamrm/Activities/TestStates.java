@@ -6,12 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Utility.UtlFirebase;
 
 public class TestStates extends AppCompatActivity {
 
@@ -29,35 +28,34 @@ public class TestStates extends AppCompatActivity {
         context=this;
     }
 
-    public void btnStateA01(View view) {
-
+    public void btnStateA01(View view)
+    {
+        ticketFactory.getNewState("AdminStates.", ProductID.STATE_ADMIN_A01);
     }
 
-    public void btnStateA02(View view) {
-        ticketFactory.getNewState(ProductID.TICKET_CLASS_NAME_A01A);
+    public void btnStateA02(View view)
+    {
+        //ticketFactory.getNewState(ProductID.STATE_USER_A03);
     }
-    public void btnStateA03(View view) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Ticket");
-
-        myRef.child("55555").child("state").setValue(txt.getText().toString());
-    }
-
-    public void btnStateB01(View view) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Ticket");
-
-        //myRef.child("11111").child("state").setValue(ProductID.TICKET_CLASS_NAME_A00A);
-        myRef.child("11111").child("state").setValue(txt.getText().toString());
+    public void btnStateA03(View view)
+    {
+        UtlFirebase.changeState("55555",txt.getText().toString());
     }
 
-    public void btnStateB02(View view) {
-        Ticket ticket = new Ticket(txt1.getText().toString(),"oorya", "A01","Hot");
+    public void btnStateB01(View view)
+    {
+        UtlFirebase.changeState("11111",txt.getText().toString());
+    }
+
+    public void btnStateB02(View view)
+    {
+        Ticket ticket = new Ticket(txt1.getText().toString(),"oorya", "A01User","Hot");
         ticket.saveTest();
     }
 
-    public void btnStateB03(View view) {
-        Ticket ticket = new Ticket(txt1.getText().toString(),"yosi", "A00","Hot");
+    public void btnStateB03(View view)
+    {
+        Ticket ticket = new Ticket(txt1.getText().toString(),"yosi", "A03Tech","Hot");
         ticket.saveTest();
     }
 }

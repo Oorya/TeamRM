@@ -11,7 +11,7 @@ import com.teamrm.teamrm.TicketStates.TicketStateUser;
 public class A00User extends TicketStateUser implements TicketStateAble {
 
     static {
-        TicketFactory.registerProduct(ProductID.TICKET_CLASS_NAME_A00A,new A00User());
+        TicketFactory.registerProduct(ProductID.STATE_USER_A00,new A00User());
     }
     public A00User() {
         super();

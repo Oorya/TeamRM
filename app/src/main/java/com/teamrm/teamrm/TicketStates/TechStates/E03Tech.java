@@ -14,7 +14,7 @@ import com.teamrm.teamrm.Utility.UtlNotification;
  */
 public class E03Tech extends TicketStateTech implements TicketStateAble {
     static {
-        TicketFactory.registerProduct(ProductID.TICKET_CLASS_NAME_A00A,new E03Tech());
+        TicketFactory.registerProduct(ProductID.STATE_TECH_E03,new E03Tech());
     }
     public E03Tech() {
         super();

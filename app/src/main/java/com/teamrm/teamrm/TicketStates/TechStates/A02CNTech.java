@@ -9,7 +9,7 @@ import com.teamrm.teamrm.Interfaces.ProductID;
  */
 public class A02CNTech extends TicketStateTech implements TicketStateAble {
     static {
-        TicketFactory.registerProduct(ProductID.TICKET_CLASS_NAME_A00A,new A02CNTech());
+        TicketFactory.registerProduct(ProductID.STATE_TECH_A02CN,new A02CNTech());
     }
     public A02CNTech() {
         super();

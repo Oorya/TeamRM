@@ -22,15 +22,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.teamrm.teamrm.R;
-import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
+import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -47,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private Context context;
     private UtlAlarmManager utlAlarmManager;
     private TextView fontX;
-    private TicketFactory ticketFactory;
 
 
 
@@ -75,55 +68,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         findViewById(R.id.sign_in_button).setOnClickListener(this);
 
-        stateListener();
+        UtlFirebase.stateListener("User","oorya","Hot");
     }
 
-    //Listener for state changed
-    private void stateListener() {
-        ticketFactory=new TicketFactory();
-        //creating an instance to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        //creating a reference to the database
-        final DatabaseReference myRef = database.getReference("Ticket");
-        Query query=myRef.orderByChild("userName").equalTo("oorya");
-        query.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                String arrData[]=dataSnapshot.getValue().toString().split("[{,]");
-                Log.w("STATE CHANGED", arrData[1]);
-                //{state=A00Admin, userName=oorya, company=yes, status=0, ticketId=11111};
-                for (int ctr=0;ctr<=arrData.length;ctr++)
-                {
-                    if(arrData[ctr].contains("state"))
-                    {
-                        Log.w("STATE FROM LOOP", arrData[ctr].substring(6));
-                        ticketFactory.getNewState(arrData[ctr].substring(6));
-                        return;
-                    }
-                }
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
 
 
     @Override

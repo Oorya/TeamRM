@@ -12,7 +12,7 @@ public class A03Admin extends TicketStateAdmin implements TicketStateAble {
 
 
     static {
-        TicketFactory.registerProduct(ProductID.TICKET_CLASS_NAME_A00A,new A03Admin());
+        TicketFactory.registerProduct(ProductID.STATE_ADMIN_A03,new A03Admin());
     }
     public A03Admin() {
         super();
