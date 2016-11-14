@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private Context context;
     private UtlAlarmManager utlAlarmManager;
     private TextView fontX;
+    public static GoogleSignInAccount acct;
 
 
 
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount acct = result.getSignInAccount();
+          acct = result.getSignInAccount();
           
            
             

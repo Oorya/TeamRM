@@ -19,7 +19,7 @@
         android:gravity="center_vertical"
         android:textColor="#fff"
         android:textStyle="bold"
-        android:layout_toRightOf="@id/icon"
+        android:layout_toEndOf="@id/icon"
         />
     
     

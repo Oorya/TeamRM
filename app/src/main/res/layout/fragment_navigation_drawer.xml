@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
-    android:layout_gravity="right"
+    
     tools:context=".Activities.HomeScreen">
 
     <RelativeLayout
@@ -26,14 +26,14 @@
             android:id="@+id/userAvatar"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_toRightOf="@+id/appLogo"
+            android:layout_toEndOf="@+id/appLogo"
             android:background="@drawable/ic_icon_person_white" />
 
         <TextView
             android:id="@+id/userNameString"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@id/userAvatar"
+            android:layout_toEndOf="@id/userAvatar"
             android:text="ישראל ישראלי"
             android:textColor="#fff"
             android:textSize="24sp"/>

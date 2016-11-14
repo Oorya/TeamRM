@@ -44,6 +44,7 @@ import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
 import com.teamrm.teamrm.Activities.HomeScreen;
+import com.teamrm.teamrm.Activities.MainActivity;
 import com.teamrm.teamrm.Fragment.CalendarView;
 import com.teamrm.teamrm.Interfaces.CalendarHelper;
 
@@ -97,7 +98,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
         this.mCredential = GoogleAccountCredential.usingOAuth2(
                 context, Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
-        mCredential.setSelectedAccountName("shealtiel84@gmail.com");
+        mCredential.setSelectedAccountName(MainActivity.acct.getEmail());
         // Initialize calendar service object.
         mService = new com.google.api.services.calendar.Calendar.Builder(
                 transport, jsonFactory, this.mCredential)
