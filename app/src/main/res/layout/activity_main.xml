@@ -57,7 +57,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="nevBar"
+        android:text="navDrawer"
         android:layout_below="@id/cal"
         android:id="@+id/nev"
         android:onClick="nev"
@@ -72,10 +72,17 @@
         android:id="@+id/fontX"
         />
     <Button
+        android:id="@+id/testStatesBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="test states"
         android:layout_below="@id/fontX"
         android:onClick="btnTestStates"/>
+    <Button
+        android:layout_below="@id/testStatesBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SplashScreen"
+        android:onClick="goToSplashScreen"/>
     
 </RelativeLayout>

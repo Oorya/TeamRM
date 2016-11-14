@@ -58,13 +58,13 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
             }
             case TicketStateAble.TICKET_LIST_PENDIN_TECH_ITEM:
             {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tiket_list_pending_tehc_item, null);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_list_pending_tech_item, null);
                 viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_PENDIN_TECH_ITEM);
                 break;
             }
             case TicketStateAble.TICKET_LIST_PENDIN_TREATMENT:
             {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tiket_list_pending_tehc_treatment_item, null);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_list_pending_tech_treatment_item, null);
                 viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_PENDIN_TREATMENT);
                 break;
             }

@@ -195,4 +195,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public void btnTestStates(View view) {
         startActivity(new Intent(this,TestStates.class));
     }
+
+    public void goToSplashScreen(View view) {startActivity(new Intent(this,SplashScreen.class));}
+
 }
+
+

@@ -1,12 +1,13 @@
 <resources>
-    <string name="app_name">Team RM</string>
+    <string name="app_name">TeamRM</string>
 
     <string-array name="nav_list">
-        <item>GENERAL SETTING</item>
-        <item>TECH SETTING</item>
-        <item>COMPANY DETAILS</item>
-        <item>ClASSIFICATION</item>
-        <item>ADVANCE</item>
+        <item>הגדרות כלליות</item>
+        <item>הגדרות טכנאי</item>
+        <item>פרטי חברה</item>
+        <item>ניהול סווגים</item>
+        <item>ניהול מוצרים</item>
+        <item>הגדרות מתקדמות</item>
     </string-array>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="drawer_open">drawer_open</string>

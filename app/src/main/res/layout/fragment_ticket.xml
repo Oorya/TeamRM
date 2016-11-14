@@ -137,10 +137,10 @@
       android:layout_height="wrap_content"
       android:id="@+id/card_userDitale"
       >
-      <include layout="@layout/user_ditale_card"
+      <include layout="@layout/user_detail_card"
           android:id="@+id/userDetails"
          />
-      <include layout="@layout/user_ditale_expand_card"
+      <include layout="@layout/user_detail_expand_card"
             android:visibility="gone"
           
           android:id="@+id/userDetailsOpen"
@@ -154,12 +154,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/card_userDitale"
         >
-        <include layout="@layout/tiket_ditale_card"
+        <include layout="@layout/ticket_detail_card"
             android:id="@+id/ticketDetails"
             
             />
         >
-        <include layout="@layout/tiket_ditale_expand_card"
+        <include layout="@layout/ticket_detail_expand_card"
             android:visibility="gone"
             android:id="@+id/ticketDetailsOpen"
             />

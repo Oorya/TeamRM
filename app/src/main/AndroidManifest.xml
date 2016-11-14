@@ -34,7 +34,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.Entry" />
+        <activity
+            android:name=".Activities.SplashScreen"
+            android:theme="@style/myStyleNoTitle"/>
         <activity
             android:name=".Activities.HomeScreen"
             android:theme="@style/barTheme.Theme" />
