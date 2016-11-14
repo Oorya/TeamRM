@@ -2,7 +2,6 @@ package com.teamrm.teamrm.Utility;
 
 
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,9 +39,9 @@ public class UtlFirebase {
         firebaseAuth.signOut();
 
         // this listener will be called when there is change in firebase user session
-        FirebaseAuth.AuthStateListener authListener = new FirebaseAuth.AuthStateListener() {
+        FirebaseAuth.AuthStateListener autoListener = new FirebaseAuth.AuthStateListener() {
             @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            public void onAuthStateChanged(FirebaseAuth firebaseAuth) {
 
             }
         };
