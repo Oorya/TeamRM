@@ -41,6 +41,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.2.1'
     compile 'com.android.support:preference-v7:24.2.1'
     compile 'com.android.support:support-v4:24.2.1'
+    compile 'info.semsamot:actionbar-rtlizer:2.+@aar' //github.com/semsamot/ActionBarRTLizer
     apply plugin: 'com.google.gms.google-services'
     testCompile 'junit:junit:4.12'
     
