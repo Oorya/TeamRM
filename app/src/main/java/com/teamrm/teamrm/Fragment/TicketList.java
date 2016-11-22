@@ -21,13 +21,13 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class OpenTicket extends Fragment {
+public class TicketList extends Fragment {
 
     private RecyclerView mRecyclerView; 
     private MyRecyclerAdapter myRecyclerAdapter;
     private List<Ticket> mTiketListItem;
     private TextView titel,Filter,search,order;
-    public OpenTicket() {
+    public TicketList() {
         // Required empty public constructor
     }
 

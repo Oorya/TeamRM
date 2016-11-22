@@ -1,9 +1,7 @@
 package com.teamrm.teamrm.Activities;
 
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,7 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,12 +19,9 @@ import android.widget.TextView;
 
 import com.teamrm.teamrm.Fragment.CalendarView;
 import com.teamrm.teamrm.Fragment.FragmentDrawer;
-import com.teamrm.teamrm.Fragment.OpenTicket;
+import com.teamrm.teamrm.Fragment.TicketList;
 import com.teamrm.teamrm.Fragment.TicketView;
 import com.teamrm.teamrm.R;
-import com.teamrm.teamrm.Utility.CalendarUtil;
-
-import pub.devrel.easypermissions.EasyPermissions;
 
 
 public class HomeScreen extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
@@ -94,11 +88,11 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        OpenTicket openTicket = new OpenTicket();
+        TicketList ticketList = new TicketList();
         switch (position) {
             case 0:
 
-                fragmentTransaction.replace(R.id.container_body, openTicket);
+                fragmentTransaction.replace(R.id.container_body, ticketList);
                 fragmentTransaction.commit();
                 setTitle("קריאות פתוחות");
                 break;
@@ -114,7 +108,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 break;
             default:
 
-                fragmentTransaction.replace(R.id.container_body, openTicket);
+                fragmentTransaction.replace(R.id.container_body, ticketList);
                 fragmentTransaction.commit();
                 setTitle("קריאות פתוחות");
         }
