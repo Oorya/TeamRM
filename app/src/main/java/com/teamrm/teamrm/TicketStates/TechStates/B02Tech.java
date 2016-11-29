@@ -1,12 +1,9 @@
 package com.teamrm.teamrm.TicketStates.TechStates;
 
-import android.content.Intent;
-
-import com.teamrm.teamrm.Activities.HomeScreen;
+import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.TicketStates.TicketStateTech;
-import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Utility.UtlNotification;
 
 /**
@@ -22,8 +19,7 @@ public class B02Tech extends TicketStateTech implements TicketStateAble {
     public B02Tech(int ttl)
     {
         //initials ttl example
-        Intent homeScreen = new Intent(HomeScreen.context,HomeScreen.class);
-        UtlNotification utlNotification = new UtlNotification(1,"מועד טיפול חדש","יום נפלא",homeScreen);
+        UtlNotification utlNotification = new UtlNotification("מועד טיפול חדש","יום נפלא");
         utlNotification.sendNotification();
     }
 

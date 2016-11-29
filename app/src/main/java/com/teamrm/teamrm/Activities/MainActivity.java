@@ -38,13 +38,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private static final int RC_SIGN_IN = 9001;
     private static final String TAG = "MainActivity";
     private ProgressDialog mProgressDialog;
-    private Context context;
+    public static Context context;
     private UtlAlarmManager utlAlarmManager;
     private TextView fontX;
     public static GoogleSignInAccount acct;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
