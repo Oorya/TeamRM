@@ -2,7 +2,6 @@ package com.teamrm.teamrm.Type;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.teamrm.teamrm.Interfaces.TicketStateAble;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -13,11 +12,12 @@ import java.util.UUID;
  * Created by אוריה on 18/07/2016.
  */
 public class Ticket {
-    public String userName;
+    public String customerName;
+    public String email;
+    public String tech;
     public String product;
     public String classification;
     public String subClassification;
-    public String ticketName;  //hold userName
     public String ticketDes; //Description
     public String area;
     public String address;
@@ -25,57 +25,57 @@ public class Ticket {
     public String ticketImage2;
     public String phone;
     public String ticketId;
-    public TicketStateAble ticketState;
     public String state;
-    public int status;
     public String time;
     public Date endTime;
     public String ticketNumber;
     public String calenderID;
     public String eventID;
     public String company;
+    public int status;
 
     public Ticket(){}  //empty constructor, must have
 
+    //FROM TESTING ONLY!!!
     public Ticket(String name,int status)
     {
         this.status = status;
-        this.userName = name;
+        this.customerName = name;
     }
 
     //FROM TESTING ONLY!!!
     public Ticket(String ticketId, String userName, String state, String company)
     {
         this.ticketId=ticketId;
-        this.userName=userName;
+        this.customerName=userName;
         this.state=state;
         this.company=company;
     }
     
-    public Ticket(String product, String classification, String subClassification, String ticketName, String ticketDes,
-                  String phone, String area, String address, String ticketImage1, String ticketImage2, String ticketId)
+    public Ticket(String email, String product, String classification, String subClassification, String ticketDes,
+                  String phone, String area, String address, String ticketImage1, String ticketImage2)
     {
-        this.userName = "Test";
+        this.customerName = "TEST";//Taking from login
+        this.email=email;
         this.product=product;
         this.classification=classification;
         this.subClassification=subClassification;
-        this.ticketName=ticketName;
         this.ticketDes=ticketDes;
         this.area=area;
         this.address=address;
         this.ticketImage1=ticketImage1;
         this.ticketImage2=ticketImage2;
         this.phone=phone;
-        this.ticketId=ticketId;
+        this.ticketId=getUUID();
         this.time=getCurrentTime();
-        this.ticketNumber="ticket number";
+        this.ticketNumber=ticketId.substring(0,8);
     }
 
     public void saveTicket()
     {
         //create an instance of User class
-        Ticket ticket=new Ticket(product,classification,subClassification,ticketName,ticketDes, phone
-               ,area, address, ticketImage1,ticketImage2, ticketId);
+        Ticket ticket=new Ticket(email,product,classification,subClassification,ticketDes, phone
+               ,area, address, ticketImage1,ticketImage2);
 
         //creating a connection to fire base
         FirebaseDatabase database= FirebaseDatabase.getInstance();
@@ -90,7 +90,7 @@ public class Ticket {
     //FROM TESTING ONLY!!!
     public void saveTest()
     {
-        Ticket ticket=new Ticket(ticketId,userName,state,company);
+        Ticket ticket=new Ticket(ticketId,customerName,state,company);
 
         //creating a connection to fire base
         FirebaseDatabase database= FirebaseDatabase.getInstance();
@@ -123,10 +123,10 @@ public class Ticket {
     public String toString()
     {
         String str="";
-        str+="Ticket name: "+this.ticketName+"\n";
+        str+="Ticket name: "+this.product+"\n";
         str+="Ticket description: "+this.ticketDes+"\n";
         str+="Phone: "+this.phone+"\n";
-        str+="User name: "+this.userName+"\n";
+        str+="User name: "+this.customerName+"\n";
         str+="Status: "+this.status+"\n";
         return str;
     }

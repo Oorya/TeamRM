@@ -1,6 +1,5 @@
 package com.teamrm.teamrm.Activities;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,9 +11,10 @@ import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
+import java.util.UUID;
+
 public class TestStates extends AppCompatActivity {
 
-    public static Context context;
     TicketFactory ticketFactory;
     EditText txt,txt1 ;
     @Override
@@ -24,10 +24,14 @@ public class TestStates extends AppCompatActivity {
         ticketFactory=new TicketFactory();
         txt=(EditText)findViewById(R.id.txt);
         txt1=(EditText)findViewById(R.id.txt1);
-
-        context=this;
     }
-
+    private String getUUID()
+    {
+        //create a unique UUID
+        UUID idOne = UUID.randomUUID();
+        //returning the UUID
+        return idOne.toString();
+    }
     public void btnStateA01(View view)
     {
         ticketFactory.getNewState("AdminStates.", ProductID.STATE_ADMIN_A01);
@@ -35,8 +39,9 @@ public class TestStates extends AppCompatActivity {
 
     public void btnStateA02(View view)
     {
-        //ticketFactory.getNewState(ProductID.STATE_USER_A03);
+
     }
+
     public void btnStateA03(View view)
     {
         UtlFirebase.changeState("55555",txt.getText().toString());
@@ -49,13 +54,13 @@ public class TestStates extends AppCompatActivity {
 
     public void btnStateB02(View view)
     {
-        Ticket ticket = new Ticket(txt1.getText().toString(),"oorya", "A01User","Hot");
+        Ticket ticket = new Ticket(txt1.getText().toString(),"oorya", "A01","Hot");
         ticket.saveTest();
     }
 
     public void btnStateB03(View view)
     {
-        Ticket ticket = new Ticket(txt1.getText().toString(),"yosi", "A03Tech","Hot");
+        Ticket ticket = new Ticket(txt1.getText().toString(),"yosi", "A03","Hot");
         ticket.saveTest();
     }
 }

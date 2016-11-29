@@ -99,7 +99,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
     @Override
     public void onBindViewHolder(MyRecyclerAdapter.CustomViewHolder holder, int position) {
         Ticket Item = mTiketListItem.get(position);
-        holder.userName.setText(Item.userName);
+        holder.userName.setText(Item.customerName);
        
     }
 
