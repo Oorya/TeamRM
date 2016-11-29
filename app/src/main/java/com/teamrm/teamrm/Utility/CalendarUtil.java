@@ -75,8 +75,8 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
     private static com.google.api.services.calendar.Calendar mService;
     private static Context _context;
 
-    private GoogleAccountCredential mCredential;
-    private ProgressDialog mProgress;
+    private static  GoogleAccountCredential mCredential;
+    private static ProgressDialog mProgress;
     private List<CalendarListEntry> items1;
     private static CalendarHelper calendarHelper;
     private static List<CalendarListEntry> calList= new ArrayList<>();
@@ -98,7 +98,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
         this.mCredential = GoogleAccountCredential.usingOAuth2(
                 context, Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
-        mCredential.setSelectedAccountName(MainActivity.acct.getEmail());
+
         // Initialize calendar service object.
         mService = new com.google.api.services.calendar.Calendar.Builder(
                 transport, jsonFactory, this.mCredential)
@@ -122,7 +122,6 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
         this.mCredential = GoogleAccountCredential.usingOAuth2(
                 context, Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
-        mCredential.setSelectedAccountName("shealtiel84@gmail.com");
         // Initialize calendar service object.
         mService = new com.google.api.services.calendar.Calendar.Builder(
                 transport, jsonFactory, this.mCredential)
@@ -153,6 +152,8 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
         
         } else {
 
+
+
             calList.addAll(getCalList());
            
             
@@ -176,8 +177,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion < Build.VERSION_CODES.M) 
         {
-            if (EasyPermissions.hasPermissions(
-                    _context, Manifest.permission.GET_ACCOUNTS)) 
+            if (EasyPermissions.hasPermissions(_context, Manifest.permission.GET_ACCOUNTS))
             {
                 String accountName = ((Activity) _context).getPreferences(Context.MODE_PRIVATE)
                         .getString(PREF_ACCOUNT_NAME, null);
@@ -189,7 +189,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                 else 
                 {
                     // Start a dialog from which the user can choose an account
-                    ((Activity) _context).startActivityForResult(
+                    ((Activity)_context).startActivityForResult(
                             mCredential.newChooseAccountIntent(),
                             REQUEST_ACCOUNT_PICKER);
                 }
@@ -205,7 +205,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             }
 
         }
-        if (ActivityCompat.checkSelfPermission(_context, Manifest.permission.GET_ACCOUNTS)
+         else if(ActivityCompat.checkSelfPermission(_context, Manifest.permission.GET_ACCOUNTS)
                 != _context.getPackageManager().PERMISSION_GRANTED) 
         {
             // Check Permissions Now
@@ -232,8 +232,12 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
      *                    activity result.
      */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        Log.d("REQUEST = ","onActivityResult CALENDAR");
+
+
         switch (requestCode) {
 
             
@@ -252,7 +256,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                             data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                     if (accountName != null) {
                         SharedPreferences settings =
-                                getPreferences(Context.MODE_PRIVATE);
+                                ((Activity)_context).getPreferences(Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString(PREF_ACCOUNT_NAME, accountName);
                         editor.apply();
@@ -395,6 +399,13 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
         
        
         public MakeRequestTask() {}
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+           mProgress.show();
+        }
+
         @Override
         protected List<Event> doInBackground(Void... params) {
             try {
@@ -432,7 +443,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             }
             else
             {
-                Toast.makeText(_context, "resolt ok ", Toast.LENGTH_LONG).show();
+               // Toast.makeText(_context, "resolt ok ", Toast.LENGTH_LONG).show();
 
                 calendarHelper.getEventList(output);
             }
@@ -693,27 +704,35 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
     }
     public List<CalendarListEntry> getCalList()
     {
+
+
         new AsyncTask<Void,Void,Void>()
         {
             List<CalendarListEntry> items;
             String pageToken = null;
+            CalendarList calendarList = null;
+
 
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
                // mProgress.show();
-              
+
+
             }
 
             @Override
             protected Void doInBackground(Void... params)
             {
                 do {
-                    CalendarList calendarList = null;
+
                     try {
+                        if(mService!=null)
+                            Log.d("REQUEST = ","getCalList doInBackground");
                         calendarList = mService.calendarList().list().setPageToken(pageToken).execute();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Log.d("REQUEST = ", e.getMessage());
+
                     }
                     items= calendarList.getItems();
                     pageToken = calendarList.getNextPageToken();

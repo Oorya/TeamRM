@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         findViewById(R.id.sign_in_button).setOnClickListener(this);
 
-        UtlFirebase.stateListener("User","oorya","Hot");
+
     }
 
 
