@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -61,7 +60,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults) {
         
        CalendarView.cal.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -119,6 +118,8 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 NewTicket newTicket = new NewTicket();
                 fragmentTransaction.replace(R.id.container_body, newTicket);
                 fragmentTransaction.commit();
+                break;
+
             default:
 
                 fragmentTransaction.replace(R.id.container_body, ticketList);
