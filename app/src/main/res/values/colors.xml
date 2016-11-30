@@ -18,6 +18,7 @@
     <color name="status_urgent">#ff7043</color> <!--Deep orange 400-->
     <color name="status_pending">#ffa726</color> <!--Orange 400-->
     <color name="status_ok">#66bb6a</color> <!--Green 400-->
+    <color name="listRow_alt">#f1f1f1</color>
 
     
 </resources>

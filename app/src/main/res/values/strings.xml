@@ -8,6 +8,7 @@
         <item>ניהול סווגים</item>
         <item>ניהול מוצרים</item>
         <item>הגדרות מתקדמות</item>
+        <item>קריאה חדשה</item>
     </string-array>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="drawer_open">drawer_open</string>

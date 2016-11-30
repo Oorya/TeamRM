@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.teamrm.teamrm.Fragment.CalendarView;
 import com.teamrm.teamrm.Fragment.FragmentDrawer;
+import com.teamrm.teamrm.Fragment.NewTicket;
 import com.teamrm.teamrm.Fragment.TicketList;
 import com.teamrm.teamrm.Fragment.TicketView;
 import com.teamrm.teamrm.R;
@@ -105,8 +106,8 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 setTitle("קריאות פתוחות");
                 break;
             case 1:
-                TicketView tiket = new TicketView();
-                fragmentTransaction.replace(R.id.container_body, tiket);
+                TicketView ticket = new TicketView();
+                fragmentTransaction.replace(R.id.container_body, ticket);
                 fragmentTransaction.commit();
                 break;
             case 2:
@@ -114,6 +115,10 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 fragmentTransaction.replace(R.id.container_body, calendarView);
                 fragmentTransaction.commit();
                 break;
+            case 6:
+                NewTicket newTicket = new NewTicket();
+                fragmentTransaction.replace(R.id.container_body, newTicket);
+                fragmentTransaction.commit();
             default:
 
                 fragmentTransaction.replace(R.id.container_body, ticketList);

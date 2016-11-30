@@ -22,6 +22,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.teamrm.teamrm.Fragment.NewTicket;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
 import com.teamrm.teamrm.Utility.UtlFirebase;
@@ -195,6 +196,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     public void goToSplashScreen(View view) {startActivity(new Intent(this,SplashScreen.class));}
+
+    public void goToNewTicket(View view) {startActivity(new Intent(this,NewTicket.class));}
 
 }
 

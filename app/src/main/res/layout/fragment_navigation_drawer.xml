@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
-    
+    android:layoutDirection="rtl"
     tools:context=".Activities.HomeScreen">
 
     <RelativeLayout
@@ -16,27 +16,21 @@
         >
 
         <ImageView
-            android:id="@+id/appLogo"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:minHeight="48dp"
-            android:src="@drawable/ic_templogo3_white" />
-
-        <ImageView
             android:id="@+id/userAvatar"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_toEndOf="@+id/appLogo"
+            android:layout_marginStart="24dp"
             android:background="@drawable/ic_icon_person_white" />
 
         <TextView
             android:id="@+id/userNameString"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="60dp"
             android:layout_toEndOf="@id/userAvatar"
             android:text="ישראל ישראלי"
             android:textColor="#fff"
-            android:textSize="24sp"/>
+            android:textSize="24sp"
+            />
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
