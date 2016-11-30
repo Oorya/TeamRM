@@ -38,12 +38,8 @@
 
         <RelativeLayout
             android:id="@+id/line2"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
             android:layout_below="@id/line1open"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp">
-
+            style="@style/RegularRow">
             <ImageView
                 android:id="@+id/productIcon"
                 android:layout_width="24dp"
@@ -63,7 +59,6 @@
 
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/selectProduct"
-                style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -75,12 +70,8 @@
 
         <RelativeLayout
             android:id="@+id/selectCategory"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
             android:layout_below="@id/line2"
-            android:background="@color/listRow_alt"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp">
+            style="@style/RegularRow.Alt">
 
             <ImageView
                 android:id="@+id/ClassificationIcon"
@@ -98,7 +89,7 @@
                 android:layout_marginEnd="24dp"
                 android:layout_toEndOf="@id/ClassificationIcon"
                 android:layoutDirection="rtl"
-                android:text="סיווג ראשי:"
+                android:text="סיווג:"
                 android:textDirection="rtl" />
 
             <android.support.v7.widget.AppCompatSpinner
@@ -124,12 +115,8 @@
 
         <RelativeLayout
             android:id="@+id/selectRegion"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
             android:layout_below="@id/selectCategory"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp">
-
+            style="@style/RegularRow">
             <ImageView
                 android:id="@+id/regionIcon"
                 android:layout_width="24dp"
@@ -145,7 +132,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="24dp"
                 android:layout_toEndOf="@id/regionIcon"
-                android:text="בחר מוצר:" />
+                android:text="אזור:" />
 
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/selectRegionSpinner"
@@ -161,12 +148,9 @@
 
         <RelativeLayout
             android:id="@+id/inputAddress"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
             android:layout_below="@id/selectRegion"
-            android:background="@color/listRow_alt"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp">
+            style="@style/RegularRow.Alt"
+            >
 
             <ImageView
                 android:id="@+id/addressIcon"
@@ -175,23 +159,25 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="8dp"
                 android:src="@drawable/ic_icon_location" />
-
-            <EditText
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/addressIcon"
-                android:hint="הקלד כתובת..."
-                android:textSize="14sp" />
+                android:layout_centerVertical="true"
+                >
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="כתובת"
+                android:textSize="14sp"
+                android:textDirection="firstStrong"/>
+            </android.support.design.widget.TextInputLayout>
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/inputPhone"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
             android:layout_below="@id/inputAddress"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp">
-
+            style="@style/RegularRow">
             <ImageView
                 android:id="@+id/phoneIcon"
                 android:layout_width="24dp"
@@ -199,23 +185,25 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="8dp"
                 android:src="@drawable/ic_icon_phone" />
-
-            <EditText
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/phoneIcon"
-                android:hint="הקלד מספר טלפון..."
-                android:textSize="14sp" />
+                android:layout_centerVertical="true"
+                >
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="מספר טלפון"
+                android:textSize="14sp"
+                />
+            </android.support.design.widget.TextInputLayout>
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/labelDescription"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
             android:layout_below="@id/inputPhone"
-            android:background="@color/listRow_alt"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp">
+            style="@style/RegularRow.Alt">
 
             <ImageView
                 android:id="@+id/descriptionIcon"
