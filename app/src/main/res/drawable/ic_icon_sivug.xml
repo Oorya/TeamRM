@@ -12,7 +12,4 @@
     <path
         android:pathData="M12,2v10H2C2,6.5 6.5,2 12,2z"
         android:fillColor="#0277bd"/>
-    <path
-        android:fillColor="#FF000000"
-        android:pathData="M12,12m-10,0a10,10 0,1 1,20 0a10,10 0,1 1,-20 0"/>
-</vector>
+    </vector>

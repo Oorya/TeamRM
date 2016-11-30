@@ -231,22 +231,45 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@id/descriptionIcon"
-                android:text="הקלד כתובת..." />
+                android:text="תוכן הקריאה" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/inputDescription"
             android:layout_width="match_parent"
-            android:layout_height="36dp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/labelDescription"
             android:background="@color/listRow_alt"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp">
+            android:paddingBottom="16dp"
+            android:paddingEnd="32dp"
+            android:paddingStart="32dp">
 
-            <EditText
+            <!--ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="60dp" />
+                android:minHeight="60dp"
+                android:layerType="software"
+                android:src="@drawable/dotted_rect" /-->
+
+            <EditText
+                android:id="@+id/descriptionShortInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/dotted_rect"
+                android:hint="הקלד תאור קצר"
+                android:minHeight="32dp"
+                android:paddingStart="16dp" />
+
+            <EditText
+                android:id="@+id/descriptionLongInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/descriptionShortInput"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/dotted_rect"
+                android:hint="הקלד תאור מפורט"
+                android:minHeight="32dp"
+                android:paddingStart="16dp" />
         </RelativeLayout>
     </RelativeLayout>
-</RelativeLayout></FrameLayout>
+</FrameLayout>
