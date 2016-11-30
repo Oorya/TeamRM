@@ -25,8 +25,8 @@ public class TicketList extends Fragment {
 
     private RecyclerView mRecyclerView; 
     private MyRecyclerAdapter myRecyclerAdapter;
-    private List<Ticket> mTiketListItem;
-    private TextView titel,Filter,search,order;
+    private List<Ticket> mTicketListItem;
+    private TextView title,Filter,search,order;
     public TicketList() {
         // Required empty public constructor
     }
@@ -52,14 +52,14 @@ public class TicketList extends Fragment {
         
         
         
-        mTiketListItem = new ArrayList<>(); 
-        mTiketListItem.add(new Ticket("שאלתיאל",1));
-        mTiketListItem.add(new Ticket("אוריה",2));
-        mTiketListItem.add(new Ticket("מארק",3));
+        mTicketListItem = new ArrayList<>();
+        mTicketListItem.add(new Ticket("שאלתיאל",1));
+        mTicketListItem.add(new Ticket("אוריה",2));
+        mTicketListItem.add(new Ticket("מארק",3));
 
         mRecyclerView = (RecyclerView)view.findViewById(R.id.RecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        myRecyclerAdapter = new MyRecyclerAdapter(getContext(),mTiketListItem);
+        myRecyclerAdapter = new MyRecyclerAdapter(getContext(), mTicketListItem);
         mRecyclerView.setAdapter(myRecyclerAdapter);
         return view;
     }
