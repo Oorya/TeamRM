@@ -8,7 +8,7 @@
         android:id="@+id/had"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#b3e5fc">
+        >
 
         <RelativeLayout
             android:id="@+id/title"
@@ -20,7 +20,7 @@
 
         <LinearLayout
 
-            android:id="@+id/actionBra"
+            android:id="@+id/actionBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/title"
@@ -48,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6dp"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="6dp"
                     android:src="@drawable/ic_icon_filter" />
 
@@ -84,7 +84,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_toStartOf="@id/sortimg"
                     android:text="סדר מחדש לישן"
 
                     android:textColor="@android:color/white" />
@@ -114,7 +113,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_toLeftOf="@id/sortimg"
                     android:text="חיפוס"
                     android:textColor="@android:color/white" />
 
@@ -127,7 +125,7 @@
             android:id="@+id/RecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/actionBra"
+            android:layout_below="@id/actionBar"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
             android:background="@color/app_bg">
