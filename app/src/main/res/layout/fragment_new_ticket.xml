@@ -1,10 +1,10 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:style="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layoutDirection="rtl"
-    tools:context="com.teamrm.teamrm.Fragment.NewTicket">
+    tools:context="com.teamrm.teamrm.Fragment.NewTicket"
+    android:descendantFocusability="blocksDescendants">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -38,14 +38,15 @@
 
         <RelativeLayout
             android:id="@+id/line2"
-            android:layout_below="@id/line1open"
-            style="@style/RegularRow">
+            style="@style/RegularRow"
+            android:layout_below="@id/line1open">
+
             <ImageView
                 android:id="@+id/productIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_icon_product2" />
 
             <TextView
@@ -55,7 +56,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="24dp"
                 android:layout_toEndOf="@id/productIcon"
-                android:text="בחר מוצר:" />
+                android:text="מוצר:" />
 
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/selectProduct"
@@ -70,15 +71,15 @@
 
         <RelativeLayout
             android:id="@+id/selectCategory"
-            android:layout_below="@id/line2"
-            style="@style/RegularRow.Alt">
+            style="@style/RegularRow.Alt"
+            android:layout_below="@id/line2">
 
             <ImageView
                 android:id="@+id/ClassificationIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_icon_sivug" />
 
             <TextView
@@ -115,14 +116,15 @@
 
         <RelativeLayout
             android:id="@+id/selectRegion"
-            android:layout_below="@id/selectCategory"
-            style="@style/RegularRow">
+            style="@style/RegularRow"
+            android:layout_below="@id/selectCategory">
+
             <ImageView
                 android:id="@+id/regionIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_icon_location" />
 
             <TextView
@@ -148,74 +150,82 @@
 
         <RelativeLayout
             android:id="@+id/inputAddress"
-            android:layout_below="@id/selectRegion"
             style="@style/RegularRow.Alt"
-            >
+            android:layout_below="@id/selectRegion">
 
             <ImageView
                 android:id="@+id/addressIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_icon_location" />
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
+
+            <TextView
+                android:id="@+id/inputAddressLabel"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/addressIcon"
                 android:layout_centerVertical="true"
-                >
+                android:layout_marginEnd="8dp"
+                android:layout_toEndOf="@+id/addressIcon"
+                android:text="כתובת:" />
+
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="כתובת"
-                android:textSize="14sp"
-                android:textDirection="firstStrong"/>
-            </android.support.design.widget.TextInputLayout>
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/inputAddressLabel"
+                android:textDirection="firstStrong"
+                android:textSize="14sp" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/inputPhone"
-            android:layout_below="@id/inputAddress"
-            style="@style/RegularRow">
+            style="@style/RegularRow"
+            android:layout_below="@id/inputAddress">
+
             <ImageView
                 android:id="@+id/phoneIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_icon_phone" />
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
+
+            <TextView
+                android:id="@+id/inputPhoneLabel"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/phoneIcon"
                 android:layout_centerVertical="true"
-                >
-            <android.support.design.widget.TextInputEditText
+                android:layout_marginEnd="8dp"
+                android:layout_toEndOf="@+id/phoneIcon"
+                android:text="טלפון:" />
+
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="מספר טלפון"
-                android:textSize="14sp"
-                />
-            </android.support.design.widget.TextInputLayout>
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/inputPhoneLabel"
+                android:textDirection="firstStrong"
+                android:textSize="14sp" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/labelDescription"
-            android:layout_below="@id/inputPhone"
-            style="@style/RegularRow.Alt">
+            style="@style/RegularRow.Alt"
+            android:layout_below="@id/inputPhone">
 
             <ImageView
                 android:id="@+id/descriptionIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_icon_note" />
 
             <TextView
                 android:id="@+id/descriptionLabel"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@id/descriptionIcon"
@@ -232,13 +242,6 @@
             android:paddingEnd="32dp"
             android:paddingStart="32dp">
 
-            <!--ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="60dp"
-                android:layerType="software"
-                android:src="@drawable/dotted_rect" /-->
-
             <EditText
                 android:id="@+id/descriptionShortInput"
                 android:layout_width="match_parent"
@@ -246,7 +249,12 @@
                 android:background="@drawable/dotted_rect"
                 android:hint="הקלד תאור קצר"
                 android:minHeight="32dp"
-                android:paddingStart="16dp" />
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textSize="16sp"
+                android:textColor="@color/textColor_primary"
+                android:textColorHint="@color/textColor_lighter"
+                />
 
             <EditText
                 android:id="@+id/descriptionLongInput"
@@ -255,9 +263,89 @@
                 android:layout_below="@id/descriptionShortInput"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/dotted_rect"
+                android:gravity="top"
                 android:hint="הקלד תאור מפורט"
-                android:minHeight="32dp"
-                android:paddingStart="16dp" />
+                android:minHeight="48dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:textSize="14sp"
+                android:textColor="@color/textColor_primary"
+                android:textColorHint="@color/textColor_lighter"/>
         </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/photoChooserLabel"
+            style="@style/RegularRow"
+            android:layout_below="@id/inputDescription">
+
+            <ImageView
+                android:id="@+id/photoIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_icon_camera" />
+
+            <TextView
+                android:id="@+id/photoLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/photoIcon"
+                android:text="צירוף תמונות" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/photoChooser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/photoChooserLabel"
+            android:orientation="horizontal"
+            android:paddingBottom="24dp"
+            android:paddingEnd="24dp"
+            android:paddingStart="24dp"
+            android:weightSum="2.1">
+
+            <ImageView
+                android:id="@+id/photoChooser1"
+                android:layout_width="1dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:background="#e7e7e7"
+                android:src="@drawable/ic_image_black_24dp"
+                android:tint="#c0c0c0"
+
+                />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".1" />
+
+            <ImageView
+                android:id="@+id/photoChooser2"
+                android:layout_width="1dp"
+                android:layout_height="120dp"
+                android:layout_toEndOf="@id/photoChooser1"
+                android:layout_weight="1"
+                android:background="#e7e7e7"
+                android:src="@drawable/ic_image_black_24dp"
+                android:tint="#c0c0c0" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnSubmitTicket"
+            style="@style/paddedBtn"
+            android:layout_below="@id/photoChooser"
+            android:backgroundTint="@color/status_ok"
+            android:text="פתח קריאה" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@id/btnSubmitTicket" />
     </RelativeLayout>
-</FrameLayout>
+</ScrollView>

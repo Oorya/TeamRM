@@ -19,6 +19,8 @@
     <color name="status_pending">#ffa726</color> <!--Orange 400-->
     <color name="status_ok">#66bb6a</color> <!--Green 400-->
     <color name="listRow_alt">#f1f1f1</color>
+    <color name="textColor_primary">#444444</color>
+    <color name="textColor_lighter">#999999</color>
 
     
 </resources>
