@@ -63,4 +63,16 @@
         <item name="android:background">@color/listRow_alt</item>
     </style>
 
+    <style name="RegularRowItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="RegularRowItem.EditText">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/textColor_primary</item>
+        <item name="android:textColorHint">@color/textColor_lighter</item>
+        <item name="android:textDirection">firstStrong</item>
+    </style>
 </resources>

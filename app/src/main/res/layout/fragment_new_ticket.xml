@@ -3,11 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layoutDirection="rtl"
-    tools:context="com.teamrm.teamrm.Fragment.NewTicket"
-    android:descendantFocusability="blocksDescendants">
+    tools:context="com.teamrm.teamrm.Fragment.NewTicket">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <RelativeLayout
@@ -171,12 +170,11 @@
                 android:text="כתובת:" />
 
             <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/inputAddressLabel"
-                android:textDirection="firstStrong"
-                android:textSize="14sp" />
+                style="@style/RegularRowItem.EditText"
+                android:layout_toEndOf="@id/inputAddressLabel">
+
+                <requestFocus></requestFocus>
+            </EditText>
         </RelativeLayout>
 
         <RelativeLayout
@@ -202,12 +200,11 @@
                 android:text="טלפון:" />
 
             <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/inputPhoneLabel"
-                android:textDirection="firstStrong"
-                android:textSize="14sp" />
+                style="@style/RegularRowItem.EditText"
+                android:layout_toEndOf="@id/inputPhoneLabel">
+
+                <requestFocus></requestFocus>
+            </EditText>
         </RelativeLayout>
 
         <RelativeLayout
@@ -248,13 +245,16 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/dotted_rect"
                 android:hint="הקלד תאור קצר"
+                android:maxLength="24"
                 android:minHeight="32dp"
-                android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:textSize="16sp"
+                android:paddingStart="16dp"
                 android:textColor="@color/textColor_primary"
                 android:textColorHint="@color/textColor_lighter"
-                />
+                android:textSize="16sp">
+
+                <requestFocus></requestFocus>
+            </EditText>
 
             <EditText
                 android:id="@+id/descriptionLongInput"
@@ -266,13 +266,16 @@
                 android:gravity="top"
                 android:hint="הקלד תאור מפורט"
                 android:minHeight="48dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
                 android:paddingBottom="8dp"
-                android:textSize="14sp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
                 android:textColor="@color/textColor_primary"
-                android:textColorHint="@color/textColor_lighter"/>
+                android:textColorHint="@color/textColor_lighter"
+                android:textSize="14sp">
+
+                <requestFocus></requestFocus>
+            </EditText>
         </RelativeLayout>
 
         <RelativeLayout

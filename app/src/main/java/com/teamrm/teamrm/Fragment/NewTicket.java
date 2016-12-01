@@ -19,7 +19,7 @@ import com.teamrm.teamrm.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewTicket extends Fragment{
+public class NewTicket extends Fragment {
 
     Spinner selectProduct;
     Spinner selectCategoryA;
