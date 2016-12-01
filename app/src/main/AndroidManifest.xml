@@ -24,11 +24,11 @@
 
     <application
         android:allowBackup="true"
-        tools:replace="android:icon"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon">
         <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,7 +38,7 @@
         </activity>
         <activity
             android:name=".Activities.SplashScreen"
-            android:theme="@style/myStyleNoTitle"/>
+            android:theme="@style/myStyleNoTitle" />
         <activity
             android:name=".Activities.HomeScreen"
             android:theme="@style/barTheme.Theme" />
@@ -49,7 +49,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".Activities.TestStates"></activity>
+        <activity android:name=".Activities.TestStates" />
+        <activity android:name=".Activities.FireBaseLogin"></activity>
     </application>
 
 </manifest>

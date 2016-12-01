@@ -80,18 +80,17 @@
         android:onClick="btnTestStates"/>
     <Button
         android:layout_below="@id/testStatesBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="SplashScreen"
-        android:id="@+id/splashScreenBtn"
+        android:id="@+id/btnSplash"
         android:onClick="goToSplashScreen"/>
-
     <Button
-        android:layout_below="@id/splashScreenBtn"
-        android:id="@+id/newTicketBtn"
-        android:layout_width="wrap_content"
+        android:id="@+id/loginFB"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Ticket"
-        android:onClick="goToNewTicket"/>
+        android:text="login fire base"
+        android:layout_below="@id/btnSplash"
+        android:onClick="loginFireBase"/>
     
 </RelativeLayout>

@@ -12,6 +12,7 @@
     <color name="toolbar_text">#efefef</color>
     <color name="accent">#2789e4</color>
     <color name="title">#039be5</color>
+    <color name="white">#ffffff</color>
     <color name="menu_bg">#3F51B5</color> <!--Indigo 500-->
     <color name="app_bg">#d8d8d8</color>
     <color name="status_error">#ef5350</color> <!--Red 400-->
