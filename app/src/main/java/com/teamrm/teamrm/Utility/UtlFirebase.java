@@ -48,65 +48,6 @@ public class UtlFirebase {
     }
 
 
-    //Listener for state changed
-    public static void stateListener(final String statusUser, String userName, String company)
-    {
-        ticketFactory=new TicketFactory();
-        //creating an instance to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        //creating a reference to the database
-        final DatabaseReference myRef = database.getReference("Ticket");
-
-        Query query=myRef.orderByChild("userName").equalTo(userName);
-
-        switch (statusUser) {
-            case "Admin":
-                query=myRef.orderByChild("company").equalTo(company);
-                break;
-            case "Tech":
-                query=myRef.orderByChild("tech").equalTo(userName);
-                break;
-        }
-
-        query.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                String arrData[]=dataSnapshot.getValue().toString().split("[{,]");
-                Log.w("STATE CHANGED", arrData[1]);
-                //{state=A00Admin, userName=oorya, company=yes, status=0, ticketId=11111};
-                for (int ctr=0;ctr<=arrData.length;ctr++)
-                {
-                    if(arrData[ctr].contains("state"))
-                    {
-                        Log.w("STATE FROM LOOP", statusUser+"States."+arrData[ctr].substring(6)+statusUser);
-                        ticketFactory.getNewState(statusUser+"States.",arrData[ctr].substring(6)+statusUser);
-                        return;
-                    }
-                }
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
     public static void changeState(String ticketID, String state)
     {
         FirebaseDatabase database = FirebaseDatabase.getInstance();

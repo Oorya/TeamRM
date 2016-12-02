@@ -1,11 +1,12 @@
 package com.teamrm.teamrm.Activities;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +33,7 @@ import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
+    private static final String PREF_ACCOUNT_NAME = "accountName";
 
     private Typeface tf; 
     GoogleSignInOptions gso;
@@ -87,14 +89,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             // If the user has not previously signed in on this device or the sign-in has expired,
             // this asynchronous branch will attempt to sign in the user silently.  Cross-device
             // single sign-on will occur in this branch.
-            showProgressDialog();
-            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(GoogleSignInResult googleSignInResult) {
-                    hideProgressDialog();
-                    handleSignInResult(googleSignInResult);
-                }
-            });
+          //  showProgressDialog();
+          //  opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+          //      @Override
+           //     public void onResult(GoogleSignInResult googleSignInResult) {
+          //          hideProgressDialog();
+          //          handleSignInResult(googleSignInResult);
+          //      }
+         //   });
         }
     }
     @Override
@@ -118,8 +120,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
           acct = result.getSignInAccount();
-          
-           
+
+            SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString(PREF_ACCOUNT_NAME, acct.getEmail());
+            editor.apply();
             
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
         } else {
@@ -142,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
     }
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
     public void signOut(View V) {
@@ -152,11 +157,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     public void onResult(Status status) {
                         
                         Toast.makeText(context,"logout OK",Toast.LENGTH_LONG).show();
+
                         // [START_EXCLUDE]
                         //  updateUI(false);
                         // [END_EXCLUDE]
                     }
                 });
+        findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
     }
 
 

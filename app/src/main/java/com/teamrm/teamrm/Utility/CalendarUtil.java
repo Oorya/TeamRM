@@ -19,7 +19,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.CalendarContract;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -98,13 +97,11 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
         this.mCredential = GoogleAccountCredential.usingOAuth2(
                 context, Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
+        calendarHelper=(CalendarHelper) result;
+       // mCredential.setSelectedAccount(MainActivity.acct.getAccount());
 
         // Initialize calendar service object.
-        mService = new com.google.api.services.calendar.Calendar.Builder(
-                transport, jsonFactory, this.mCredential)
-                .setApplicationName("Google Calendar API Android Quickstart")
-                .build();
-        calendarHelper=(CalendarHelper) result;
+
 
        
 
@@ -149,15 +146,14 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             Toast.makeText(_context, "isDeviceOnline false", Toast.LENGTH_LONG).show();
         } else if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
-        
         } else {
 
-
+            mService = new com.google.api.services.calendar.Calendar.Builder(
+                    transport, jsonFactory, mCredential)
+                    .setApplicationName("Google Calendar API Android Quickstart")
+                    .build();
 
             calList.addAll(getCalList());
-           
-            
-            
         }
     }
 
@@ -175,15 +171,21 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
     @AfterPermissionGranted(REQUEST_PERMISSION_GET_ACCOUNTS)
     private void chooseAccount() {
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-        if (currentapiVersion < Build.VERSION_CODES.M) 
+        Log.d("REQUEST", "chooseAccount currentapiVersion: "+android.os.Build.VERSION.SDK_INT);
+
+        if (currentapiVersion < Build.VERSION_CODES.M)
         {
+            Log.d("REQUEST", "chooseAccount currentapiVersion: "+Build.VERSION_CODES.M);
             if (EasyPermissions.hasPermissions(_context, Manifest.permission.GET_ACCOUNTS))
             {
-                String accountName = ((Activity) _context).getPreferences(Context.MODE_PRIVATE)
-                        .getString(PREF_ACCOUNT_NAME, null);
-                if (accountName != null) 
+                String accountName = MainActivity.acct.getEmail();
+
+                if (accountName != null)
                 {
                     mCredential.setSelectedAccountName(accountName);
+
+                    Log.d("REQUEST", "chooseAccount getSelectedAccount: "+mCredential.getSelectedAccount());
+
                     getResultsFromApi();
                 } 
                 else 
@@ -206,16 +208,43 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
 
         }
          else if(ActivityCompat.checkSelfPermission(_context, Manifest.permission.GET_ACCOUNTS)
-                != _context.getPackageManager().PERMISSION_GRANTED) 
+                == _context.getPackageManager().PERMISSION_GRANTED)
         {
+
+
+            String accountName = MainActivity.acct.getEmail();
+            Log.d("REQUEST", "chooseAccount 23 accountName: "+accountName);
+
+            if (accountName != null)
+            {
+                mCredential.setSelectedAccountName(accountName);
+
+                Log.d("REQUEST", "chooseAccount getSelectedAccount: "+mCredential.getSelectedAccount());
+
+
+
+                getResultsFromApi();
+            }else {
+                // Start a dialog from which the user can choose an account
+                ((Activity) _context).startActivityForResult(
+                        mCredential.newChooseAccountIntent(),
+                        REQUEST_ACCOUNT_PICKER);
+            }
+
+
+
+
             // Check Permissions Now
+
+
+        } else {
+
             ActivityCompat.requestPermissions(((Activity) _context),
                     new String[]{Manifest.permission.GET_ACCOUNTS},
                     REQUEST_PERMISSION_GET_ACCOUNTS);
 
-        } else {
-           
-            getResultsFromApi();
+
+
         }
     
     }
@@ -250,26 +279,23 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                 }
                 break;
             case REQUEST_ACCOUNT_PICKER:
-                if (resultCode == RESULT_OK && data != null &&
-                        data.getExtras() != null) {
-                    String accountName =
-                            data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                    if (accountName != null) {
-                        SharedPreferences settings =
-                                ((Activity)_context).getPreferences(Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putString(PREF_ACCOUNT_NAME, accountName);
-                        editor.apply();
+                if (resultCode == RESULT_OK && data != null && data.getExtras() != null) {
+
+                    String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                         mCredential.setSelectedAccountName(accountName);
+                    Log.d("REQUEST", "onActivityResult acct.getEmail: "+accountName);
+
                         getResultsFromApi();
-                    }
+                    //}
                 }
                 break;
             case REQUEST_AUTHORIZATION:
                 if (resultCode == RESULT_OK) {
+                    getCalList();
                     getResultsFromApi();
                 }
                 break;
+
         }
     }
     
@@ -284,26 +310,22 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
      *                     which is either PERMISSION_GRANTED or PERMISSION_DENIED. Never null.
      */
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-       
+    public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults)
+    {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_PERMISSION_GET_ACCOUNTS) {
-            if(grantResults.length == 1
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+        Log.d("REQUEST = ","onRequestPermissionsResult CALENDAR");
+
+
+        if (requestCode == REQUEST_PERMISSION_GET_ACCOUNTS)
+        {
+            if(grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // We can now safely use the API we requested access to
-                
-                calList.addAll(getCalList());
-            } else {
-              // Permission was denied or request was cancelled
+
+                getResultsFromApi();
             }
         }
-/*
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(
-                requestCode, permissions, grantResults, this);
-        
-  */      
-        
+
     }
 
     /**
@@ -459,7 +481,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                             ((GooglePlayServicesAvailabilityIOException) mLastError)
                                     .getConnectionStatusCode());
                 } else if (mLastError instanceof UserRecoverableAuthIOException) {
-                    UserRecoverable();
+                  //  UserRecoverable(mLastError);
                 } else {
                   //  mOutputText.setText("The following error occurred:\n"
                         //    + mLastError.getMessage());
@@ -469,10 +491,9 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             }
         }
     }
-    private void  UserRecoverable()
+    private void  UserRecoverable(UserRecoverableAuthIOException e)
     {
-        ((Activity) _context).startActivityForResult(((UserRecoverableAuthIOException) mLastError)
-                                                        .getIntent(), REQUEST_AUTHORIZATION);
+        ((Activity) _context).startActivityForResult(e.getIntent(), REQUEST_AUTHORIZATION);
         
     }
     public void addNewEvent(final String[] eventDitile) {
@@ -725,25 +746,32 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             protected Void doInBackground(Void... params)
             {
                 do {
-
                     try {
-                        if(mService!=null)
-                            Log.d("REQUEST = ","getCalList doInBackground");
+                        if(mService==null)
+                            Log.d("REQUEST = ","mService == null");
                         calendarList = mService.calendarList().list().setPageToken(pageToken).execute();
-                    } catch (IOException e) {
-                        Log.d("REQUEST = ", e.getMessage());
 
+                    } catch (UserRecoverableAuthIOException e) {
+                        UserRecoverable(e);
+                        Log.d("REQUEST = ","UserRecoverable(e)");
+
+                    } catch (IOException e) {
+                        Log.e("REQUEST = ", Log.getStackTraceString(e));
                     }
-                    items= calendarList.getItems();
-                    pageToken = calendarList.getNextPageToken();
+                    if(calendarList != null ) {
+                        items = calendarList.getItems();
+                        pageToken = calendarList.getNextPageToken();
+                    }
                 } while (pageToken != null);
                 return null;
             }
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                calList=items;
-                new MakeRequestTask().execute();
+                if(items!=null) {
+                    calList = items;
+                    new MakeRequestTask().execute();
+                }
             }
         }.execute();
         return calList;
