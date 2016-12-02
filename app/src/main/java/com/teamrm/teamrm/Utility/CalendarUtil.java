@@ -98,13 +98,6 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                 context, Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
         calendarHelper=(CalendarHelper) result;
-       // mCredential.setSelectedAccount(MainActivity.acct.getAccount());
-
-        // Initialize calendar service object.
-
-
-       
-
     }
 
 
@@ -137,8 +130,6 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
      * appropriate.
      */
     public void getResultsFromApi() {
-
-
 
         if (!isGooglePlayServicesAvailable()) {
             acquireGooglePlayServices();

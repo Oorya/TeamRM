@@ -1,13 +1,18 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layoutDirection="rtl"
     tools:context="com.teamrm.teamrm.Fragment.NewTicket">
 
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:id="@+id/line1open"
@@ -351,4 +356,5 @@
             android:layout_height="60dp"
             android:layout_below="@id/btnSubmitTicket" />
     </RelativeLayout>
-</ScrollView>
+    </ScrollView>
+</RelativeLayout>
