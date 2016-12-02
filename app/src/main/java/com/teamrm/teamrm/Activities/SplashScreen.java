@@ -38,5 +38,17 @@ public class SplashScreen extends AppCompatActivity {
         loadingStatus = (TextView) findViewById(R.id.loadingStatus);
         loadingStatus.setText(newStatus);
     }
+    private void UpdateRecords()
+    {
+
+    }
+    private int UserType()
+    {
+        return 1;
+    }
+    private boolean Connected()
+    {
+        return true;
+    }
 }
 
