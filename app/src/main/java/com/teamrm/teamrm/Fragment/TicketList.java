@@ -56,6 +56,8 @@ public class TicketList extends Fragment {
         mTicketListItem.add(new Ticket("שאלתיאל",1));
         mTicketListItem.add(new Ticket("אוריה",2));
         mTicketListItem.add(new Ticket("מארק",3));
+        mTicketListItem.add(new Ticket("sdfh",4));
+
 
         mRecyclerView = (RecyclerView)view.findViewById(R.id.RecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
