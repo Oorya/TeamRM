@@ -25,7 +25,7 @@ public class TicketList extends Fragment {
 
     private RecyclerView mRecyclerView; 
     private MyRecyclerAdapter myRecyclerAdapter;
-    private List<Ticket> mTicketListItem;
+    private static List<Ticket> mTicketListItem;
     private TextView title,Filter,search,order;
     public TicketList() {
         // Required empty public constructor
@@ -64,6 +64,10 @@ public class TicketList extends Fragment {
         myRecyclerAdapter = new MyRecyclerAdapter(getContext(), mTicketListItem);
         mRecyclerView.setAdapter(myRecyclerAdapter);
         return view;
+    }
+    public static void stTicketList(List<Ticket> TicketListItem)
+    {
+        mTicketListItem = TicketListItem;
     }
 
 }

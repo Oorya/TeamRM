@@ -50,5 +50,9 @@ public class SplashScreen extends AppCompatActivity {
     {
         return true;
     }
+    private void stTicketList()
+    {
+
+    }
 }
 

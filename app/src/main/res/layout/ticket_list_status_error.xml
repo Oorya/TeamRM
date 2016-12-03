@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="12dp"
+    android:layout_marginBottom="12dp"
     android:layoutDirection="rtl"
     card_view:cardCornerRadius="4dp"
     card_view:cardElevation="4dp">
@@ -11,7 +12,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="20dp">
+        android:paddingBottom="20dp"
+        >
 
         <RelativeLayout
             android:id="@+id/status"
