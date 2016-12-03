@@ -69,10 +69,35 @@
         <item name="android:layout_centerVertical">true</item>
     </style>
 
+    <style name="RegularRowItem.CenteredTextView">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">.999</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="RegularRowItem.StartAlignedTextView">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">.999</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:gravity">center_vertical|start</item>
+    </style>
+
     <style name="RegularRowItem.EditText">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/textColor_primary</item>
         <item name="android:textColorHint">@color/textColor_lighter</item>
         <item name="android:textDirection">firstStrong</item>
     </style>
+
+    <style name="RegularRowItem.Spinner">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:spinnerMode">dropdown</item>
+        <item name="android:background">#00000000</item>
+        <item name="android:textColor">@color/textColor_primary</item>
+    </style>
+
 </resources>
