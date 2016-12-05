@@ -21,13 +21,11 @@ public class UtlAlarmManager extends Activity{
     private  AlarmManager alarmManager ;
     private  PendingIntent pendingIntent;
     private  Intent myIntent;
-    private  Activity activity;
-    public static final String alarm_id = "ALARM_ID" ;
     
     public UtlAlarmManager(Context context)
     {
         this.alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        this.myIntent = new Intent(activity, BootReceiver.class);
+        this.myIntent = new Intent(context, BootReceiver.class);
         this.context=context;
         
     }
