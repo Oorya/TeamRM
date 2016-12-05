@@ -31,10 +31,10 @@ public class UtlAlarmManager extends Activity{
         this.context=context;
         
     }
-    public void setAlarm(Date date ,String alarmId){
+    public void setAlarm(Date date ,int alarmId){
 
         int Id = (int) System.currentTimeMillis();
-        myIntent.putExtra(alarmId,alarmId);
+        myIntent.putExtra("alarmId",alarmId);
         pendingIntent = PendingIntent.getBroadcast(context,Id , myIntent, PendingIntent.FLAG_ONE_SHOT);
 
         this.alarmManager.setExact(AlarmManager.RTC_WAKEUP, date.getTime(), this.pendingIntent);

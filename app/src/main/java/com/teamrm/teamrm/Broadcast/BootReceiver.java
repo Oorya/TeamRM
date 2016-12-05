@@ -9,6 +9,7 @@ import android.util.Log;
 import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Fragment.CalendarView;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
+import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
@@ -31,17 +32,39 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
     @Override
     public void onReceive(final Context context, Intent intent)
     {
-         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
+         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED"))
+         {
                 Log.d("MESSEGE", "BootReceiver is activate after booting");
              utlAlarmManager = new UtlAlarmManager(context);
              UtlFirebase.getAllTicket();
 
-            } else {
+         }
+         else
+         {
                 Log.d("MESSEGE", "BootReceiver is activate wen alarm start ");
-             UtlNotification utlNotification = new UtlNotification("קיימים עדקונים חדשים","יום נפלא");
-             utlNotification.sendNotification();
+             switch (intent.getIntExtra("alarmId",5))
+             {
+                 case TicketStateAble.TTL_SEND_DATE:
+                 {
+                     UtlNotification utlNotification = new UtlNotification("לקוח מחקה לקביעת מועד","יום נפלא");
+                     utlNotification.sendNotification();
+                     break;
+                 }
+                 case TicketStateAble.WAITING_FOR_TECH_APPROVAL:
+                 {
+                     UtlNotification utlNotification = new UtlNotification("תכנאי עדיין לא אשר מועד","יום נפלא");
+                     utlNotification.sendNotification();
+                     break;
+                 }
+                 case TicketStateAble.WAITING_FOR_USER_APPROVAL:
+                 {
+                     UtlNotification utlNotification = new UtlNotification("לקוח עדיין לא אשר מועד","יום נפלא");
+                     utlNotification.sendNotification();
+                     break;
+                 }
+             }
 
-            }
+         }
 
 
     }
@@ -70,7 +93,7 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
                         sendNotification();
                     }else
                     {
-                        utlAlarmManager.setAlarm(ticket.get(i).endTime,"endTime");
+                        utlAlarmManager.setAlarm(ticket.get(i).endTime,ticket.get(i).alamId);
                     }
                 }
                 if(ticket.get(i).ttl != null)
@@ -80,7 +103,7 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
                         sendNotification();
                     }else
                     {
-                        utlAlarmManager.setAlarm(ticket.get(i).ttl,"ttl");
+                        utlAlarmManager.setAlarm(ticket.get(i).ttl,ticket.get(i).alamId);
                     }
                 }
 
