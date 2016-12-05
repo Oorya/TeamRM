@@ -52,7 +52,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/line2"
+            android:id="@+id/Product"
             android:layout_below="@id/line1">
             <ImageView
                 android:layout_width="wrap_content"
@@ -93,7 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/line3"
-                android:layout_below="@id/line2">
+                android:layout_below="@id/Product">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

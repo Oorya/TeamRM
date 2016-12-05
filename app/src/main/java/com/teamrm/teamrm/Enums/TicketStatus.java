@@ -5,11 +5,13 @@ package com.teamrm.teamrm.Enums;
  */
 public enum TicketStatus
 {
-    WaitForApproval("ממתין לאישור מנהל"), TicketClosed("התקלה נסגרה"), Approval("התקלה אושרה");
+    WaitForApproval("ממתין לאישור מנהל"),
+    TicketClosed("התקלה נסגרה"),
+    Approval("התקלה אושרה");
 
     private String status;
 
-    private TicketStatus(String status)
+    TicketStatus(String status)
     {
         this.status=status;
     }

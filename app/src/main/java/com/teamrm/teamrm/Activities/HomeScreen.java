@@ -61,8 +61,9 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
     @Override
     public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults) {
-        
-       CalendarView.cal.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.d("REQUEST = ","API23 HOMSCREEN");
+
+        CalendarView.cal.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override

@@ -50,22 +50,28 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
         CustomViewHolder viewHolder;
         switch (viewType)
         {
-            case TicketStateAble.TICKET_LIST_PENDIN_APPROVAL:
+            case TicketStateAble.TICKET_LIST_STATUS_URGENT:
             {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_list_pending_approval_item, null);
-                viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_PENDIN_APPROVAL);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_list_status_urgent, null);
+                viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_STATUS_URGENT);
             break;
             }
-            case TicketStateAble.TICKET_LIST_PENDIN_TECH_ITEM:
+            case TicketStateAble.TICKET_LIST_STATUS_PENDING:
             {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_list_pending_tech_item, null);
-                viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_PENDIN_TECH_ITEM);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_list_status_pending, null);
+                viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_STATUS_PENDING);
                 break;
             }
-            case TicketStateAble.TICKET_LIST_PENDIN_TREATMENT:
+            case TicketStateAble.TICKET_LIST_STATUS_OK:
             {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_list_pending_tech_treatment_item, null);
-                viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_PENDIN_TREATMENT);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_list_status_ok, null);
+                viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_STATUS_OK);
+                break;
+            }
+            case TicketStateAble.TICKET_LIST_STATUS_ERROR:
+            {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_list_status_error, null);
+                viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_STATUS_ERROR);
                 break;
             }
             default:viewHolder=null;
@@ -80,17 +86,21 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
        // super.getItemViewType(position);
         switch (mTiketListItem.get(position).status)
         {
-            case TicketStateAble.TICKET_LIST_PENDIN_APPROVAL:
+            case TicketStateAble.TICKET_LIST_STATUS_URGENT:
             {
-               return TicketStateAble.TICKET_LIST_PENDIN_APPROVAL;
+               return TicketStateAble.TICKET_LIST_STATUS_URGENT;
             }
-            case TicketStateAble.TICKET_LIST_PENDIN_TECH_ITEM:
+            case TicketStateAble.TICKET_LIST_STATUS_PENDING:
             { 
-                return TicketStateAble.TICKET_LIST_PENDIN_TECH_ITEM;
+                return TicketStateAble.TICKET_LIST_STATUS_PENDING;
             }
-            case TicketStateAble.TICKET_LIST_PENDIN_TREATMENT:
+            case TicketStateAble.TICKET_LIST_STATUS_OK:
             {
-                return TicketStateAble.TICKET_LIST_PENDIN_TREATMENT;
+                return TicketStateAble.TICKET_LIST_STATUS_OK;
+            }
+            case TicketStateAble.TICKET_LIST_STATUS_ERROR:
+            {
+                return TicketStateAble.TICKET_LIST_STATUS_ERROR;
             }
             default:return 0;
         }
@@ -128,17 +138,23 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
             this.view = view;
             switch (viewNum)
             {
-                case TicketStateAble.TICKET_LIST_PENDIN_APPROVAL:
+                case TicketStateAble.TICKET_LIST_STATUS_URGENT:
                 {
                     setView1();
                     break;
                 }
-                case TicketStateAble.TICKET_LIST_PENDIN_TECH_ITEM:
+                case TicketStateAble.TICKET_LIST_STATUS_PENDING:
                 {
                     setView1();
                     break;
                 }
-                case TicketStateAble.TICKET_LIST_PENDIN_TREATMENT:
+                case TicketStateAble.TICKET_LIST_STATUS_OK:
+                {
+                    setView1();
+                    setView2();
+                    break;
+                }
+                case TicketStateAble.TICKET_LIST_STATUS_ERROR:
                 {
                     setView1();
                     setView2();

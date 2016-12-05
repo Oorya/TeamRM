@@ -4,8 +4,6 @@ package com.teamrm.teamrm.Fragment;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.annotation.IntRange;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -21,7 +19,6 @@ import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
-import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Interfaces.CalendarHelper;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Utility.CalendarUtil;
@@ -58,7 +55,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
         // Required empty public constructor
     }
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
@@ -176,7 +173,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
 
         return matchedEvents;
     }
-    private boolean eventMatches(WeekViewEvent event, int year,@IntRange(from=0,to=255) int month) {
+    private boolean eventMatches(WeekViewEvent event, int year, int month) {
        
         return (event.getStartTime().get(Calendar.YEAR) == year && event.getStartTime().get(Calendar.MONTH) ==  month-1 )
                 || (event.getEndTime().get(Calendar.YEAR) == year && event.getEndTime().get(Calendar.MONTH) == month-1);

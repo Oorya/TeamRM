@@ -1,263 +1,369 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:style="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     tools:context="com.teamrm.teamrm.Fragment.NewTicket">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <RelativeLayout
-            android:id="@+id/line1open"
             android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:background="@color/app_bg"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp"
-            android:paddingTop="8dp">
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/userIcon"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/line1open"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:background="@color/app_bg"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp">
+
+                <ImageView
+                    android:id="@+id/userIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_icon_ticket" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@id/userIcon"
+                    android:text="פרטי קריאה חדשה" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/selectProductRow"
+                style="@style/RegularRow"
+                android:layout_below="@id/line1open">
+
+                <ImageView
+                    android:id="@+id/productIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_icon_product2" />
+
+
+                <TextView
+                    android:id="@+id/selectProductLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    android:layout_toEndOf="@id/productIcon"
+                    android:text="מוצר:" />
+
+                <ImageView
+                    android:id="@+id/selectProductIcon"
+                    style="@style/RegularRowItem"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_icon_down" />
+
+                <Spinner
+                    android:id="@+id/selectProductSpinner"
+                    style="@style/RegularRowItem.Spinner"
+                    android:layout_toEndOf="@id/selectProductLabel"
+                    android:dropDownWidth="match_parent"
+                    />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/selectCategory"
+                style="@style/RegularRow.Alt"
+                android:layout_below="@id/selectProductRow">
+
+                <ImageView
+                    android:id="@+id/ClassificationIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_icon_sivug" />
+
+                <TextView
+                    android:id="@+id/selectCategoryLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    android:layout_toEndOf="@id/ClassificationIcon"
+                    android:layoutDirection="rtl"
+                    android:text="סיווג:"
+                    android:textDirection="rtl" />
+
+                <ImageView
+                    android:id="@+id/selectCategoryIcon"
+                    style="@style/RegularRowItem"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_icon_down" />
+
+                <Spinner
+                    android:id="@+id/selectCategoryASpinner"
+                    style="@style/RegularRowItem.Spinner"
+                    android:layout_toEndOf="@id/selectCategoryLabel"
+                    android:dropDownWidth="match_parent"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/selectRegion"
+                style="@style/RegularRow"
+                android:layout_below="@id/selectCategory">
+
+                <ImageView
+                    android:id="@+id/regionIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_icon_location" />
+
+                <TextView
+                    android:id="@+id/selectRegionLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    android:layout_toEndOf="@id/regionIcon"
+                    android:text="אזור:" />
+
+                <ImageView
+                    android:id="@+id/selectRegionIcon"
+                    style="@style/RegularRowItem"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_icon_down" />
+
+                <Spinner
+                    android:id="@+id/selectRegionSpinner"
+                    style="@style/RegularRowItem.Spinner"
+                    android:layout_toEndOf="@id/selectRegionLabel"
+                    android:dropDownWidth="match_parent"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/inputAddress"
+                style="@style/RegularRow.Alt"
+                android:layout_below="@id/selectRegion">
+
+                <ImageView
+                    android:id="@+id/addressIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_icon_location" />
+
+                <TextView
+                    android:id="@+id/inputAddressLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
+                    android:layout_toEndOf="@+id/addressIcon"
+                    android:text="כתובת:" />
+
+                <EditText
+                    style="@style/RegularRowItem.EditText"
+                    android:layout_toEndOf="@id/inputAddressLabel">
+
+                    <requestFocus></requestFocus>
+                </EditText>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/inputPhone"
+                style="@style/RegularRow"
+                android:layout_below="@id/inputAddress">
+
+                <ImageView
+                    android:id="@+id/phoneIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_icon_phone" />
+
+                <TextView
+                    android:id="@+id/inputPhoneLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
+                    android:layout_toEndOf="@+id/phoneIcon"
+                    android:text="טלפון:" />
+
+                <EditText
+                    style="@style/RegularRowItem.EditText"
+                    android:layout_toEndOf="@id/inputPhoneLabel">
+
+                    <requestFocus></requestFocus>
+                </EditText>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/labelDescription"
+                style="@style/RegularRow.Alt"
+                android:layout_below="@id/inputPhone">
+
+                <ImageView
+                    android:id="@+id/descriptionIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_icon_note" />
+
+                <TextView
+                    android:id="@+id/descriptionLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/descriptionIcon"
+                    android:text="תוכן הקריאה" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/inputDescription"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_icon_ticket" />
+                android:layout_below="@id/labelDescription"
+                android:background="@color/listRow_alt"
+                android:paddingBottom="16dp"
+                android:paddingEnd="32dp"
+                android:paddingStart="32dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/descriptionShortInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/dotted_rect"
+                    android:hint="הקלד תאור קצר"
+                    android:maxLength="24"
+                    android:minHeight="32dp"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:textColor="@color/textColor_primary"
+                    android:textColorHint="@color/textColor_lighter"
+                    android:textSize="16sp">
+
+                    <requestFocus></requestFocus>
+                </EditText>
+
+                <EditText
+                    android:id="@+id/descriptionLongInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/descriptionShortInput"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/dotted_rect"
+                    android:gravity="top"
+                    android:hint="הקלד תאור מפורט"
+                    android:minHeight="48dp"
+                    android:paddingBottom="8dp"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:textColor="@color/textColor_primary"
+                    android:textColorHint="@color/textColor_lighter"
+                    android:textSize="14sp">
+
+                    <requestFocus></requestFocus>
+                </EditText>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/photoChooserLabel"
+                style="@style/RegularRow"
+                android:layout_below="@id/inputDescription">
+
+                <ImageView
+                    android:id="@+id/photoIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_icon_camera" />
+
+                <TextView
+                    android:id="@+id/photoLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/photoIcon"
+                    android:text="צירוף תמונות" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/photoChooser"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="8dp"
-                android:layout_toEndOf="@id/userIcon"
-                android:text="פרטי קריאה חדשה" />
+                android:layout_below="@id/photoChooserLabel"
+                android:orientation="horizontal"
+                android:paddingBottom="24dp"
+                android:paddingEnd="24dp"
+                android:paddingStart="24dp"
+                android:weightSum="2.1">
 
+                <ImageView
+                    android:id="@+id/photoChooser1"
+                    android:layout_width="1dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:background="#e7e7e7"
+                    android:src="@drawable/ic_image_black_24dp"
+                    android:tint="#c0c0c0"
+
+                    />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".1" />
+
+                <ImageView
+                    android:id="@+id/photoChooser2"
+                    android:layout_width="1dp"
+                    android:layout_height="120dp"
+                    android:layout_toEndOf="@id/photoChooser1"
+                    android:layout_weight="1"
+                    android:background="#e7e7e7"
+                    android:src="@drawable/ic_image_black_24dp"
+                    android:tint="#c0c0c0" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSubmitTicket"
+                style="@style/paddedBtn"
+                android:layout_below="@id/photoChooser"
+                android:backgroundTint="@color/status_ok"
+                android:text="פתח קריאה" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@id/btnSubmitTicket" />
         </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/line2"
-            android:layout_below="@id/line1open"
-            style="@style/RegularRow">
-            <ImageView
-                android:id="@+id/productIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_icon_product2" />
-
-            <TextView
-                android:id="@+id/selectProductHint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="24dp"
-                android:layout_toEndOf="@id/productIcon"
-                android:text="בחר מוצר:" />
-
-            <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/selectProduct"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/selectProductHint"
-                android:spinnerMode="dropdown" />
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/selectCategory"
-            android:layout_below="@id/line2"
-            style="@style/RegularRow.Alt">
-
-            <ImageView
-                android:id="@+id/ClassificationIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_icon_sivug" />
-
-            <TextView
-                android:id="@+id/selectCategoryHint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="24dp"
-                android:layout_toEndOf="@id/ClassificationIcon"
-                android:layoutDirection="rtl"
-                android:text="סיווג:"
-                android:textDirection="rtl" />
-
-            <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/selectCategorySpinner"
-                style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/selectCategoryHint"
-                android:spinnerMode="dropdown" />
-
-            <!--
-                        <TextView
-                            android:id="@+id/ClassificationTxt2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_toEndOf="@id/ClassificationTxt1"
-                            android:text="סיווג משני" />
-            -->
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/selectRegion"
-            android:layout_below="@id/selectCategory"
-            style="@style/RegularRow">
-            <ImageView
-                android:id="@+id/regionIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_icon_location" />
-
-            <TextView
-                android:id="@+id/selectRegionHint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="24dp"
-                android:layout_toEndOf="@id/regionIcon"
-                android:text="אזור:" />
-
-            <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/selectRegionSpinner"
-                style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/selectRegionHint"
-                android:spinnerMode="dropdown" />
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/inputAddress"
-            android:layout_below="@id/selectRegion"
-            style="@style/RegularRow.Alt"
-            >
-
-            <ImageView
-                android:id="@+id/addressIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_icon_location" />
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/addressIcon"
-                android:layout_centerVertical="true"
-                >
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="כתובת"
-                android:textSize="14sp"
-                android:textDirection="firstStrong"/>
-            </android.support.design.widget.TextInputLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/inputPhone"
-            android:layout_below="@id/inputAddress"
-            style="@style/RegularRow">
-            <ImageView
-                android:id="@+id/phoneIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_icon_phone" />
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/phoneIcon"
-                android:layout_centerVertical="true"
-                >
-            <android.support.design.widget.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="מספר טלפון"
-                android:textSize="14sp"
-                />
-            </android.support.design.widget.TextInputLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/labelDescription"
-            android:layout_below="@id/inputPhone"
-            style="@style/RegularRow.Alt">
-
-            <ImageView
-                android:id="@+id/descriptionIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_icon_note" />
-
-            <TextView
-                android:id="@+id/descriptionLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/descriptionIcon"
-                android:text="תוכן הקריאה" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/inputDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/labelDescription"
-            android:background="@color/listRow_alt"
-            android:paddingBottom="16dp"
-            android:paddingEnd="32dp"
-            android:paddingStart="32dp">
-
-            <!--ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="60dp"
-                android:layerType="software"
-                android:src="@drawable/dotted_rect" /-->
-
-            <EditText
-                android:id="@+id/descriptionShortInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/dotted_rect"
-                android:hint="הקלד תאור קצר"
-                android:minHeight="32dp"
-                android:paddingStart="16dp" />
-
-            <EditText
-                android:id="@+id/descriptionLongInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/descriptionShortInput"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/dotted_rect"
-                android:hint="הקלד תאור מפורט"
-                android:minHeight="32dp"
-                android:paddingStart="16dp" />
-        </RelativeLayout>
-    </RelativeLayout>
-</FrameLayout>
+    </ScrollView>
+</RelativeLayout>
