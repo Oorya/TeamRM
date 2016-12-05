@@ -1,15 +1,18 @@
 package com.teamrm.teamrm.Broadcast;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
+import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Fragment.CalendarView;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
+import com.teamrm.teamrm.Utility.UtlFirebase;
 import com.teamrm.teamrm.Utility.UtlNotification;
 
 import java.util.Calendar;
@@ -28,40 +31,18 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
     @Override
     public void onReceive(final Context context, Intent intent)
     {
-
-        this.context=context;
-
-        if (intent != null) {
-            if(intent.getAction() != null){
-                Log.d("MESSEGE", "Intent: " + intent.getAction());
-
-                Log.d("MESSEGE", "Intent: !null, Action: null");
-                Intent intentt =new Intent(context,CalendarView.class);
-                UtlNotification notification = new UtlNotification(R.drawable.icon, "Status changed",  " status", intentt);
-                notification.sendNotification();
-                
-            }else{
-                Log.d("MESSEGE", "Intent: !null, Action: null");
-                Intent intentt =new Intent(context,CalendarView.class);
-                UtlNotification notification = new UtlNotification(R.drawable.icon, "Status changed",  " status", intentt);
-                notification.sendNotification();
-            }
-        }else{
-            Log.d("MESSEGE", "Intent: null");
-        }
-
-       /*
-            if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
+         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
                 Log.d("MESSEGE", "BootReceiver is activate after booting");
-
+             utlAlarmManager = new UtlAlarmManager(context);
                 tickets = UtlFirebase.getAllTicket();
 
             } else {
                 Log.d("MESSEGE", "BootReceiver is activate wen alarm start ");
 
+             context.startActivity(intent);
             }
 
-      */
+
     }
 
 
@@ -78,18 +59,29 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
 
         for (Ticket tickets : ticket)
         {
-            if(tickets.endTime.getTime()-cal.getTime().getTime()<0)
+            if(!(tickets.endTime==null && tickets.ttl==null))
             {
-                //send a notification eventTime/ttl/wait for tech.
-                // pass deadline notification start activities display all pass deadline  event
+                if(tickets.endTime!=null)
+                {
+                    if (tickets.endTime.getTime() - cal.getTime().getTime() < 0)
+                    {
+                        sendNotification();
+                    }else
+                    {
+                        utlAlarmManager.setAlarm(tickets.endTime);
+                    }
+                }
+                if(tickets.ttl != null)
+                {
+                    if(tickets.ttl.getTime() - cal.getTime().getTime() < 0)
+                    {
+                        sendNotification();
+                    }else
+                    {
+                        utlAlarmManager.setAlarm(tickets.ttl);
+                    }
+                }
 
-                //CREATE INTENT AND MSG ICON FOR NOTIFICATION
-                //Intent intent=new Intent(MainActivity.context,TicketList.class);
-                //UtlNotification notification = new UtlNotification(R.drawable.new_msg_icon, "Status changed",  " status", intent, MainActivity.context);
-                //notification.sendNotification();
-            }else
-            {
-                // utlAlarmManager = new UtlAlarmManager(context,)
             }
         }
     }
@@ -98,5 +90,15 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
     @Override
     public void resultBoolean(boolean bool) {
 
+    }
+    private void sendNotification()
+    {
+        //send a notification eventTime/ttl/wait for tech.
+        // pass deadline notification start activities display all pass deadline  event
+
+        //CREATE INTENT AND MSG ICON FOR NOTIFICATION
+        Intent intent = new Intent(HomeScreen.context, HomeScreen.class);
+        UtlNotification notification = new UtlNotification(R.drawable.new_msg_icon, "Status changed", " status", intent);
+        notification.sendNotification();
     }
 }
