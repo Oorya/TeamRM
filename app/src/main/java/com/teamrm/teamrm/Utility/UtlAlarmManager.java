@@ -41,9 +41,9 @@ public class UtlAlarmManager extends Activity{
         Log.d("MESSAGE","setAlarm");
 
     }
-    public  void cancelAlarm() {
-        if (this.alarmManager!= null) {
-            this.alarmManager.cancel(this.pendingIntent);
+    public  void cancelAlarm(UtlAlarmManager alarm) {
+        if (alarm!= null) {
+            alarm.alarmManager.cancel(alarm.pendingIntent);
             Log.d("MESSAGE","cancelAlarm");
 
         }
