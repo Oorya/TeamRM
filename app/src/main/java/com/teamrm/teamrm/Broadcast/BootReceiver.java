@@ -34,12 +34,13 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
          if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
                 Log.d("MESSEGE", "BootReceiver is activate after booting");
              utlAlarmManager = new UtlAlarmManager(context);
-                tickets = UtlFirebase.getAllTicket();
+             UtlFirebase.getAllTicket();
 
             } else {
                 Log.d("MESSEGE", "BootReceiver is activate wen alarm start ");
+             UtlNotification utlNotification = new UtlNotification("קיימים עדקונים חדשים","יום נפלא");
+             utlNotification.sendNotification();
 
-             context.startActivity(intent);
             }
 
 
@@ -57,28 +58,29 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
 
         Calendar cal = Calendar.getInstance();
 
-        for (Ticket tickets : ticket)
+        for (int i=0;i<= ticket.size() ;i++)
         {
-            if(!(tickets.endTime==null && tickets.ttl==null))
+            if(!(ticket.get(i).endTime==null && ticket.get(i).ttl==null))
             {
-                if(tickets.endTime!=null)
+                if(ticket.get(i).endTime!=null)
                 {
-                    if (tickets.endTime.getTime() - cal.getTime().getTime() < 0)
+                    if (ticket.get(i).endTime.getTime() - cal.getTime().getTime() < 0)
                     {
+
                         sendNotification();
                     }else
                     {
-                        utlAlarmManager.setAlarm(tickets.endTime);
+                        utlAlarmManager.setAlarm(ticket.get(i).endTime,"endTime");
                     }
                 }
-                if(tickets.ttl != null)
+                if(ticket.get(i).ttl != null)
                 {
-                    if(tickets.ttl.getTime() - cal.getTime().getTime() < 0)
+                    if(ticket.get(i).ttl.getTime() - cal.getTime().getTime() < 0)
                     {
                         sendNotification();
                     }else
                     {
-                        utlAlarmManager.setAlarm(tickets.ttl);
+                        utlAlarmManager.setAlarm(ticket.get(i).ttl,"ttl");
                     }
                 }
 

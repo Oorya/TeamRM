@@ -22,6 +22,7 @@ public class UtlAlarmManager extends Activity{
     private  PendingIntent pendingIntent;
     private  Intent myIntent;
     private  Activity activity;
+    public static final String alarm_id = "ALARM_ID" ;
     
     public UtlAlarmManager(Context context)
     {
@@ -30,10 +31,12 @@ public class UtlAlarmManager extends Activity{
         this.context=context;
         
     }
-    public void setAlarm(Date date){
+    public void setAlarm(Date date ,String alarmId){
 
         int Id = (int) System.currentTimeMillis();
+        myIntent.putExtra(alarmId,alarmId);
         pendingIntent = PendingIntent.getBroadcast(context,Id , myIntent, PendingIntent.FLAG_ONE_SHOT);
+
         this.alarmManager.setExact(AlarmManager.RTC_WAKEUP, date.getTime(), this.pendingIntent);
         Log.d("MESSAGE","setAlarm");
 
