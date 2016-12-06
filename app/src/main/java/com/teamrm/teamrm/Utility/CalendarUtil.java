@@ -221,13 +221,6 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                         mCredential.newChooseAccountIntent(),
                         REQUEST_ACCOUNT_PICKER);
             }
-
-
-
-
-            // Check Permissions Now
-
-
         } else {
 
             ActivityCompat.requestPermissions(((Activity) _context),
@@ -314,6 +307,13 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                 // We can now safely use the API we requested access to
 
                 getResultsFromApi();
+            }else
+            {
+                Toast.makeText(_context, "האפליקציה צריכה הרשאה לגשת לחשבון האימייל שלך"+"\n"+"אנא אשר כדיי שנוכל להתחיל לעבוד ", Toast.LENGTH_LONG).show();
+
+                ActivityCompat.requestPermissions(((Activity) _context),
+                        new String[]{Manifest.permission.GET_ACCOUNTS},
+                        REQUEST_PERMISSION_GET_ACCOUNTS);
             }
         }
 

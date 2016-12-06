@@ -11,7 +11,7 @@ public interface TicketStateAble {
     int TTL_SEND_DATE = 1;
     int WAITING_FOR_USER_APPROVAL = 2;
     int WAITING_FOR_TECH_APPROVAL = 3;
-
+    int TTL_END_TICKET_DATE = 1;
     TicketStateAble getNewState();
          
 }

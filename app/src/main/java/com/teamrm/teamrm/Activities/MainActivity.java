@@ -23,8 +23,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.teamrm.teamrm.Fragment.NewTicket;
+import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
+import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -52,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         tf = Typeface.createFromAsset(getAssets(), "Assistant-ExtraBold.ttf");
         fontX = (TextView)findViewById(R.id.fontX);
         fontX.setTypeface(tf);
-        utlAlarmManager = new UtlAlarmManager(this,MainActivity.this);
+        utlAlarmManager = new UtlAlarmManager(this);
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -169,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.add(Calendar.SECOND,180);//(Calendar.DATE)
-        utlAlarmManager.setAlarm(calendar.getTimeInMillis());
+        utlAlarmManager.setAlarm(calendar.getTime(), TicketStateAble.TICKET_LIST_STATUS_OK);
         Log.d("MESSEGE","alert10Sec");
 
 
@@ -181,12 +184,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.SECOND,10);//(Calendar.DATE)
-        utlAlarmManager.setAlarm(calendar.getTimeInMillis());
+        utlAlarmManager.setAlarm(calendar.getTime(), TicketStateAble.TICKET_LIST_STATUS_OK);
         Log.d("MESSEGE","alert1Sec");
     }
 
     public void stopAlert(View view) {
-        utlAlarmManager.cancelAlarm();
+        utlAlarmManager.cancelAlarm(this.utlAlarmManager);
         Log.d("MESSEGE","stopAlert");
     }
 
@@ -202,9 +205,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     public void goToSplashScreen(View view) {startActivity(new Intent(this,SplashScreen.class));}
 
-    public void loginFireBase(View view) {
-        startActivity(new Intent(this,FireBaseLogin.class));
-    }
+    public void goToNewTicket(View view) {startActivity(new Intent(this,NewTicket.class));}
+
 }
 
 
