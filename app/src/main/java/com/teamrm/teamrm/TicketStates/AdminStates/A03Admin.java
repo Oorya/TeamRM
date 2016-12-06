@@ -30,7 +30,7 @@ public class A03Admin extends TicketStateAdmin implements TicketStateAble {
         cal.add(Calendar.HOUR_OF_DAY, 5); // adds 5 hours
 
         UtlAlarmManager utlAlarmManager = new UtlAlarmManager(context);
-        utlAlarmManager.setAlarm(cal.getTime());
+        utlAlarmManager.setAlarm(cal.getTime(),TicketStateAble.WAITING_FOR_USER_APPROVAL);
     }
 
     @Override
