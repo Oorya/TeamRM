@@ -309,7 +309,11 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                 getResultsFromApi();
             }else
             {
+                Toast.makeText(_context, "האפליקציה צריכה הרשאה לגשת לחשבון האימייל שלך"+"\n"+"אנא אשר כדיי שנוכל להתחיל לעבוד ", Toast.LENGTH_LONG).show();
 
+                ActivityCompat.requestPermissions(((Activity) _context),
+                        new String[]{Manifest.permission.GET_ACCOUNTS},
+                        REQUEST_PERMISSION_GET_ACCOUNTS);
             }
         }
 
