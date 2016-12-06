@@ -28,6 +28,8 @@ public class Ticket {
     public String state;
     public String time;
     public Date endTime;
+    public Date ttl;
+    public int alamId;
     public String ticketNumber;
     public String calenderID;
     public String eventID;
