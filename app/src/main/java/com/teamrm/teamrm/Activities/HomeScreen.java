@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -32,6 +33,9 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     private FragmentDrawer drawerFragment;
     private FrameLayout frameLayout;
     public static Context context;
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
+    FloatingActionButton addTicket;
     private static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
 
@@ -44,6 +48,8 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         context = this;
         frameLayout = (FrameLayout) findViewById(R.id.container_body);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        addTicket = (FloatingActionButton) findViewById(R.id.fab);
+
         TextView appIcon = (TextView) findViewById(R.id.appIcon);
         appIcon.setTypeface(Typeface.createFromAsset(this.getAssets(), "Assistant-Bold.ttf"));
 
@@ -56,6 +62,24 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
         drawerFragment.setDrawerListener(this);
+
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.container_body, new TicketList());
+        fragmentTransaction.commit();
+
+        addTicket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Click action
+                fragmentTransaction = fragmentManager.beginTransaction();
+                NewTicket newTicket = new NewTicket();
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+                fragmentTransaction.replace(R.id.container_body,  newTicket);
+                fragmentTransaction.commit();
+                addTicket.hide();
+            }
+        });
     }
 
 

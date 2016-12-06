@@ -33,7 +33,16 @@
             android:id="@+id/container_body"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1" >
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="16dp"
+                android:src="@android:drawable/ic_input_add" />
+        </FrameLayout>
 
 
     </LinearLayout>
@@ -47,5 +56,5 @@
         android:layout_gravity="start"
         app:layout="@layout/fragment_navigation_drawer"
         tools:layout="@layout/fragment_navigation_drawer" />
-   
+
 </android.support.v4.widget.DrawerLayout >

@@ -12,6 +12,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.teamrm.teamrm.Fragment.TicketList;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.Type.Chat;
@@ -159,7 +160,7 @@ public class UtlFirebase {
                 Log.e("LIST SIZE: ", ticketList.size() + "");
 
                 //Need to notify for current list adapter
-                //TicketList.listAdapter.notifyDataSetChanged();
+                TicketList.myRecyclerAdapter.notifyDataSetChanged();
             }
 
             @Override

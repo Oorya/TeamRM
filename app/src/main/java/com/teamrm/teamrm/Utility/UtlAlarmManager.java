@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Broadcast.BootReceiver;
 
 import java.util.Date;
@@ -27,8 +26,8 @@ public class UtlAlarmManager extends Activity{
         this.alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         this.myIntent = new Intent(context, BootReceiver.class);
         this.context=context;
-        
     }
+
     public void setAlarm(Date date ,int alarmId){
 
         int Id = (int) System.currentTimeMillis();
@@ -37,15 +36,12 @@ public class UtlAlarmManager extends Activity{
 
         this.alarmManager.setExact(AlarmManager.RTC_WAKEUP, date.getTime(), this.pendingIntent);
         Log.d("MESSAGE","setAlarm");
-
     }
+
     public  void cancelAlarm(UtlAlarmManager alarm) {
         if (alarm!= null) {
             alarm.alarmManager.cancel(alarm.pendingIntent);
             Log.d("MESSAGE","cancelAlarm");
-
         }
     }
-    
-    
 }

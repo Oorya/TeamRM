@@ -44,6 +44,10 @@
 
     <string name="productlist_hint">בחר מוצר...</string>
 
+
+    <string name="action_settings">Settings</string>
+    <string name="single_permission_text">(Click on FAB to check Single permission.\nTo test again, change the app permission in settings or reinstall the app)</string>
+
     <string-array name="product_list">
         <item>מקרר</item>
         <item>טוסטר משולשים</item>

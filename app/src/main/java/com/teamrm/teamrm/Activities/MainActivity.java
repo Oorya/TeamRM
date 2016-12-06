@@ -1,6 +1,5 @@
 package com.teamrm.teamrm.Activities;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -23,11 +22,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.teamrm.teamrm.Fragment.NewTicket;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
-import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -46,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private UtlAlarmManager utlAlarmManager;
     private TextView fontX;
     public static GoogleSignInAccount acct;
+    public static String userName;
+    public static String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +125,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             SharedPreferences.Editor editor = settings.edit();
             editor.putString(PREF_ACCOUNT_NAME, acct.getEmail());
             editor.apply();
-            
+            userName=acct.getDisplayName();
+            email=acct.getEmail();
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
         } else {
             Toast.makeText(this,"Incorrect Username or Password ",Toast.LENGTH_LONG).show();
@@ -204,9 +204,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     public void goToSplashScreen(View view) {startActivity(new Intent(this,SplashScreen.class));}
-
-    public void goToNewTicket(View view) {startActivity(new Intent(this,NewTicket.class));}
-
 }
 
 

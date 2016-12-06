@@ -1,13 +1,11 @@
 package com.teamrm.teamrm.Broadcast;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
 import com.teamrm.teamrm.Activities.HomeScreen;
-import com.teamrm.teamrm.Fragment.CalendarView;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.R;
@@ -93,7 +91,7 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
                         sendNotification();
                     }else
                     {
-                        utlAlarmManager.setAlarm(ticket.get(i).endTime,ticket.get(i).alamId);
+                        utlAlarmManager.setAlarm(ticket.get(i).endTime,ticket.get(i).alarmID);
                     }
                 }
                 if(ticket.get(i).ttl != null)
@@ -103,7 +101,7 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
                         sendNotification();
                     }else
                     {
-                        utlAlarmManager.setAlarm(ticket.get(i).ttl,ticket.get(i).alamId);
+                        utlAlarmManager.setAlarm(ticket.get(i).ttl,ticket.get(i).alarmID);
                     }
                 }
 

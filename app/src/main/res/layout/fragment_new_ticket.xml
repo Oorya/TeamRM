@@ -8,7 +8,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -184,6 +186,7 @@
                     android:text="כתובת:" />
 
                 <EditText
+                    android:id="@+id/txtAddress"
                     style="@style/RegularRowItem.EditText"
                     android:layout_toEndOf="@id/inputAddressLabel">
 
@@ -214,9 +217,9 @@
                     android:text="טלפון:" />
 
                 <EditText
+                    android:id="@+id/txtPhone"
                     style="@style/RegularRowItem.EditText"
                     android:layout_toEndOf="@id/inputPhoneLabel">
-
                     <requestFocus></requestFocus>
                 </EditText>
             </RelativeLayout>

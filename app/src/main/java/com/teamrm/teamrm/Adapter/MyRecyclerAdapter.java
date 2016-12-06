@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.util.List;
 
@@ -27,23 +28,15 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
     private Typeface LIGHT; 
     private Typeface REGULAR;
     private Typeface SEMI_BOLD;
-
-
-
-    private List<Ticket> mTiketListItem;
+    private List<Ticket> mTicketListItem;
     private Context mContext;
-   
 
-
-    public MyRecyclerAdapter(Context context, List<Ticket> TiketListItem) {
-        this.mTiketListItem = TiketListItem;
+    public MyRecyclerAdapter(Context context) {
+        this.mTicketListItem = UtlFirebase.getAllTicket();
         this.mContext = context;
         setFont();
-        
-        
-        
-        
     }
+
     @Override
     public MyRecyclerAdapter.CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -84,7 +77,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
     @Override
     public int getItemViewType(int position) {
        // super.getItemViewType(position);
-        switch (mTiketListItem.get(position).status)
+        switch (mTicketListItem.get(position).status)
         {
             case TicketStateAble.TICKET_LIST_STATUS_URGENT:
             {
@@ -104,19 +97,27 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
             }
             default:return 0;
         }
+
     }
 
     @Override
     public void onBindViewHolder(MyRecyclerAdapter.CustomViewHolder holder, int position) {
-        Ticket Item = mTiketListItem.get(position);
-        holder.userName.setText(Item.customerName);
-       
+        Ticket item = mTicketListItem.get(position);
+        holder.userName.setText(item.customerName);
+        holder.product.setText(item.product);
+        holder.address.setText(item.address);
+        holder.area.setText(item.area);
+        holder.classification.setText(item.classification);
+        holder.description.setText(item.desShort);
+        holder.ticketNumber.setText(item.ticketNumber);
+        holder.time.setText(item.time);
     }
 
     @Override
     public int getItemCount() {
-        return (null != mTiketListItem ? mTiketListItem.size() : 0);
+        return (null != mTicketListItem ? mTicketListItem.size() : 0);
     }
+
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
         protected View view;
@@ -200,7 +201,5 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
         LIGHT = Typeface.createFromAsset(mContext.getAssets(), "Assistant-Light.ttf");
         REGULAR = Typeface.createFromAsset(mContext.getAssets(), "Assistant-Regular.ttf");
         SEMI_BOLD = Typeface.createFromAsset(mContext.getAssets(), "Assistant-SemiBold.ttf");
-       
-       
     }
 }

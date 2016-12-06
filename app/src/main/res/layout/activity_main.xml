@@ -86,12 +86,5 @@
         android:text="SplashScreen"
         android:id="@+id/btnSplash"
         android:onClick="goToSplashScreen"/>
-    <Button
-        android:id="@+id/loginFB"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="login fire base"
-        android:layout_below="@id/btnSplash"
-        android:onClick="loginFireBase"/>
     
 </RelativeLayout>
