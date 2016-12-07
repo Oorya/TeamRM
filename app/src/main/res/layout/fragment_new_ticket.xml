@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:layoutDirection="rtl"
     tools:context="com.teamrm.teamrm.Fragment.NewTicket">
 
@@ -335,8 +336,6 @@
                     android:layout_weight="1"
                     android:background="#e7e7e7"
                     android:src="@drawable/ic_image_black_24dp"
-                    android:tint="#c0c0c0"
-
                     />
 
                 <View
@@ -352,7 +351,7 @@
                     android:layout_weight="1"
                     android:background="#e7e7e7"
                     android:src="@drawable/ic_image_black_24dp"
-                    android:tint="#c0c0c0" />
+                     />
 
             </LinearLayout>
 

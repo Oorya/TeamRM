@@ -11,7 +11,6 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -20,7 +19,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -42,9 +40,7 @@ import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
-import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Activities.MainActivity;
-import com.teamrm.teamrm.Fragment.CalendarView;
 import com.teamrm.teamrm.Interfaces.CalendarHelper;
 
 import java.io.IOException;
@@ -118,7 +114,6 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                 .setApplicationName("Google Calendar API Android Quickstart")
                 .build();
 
-      
         
     }
 

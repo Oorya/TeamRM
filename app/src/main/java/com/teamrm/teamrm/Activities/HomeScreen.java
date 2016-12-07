@@ -28,6 +28,7 @@ import com.teamrm.teamrm.Fragment.TicketView;
 import com.teamrm.teamrm.R;
 
 
+
 public class HomeScreen extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
 
     private Toolbar mToolbar;
@@ -39,6 +40,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     FloatingActionButton addTicket;
     private static final int SELECT_FILE = 105;
     private static final int FROM_CAMERA = 205;
+    private final static String[] TAG_FRAGMENT = {"NEW_TICKET"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +79,8 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 fragmentTransaction = fragmentManager.beginTransaction();
                 NewTicket newTicket = new NewTicket();
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-                fragmentTransaction.replace(R.id.container_body,  newTicket);
-                fragmentTransaction.commit();
+                fragmentTransaction.replace(R.id.container_body,  newTicket).addToBackStack(TAG_FRAGMENT[0]).commit();
+                //fragmentTransaction.commit();
                 setTitle(getResources().getString(R.string.new_ticket));
                 addTicket.hide();
             }
@@ -90,7 +92,13 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults) {
         Log.d("REQUEST = ","API23 HOMSCREEN");
 
-        CalendarView.cal.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==108)
+        {
+
+        }
+        else {
+            CalendarView.cal.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     @Override
@@ -121,8 +129,6 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -136,38 +142,45 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         {
             case 0:
 
-                fragmentTransaction.replace(R.id.container_body, ticketList);
-                fragmentTransaction.commit();
+                fragmentTransaction.replace(R.id.container_body, ticketList).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getString(R.string.ticket_list));
                 break;
             case 1:
                 TicketView ticket = new TicketView();
-                fragmentTransaction.replace(R.id.container_body, ticket);
-                fragmentTransaction.commit();
+                fragmentTransaction.replace(R.id.container_body, ticket).addToBackStack(TAG_FRAGMENT[0]).commit();
                 addTicket.hide();
                 break;
             case 2:
                 CalendarView calendarView = new CalendarView();
-                fragmentTransaction.replace(R.id.container_body, calendarView);
-                fragmentTransaction.commit();
+                fragmentTransaction.replace(R.id.container_body, calendarView).addToBackStack(TAG_FRAGMENT[0]).commit();
                 addTicket.hide();
                 break;
             case 6:
                 NewTicket newTicket = new NewTicket();
-                fragmentTransaction.replace(R.id.container_body, newTicket);
-                fragmentTransaction.commit();
+                fragmentTransaction.replace(R.id.container_body, newTicket).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getString(R.string.new_ticket));
                 addTicket.hide();
                 break;
 
             default:
 
-                fragmentTransaction.replace(R.id.container_body, ticketList);
-                fragmentTransaction.commit();
+                fragmentTransaction.replace(R.id.container_body, ticketList).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getString(R.string.ticket_list));
         }
-
-
     }
 
+    @Override
+    public void onBackPressed() {
+       //final NewTicket NEW_TICKET_FRAGMENT = (NewTicket)getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT[0]);
+        if(getFragmentManager().getBackStackEntryCount() > 0)
+        {
+            getFragmentManager().popBackStack();
+        }
+        else
+
+
+        {
+            super.onBackPressed();
+        }
+    }
 }

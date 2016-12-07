@@ -5,18 +5,19 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.teamrm.teamrm.Fragment.NewTicket;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Oorya on 07/12/2016.
@@ -26,9 +27,7 @@ public class UtlCamera extends Activity
 {
     Context context;
     Activity activity;
-    SharedPreferences pref;
-    SharedPreferences.Editor editor;
-    private String picturePath = "temp.jpg";
+    private String picturePath = "";
     private static final int SELECT_FILE = 105;
     private static final int FROM_CAMERA = 205;
 
@@ -36,11 +35,6 @@ public class UtlCamera extends Activity
     {
         this.context=context;
         this.activity=activity;
-        pref = context.getSharedPreferences("strImg",MODE_PRIVATE);
-        editor=pref.edit();
-
-        //if(!getPicSP("img1").equals("error")) imageView1.setImageBitmap(UtlImage.string2bitmap(getPicSP("img1")));
-        //if(!getPicSP("img2").equals("error")) imageView2.setImageBitmap(UtlImage.string2bitmap(getPicSP("img2")));
     }
 
     public void selectImage() {
@@ -52,13 +46,18 @@ public class UtlCamera extends Activity
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 if (items[item].equals("Take Photo")) {
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    File f = new File(android.os.Environment
-                            .getExternalStorageDirectory(), "temp.jpg");
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                    Toast.makeText(context, "Befor", Toast.LENGTH_SHORT).show();
-                    activity.startActivityForResult(intent, FROM_CAMERA);
-                    Toast.makeText(context, "After", Toast.LENGTH_SHORT).show();
+                    Log.e("Camera", "fireCam: start");
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                    String imageFileName = timeStamp + ".jpg";
+                    File storageDir = Environment.getExternalStoragePublicDirectory(
+                            Environment.DIRECTORY_PICTURES);
+                    picturePath = storageDir.getAbsolutePath() + "/" + imageFileName;
+                    File file = new File(picturePath);
+                    Uri outputFileUri = Uri.fromFile(file);
+                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+                    Log.e("Camera", "fireCam: intent");
+                    activity.startActivityForResult(cameraIntent, FROM_CAMERA);
                     /*Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     if (takePictureIntent.resolveActivity(context.getPackageManager()) != null) {
                         activity.startActivityForResult(takePictureIntent, FROM_CAMERA);
@@ -98,7 +97,8 @@ public class UtlCamera extends Activity
                     //savePicSP("img1",UtlImage.bitmap2string(myBitmap));
                     Log.w("BITMAP: ",myBitmap+"");
                     NewTicket.imageView2.setImageBitmap(myBitmap);
-                    //  img2.setImageBitmap(myBitmap);
+                    NewTicket.imageView1.setImageBitmap(myBitmap);
+
                 }
             }
             else if (requestCode == SELECT_FILE)
@@ -110,8 +110,8 @@ public class UtlCamera extends Activity
                 BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
                 bm = BitmapFactory.decodeFile(tempPath, btmapOptions);
                 //savePicSP("img1",UtlImage.bitmap2string(bm));
-                //img1.setImageBitmap(bm);
                 NewTicket.imageView2.setImageBitmap(bm);
+                NewTicket.imageView1.setImageBitmap(bm);
             }
         }
     }
@@ -123,15 +123,4 @@ public class UtlCamera extends Activity
         cursor.moveToFirst();
         return cursor.getString(column_index);
     }
-
-    private void savePicSP(String key, String image)
-    {
-        editor.putString(key,image).commit();
-    }
-
-    private String getPicSP(String key)
-    {
-        return pref.getString(key,"error");
-    }
-
 }
