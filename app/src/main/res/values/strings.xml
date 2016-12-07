@@ -11,6 +11,8 @@
         <item>קריאה חדשה</item>
     </string-array>
 
+    <string name="new_ticket">קריאה חדשה</string>
+    <string name="ticket_list">קריאות פתוחות</string>
     <string name="email">Email</string>
     <string name="minimum_password">Password too short, enter minimum 6 characters!</string>
     <string name="auth_failed">Authentication failed, check your email and password or sign up</string>

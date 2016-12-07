@@ -18,7 +18,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.teamrm.teamrm.Activities.MainActivity;
 import com.teamrm.teamrm.Adapter.NavigationDrawerAdapter;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Utility.NavDrawerItem;
@@ -39,6 +41,7 @@ public class FragmentDrawer extends Fragment {
     private DrawerLayout mDrawerLayout;
     private NavigationDrawerAdapter adapter;
     private View containerView;
+    private TextView userName;
     private static String[] titles = null;
     private FragmentDrawerListener drawerListener;
 
@@ -80,6 +83,8 @@ public class FragmentDrawer extends Fragment {
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
 
         adapter = new NavigationDrawerAdapter(getActivity(), getData());
+        userName = (TextView)layout.findViewById(R.id.userNameString);
+        userName.setText(MainActivity.userName);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         
@@ -98,7 +103,7 @@ public class FragmentDrawer extends Fragment {
             }
         }));
 
-            return layout;
+        return layout;
     }
 
 

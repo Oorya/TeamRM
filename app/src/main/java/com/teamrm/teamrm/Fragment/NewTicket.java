@@ -1,16 +1,13 @@
 package com.teamrm.teamrm.Fragment;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -29,9 +26,8 @@ import android.widget.Toast;
 
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Ticket;
-import com.teamrm.teamrm.Utility.UtlImage;
+import com.teamrm.teamrm.Utility.UtlCamera;
 
-import java.io.File;
 import java.util.Calendar;
 import java.util.UUID;
 
@@ -40,26 +36,22 @@ import static android.content.Context.MODE_PRIVATE;
 public class NewTicket extends Fragment implements AdapterView.OnItemSelectedListener {
 
     private Spinner selectProduct, selectCategoryA, selectRegion;
-    private ImageView imageView1, imageView2;
+    public static ImageView imageView1, imageView2;
     private String product, category, region;
     private EditText address, phone, desShort, desLong;
     //Spinner selectCategoryB;
     private Button btnSubmitTicket;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-    private final static int SELECT_FILE = 1;
-    private static final int FROM_CAMERA = 2;
     private int imgClick = 0;
 
     private static final int PERMISSION_CALLBACK_CONSTANT = 101;
     private static final int REQUEST_PERMISSION_SETTING = 102;
     private SharedPreferences permissionStatus;
     private boolean sentToSettings = false;
+    public static UtlCamera utlCamera;
 
-    private String picturePath = "";
-
-    public NewTicket() {
-    }
+    public NewTicket() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,14 +68,11 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         selectProduct = (Spinner) view.findViewById(R.id.selectProductSpinner);
         selectCategoryA = (Spinner) view.findViewById(R.id.selectCategoryASpinner);
         selectRegion = (Spinner) view.findViewById(R.id.selectRegionSpinner);
-
+        utlCamera=new UtlCamera(getContext(),getActivity());
         permissionStatus = getActivity().getSharedPreferences("permissionStatus",getActivity().MODE_PRIVATE);
 
         pref = getContext().getSharedPreferences("strImg",MODE_PRIVATE);
         editor=pref.edit();
-
-        if(!getPicSP("img1").equals("error")) imageView1.setImageBitmap(UtlImage.string2bitmap(getPicSP("img1")));
-        if(!getPicSP("img2").equals("error")) imageView2.setImageBitmap(UtlImage.string2bitmap(getPicSP("img2")));
 
         ArrayAdapter<String> listProductAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_view, getResources().getStringArray(R.array.product_list));
         ArrayAdapter<String> listCategoryAAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_view, getResources().getStringArray(R.array.category_a_list));
@@ -186,7 +175,8 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
             @Override
             public void onClick(View view) {
                 //imgClick=2;
-                selectImage();
+
+                utlCamera.selectImage();
                 Toast.makeText(getContext(), "IMAGE 2", Toast.LENGTH_SHORT).show();
 
             }
@@ -222,7 +212,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                         requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE},PERMISSION_CALLBACK_CONSTANT);
-                        selectImage();
+                        utlCamera.selectImage();
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -251,43 +241,9 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
                 //Got Permission
                 proceedAfterPermission();
             }
-        }
-
-        if (resultCode == RESULT_OK) {
-            Log.e("OK","OK");
-
-            if (requestCode == FROM_CAMERA) {
-                File imgFile = new  File(picturePath);
-                if(imgFile.exists()){
-                    Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                    //savePicSP("img1",UtlImage.bitmap2string(myBitmap));
-                    imageView2.setImageBitmap(myBitmap);
-                  //  img2.setImageBitmap(myBitmap);
-
-                }
-            }
-            else if (requestCode == SELECT_FILE)
-            {
-                Uri selectedImageUri = data.getData();
-
-                String tempPath = getPath(selectedImageUri, getActivity());
-                Bitmap bm;
-                BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
-                bm = BitmapFactory.decodeFile(tempPath, btmapOptions);
-                //savePicSP("img1",UtlImage.bitmap2string(bm));
-                //img1.setImageBitmap(bm);
-                imageView2.setImageBitmap(bm);
-            }
         }*/
     }
 
-    private String getPath(Uri uri, Activity activity) {
-        String[] projection = { MediaStore.MediaColumns.DATA };
-        Cursor cursor = activity.getContentResolver().query(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
 
     @Override
     public void onResume() {
@@ -300,51 +256,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         }
     }
 
-    private void savePicSP(String key, String image)
-    {
-        editor.putString(key,image).commit();
-    }
 
-    private String getPicSP(String key)
-    {
-        return pref.getString(key,"error");
-    }
-
-    private void selectImage() {
-        final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Add Photo!");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                if (items[item].equals("Take Photo")) {
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    File f = new File(android.os.Environment
-                            .getExternalStorageDirectory(), "temp.jpg");
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                    Toast.makeText(getContext(), "Befor", Toast.LENGTH_SHORT).show();
-                    getActivity().startActivityForResult(intent, FROM_CAMERA);
-                    Toast.makeText(getContext(), "After", Toast.LENGTH_SHORT).show();
-                    /*Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
-                        startActivityForResult(takePictureIntent, FROM_CAMERA);
-                    }*/
-                } else if (items[item].equals("Choose from Library")) {
-                    Intent intent = new Intent(
-                            Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    intent.setType("image/*");
-                    getActivity().startActivityForResult(
-                            Intent.createChooser(intent, "Select File"),
-                            SELECT_FILE);
-                } else if (items[item].equals("Cancel")) {
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.show();
-    }
 
     private void proceedAfterPermission() {
         Toast.makeText(getActivity(), "We got All Permissions", Toast.LENGTH_LONG).show();

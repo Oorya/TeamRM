@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.teamrm.teamrm.Fragment.CalendarView;
 import com.teamrm.teamrm.Fragment.FragmentDrawer;
@@ -36,8 +37,8 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     FloatingActionButton addTicket;
-    private static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
-
+    private static final int SELECT_FILE = 105;
+    private static final int FROM_CAMERA = 205;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.container_body, new TicketList());
         fragmentTransaction.commit();
+        setTitle(getResources().getString(R.string.ticket_list));
 
         addTicket.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +79,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
                 fragmentTransaction.replace(R.id.container_body,  newTicket);
                 fragmentTransaction.commit();
+                setTitle(getResources().getString(R.string.new_ticket));
                 addTicket.hide();
             }
         });
@@ -93,9 +96,16 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        Log.d("REQUEST = ","onActivityResult HOMSCREEN");
-
-        CalendarView.cal.onActivityResult(requestCode, resultCode, data);
+        Log.d("REQUEST = "+requestCode,"onActivityResult HOME SCREEN");
+        Toast.makeText(this, "HOME SCREEN  "+requestCode, Toast.LENGTH_SHORT).show();
+        if(requestCode==FROM_CAMERA || requestCode==SELECT_FILE)
+        {
+            NewTicket.utlCamera.onActivityResult(requestCode,resultCode,data);
+        }
+        else
+        {
+            CalendarView.cal.onActivityResult(requestCode, resultCode, data);
+        }
 
     }
 
@@ -122,34 +132,39 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         TicketList ticketList = new TicketList();
-        switch (position) {
+        switch (position)
+        {
             case 0:
 
                 fragmentTransaction.replace(R.id.container_body, ticketList);
                 fragmentTransaction.commit();
-                setTitle("קריאות פתוחות");
+                setTitle(getResources().getString(R.string.ticket_list));
                 break;
             case 1:
                 TicketView ticket = new TicketView();
                 fragmentTransaction.replace(R.id.container_body, ticket);
                 fragmentTransaction.commit();
+                addTicket.hide();
                 break;
             case 2:
                 CalendarView calendarView = new CalendarView();
                 fragmentTransaction.replace(R.id.container_body, calendarView);
                 fragmentTransaction.commit();
+                addTicket.hide();
                 break;
             case 6:
                 NewTicket newTicket = new NewTicket();
                 fragmentTransaction.replace(R.id.container_body, newTicket);
                 fragmentTransaction.commit();
+                setTitle(getResources().getString(R.string.new_ticket));
+                addTicket.hide();
                 break;
 
             default:
 
                 fragmentTransaction.replace(R.id.container_body, ticketList);
                 fragmentTransaction.commit();
-                setTitle("קריאות פתוחות");
+                setTitle(getResources().getString(R.string.ticket_list));
         }
 
 
