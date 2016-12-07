@@ -22,24 +22,24 @@
             android:layout_height="wrap_content">
 
             <RelativeLayout
-                android:id="@+id/line1open"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:id="@+id/ticketHeadingExpand"
+                style="@style/CardRow"
+                android:layout_height="42dp"
+                android:background="@color/listRow_alt"
+                >
 
                 <ImageView
                     android:id="@+id/userIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="6dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
                     android:src="@drawable/ic_icon_ticket" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_centerVertical="true"
                     android:layout_toEndOf="@id/userIcon"
                     android:text="פרטי קריאה" />
 
@@ -47,294 +47,356 @@
                     android:id="@+id/expandButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/ic_icon_down" />
-            </RelativeLayout>
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_icon_up"
+                    />
 
-            <RelativeLayout
-                android:id="@+id/Product"
+
+            </RelativeLayout>
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/line1open">
+                android:layout_height="1px"
+                android:background="@color/app_bg"
+                android:layout_below="@id/ticketHeadingExpand"
+                />
+            <RelativeLayout
+                android:id="@+id/productRow"
+                style="@style/CardRow"
+                android:layout_below="@id/ticketHeadingExpand">
 
                 <ImageView
                     android:id="@+id/productIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="6dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
                     android:src="@drawable/ic_icon_product2" />
 
+
                 <TextView
-                    android:id="@+id/productIconTxt"
-                    android:layout_width="42dp"
+                    android:id="@+id/productLabel"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
                     android:layout_toEndOf="@id/productIcon"
-                    android:text="מוצר" />
+                    android:textColor="@color/textColor_primary"
+                    android:text="מוצר:" />
 
                 <TextView
+                    android:id="@+id/productText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@id/productIconTxt"
-                    android:text="מוצר" />
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/productLabel"
+                    android:paddingEnd="32dp"
+                    android:textColor="@color/textColor_primary"
+                    tools:text="דגכלךעידךגעלחי" />
 
-                <ImageView
-                    android:id="@+id/productButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/ic_icon_loupe" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/line3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/Product">
+                android:id="@+id/categoryRow"
+                style="@style/CardRow"
+                android:layout_below="@id/productRow"
+                android:background="@color/listRow_alt">
 
                 <ImageView
                     android:id="@+id/ClassificationIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="6dp"
-                    android:src="@drawable/ic_icon_product2" />
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_icon_sivug" />
 
                 <TextView
-                    android:id="@+id/ClassificationTxt1"
-                    android:layout_width="42dp"
+                    android:id="@+id/categoryLabel"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
                     android:layout_toEndOf="@id/ClassificationIcon"
-                    android:text="מוצר" />
+                    android:layoutDirection="rtl"
+                    android:textColor="@color/textColor_primary"
+                    android:text="סיווג:"
+                    android:textDirection="rtl" />
 
                 <TextView
-                    android:id="@+id/ClassificationTxt2"
+                    android:id="@+id/categoryText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@id/ClassificationTxt1"
-                    android:text="מוצר" />
-
-                <TextView
-                    android:id="@+id/ClassificationTxt3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@id/ClassificationTxt2"
-                    android:text="|" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@id/ClassificationTxt3"
-                    android:text="מוצר" />
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/categoryLabel"
+                    tools:text="דגכלךעידךגעלחי"
+                    android:textColor="@color/textColor_primary"
+                    />
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/line4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/line3">
+                android:id="@+id/regionRow"
+                style="@style/CardRow"
+                android:layout_below="@id/categoryRow">
 
                 <ImageView
-                    android:id="@+id/areaIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="6dp"
-                    android:src="@drawable/ic_icon_ezor" />
-
-                <TextView
-                    android:id="@+id/areaTxt1"
-                    android:layout_width="42dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@id/areaIcon"
-                    android:text="אזור" />
-
-                <TextView
-                    android:id="@+id/areaTxt2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@id/areaTxt1"
-                    android:text="גוש דן" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/line5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/line4">
-
-                <ImageView
-                    android:id="@+id/addIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="6dp"
+                    android:id="@+id/regionIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
                     android:src="@drawable/ic_icon_location" />
 
                 <TextView
-                    android:id="@+id/addTxt"
-                    android:layout_width="42dp"
+                    android:id="@+id/regionLabel"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@id/addIcon"
-                    android:text="כתובת" />
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    android:layout_toEndOf="@id/regionIcon"
+                    android:text="אזור:"
+                    android:textColor="@color/textColor_primary"
+                    />
 
                 <TextView
+                    android:id="@+id/regionText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@id/addTxt"
-                    android:text="בלה בלה בלה" />
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/regionLabel"
+                    tools:text="דגכלךעידךגעלחי"
+                    android:textColor="@color/textColor_primary"
+                    />
 
-                <ImageView
-                    android:id="@+id/addButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/ic_icon_nav" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/line6"
-                android:layout_width="match_parent"
+                android:id="@+id/addressRow"
+                style="@style/CardRow"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/line5">
+                android:layout_below="@id/regionRow"
+                android:background="@color/listRow_alt"
+                android:minHeight="48dp">
+
+                <ImageView
+                    android:id="@+id/addressIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_icon_location" />
+
+                <TextView
+                    android:id="@+id/addressLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    android:layout_toEndOf="@+id/addressIcon"
+                    android:textColor="@color/textColor_primary"
+                    android:text="כתובת:" />
+
+                <TextView
+                    android:id="@+id/addressText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/addressLabel"
+                    android:paddingBottom="4dp"
+                    android:paddingEnd="32dp"
+                    android:paddingTop="4dp"
+                    android:textColor="@color/textColor_primary"
+                    tools:text="גכע דגכע דגכ  דגכעדגכ דגכ  דכדכגד  דגכדגכ דגכ דכג גכג כ דגכעדגעדדגעדדגכ שדגעדגעגכ דגכ דגכדגכעדגכעדג דגכעדגכעד דגכעד גכע דגכ" />
+
+                <ImageView
+                    android:id="@+id/navigateToAddress"
+                    style="@style/RegularRowItem"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_icon_nav"
+                    android:textColor="@color/textColor_primary"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/phoneRow"
+                style="@style/CardRow"
+                android:layout_below="@id/addressRow">
 
                 <ImageView
                     android:id="@+id/phoneIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="6dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
                     android:src="@drawable/ic_icon_phone" />
 
                 <TextView
-                    android:id="@+id/phoneTxt1"
-                    android:layout_width="42dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@id/phoneIcon"
-                    android:text="טלפון" />
-
-                <TextView
-                    android:id="@+id/phoneTxt2"
+                    android:id="@+id/phoneLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@id/phoneTxt1"
-                    android:text="מוצר" />
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
+                    android:layout_toEndOf="@+id/phoneIcon"
+                    android:text="טלפון:"
+                    android:textColor="@color/textColor_primary"
+                    />
 
                 <TextView
-                    android:id="@+id/phoneTxt3"
+                    android:id="@+id/phoneText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@id/phoneTxt2"
-                    android:text="|" />
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/phoneLabel"
+                    android:paddingEnd="32dp"
+                    android:textColor="@color/textColor_primary"
+                    tools:text="0546-9876-987698" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@id/phoneTxt3"
-                    android:text="מוצר" />
+                <ImageView
+                    android:id="@+id/callNumber"
+                    style="@style/RegularRowItem"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_call_24px" />
+
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/line7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/line6">
+                android:id="@+id/labelDescription"
+                style="@style/CardRow"
+                android:layout_below="@id/phoneRow"
+                android:background="@color/listRow_alt"
+                >
 
                 <ImageView
-                    android:id="@+id/noteIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="6dp"
+                    android:id="@+id/descriptionIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
                     android:src="@drawable/ic_icon_note" />
 
                 <TextView
-                    android:id="@+id/noteTxt1"
+                    android:id="@+id/descriptionLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@id/noteIcon"
-                    android:text="תוכן הקריאה" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/noteTxt1"
-                    android:layout_marginRight="42dp"
-                    android:hint="פרות התקלה" />
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/descriptionIcon"
+                    android:text="תוכן הקריאה"
+                    android:textColor="@color/textColor_primary"/>
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/line8"
+                android:id="@+id/descriptionLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/line7">
+                android:layout_below="@id/labelDescription"
+                android:background="@color/listRow_alt"
+                android:paddingBottom="16dp"
+                android:paddingEnd="32dp"
+                android:paddingStart="32dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/dotted_rect"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/descriptionShort"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textColor_primary"
+                        android:textColorHint="@color/textColor_lighter"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="8dp"
+                        tools:text="קריאת שרות תקנית">
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/descriptionLong"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/descriptionShort"
+                        android:gravity="top"
+                        android:minHeight="48dp"
+                        android:textColor="@color/textColor_primary"
+                        android:textColorHint="@color/textColor_lighter"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="8dp"
+                        android:lineSpacingExtra="2sp"
+                        tools:text="קריאת שירות הינה פנייה יזומה של יצרן הרכב אל בעלי הרכבים לשם ביצוע בדיקה ו/או פעולה מונעת ו/או תיקון "
+                        />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/photos"
+                style="@style/CardRow"
+                android:layout_below="@id/descriptionLayout">
 
                 <ImageView
-                    android:id="@+id/cameraIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="6dp"
+                    android:id="@+id/photoIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
                     android:src="@drawable/ic_icon_camera" />
 
                 <TextView
-                    android:id="@+id/cameraTxt1"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/photoLabel"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@id/cameraIcon"
-                    android:text="צילומים" />
-
-                <ImageView
-                    android:id="@+id/img1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <ImageView
-                    android:id="@+id/img2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/img1" />
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/photoIcon"
+                    android:text="תמונות מצורפות" />
             </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/photosLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/photos"
+                android:orientation="horizontal"
+                android:paddingBottom="24dp"
+                android:paddingEnd="24dp"
+                android:paddingStart="24dp"
+                android:weightSum="2.1">
+
+                <ImageView
+                    android:id="@+id/photo1"
+                    android:layout_width="1dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:background="#e7e7e7"
+                    android:src="@drawable/ic_image_black_24dp"
+                    android:tint="#c0c0c0"
+
+                    />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".1" />
+
+                <ImageView
+                    android:id="@+id/photo2"
+                    android:layout_width="1dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:background="#e7e7e7"
+                    android:src="@drawable/ic_image_black_24dp"
+                    android:tint="#c0c0c0" />
+
+            </LinearLayout>
+
         </RelativeLayout>
     </android.support.v7.widget.CardView>
-    </LinearLayout>
+</LinearLayout>

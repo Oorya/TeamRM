@@ -21,8 +21,8 @@ public class TicketView extends Fragment implements View.OnClickListener {
 
     CardView userDetailCard;
     RelativeLayout userDetailOpen;
-    RelativeLayout tiketDetailclose;
-    RelativeLayout tiketDetailOpen;
+    RelativeLayout ticketDetailClose;
+    RelativeLayout ticketDetailOpen;
     
     
     public TicketView() {
@@ -62,12 +62,12 @@ public class TicketView extends Fragment implements View.OnClickListener {
             this.getView().findViewById(R.id.userDetails).setVisibility(View.VISIBLE);
             this.getView().findViewById(R.id.userDetailsOpen).setVisibility(View.GONE);
         }
-        else if(view.getId()==tiketDetailclose.getId())
+        else if(view.getId()== ticketDetailClose.getId())
         {
             this.getView().findViewById(R.id.ticketDetails).setVisibility(View.GONE);
             this.getView().findViewById(R.id.ticketDetailsOpen).setVisibility(View.VISIBLE);
         }
-        else if(view.getId()==tiketDetailOpen.getId())
+        else if(view.getId()== ticketDetailOpen.getId())
         {
             this.getView().findViewById(R.id.ticketDetails).setVisibility(View.VISIBLE);
             this.getView().findViewById(R.id.ticketDetailsOpen).setVisibility(View.GONE);
@@ -77,12 +77,12 @@ public class TicketView extends Fragment implements View.OnClickListener {
     {
         userDetailCard = (CardView)view.findViewById(R.id.userDetailCard);
         userDetailOpen = (RelativeLayout) view.findViewById(R.id.name);
-        tiketDetailclose = (RelativeLayout)view.findViewById(R.id.line1);
-        tiketDetailOpen = (RelativeLayout) view.findViewById(R.id.line1open);
+        ticketDetailClose = (RelativeLayout)view.findViewById(R.id.ticketHeading);
+        ticketDetailOpen = (RelativeLayout) view.findViewById(R.id.ticketHeadingExpand);
         userDetailCard.setOnClickListener(this);
         userDetailOpen.setOnClickListener(this);
-        tiketDetailclose.setOnClickListener(this);
-        tiketDetailOpen.setOnClickListener(this);
+        ticketDetailClose.setOnClickListener(this);
+        ticketDetailOpen.setOnClickListener(this);
     }
 }
 

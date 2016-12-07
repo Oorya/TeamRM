@@ -3,8 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#b3e5fc"
-    tools:context="com.teamrm.teamrm.Fragment.TicketView">
+    android:background="@color/app_bg"
+    tools:context="com.teamrm.teamrm.Fragment.TicketView"
+    >
 
     
    
@@ -135,7 +136,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:id="@+id/card_userDitale"
+      android:id="@+id/card_userDetails"
       >
       <include layout="@layout/user_detail_card"
           android:id="@+id/userDetails"
@@ -152,7 +153,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/card_userDitale"
+        android:layout_below="@id/card_userDetails"
         >
         <include layout="@layout/ticket_detail_card"
             android:id="@+id/ticketDetails"

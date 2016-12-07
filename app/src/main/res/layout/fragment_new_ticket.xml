@@ -43,7 +43,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/selectProductRow"
+                android:id="@+id/productRow"
                 style="@style/RegularRow"
                 android:layout_below="@id/line1open">
 
@@ -84,9 +84,9 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/selectCategory"
+                android:id="@+id/categoryRow"
                 style="@style/RegularRow.Alt"
-                android:layout_below="@id/selectProductRow">
+                android:layout_below="@id/productRow">
 
                 <ImageView
                     android:id="@+id/ClassificationIcon"
@@ -97,7 +97,7 @@
                     android:src="@drawable/ic_icon_sivug" />
 
                 <TextView
-                    android:id="@+id/selectCategoryLabel"
+                    android:id="@+id/categoryLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -118,16 +118,16 @@
                 <Spinner
                     android:id="@+id/selectCategoryASpinner"
                     style="@style/RegularRowItem.Spinner"
-                    android:layout_toEndOf="@id/selectCategoryLabel"
+                    android:layout_toEndOf="@id/categoryLabel"
                     android:dropDownWidth="match_parent"
                     />
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/selectRegion"
+                android:id="@+id/regionRow"
                 style="@style/RegularRow"
-                android:layout_below="@id/selectCategory">
+                android:layout_below="@id/categoryRow">
 
                 <ImageView
                     android:id="@+id/regionIcon"
@@ -138,7 +138,7 @@
                     android:src="@drawable/ic_icon_location" />
 
                 <TextView
-                    android:id="@+id/selectRegionLabel"
+                    android:id="@+id/regionLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -157,16 +157,16 @@
                 <Spinner
                     android:id="@+id/selectRegionSpinner"
                     style="@style/RegularRowItem.Spinner"
-                    android:layout_toEndOf="@id/selectRegionLabel"
+                    android:layout_toEndOf="@id/regionLabel"
                     android:dropDownWidth="match_parent"
                     />
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/inputAddress"
+                android:id="@+id/addressRow"
                 style="@style/RegularRow.Alt"
-                android:layout_below="@id/selectRegion">
+                android:layout_below="@id/regionRow">
 
                 <ImageView
                     android:id="@+id/addressIcon"
@@ -177,7 +177,7 @@
                     android:src="@drawable/ic_icon_location" />
 
                 <TextView
-                    android:id="@+id/inputAddressLabel"
+                    android:id="@+id/addressLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -188,16 +188,16 @@
                 <EditText
                     android:id="@+id/txtAddress"
                     style="@style/RegularRowItem.EditText"
-                    android:layout_toEndOf="@id/inputAddressLabel">
+                    android:layout_toEndOf="@id/addressLabel">
 
                     <requestFocus></requestFocus>
                 </EditText>
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/inputPhone"
+                android:id="@+id/phoneRow"
                 style="@style/RegularRow"
-                android:layout_below="@id/inputAddress">
+                android:layout_below="@id/addressRow">
 
                 <ImageView
                     android:id="@+id/phoneIcon"
@@ -208,7 +208,7 @@
                     android:src="@drawable/ic_icon_phone" />
 
                 <TextView
-                    android:id="@+id/inputPhoneLabel"
+                    android:id="@+id/phoneLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -219,7 +219,7 @@
                 <EditText
                     android:id="@+id/txtPhone"
                     style="@style/RegularRowItem.EditText"
-                    android:layout_toEndOf="@id/inputPhoneLabel">
+                    android:layout_toEndOf="@id/phoneLabel">
                     <requestFocus></requestFocus>
                 </EditText>
             </RelativeLayout>
@@ -227,7 +227,7 @@
             <RelativeLayout
                 android:id="@+id/labelDescription"
                 style="@style/RegularRow.Alt"
-                android:layout_below="@id/inputPhone">
+                android:layout_below="@id/phoneRow">
 
                 <ImageView
                     android:id="@+id/descriptionIcon"
@@ -247,7 +247,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/inputDescription"
+                android:id="@+id/descriptionLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/labelDescription"
@@ -257,7 +257,7 @@
                 android:paddingStart="32dp">
 
                 <EditText
-                    android:id="@+id/descriptionShortInput"
+                    android:id="@+id/descriptionShort"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/dotted_rect"
@@ -274,10 +274,10 @@
                 </EditText>
 
                 <EditText
-                    android:id="@+id/descriptionLongInput"
+                    android:id="@+id/descriptionLong"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/descriptionShortInput"
+                    android:layout_below="@id/descriptionShort"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/dotted_rect"
                     android:gravity="top"
@@ -296,9 +296,9 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/photoChooserLabel"
+                android:id="@+id/photos"
                 style="@style/RegularRow"
-                android:layout_below="@id/inputDescription">
+                android:layout_below="@id/descriptionLayout">
 
                 <ImageView
                     android:id="@+id/photoIcon"
@@ -321,7 +321,7 @@
                 android:id="@+id/photoChooser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/photoChooserLabel"
+                android:layout_below="@id/photos"
                 android:orientation="horizontal"
                 android:paddingBottom="24dp"
                 android:paddingEnd="24dp"

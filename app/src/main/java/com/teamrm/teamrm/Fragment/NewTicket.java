@@ -71,8 +71,8 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         imageView2 = (ImageView)view.findViewById(R.id.photoChooser2);
         address = (EditText)view.findViewById(R.id.txtAddress);
         phone = (EditText)view.findViewById(R.id.txtPhone);
-        desShort = (EditText)view.findViewById(R.id.descriptionShortInput);
-        desLong = (EditText)view.findViewById(R.id.descriptionLongInput);
+        desShort = (EditText)view.findViewById(R.id.descriptionShort);
+        desLong = (EditText)view.findViewById(R.id.descriptionLong);
         selectProduct = (Spinner) view.findViewById(R.id.selectProductSpinner);
         selectCategoryA = (Spinner) view.findViewById(R.id.selectCategoryASpinner);
         selectRegion = (Spinner) view.findViewById(R.id.selectRegionSpinner);
