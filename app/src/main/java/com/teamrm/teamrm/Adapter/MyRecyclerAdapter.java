@@ -110,7 +110,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
         holder.classification.setText(item.classification);
         holder.description.setText(item.desShort);
         holder.ticketNumber.setText(item.ticketNumber);
-        holder.time.setText(item.time);
+        holder.time.setText(item.startTime);
     }
 
     @Override

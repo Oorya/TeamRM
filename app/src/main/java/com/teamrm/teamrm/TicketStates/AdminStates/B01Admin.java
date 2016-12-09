@@ -27,7 +27,7 @@ public class B01Admin extends TicketStateAdmin implements TicketStateAble {
         UtlNotification utlNotification = new UtlNotification("לקוח אישר מועד","יום נפלא");
         utlNotification.sendNotification();
         Calendar cal = Calendar.getInstance(); // creates calendar
-        cal.setTime(new Date()); // sets calendar time/date
+        cal.setTime(new Date()); // sets calendar startTime/date
         cal.add(Calendar.HOUR_OF_DAY, 6); // adds 5 hours
 
         UtlAlarmManager utlAlarmManager = new UtlAlarmManager(context);
