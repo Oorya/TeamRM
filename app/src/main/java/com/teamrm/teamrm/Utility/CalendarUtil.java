@@ -505,7 +505,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                     String startDateStr = dateFormat.format(startDate);
                     String endDateStr = dateFormat.format(endDate);
 
-                    // Out of the 6 methods for creating a DateTime object with no time element, only the String version works
+                    // Out of the 6 methods for creating a DateTime object with no startTime element, only the String version works
                     DateTime startDateTime = new DateTime(startDateStr);
                     DateTime endDateTime = new DateTime(endDateStr);
 
@@ -631,7 +631,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
     public void calendarView() {
         Date NOW = new Date();
         Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
-        builder.appendPath("time");
+        builder.appendPath("startTime");
         ContentUris.appendId(builder, NOW.getTime());
         Intent intent = new Intent(Intent.ACTION_VIEW)
                 .setData(builder.build());

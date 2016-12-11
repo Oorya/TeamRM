@@ -28,7 +28,7 @@ public class Ticket {
     public String phone;
     public String ticketId;
     public String state;
-    public String time;
+    public String startTime;
     public Date endTime;
     public Date ttl;
     public int alarmID;
@@ -56,7 +56,7 @@ public class Ticket {
         this.ticketImage1=ticketImage1;
         this.ticketImage2=ticketImage2;
         this.ticketId=ticketId;
-        this.time=getCurrentTime();
+        this.startTime =getCurrentTime();
         this.state= ProductID.STATE_A01;
         this.statusA= TicketStatus.waitForApproval;
         this.company="NULL";
@@ -84,7 +84,7 @@ public class Ticket {
     {
         //Calendar calendar=Calendar.getInstance();
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss - dd/MM/yyyy");
-        //get current date time with Date()
+        //get current date startTime with Date()
         Date date = new Date();
         //return dateFormat.format(cal.getTime()));
         return dateFormat.format(date);
