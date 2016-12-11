@@ -2,12 +2,17 @@ package com.teamrm.teamrm.Adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.teamrm.teamrm.Fragment.TicketView;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Ticket;
@@ -22,10 +27,10 @@ import java.util.List;
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.CustomViewHolder> {
 
 
-    private Typeface EXTRA_BOLD; 
-    private Typeface BOLD; 
+    private Typeface EXTRA_BOLD;
+    private Typeface BOLD;
     private Typeface EXTRA_LIGHT;
-    private Typeface LIGHT; 
+    private Typeface LIGHT;
     private Typeface REGULAR;
     private Typeface SEMI_BOLD;
     private List<Ticket> mTicketListItem;
@@ -47,7 +52,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
             {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_list_status_urgent, null);
                 viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_STATUS_URGENT);
-            break;
+                break;
             }
             case TicketStateAble.TICKET_LIST_STATUS_PENDING:
             {
@@ -69,22 +74,22 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
             }
             default:viewHolder=null;
         }
-        
+
         return viewHolder;
-       
+
     }
 
     @Override
     public int getItemViewType(int position) {
-       // super.getItemViewType(position);
+        // super.getItemViewType(position);
         switch (mTicketListItem.get(position).status)
         {
             case TicketStateAble.TICKET_LIST_STATUS_URGENT:
             {
-               return TicketStateAble.TICKET_LIST_STATUS_URGENT;
+                return TicketStateAble.TICKET_LIST_STATUS_URGENT;
             }
             case TicketStateAble.TICKET_LIST_STATUS_PENDING:
-            { 
+            {
                 return TicketStateAble.TICKET_LIST_STATUS_PENDING;
             }
             case TicketStateAble.TICKET_LIST_STATUS_OK:
@@ -101,8 +106,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
     }
 
     @Override
-    public void onBindViewHolder(MyRecyclerAdapter.CustomViewHolder holder, int position) {
-        Ticket item = mTicketListItem.get(position);
+    public void onBindViewHolder(MyRecyclerAdapter.CustomViewHolder holder, final int position) {
+        final Ticket item = mTicketListItem.get(position);
         holder.userName.setText(item.customerName);
         holder.product.setText(item.product);
         holder.address.setText(item.address);
@@ -111,6 +116,25 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
         holder.description.setText(item.desShort);
         holder.ticketNumber.setText(item.ticketNumber);
         holder.time.setText(item.startTime);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mContext, "its fucking working!!!", Toast.LENGTH_SHORT).show();
+
+                Bundle bundel = new Bundle();
+                bundel.putString("ticketID",item.ticketId);
+
+                FragmentTransaction fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager()
+                        .beginTransaction();
+                TicketView ticketView = new TicketView();
+                ticketView.setArguments(bundel);
+                fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+                fragmentManager.replace(R.id.container_body,  ticketView).commit();
+
+                //mContext.setTitle(mContext.getResources().getString(R.string.new_ticket));
+
+            }
+        });
     }
 
     @Override
@@ -190,9 +214,9 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
             this.endTime = (TextView) view.findViewById(R.id.closeDate);
             this.endTime.setTypeface(REGULAR);
         }
-        
+
     }
-   
+
     private void setFont()
     {
         EXTRA_BOLD = Typeface.createFromAsset(mContext.getAssets(), "Assistant-ExtraBold.ttf");

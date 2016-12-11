@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
+import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -50,11 +52,12 @@ public class TestStates extends AppCompatActivity {
     public void btnStateA03(View view)
     {
 
+        UtlFirebase.changeState("399c312a-445c-4e12-8db5-fd96dbdde243", txt.getText().toString());
     }
 
     public void btnStateB01(View view)
     {
-
+        Toast.makeText(this, MainActivity.email, Toast.LENGTH_SHORT).show();
     }
 
     public void btnStateB02(View view)

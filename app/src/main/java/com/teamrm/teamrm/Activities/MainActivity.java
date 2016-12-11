@@ -25,6 +25,7 @@ import com.google.android.gms.common.api.Status;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
+import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         findViewById(R.id.sign_in_button).setOnClickListener(this);
 
-
+        UtlFirebase.stateListener("User",MainActivity.email,"NULL");
     }
 
 

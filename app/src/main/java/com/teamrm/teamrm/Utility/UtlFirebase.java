@@ -25,18 +25,18 @@ import java.util.List;
 public class UtlFirebase {
     private static String status;
     private static Ticket returnTicket;
-    private static boolean isWait=false;
+    private static boolean isWait = false;
     private static boolean ticketExist;
     private static FirebaseAuth firebaseAuth;
     private static TicketFactory ticketFactory;
     private static List<Ticket> ticketList = new ArrayList<Ticket>();
 
-    public UtlFirebase() {}
+    public UtlFirebase() {
+    }
 
 
-    public static void signOut()
-    {
-        firebaseAuth=FirebaseAuth.getInstance();
+    public static void signOut() {
+        firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signOut();
 
         // this listener will be called when there is change in firebase user session
@@ -48,32 +48,85 @@ public class UtlFirebase {
         };
     }
 
+    //Listener for state changed
+    public static void stateListener(final String statusUser, String email, String company) {
+        ticketFactory = new TicketFactory();
+        //creating an instance to the database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        //creating a reference to the database
+        DatabaseReference myRef = database.getReference("Ticket");
 
-    public static void changeState(String ticketID, String state)
-    {
+        Query query = myRef.orderByChild("email").equalTo(email);
+
+        switch (statusUser) {
+            case "Admin":
+                query = myRef.orderByChild("company").equalTo(company);
+                break;
+            case "Tech":
+                query = myRef.orderByChild("tech").equalTo(email);
+                break;
+        }
+
+        myRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                String arrData[] = dataSnapshot.getValue().toString().split("[{,]");
+                Log.w("STATE CHANGED", arrData[1]);
+                //{state=A00Admin, userName=oorya, company=yes, status=0, ticketId=11111};
+                for (int ctr = 0; ctr <= arrData.length; ctr++) {
+                    if (arrData[ctr].contains("state")) {
+                        Log.w("STATE FROM LOOP", statusUser + "States." + arrData[ctr].substring(7) + statusUser);
+                        ticketFactory.getNewState(statusUser + "States.", arrData[ctr].substring(7) + statusUser);
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public static void changeState(String ticketID, String state) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Ticket");
 
         myRef.child(ticketID).child("state").setValue(state);
     }
 
-    public static void ticketSaved(final String ticketID, Object object)
-    {
-        final FireBaseAble fireBaseAble = (FireBaseAble)object;
+    public static void ticketSaved(final String ticketID, Object object) {
+        final FireBaseAble fireBaseAble = (FireBaseAble) object;
 
         new AsyncTask<Void, Boolean, Boolean>() {
 
 
             @Override
             protected Boolean doInBackground(Void... voids) {
-                FirebaseDatabase database=FirebaseDatabase.getInstance();
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference ref = database.getReference("Ticket");
 
                 ref.child(ticketID).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        ticketExist=dataSnapshot.exists();
-                        isWait=true;
+                        ticketExist = dataSnapshot.exists();
+                        isWait = true;
                     }
 
                     @Override
@@ -81,8 +134,7 @@ public class UtlFirebase {
 
                     }
                 });
-                while (!isWait)
-                {
+                while (!isWait) {
                     Log.e("WAIT ", "");
                 }
 
@@ -92,7 +144,7 @@ public class UtlFirebase {
             @Override
             protected void onPostExecute(Boolean aBoolean) {
                 fireBaseAble.resultBoolean(aBoolean);
-                isWait=false;
+                isWait = false;
             }
         }.execute();
     }
@@ -100,7 +152,7 @@ public class UtlFirebase {
 
     public static void getTicketByKey(final String key, Object object) {
 
-        final FireBaseAble fireBaseAble = (FireBaseAble)object;
+        final FireBaseAble fireBaseAble = (FireBaseAble) object;
 
         new AsyncTask<Void, Ticket, Ticket>() {
             @Override
@@ -114,9 +166,9 @@ public class UtlFirebase {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot item : dataSnapshot.getChildren()) {
                             Ticket ticket = item.getValue(Ticket.class);
-                            returnTicket=ticket;
-                            Log.e("ON DATA CHANGE ", ticket==null?"NULL":"NOT NULL");
-                            isWait=true;
+                            returnTicket = ticket;
+                            Log.e("ON DATA CHANGE ", ticket == null ? "NULL" : "NOT NULL");
+                            isWait = true;
                         }
                     }
 
@@ -126,8 +178,7 @@ public class UtlFirebase {
                     }
                 });
 
-                while (!isWait)
-                {
+                while (!isWait) {
                     Log.e("WAIT ", "");
                 }
                 return returnTicket;
@@ -136,8 +187,8 @@ public class UtlFirebase {
             @Override
             protected void onPostExecute(Ticket ticket) {
                 fireBaseAble.resultTicket(ticket);
-                Log.e("RETURN METHOD ", returnTicket==null?"NULL":"NOT NULL");
-                isWait=false;
+                Log.e("RETURN METHOD ", returnTicket == null ? "NULL" : "NOT NULL");
+                isWait = false;
             }
         }.execute();
     }
@@ -204,16 +255,15 @@ public class UtlFirebase {
         return ticketList;
     }
 
-    public static String getStatus(String ticketID)
-    {
+    public static String getStatus(String ticketID) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Ticket");
 
         myRef.child(ticketID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String statusData = dataSnapshot.child("status").getValue()+"";
-                status=statusData;
+                String statusData = dataSnapshot.child("status").getValue() + "";
+                status = statusData;
             }
 
             @Override
@@ -225,39 +275,34 @@ public class UtlFirebase {
         return status;
     }
 
-    public static void changeStatus(String ticketID, String status)
-    {
+    public static void changeStatus(String ticketID, String status) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Ticket");
 
         myRef.child(ticketID).child("status").setValue(status);
     }
 
-    public static void removeTicket(String ticketID)
-    {
+    public static void removeTicket(String ticketID) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Ticket");
 
         myRef.child(ticketID).removeValue();
     }
 
-    public static void removeMultipleTickets(List<String> ticketsList)
-    {
+    public static void removeMultipleTickets(List<String> ticketsList) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Ticket");
 
-        for (int counter=0; counter<ticketsList.size(); counter++)
-        {
+        for (int counter = 0; counter < ticketsList.size(); counter++) {
             myRef.child(ticketsList.get(counter)).removeValue();
         }
     }
 
-    public static void onStatusChanged(String userName)
-    {
+    public static void onStatusChanged(String userName) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Ticket");
 
-        Query query=myRef.orderByChild("userName").equalTo(userName);
+        Query query = myRef.orderByChild("userName").equalTo(userName);
         query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -285,9 +330,8 @@ public class UtlFirebase {
         });
     }
 
-    public static void onSendTicket()
-    {
-        FirebaseDatabase database= FirebaseDatabase.getInstance();
+    public static void onSendTicket() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = database.getReference("Ticket");
         myRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -353,8 +397,7 @@ public class UtlFirebase {
         return chatList;
     }
 
-    public static void removeChat(String ticketID)
-    {
+    public static void removeChat(String ticketID) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Chat");
 
