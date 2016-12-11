@@ -40,6 +40,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     FloatingActionButton addTicket;
     private static final int SELECT_FILE = 105;
     private static final int FROM_CAMERA = 205;
+    private static final int ACTION_OVERLAY = 300;
     private final static String[] TAG_FRAGMENT = {"NEW_TICKET"};
 
     @Override
@@ -85,16 +86,21 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 addTicket.hide();
             }
         });
+
+        //if(Settings)
     }
 
 
     @Override
     public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults) {
         Log.d("REQUEST = ","API23 HOMSCREEN");
+        Log.w("Permission home screen", "Befor if "+requestCode);
 
-        if(requestCode==108)
+        if(requestCode == 108)
         {
-
+            NewTicket newTicket = new NewTicket();
+            newTicket.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            Log.w("Permission home screen", "Shalty");
         }
         else {
             CalendarView.cal.onRequestPermissionsResult(requestCode, permissions, grantResults);

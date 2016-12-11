@@ -42,6 +42,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     SharedPreferences pref;
     SharedPreferences.Editor editor;
     private int imgClick = 0;
+    private boolean isAllow = false;
 
     private static final int PERMISSION_CALLBACK_CONSTANT = 101;
     private static final int REQUEST_PERMISSION_SETTING = 102;
@@ -103,7 +104,15 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
             @Override
             public void onClick(View view) {
                 //imgClick=1;
-                getPermission();
+
+                if (isAllow)
+                {
+                    utlCamera.selectImage();
+                }
+                else
+                {
+                    getPermission();
+                }
 
                 Toast.makeText(getContext(), "IMAGE 1", Toast.LENGTH_SHORT).show();
 
@@ -113,7 +122,15 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
             @Override
             public void onClick(View view) {
                 //imgClick=2;
-                getPermission();
+                //getPermission();
+                if (isAllow)
+                {
+                    utlCamera.selectImage();
+                }
+                else
+                {
+                    getPermission();
+                }
                 Toast.makeText(getContext(), "IMAGE 2", Toast.LENGTH_SHORT).show();
             }
         });
@@ -125,11 +142,15 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         ActivityCompat.requestPermissions(getActivity(),permissionList,108);
     }
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.w("Permission new ticket", "new ticket");
         if(grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED)
         {
+            Log.w("Permission new ticket", "INSIDE IF");
+            isAllow=true;
             utlCamera.selectImage();
         }
         else
@@ -210,6 +231,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         //returning the UUID
         return idOne.toString();
     }
+
 
 }
 

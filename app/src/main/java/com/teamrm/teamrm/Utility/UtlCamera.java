@@ -15,6 +15,7 @@ import android.util.Log;
 
 import com.teamrm.teamrm.Fragment.NewTicket;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,6 +31,7 @@ public class UtlCamera extends Activity
     private String picturePath = "";
     private static final int SELECT_FILE = 105;
     private static final int FROM_CAMERA = 205;
+    ByteArrayOutputStream baos=new ByteArrayOutputStream();
 
     public UtlCamera(Context context, Activity activity)
     {
@@ -81,11 +83,13 @@ public class UtlCamera extends Activity
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK)
+        {
             Log.e("OK","OK");
             Log.w("FROM CAMERA OUTSIDE: ",requestCode+"");
 
-            if (requestCode == FROM_CAMERA) {
+            if (requestCode == FROM_CAMERA)
+            {
                 File imgFile = new  File(picturePath);
 
                 Log.w("FROM CAMERA: ",requestCode+"");
@@ -94,6 +98,8 @@ public class UtlCamera extends Activity
                     Log.w("FILE EXIST 2: ",imgFile.exists()+"");
 
                     Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+
+                    myBitmap.compress(Bitmap.CompressFormat.JPEG,80,baos);
                     //savePicSP("img1",UtlImage.bitmap2string(myBitmap));
                     Log.w("BITMAP: ",myBitmap+"");
                     NewTicket.imageView2.setImageBitmap(myBitmap);
@@ -103,12 +109,14 @@ public class UtlCamera extends Activity
             }
             else if (requestCode == SELECT_FILE)
             {
+                Log.w("select file: ","Select file");
                 Uri selectedImageUri = data.getData();
 
                 String tempPath = getPath(selectedImageUri, activity);
                 Bitmap bm;
                 BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
                 bm = BitmapFactory.decodeFile(tempPath, btmapOptions);
+                bm.compress(Bitmap.CompressFormat.JPEG,80,baos);
                 //savePicSP("img1",UtlImage.bitmap2string(bm));
                 NewTicket.imageView2.setImageBitmap(bm);
                 NewTicket.imageView1.setImageBitmap(bm);

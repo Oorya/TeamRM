@@ -37,7 +37,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ישראל ישראלי"
+                android:id="@+id/userNameExpand"
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@id/userIcon"/>
             <ImageView
@@ -70,7 +70,7 @@
                 <TextView
                     android:layout_width="41dp"
                     android:layout_height="wrap_content"
-                    android:text="אזור "
+                    android:text="@string/mail"
                     android:layout_marginTop="10dp"
                     android:id="@+id/mailAdd1"
                     android:layout_toEndOf="@id/mailIcon"/>
@@ -241,6 +241,7 @@
                     android:layout_marginRight="30dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginBottom="2dp"
+                    android:id="@+id/userProfile"
                     />
             </android.support.v7.widget.CardView>
             

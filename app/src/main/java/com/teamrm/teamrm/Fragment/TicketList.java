@@ -44,6 +44,7 @@ public class TicketList extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         myRecyclerAdapter = new MyRecyclerAdapter(getContext());
         mRecyclerView.setAdapter(myRecyclerAdapter);
+
         return view;
     }
 }

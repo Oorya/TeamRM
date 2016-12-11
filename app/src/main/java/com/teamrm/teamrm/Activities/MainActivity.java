@@ -31,9 +31,10 @@ import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
+
     private static final String PREF_ACCOUNT_NAME = "accountName";
 
-    private Typeface tf; 
+    private Typeface tf;
     GoogleSignInOptions gso;
     GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 9001;
@@ -89,14 +90,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             // If the user has not previously signed in on this device or the sign-in has expired,
             // this asynchronous branch will attempt to sign in the user silently.  Cross-device
             // single sign-on will occur in this branch.
-          //  showProgressDialog();
-          //  opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-          //      @Override
-           //     public void onResult(GoogleSignInResult googleSignInResult) {
-          //          hideProgressDialog();
-          //          handleSignInResult(googleSignInResult);
-          //      }
-         //   });
+            //  showProgressDialog();
+            //  opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+            //      @Override
+            //     public void onResult(GoogleSignInResult googleSignInResult) {
+            //          hideProgressDialog();
+            //          handleSignInResult(googleSignInResult);
+            //      }
+            //   });
         }
     }
     @Override
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
-          acct = result.getSignInAccount();
+            acct = result.getSignInAccount();
 
             SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = settings.edit();
@@ -156,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 new ResultCallback<Status>() {
                     @Override
                     public void onResult(Status status) {
-                        
+
                         Toast.makeText(context,"logout OK",Toast.LENGTH_LONG).show();
 
                         // [START_EXCLUDE]
@@ -179,8 +180,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
     public void alert1Sec(View view) {
 
-       // Calendar calendar = GregorianCalendar.getInstance();
-       // calendar.add(Calendar.SECOND, 10);
+        // Calendar calendar = GregorianCalendar.getInstance();
+        // calendar.add(Calendar.SECOND, 10);
 
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.SECOND,10);//(Calendar.DATE)
@@ -205,5 +206,3 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     public void goToSplashScreen(View view) {startActivity(new Intent(this,SplashScreen.class));}
 }
-
-
