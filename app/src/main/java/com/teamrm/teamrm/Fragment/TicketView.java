@@ -49,7 +49,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         if (bundle != null)
         {
             String ticketId = bundle.getString("ticketID", "error");
-            Log.w("TICKET_ID: ",ticketId);
+            Log.w("TICKET_ID:  ",ticketId);
             this.ticketID = ticketId;
         }
     }
