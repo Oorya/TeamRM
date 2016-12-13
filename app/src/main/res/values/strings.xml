@@ -2,17 +2,15 @@
     <string name="app_name">TeamRM</string>
 
     <string-array name="nav_list">
-        <item>הגדרות כלליות</item>
-        <item>הגדרות טכנאי</item>
-        <item>פרטי חברה</item>
-        <item>ניהול סווגים</item>
-        <item>ניהול מוצרים</item>
-        <item>הגדרות מתקדמות</item>
-        <item>קריאה חדשה</item>
+        <item>רשימת קריאות</item>
+        <item>פתיחת קריאה</item>
+        <item>יומן</item>
+        <item>הגדרות חברה</item>
+        <item>הגדרות</item>
+        <item>התנתק/החלף משתמש</item>
     </string-array>
 
-    <string name="new_ticket">קריאה חדשה</string>
-    <string name="ticket_list">קריאות פתוחות</string>
+
     <string name="email">Email</string>
     <string name="minimum_password">Password too short, enter minimum 6 characters!</string>
     <string name="auth_failed">Authentication failed, check your email and password or sign up</string>
@@ -51,6 +49,7 @@
     <string name="single_permission_text">(Click on FAB to check Single permission.\nTo test again, change the app permission in settings or reinstall the app)</string>
     <string name="mail">מייל</string>
 
+
     <string-array name="product_list">
         <item>מקרר</item>
         <item>טוסטר משולשים</item>
@@ -79,12 +78,12 @@
     </string-array>
 
     <string-array name="region_list">
-    <item>צפון</item>
-    <item>חיפה</item>
-    <item>מרכז</item>
-    <item>שפלה</item>
-    <item>גוש דן</item>
-    <item>דרום</item>
-    <item>אילת</item>
+        <item>צפון</item>
+        <item>חיפה</item>
+        <item>מרכז</item>
+        <item>שפלה</item>
+        <item>גוש דן</item>
+        <item>דרום</item>
+        <item>אילת</item>
     </string-array>
 </resources>

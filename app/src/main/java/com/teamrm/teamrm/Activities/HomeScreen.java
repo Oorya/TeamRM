@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,15 +21,23 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.teamrm.teamrm.Fragment.CalendarView;
+import com.teamrm.teamrm.Fragment.CompanySettingFrag;
 import com.teamrm.teamrm.Fragment.FragmentDrawer;
 import com.teamrm.teamrm.Fragment.NewTicket;
+import com.teamrm.teamrm.Fragment.Setting;
 import com.teamrm.teamrm.Fragment.TicketList;
-import com.teamrm.teamrm.Fragment.TicketView;
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Utility.App;
 
 
-public class HomeScreen extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
+public class HomeScreen extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener, GoogleApiClient.OnConnectionFailedListener {
 
     private Toolbar mToolbar;
     private FragmentDrawer drawerFragment;
@@ -41,6 +50,8 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     private static final int FROM_CAMERA = 205;
     private static final int ACTION_OVERLAY = 300;
     private final static String[] TAG_FRAGMENT = {"NEW_TICKET"};
+    private GoogleSignInOptions gso;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +81,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.container_body, new TicketList());
         fragmentTransaction.commit();
-        setTitle(getResources().getString(R.string.ticket_list));
+        setTitle(getResources().getStringArray(R.array.nav_list)[0]);
 
         addTicket.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +92,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
                 fragmentTransaction.replace(R.id.container_body,  newTicket).addToBackStack(TAG_FRAGMENT[0]).commit();
                 //fragmentTransaction.commit();
-                setTitle(getResources().getString(R.string.new_ticket));
+                setTitle(getResources().getStringArray(R.array.nav_list)[1]);
                 addTicket.hide();
             }
         });
@@ -147,31 +158,44 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         switch (position)
         {
             case 0:
-
                 fragmentTransaction.replace(R.id.container_body, ticketList).addToBackStack(TAG_FRAGMENT[0]).commit();
-                setTitle(getResources().getString(R.string.ticket_list));
+                setTitle(getResources().getStringArray(R.array.nav_list)[0]);
                 break;
             case 1:
-                TicketView ticket = new TicketView();
+                NewTicket ticket = new NewTicket();
                 fragmentTransaction.replace(R.id.container_body, ticket).addToBackStack(TAG_FRAGMENT[0]).commit();
+                setTitle(getResources().getStringArray(R.array.nav_list)[1]);
                 addTicket.hide();
                 break;
             case 2:
                 CalendarView calendarView = new CalendarView();
                 fragmentTransaction.replace(R.id.container_body, calendarView).addToBackStack(TAG_FRAGMENT[0]).commit();
+                setTitle(getResources().getStringArray(R.array.nav_list)[2]);
+                findViewById(R.id.toolbar).setVisibility(View.GONE);
                 addTicket.hide();
                 break;
-            case 6:
-                NewTicket newTicket = new NewTicket();
-                fragmentTransaction.replace(R.id.container_body, newTicket).addToBackStack(TAG_FRAGMENT[0]).commit();
-                setTitle(getResources().getString(R.string.new_ticket));
+            case 3:
+                CompanySettingFrag companySettingFrag = new CompanySettingFrag();
+                fragmentTransaction.replace(R.id.container_body, companySettingFrag).addToBackStack(TAG_FRAGMENT[0]).commit();
+                setTitle(getResources().getStringArray(R.array.nav_list)[3]);
                 addTicket.hide();
+                break;
+            case 4:
+                Setting setting = new Setting();
+                fragmentTransaction.replace(R.id.container_body, setting).addToBackStack(TAG_FRAGMENT[0]).commit();
+                setTitle(getResources().getStringArray(R.array.nav_list)[4]);
+                addTicket.hide();
+                break;
+            case 5:
+                signOut();
+                finish();
+                //startActivity(new Intent(this, MainActivity.class));
                 break;
 
             default:
 
                 fragmentTransaction.replace(R.id.container_body, ticketList).addToBackStack(TAG_FRAGMENT[0]).commit();
-                setTitle(getResources().getString(R.string.ticket_list));
+                setTitle(getResources().getStringArray(R.array.nav_list)[0]);
         }
     }
 
@@ -183,10 +207,34 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
             getFragmentManager().popBackStack();
         }
         else
-
-
         {
             super.onBackPressed();
         }
+    }
+
+    private void signOut()
+    {
+
+
+        mGoogleApiClient=App.getGoogleApiHelper().getGoogleApiClient();
+
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+
+                        Toast.makeText(context,"logout OK hom",Toast.LENGTH_LONG).show();
+
+                        // [START_EXCLUDE]
+                        //  updateUI(false);
+                        // [END_EXCLUDE]
+                    }
+                });
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }

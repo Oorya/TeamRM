@@ -24,6 +24,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Utility.GoogleApiHelper;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     private Typeface tf;
     GoogleSignInOptions gso;
-    GoogleApiClient mGoogleApiClient;
+    public GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 9001;
     private static final String TAG = "MainActivity";
     private ProgressDialog mProgressDialog;
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public static GoogleSignInAccount acct;
     public static String userName;
     public static String email;
+    public static String userImage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         signInButton.setSize(SignInButton.SIZE_WIDE);
         signInButton.setScopes(gso.getScopeArray());
 
+        GoogleApiHelper googleApiHelper = new GoogleApiHelper(this);
+        googleApiHelper.setApiClient(mGoogleApiClient);
         findViewById(R.id.sign_in_button).setOnClickListener(this);
 
         UtlFirebase.stateListener("User",MainActivity.email,"NULL");
@@ -129,6 +134,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             editor.apply();
             userName=acct.getDisplayName();
             email=acct.getEmail();
+            if(acct.getPhotoUrl().toString()==null)
+            {
+
+            }
+            userImage=acct.getPhotoUrl().toString();
+
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
         } else {
             Toast.makeText(this,"Incorrect Username or Password ",Toast.LENGTH_LONG).show();
@@ -199,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Intent nav = new Intent(this,HomeScreen.class);
         startActivity(nav);
     }
+
 
 
     public void btnTestStates(View view) {

@@ -18,12 +18,14 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.teamrm.teamrm.Activities.MainActivity;
 import com.teamrm.teamrm.Adapter.NavigationDrawerAdapter;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Utility.NavDrawerItem;
+import com.teamrm.teamrm.Utility.UtlBitmapUrl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +46,7 @@ public class FragmentDrawer extends Fragment {
     private TextView userName;
     private static String[] titles = null;
     private FragmentDrawerListener drawerListener;
+    public static ImageView imageAvatar;
 
     public FragmentDrawer() {
 
@@ -85,11 +88,10 @@ public class FragmentDrawer extends Fragment {
         adapter = new NavigationDrawerAdapter(getActivity(), getData());
         userName = (TextView)layout.findViewById(R.id.userNameString);
         userName.setText(MainActivity.userName);
+        imageAvatar = (ImageView)layout.findViewById(R.id.userAvatar);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        
-        
-        
+
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
@@ -103,6 +105,8 @@ public class FragmentDrawer extends Fragment {
             }
         }));
 
+        UtlBitmapUrl bitmapUrl = new UtlBitmapUrl();
+        bitmapUrl.execute(MainActivity.userImage);
         return layout;
     }
 
