@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
@@ -15,19 +17,14 @@ public class GoogleApiHelper implements GoogleApiClient.ConnectionCallbacks, Goo
     private static final String TAG = GoogleApiHelper.class.getSimpleName();
     Context context;
     GoogleApiClient mGoogleApiClient;
+    GoogleSignInOptions gso;
 
     public GoogleApiHelper(Context context) {
-        //buildGoogleApiClient();
-
-        connect();
-
         this.context = context;
+        buildGoogleApiClient();
+        connect();
     }
 
-    public void setApiClient(GoogleApiClient googleApiClient)
-    {
-        this.mGoogleApiClient=googleApiClient;
-    }
     public GoogleApiClient getGoogleApiClient() {
         return this.mGoogleApiClient;
     }
@@ -52,12 +49,19 @@ public class GoogleApiHelper implements GoogleApiClient.ConnectionCallbacks, Goo
         }
     }
 
-    private void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(context)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
+    public GoogleSignInOptions getGso()
+    {
+        return this.gso;
+    }
 
+    private void buildGoogleApiClient() {
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        GoogleApiClient.Builder apiCliBuilder = new GoogleApiClient.Builder(context);
+        mGoogleApiClient = apiCliBuilder
+                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso).build();
     }
 
     @Override

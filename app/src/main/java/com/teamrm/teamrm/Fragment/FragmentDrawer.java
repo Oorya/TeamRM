@@ -1,10 +1,6 @@
 package com.teamrm.teamrm.Fragment;
 
 
-
-
-
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -105,8 +101,12 @@ public class FragmentDrawer extends Fragment {
             }
         }));
 
-        UtlBitmapUrl bitmapUrl = new UtlBitmapUrl();
-        bitmapUrl.execute(MainActivity.userImage);
+        if(!MainActivity.userImage.equals(""))
+        {
+            UtlBitmapUrl bitmapUrl = new UtlBitmapUrl();
+            bitmapUrl.execute(MainActivity.userImage);
+        }
+
         return layout;
     }
 

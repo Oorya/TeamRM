@@ -57,7 +57,7 @@ public class Ticket {
         this.ticketImage2=ticketImage2;
         this.ticketId=ticketId;
         this.startTime =getCurrentTime();
-        this.state= ProductID.STATE_A01;
+        this.state= ProductID.STATE_A00;
         this.statusA= TicketStatus.waitForApproval;
         this.company="NULL";
         this.tech="אין טכנאי מצוות";

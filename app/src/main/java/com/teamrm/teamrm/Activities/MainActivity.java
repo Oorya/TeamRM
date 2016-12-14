@@ -24,7 +24,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.R;
-import com.teamrm.teamrm.Utility.GoogleApiHelper;
+import com.teamrm.teamrm.Utility.App;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
@@ -45,38 +45,32 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public static Context context;
     private UtlAlarmManager utlAlarmManager;
     private TextView fontX;
+    private SignInButton signInButton;
     public static GoogleSignInAccount acct;
     public static String userName;
     public static String email;
     public static String userImage;
-
+    public static String userStatus;
+    public static boolean resume = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context=this;
+
         tf = Typeface.createFromAsset(getAssets(), "Assistant-ExtraBold.ttf");
         fontX = (TextView)findViewById(R.id.fontX);
         fontX.setTypeface(tf);
         utlAlarmManager = new UtlAlarmManager(this);
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-        SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
+        mGoogleApiClient= App.getGoogleApiHelper().getGoogleApiClient();
+        gso = App.getGoogleApiHelper().getGso();
+        signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_WIDE);
+        signInButton.setVisibility(View.VISIBLE);
         signInButton.setScopes(gso.getScopeArray());
-
-        GoogleApiHelper googleApiHelper = new GoogleApiHelper(this);
-        googleApiHelper.setApiClient(mGoogleApiClient);
-        findViewById(R.id.sign_in_button).setOnClickListener(this);
-
-        UtlFirebase.stateListener("User",MainActivity.email,"NULL");
+        signInButton.setOnClickListener(this);
     }
 
 
@@ -106,6 +100,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             //   });
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (resume)
+        {
+            signInButton.setVisibility(View.VISIBLE);
+            resume=false;
+        }
+    }
+
     @Override
     public void onClick(View v) {
 
@@ -134,13 +139,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             editor.apply();
             userName=acct.getDisplayName();
             email=acct.getEmail();
-            if(acct.getPhotoUrl().toString()==null)
-            {
+            userStatus="User";
+            UtlFirebase.stateListener(userStatus,email,"NULL");
+            Log.w("EMAIL", email);
 
-            }
-            userImage=acct.getPhotoUrl().toString();
+            userImage = acct.getPhotoUrl()==null?"":acct.getPhotoUrl().toString();
+            Log.w("IMAGE GOOGLE ACCOUNT", acct.getPhotoUrl()==null?"NULL":"NOT NULL");
 
-            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+            signInButton.setVisibility(View.GONE);
         } else {
             Toast.makeText(this,"Incorrect Username or Password ",Toast.LENGTH_LONG).show();
         }

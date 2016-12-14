@@ -15,7 +15,7 @@ public class App extends Application {
         super.onCreate();
 
         mInstance = this;
-        googleApiHelper = new GoogleApiHelper(this);
+        googleApiHelper = new GoogleApiHelper(getApplicationContext());
     }
 
     public static synchronized App getInstance() {

@@ -51,8 +51,9 @@ public class TestStates extends AppCompatActivity {
 
     public void btnStateA03(View view)
     {
+        Toast.makeText(this, txt.getText().toString(), Toast.LENGTH_SHORT).show();
 
-        UtlFirebase.changeState("399c312a-445c-4e12-8db5-fd96dbdde243", txt.getText().toString());
+        UtlFirebase.changeState("a58f3feb-c0d8-48cd-b45b-feb936ccc022", txt.getText().toString());
     }
 
     public void btnStateB01(View view)

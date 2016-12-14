@@ -1,6 +1,5 @@
 package com.teamrm.teamrm.Utility;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -11,7 +10,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ImageView;
 
 import com.teamrm.teamrm.Fragment.FragmentDrawer;
 
@@ -26,14 +24,11 @@ import java.net.URL;
 
 public class UtlBitmapUrl extends AsyncTask<String, String, Bitmap>
 {
-    Context context;
-    ImageView imageView;
     Bitmap myBitmap;
 
     public UtlBitmapUrl()
     {
-        //this.context=context;
-        //imageView=(ImageView)((MainActivity)context).findViewById(R.id.userAvatar);
+
     }
     @Override
     protected Bitmap doInBackground(String... url)

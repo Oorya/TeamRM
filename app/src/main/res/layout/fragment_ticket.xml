@@ -209,6 +209,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="40dp"
             android:layout_marginTop="12dp"
+            android:id="@+id/txtCancel"
             android:text="דחה"
             android:layout_marginLeft="8dp"/>
         

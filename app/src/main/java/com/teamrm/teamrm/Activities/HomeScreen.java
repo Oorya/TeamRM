@@ -221,13 +221,11 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
                     @Override
-                    public void onResult(Status status) {
-
-                        Toast.makeText(context,"logout OK hom",Toast.LENGTH_LONG).show();
-
-                        // [START_EXCLUDE]
-                        //  updateUI(false);
-                        // [END_EXCLUDE]
+                    public void onResult(Status status)
+                    {
+                        Toast.makeText(context,"logout OK home",Toast.LENGTH_LONG).show();
+                        MainActivity.resume=true;
+                        finish();
                     }
                 });
 

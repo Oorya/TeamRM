@@ -67,7 +67,8 @@ public class UtlFirebase {
                 break;
         }
 
-        query.addChildEventListener(new ChildEventListener() {
+        query
+                .addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 

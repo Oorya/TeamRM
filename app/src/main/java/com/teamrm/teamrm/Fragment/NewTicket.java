@@ -22,9 +22,11 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Utility.UtlCamera;
+import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.util.Calendar;
 import java.util.UUID;
@@ -215,9 +217,11 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
 
     private void submitTicket(){
         Calendar cal = Calendar.getInstance(); // creates calendar
+        String uid = getUUID();
         Ticket ticket = new Ticket(product,category,region,address.getText().toString(),phone.getText().toString(),
-                desShort.getText().toString(),desLong.getText().toString(),"error","error",getUUID());
+                desShort.getText().toString(),desLong.getText().toString(),"error","error",uid);
         ticket.saveTicket();
+        UtlFirebase.changeState(uid, ProductID.STATE_A01);
         address.setText("");
         phone.setText("");
         desShort.setText("");

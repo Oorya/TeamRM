@@ -19,7 +19,7 @@ public class C01Admin extends TicketStateAdmin implements TicketStateAble {
     public C01Admin(int ttl)
     {
         //initials ttl example
-        UtlNotification utlNotification = new UtlNotification("קריאהנסגרה בהצלחה, המתנה לאישור לקוח","יום נפלא");
+        UtlNotification utlNotification = new UtlNotification("קריאה נסגרה בהצלחה, המתנה לאישור לקוח","יום נפלא");
         utlNotification.sendNotification();
     }
 
