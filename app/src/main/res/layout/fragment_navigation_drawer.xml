@@ -12,7 +12,7 @@
     <RelativeLayout
         android:id="@+id/nav_header_container"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:paddingTop="64dp"
         android:background="@color/colorPrimary"
         >
@@ -23,7 +23,6 @@
             android:layout_height="48dp"
             android:layout_marginStart="24dp"
             android:layout_centerVertical="true"
-
             android:background="@drawable/ic_icon_person_white" />
 
         <TextView

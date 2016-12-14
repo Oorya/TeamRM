@@ -5,6 +5,7 @@
         <item>רשימת קריאות</item>
         <item>פתיחת קריאה</item>
         <item>יומן</item>
+        <item>פרטי משתמש</item>
         <item>הגדרות חברה</item>
         <item>הגדרות</item>
         <item>התנתק/החלף משתמש</item>
@@ -48,6 +49,7 @@
     <string name="action_settings">Settings</string>
     <string name="single_permission_text">(Click on FAB to check Single permission.\nTo test again, change the app permission in settings or reinstall the app)</string>
     <string name="mail">מייל</string>
+    <string name="update_details_btn">עדכן פרטים</string>
 
 
     <string-array name="product_list">

@@ -1,14 +1,11 @@
 package com.teamrm.teamrm.Type;
 
-import java.util.UUID;
-
 /**
  * Created by אוריה on 07/07/2016.
  */
 public abstract class Users
 {
     public String userName;  //hold userName
-    public String userPass;  //hold userPass
     public String email;
     public String userId; //hold userId
     public boolean isAdmin;
@@ -18,9 +15,8 @@ public abstract class Users
 
     public Users(){}  //empty constructor, must have
 
-    public Users(String userName, String userPass, String email, String status, String address, String phone, String userId) {
+    public Users(String userName, String email, String status, String address, String phone, String userId) {
         this.userName = userName;
-        this.userPass = userPass;
         this.email = email;
         this.userId = userId;
         this.status = status;
@@ -29,20 +25,8 @@ public abstract class Users
         this.isAdmin = false;
     }
 
-    private String getUUID()
-    {
-        //create a unique UUID
-        UUID idOne = UUID.randomUUID();
-        //returning the UUID
-        return idOne.toString();
-    }
-
     public String getUserName() {
         return userName;
-    }
-
-    public String getUserPass() {
-        return userPass;
     }
 
     public String getEmail() {

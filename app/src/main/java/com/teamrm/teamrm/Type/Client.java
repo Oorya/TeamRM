@@ -10,54 +10,22 @@ public class Client extends Users
 {
     public Client(){}
 
-    public Client(String userName, String userPass, String email, String status, String address, String phone, String userId) {
-        super(userName, userPass, email, status, address, phone, userId);
+    public Client(String userName, String email, String status, String address, String phone, String userId) {
+        super(userName, email, status, address, phone, userId);
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getUserPass() {
-        return userPass;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void saveUser()
+    public void saveClient()
     {
         //create an instance of User class
-        Client client=new Client(userName,userPass,email,status,address,phone,userId);
+        Client client=new Client(userName,email,status,address,phone,userId);
 
         //creating a connection to fire base
         FirebaseDatabase database= FirebaseDatabase.getInstance();
 
         //creating a reference to Users object
-        DatabaseReference myRef=database.getReference("Client");
+        DatabaseReference myRef=database.getReference("Users");
 
         //saving the user under the UUID
-        myRef.child(userId).setValue(client);
+        myRef.child("Client").child(userId).setValue(client);
     }
 }

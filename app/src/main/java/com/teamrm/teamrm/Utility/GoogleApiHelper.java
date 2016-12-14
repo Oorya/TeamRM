@@ -15,6 +15,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 public class GoogleApiHelper implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = GoogleApiHelper.class.getSimpleName();
+    private final String SERVER_CLIENT_ID = "840847860575-tcsdcj9r5c4o2243f3janvug66kdclrg.apps.googleusercontent.com";
     Context context;
     GoogleApiClient mGoogleApiClient;
     GoogleSignInOptions gso;
@@ -57,10 +58,11 @@ public class GoogleApiHelper implements GoogleApiClient.ConnectionCallbacks, Goo
     private void buildGoogleApiClient() {
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
+                .requestId()
+                //.requestIdToken(SERVER_CLIENT_ID)
                 .build();
         GoogleApiClient.Builder apiCliBuilder = new GoogleApiClient.Builder(context);
         mGoogleApiClient = apiCliBuilder
-                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso).build();
     }
 

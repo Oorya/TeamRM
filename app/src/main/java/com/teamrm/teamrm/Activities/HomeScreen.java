@@ -27,12 +27,14 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.firebase.auth.FirebaseAuth;
 import com.teamrm.teamrm.Fragment.CalendarView;
 import com.teamrm.teamrm.Fragment.CompanySettingFrag;
 import com.teamrm.teamrm.Fragment.FragmentDrawer;
 import com.teamrm.teamrm.Fragment.NewTicket;
 import com.teamrm.teamrm.Fragment.Setting;
 import com.teamrm.teamrm.Fragment.TicketList;
+import com.teamrm.teamrm.Fragment.UserDetailsFrag;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Utility.App;
 
@@ -175,21 +177,25 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 addTicket.hide();
                 break;
             case 3:
-                CompanySettingFrag companySettingFrag = new CompanySettingFrag();
-                fragmentTransaction.replace(R.id.container_body, companySettingFrag).addToBackStack(TAG_FRAGMENT[0]).commit();
+                UserDetailsFrag userDetailsFrag = new UserDetailsFrag();
+                fragmentTransaction.replace(R.id.container_body, userDetailsFrag).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[3]);
                 addTicket.hide();
                 break;
             case 4:
-                Setting setting = new Setting();
-                fragmentTransaction.replace(R.id.container_body, setting).addToBackStack(TAG_FRAGMENT[0]).commit();
+                CompanySettingFrag companySettingFrag = new CompanySettingFrag();
+                fragmentTransaction.replace(R.id.container_body, companySettingFrag).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[4]);
                 addTicket.hide();
                 break;
             case 5:
+                Setting setting = new Setting();
+                fragmentTransaction.replace(R.id.container_body, setting).addToBackStack(TAG_FRAGMENT[0]).commit();
+                setTitle(getResources().getStringArray(R.array.nav_list)[5]);
+                addTicket.hide();
+                break;
+            case 6:
                 signOut();
-                finish();
-                //startActivity(new Intent(this, MainActivity.class));
                 break;
 
             default:
@@ -214,8 +220,6 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
     private void signOut()
     {
-
-
         mGoogleApiClient=App.getGoogleApiHelper().getGoogleApiClient();
 
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
@@ -225,10 +229,10 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                     {
                         Toast.makeText(context,"logout OK home",Toast.LENGTH_LONG).show();
                         MainActivity.resume=true;
+                        FirebaseAuth.getInstance().signOut();
                         finish();
                     }
                 });
-
     }
 
     @Override

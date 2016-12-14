@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -22,8 +23,16 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Type.Client;
 import com.teamrm.teamrm.Utility.App;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
 import com.teamrm.teamrm.Utility.UtlFirebase;
@@ -37,7 +46,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private static final String PREF_ACCOUNT_NAME = "accountName";
 
     private Typeface tf;
-    GoogleSignInOptions gso;
+    private GoogleSignInOptions gso;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
     public GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 9001;
     private static final String TAG = "MainActivity";
@@ -47,10 +58,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private TextView fontX;
     private SignInButton signInButton;
     public static GoogleSignInAccount acct;
-    public static String userName;
-    public static String email;
-    public static String userImage;
-    public static String userStatus;
+    public static String userName, email, userImage, userStatus, userId;
     public static boolean resume = false;
 
     @Override
@@ -71,8 +79,29 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         signInButton.setVisibility(View.VISIBLE);
         signInButton.setScopes(gso.getScopeArray());
         signInButton.setOnClickListener(this);
+
+        mAuth = FirebaseAuth.getInstance();
+        fireBaseListener();
+
     }
 
+    private void fireBaseListener() {
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+
+                    Log.w("USER SIGNIN", "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+
+                    Log.w("USER SIGNOUT", "onAuthStateChanged:signed_out");
+                }
+            }
+        };
+    }
 
 
     @Override
@@ -117,6 +146,30 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        Log.d("FIREBASE AUTH GOOGLE: ", "firebaseAuthWithGoogle:" + acct.getId());
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d("ON COMPLETE: ", "signInWithCredential:onComplete:" + task.isSuccessful());
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        task.getResult().getUser().getUid();
+                        if (!task.isSuccessful()) {
+                            Log.w("TASK FAILED: ", "signInWithCredential", task.getException());
+                            Toast.makeText(MainActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -132,11 +185,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             acct = result.getSignInAccount();
-
+            //firebaseAuthWithGoogle(acct);
             SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = settings.edit();
             editor.putString(PREF_ACCOUNT_NAME, acct.getEmail());
             editor.apply();
+
+            Client client = new Client(acct.getDisplayName(),acct.getEmail(),"Client","","",acct.getId());
+            client.saveClient();
+            userId=acct.getId();
             userName=acct.getDisplayName();
             email=acct.getEmail();
             userStatus="User";
@@ -183,6 +240,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         // [END_EXCLUDE]
                     }
                 });
+        FirebaseAuth.getInstance().signOut();
         findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
     }
 

@@ -404,4 +404,17 @@ public class UtlFirebase {
 
         myRef.child(ticketID).removeValue();
     }
+
+    public static void updateClient(String userId, String address, String phone)
+    {
+        //creating a connection to fire base
+        FirebaseDatabase database= FirebaseDatabase.getInstance();
+
+        //creating a reference to Users object
+        DatabaseReference myRef=database.getReference("Users");
+
+        //update the user under the UUID
+        myRef.child("Client").child(userId).child("address").setValue(address);
+        myRef.child("Client").child(userId).child("phone").setValue(phone);
+    }
 }

@@ -13,9 +13,9 @@ public class Technician extends Users {
 
     public Technician(){}
 
-    public Technician(String userName, String userPass, String email, String status, String address, String phone, String userID,
+    public Technician(String userName, String email, String status, String address, String phone, String userID,
                       String calenderID, String shifts) {
-        super(userName, userPass, email, status, address, phone,userID);
+        super(userName, email, status, address, phone,userID);
         this.calenderID=calenderID;
         this.shifts=shifts;
     }
@@ -23,7 +23,7 @@ public class Technician extends Users {
     public void saveUser()
     {
         //create an instance of User class
-        Users technician=new Technician(userName,userPass,"email","Client","Address","phone",userId,"calederID","Shifts");
+        Users technician=new Technician(userName,"email","Client","Address","phone",userId,"calederID","Shifts");
 
         //creating a connection to fire base
         FirebaseDatabase database= FirebaseDatabase.getInstance();
