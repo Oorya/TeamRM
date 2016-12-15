@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 
 import com.teamrm.teamrm.Activities.MainActivity;
 import com.teamrm.teamrm.R;
@@ -18,7 +19,8 @@ import com.teamrm.teamrm.Utility.UtlFirebase;
  */
 public class UserDetailsFrag extends Fragment {
 
-    EditText address, phone;
+    EditText address, phone, company;
+    RadioButton createCompany;
     Button updateUser;
 
     public UserDetailsFrag() {
@@ -33,12 +35,20 @@ public class UserDetailsFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_details, container, false);
         address = (EditText)view.findViewById(R.id.txtAddress);
         phone = (EditText)view.findViewById(R.id.txtPhone);
+        company = (EditText)view.findViewById(R.id.txtcompany);
+        createCompany = (RadioButton)view.findViewById(R.id.adminRadio);
         updateUser = (Button) view.findViewById(R.id.btnUpdateUser);
 
         updateUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UtlFirebase.updateClient(MainActivity.userId,address.getText().toString(),phone.getText().toString());
+                if(createCompany.isChecked())
+                {
+                    UtlFirebase.removeClient(MainActivity.userId);
+                }
+                else {
+                    UtlFirebase.updateClient(MainActivity.userId, address.getText().toString(), phone.getText().toString());
+                }
             }
         });
 

@@ -4,6 +4,7 @@ import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.TicketStates.TicketStateUser;
+import com.teamrm.teamrm.Utility.UtlNotification;
 
 /**
  * Created by root on 01/09/2016.
@@ -18,6 +19,8 @@ public class E00User extends TicketStateUser implements TicketStateAble {
     public E00User(int ttl)
     {
         //initials ttl example
+        UtlNotification utlNotification = new UtlNotification("קריאה בוטלה","יום נפלא");
+        utlNotification.sendNotification();
     }
 
     @Override

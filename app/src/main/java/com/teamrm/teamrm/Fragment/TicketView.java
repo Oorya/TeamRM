@@ -109,6 +109,10 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             UtlFirebase.changeState(ticketID,
                     MainActivity.userStatus.equals("User")?ProductID.STATE_E00:ProductID.STATE_E01);
         }
+        else if(view.getId()==approval.getId())
+        {
+            //UtlFirebase.stateListener("Admin",MainActivity.email,"NULL");
+        }
     }
     private void setListeners(View view)
     {

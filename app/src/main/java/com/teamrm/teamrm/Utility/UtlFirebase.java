@@ -17,6 +17,7 @@ import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.Type.Chat;
 import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Type.Users;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ import java.util.List;
 public class UtlFirebase {
     private static String status;
     private static Ticket returnTicket;
+    private static Users returnUser;
     private static boolean isWait = false;
     private static boolean ticketExist;
     private static FirebaseAuth firebaseAuth;
@@ -416,5 +418,55 @@ public class UtlFirebase {
         //update the user under the UUID
         myRef.child("Client").child(userId).child("address").setValue(address);
         myRef.child("Client").child(userId).child("phone").setValue(phone);
+    }
+
+    public static void getUserByKey(final String key, Object object) {
+
+        final FireBaseAble fireBaseAble = (FireBaseAble) object;
+
+        new AsyncTask<Void, Users, Users>() {
+            @Override
+            protected Users doInBackground(Void... voids) {
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference("Users");
+
+                Query query = myRef.orderByKey().equalTo(key);
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot item : dataSnapshot.getChildren()) {
+                            Users users = item.getValue(Users.class);
+                            returnUser = users;
+                            Log.e("ON DATA CHANGE ", users == null ? "NULL" : "NOT NULL");
+                            isWait = true;
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                while (!isWait) {
+                    Log.e("WAIT ", "");
+                }
+                return returnUser;
+            }
+
+            @Override
+            protected void onPostExecute(Users users) {
+                //fireBaseAble.resultTicket(users);
+                Log.e("RETURN METHOD ", returnUser == null ? "NULL" : "NOT NULL");
+                isWait = false;
+            }
+        }.execute();
+    }
+
+    public static void removeClient(String userID) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Users");
+
+        myRef.child("Client").child(userID).removeValue();
     }
 }

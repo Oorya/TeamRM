@@ -19,11 +19,71 @@
             android:layout_height="match_parent"
             android:layout_marginTop="100dp">
 
+            <RelativeLayout
+                android:id="@+id/createCompany"
+                style="@style/RegularRow.Alt"
+                android:layout_below="@id/categoryRow">
+
+                <ImageView
+                    android:id="@+id/adminIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_icon_location" />
+
+                <TextView
+                    android:id="@+id/adminLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
+                    android:layout_toEndOf="@+id/adminIcon"
+                    android:text="צור חברה" />
+
+                <RadioButton
+                    android:id="@+id/adminRadio"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toEndOf="@id/adminLabel"/>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/companyRow"
+                style="@style/RegularRow.Alt"
+                android:layout_below="@id/createCompany">
+
+                <ImageView
+                    android:id="@+id/companyIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_icon_location" />
+
+                <TextView
+                    android:id="@+id/companyLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
+                    android:layout_toEndOf="@+id/companyIcon"
+                    android:text="שם חברה" />
+
+                <EditText
+                    android:id="@+id/txtcompany"
+                    style="@style/RegularRowItem.EditText"
+                    android:layout_toEndOf="@id/companyLabel">
+
+                </EditText>
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/regionRow"
                 style="@style/RegularRow"
-                android:layout_below="@id/categoryRow">
+                android:layout_below="@id/companyRow">
 
                 <ImageView
                     android:id="@+id/regionIcon"
