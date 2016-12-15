@@ -10,6 +10,7 @@ import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 import com.teamrm.teamrm.Utility.UtlNotification;
@@ -72,6 +73,12 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
     public void resultTicket(Ticket ticket) {
 
     }
+
+    @Override
+    public void resultUser(Users user) {
+
+    }
+
 
     @Override
     public void resultList(List<Ticket> ticket) {

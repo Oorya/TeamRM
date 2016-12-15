@@ -1,7 +1,7 @@
 package com.teamrm.teamrm.Type;
 
 /**
- * Created by אוריה on 07/07/2016.
+ * Created byא on 07/07/2016.
  */
 public abstract class Users
 {
@@ -12,44 +12,18 @@ public abstract class Users
     public String status;
     public String address;
     public String phone;
+    public String company;
 
     public Users(){}  //empty constructor, must have
 
-    public Users(String userName, String email, String status, String address, String phone, String userId) {
+    public Users(String userName, String email, String address, String phone, String userId) {
         this.userName = userName;
         this.email = email;
         this.userId = userId;
-        this.status = status;
+        this.status = "Client";
         this.address = address;
         this.phone = phone;
         this.isAdmin = false;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getPhone() {
-        return phone;
+        this.company = "";
     }
 }

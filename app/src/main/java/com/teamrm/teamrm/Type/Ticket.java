@@ -41,11 +41,12 @@ public class Ticket {
 
     public Ticket(){}  //empty constructor, must have
 
-    public Ticket(String product, String classification, String area, String address, String phone, String desShort, String desLong
+    public Ticket(String company, String product, String classification, String area, String address, String phone, String desShort, String desLong
                  ,String ticketImage1, String ticketImage2,String ticketId)
     {
         this.customerName = MainActivity.userName;   //Taking from login
         this.email=MainActivity.email; //Taking from login
+        this.company=company;
         this.product=product;
         this.classification=classification;
         this.area=area;
@@ -59,7 +60,6 @@ public class Ticket {
         this.startTime =getCurrentTime();
         this.state= ProductID.STATE_A00;
         this.statusA= TicketStatus.waitForApproval;
-        this.company="NULL";
         this.tech="אין טכנאי מצוות";
         this.ticketNumber=ticketId.substring(0,8);
         this.status=1;
@@ -68,7 +68,7 @@ public class Ticket {
     public void saveTicket()
     {
         //create an instance of User class
-        Ticket ticket=new Ticket(product,classification,area,address,phone,desShort,desLong,ticketImage1,ticketImage2,ticketId);
+        Ticket ticket=new Ticket(company,product,classification,area,address,phone,desShort,desLong,ticketImage1,ticketImage2,ticketId);
 
         //creating a connection to fire base
         FirebaseDatabase database= FirebaseDatabase.getInstance();

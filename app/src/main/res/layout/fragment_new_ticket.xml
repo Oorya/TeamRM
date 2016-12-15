@@ -44,9 +44,50 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/productRow"
+                android:id="@+id/companyRow"
                 style="@style/RegularRow"
                 android:layout_below="@id/line1open">
+
+                <ImageView
+                    android:id="@+id/companyIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_icon_product2" />
+
+
+                <TextView
+                    android:id="@+id/selectCompanyLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    android:layout_toEndOf="@id/companyIcon"
+                    android:text="שם חברה: " />
+
+                <ImageView
+                    android:id="@+id/selectCompanyIcon"
+                    style="@style/RegularRowItem"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_icon_down" />
+
+                <Spinner
+                    android:id="@+id/selectCompanySpinner"
+                    style="@style/RegularRowItem.Spinner"
+                    android:layout_toEndOf="@id/selectCompanyLabel"
+                    android:dropDownWidth="match_parent"
+                    />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/productRow"
+                style="@style/RegularRow"
+                android:layout_below="@id/companyRow">
 
                 <ImageView
                     android:id="@+id/productIcon"

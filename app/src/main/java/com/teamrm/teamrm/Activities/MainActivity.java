@@ -30,17 +30,21 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Client;
+import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.App;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, FireBaseAble {
 
 
     private static final String PREF_ACCOUNT_NAME = "accountName";
@@ -49,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private GoogleSignInOptions gso;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    public GoogleApiClient mGoogleApiClient;
+    private GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 9001;
     private static final String TAG = "MainActivity";
     private ProgressDialog mProgressDialog;
@@ -60,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public static GoogleSignInAccount acct;
     public static String userName, email, userImage, userStatus, userId;
     public static boolean resume = false;
+    private SharedPreferences prefUser;
+    private SharedPreferences.Editor editorUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,13 +197,26 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             editor.putString(PREF_ACCOUNT_NAME, acct.getEmail());
             editor.apply();
 
-            Client client = new Client(acct.getDisplayName(),acct.getEmail(),"Client","","",acct.getId());
-            client.saveClient();
+            prefUser = getApplicationContext().getSharedPreferences("users", MODE_PRIVATE);
+            if(!prefUser.contains(acct.getId()))
+            {
+                Client client = new Client(acct.getDisplayName(),acct.getEmail(),"","",acct.getId());
+                client.saveClient();
+            }
+
+            editorUser = prefUser.edit();
+            editorUser.putString(acct.getId(), acct.getDisplayName()).commit();
+
+
             userId=acct.getId();
             userName=acct.getDisplayName();
             email=acct.getEmail();
-            userStatus="User";
-            UtlFirebase.stateListener(userStatus,email,"NULL");
+            //userStatus="User";
+            //UtlFirebase.stateListener(userStatus,email,"NULL");
+
+
+
+            UtlFirebase.getUserByKey(userId,this);
             Log.w("EMAIL", email);
 
             userImage = acct.getPhotoUrl()==null?"":acct.getPhotoUrl().toString();
@@ -282,4 +301,37 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     public void goToSplashScreen(View view) {startActivity(new Intent(this,SplashScreen.class));}
+
+    @Override
+    public void resultTicket(Ticket ticket) {
+
+    }
+
+    @Override
+    public void resultUser(Users user) {
+        userStatus=user.status;
+        if (userStatus.equals("Admin"))
+        {
+            UtlFirebase.stateListener(userStatus, email, user.company);
+        }
+        else if (userStatus.equals("Client"))
+        {
+            UtlFirebase.stateListener(userStatus, email, "NULL");
+        }
+        else // TECH
+        {
+            //UtlFirebase.stateListener(userStatus, email, "NULL");
+        }
+
+    }
+
+    @Override
+    public void resultList(List<Ticket> ticket) {
+
+    }
+
+    @Override
+    public void resultBoolean(boolean bool) {
+
+    }
 }

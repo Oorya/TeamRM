@@ -10,14 +10,14 @@ public class Client extends Users
 {
     public Client(){}
 
-    public Client(String userName, String email, String status, String address, String phone, String userId) {
-        super(userName, email, status, address, phone, userId);
+    public Client(String userName, String email, String address, String phone, String userId) {
+        super(userName, email, address, phone, userId);
     }
 
     public void saveClient()
     {
         //create an instance of User class
-        Client client=new Client(userName,email,status,address,phone,userId);
+        Client client=new Client(userName,email,address,phone,userId);
 
         //creating a connection to fire base
         FirebaseDatabase database= FirebaseDatabase.getInstance();

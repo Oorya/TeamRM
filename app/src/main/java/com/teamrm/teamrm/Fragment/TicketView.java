@@ -19,6 +19,7 @@ import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.util.List;
@@ -138,6 +139,11 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     public void resultTicket(Ticket ticket) {
         this.ticket=ticket;
         userName.setText(ticket.customerName);
+    }
+
+    @Override
+    public void resultUser(Users user) {
+
     }
 
     @Override

@@ -35,10 +35,11 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class NewTicket extends Fragment implements AdapterView.OnItemSelectedListener {
 
-    private Spinner selectProduct, selectCategoryA, selectRegion;
+    private Spinner selectProduct, selectCategoryA, selectRegion, selectCompany;
     public static ImageView imageView1, imageView2;
-    private String product, category, region;
+    private String product, category, region, company;
     private EditText address, phone, desShort, desLong;
+    public static ArrayAdapter<String> listCompanyAdapter;
     //Spinner selectCategoryB;
     private Button btnSubmitTicket;
     SharedPreferences pref;
@@ -70,6 +71,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         selectProduct = (Spinner) view.findViewById(R.id.selectProductSpinner);
         selectCategoryA = (Spinner) view.findViewById(R.id.selectCategoryASpinner);
         selectRegion = (Spinner) view.findViewById(R.id.selectRegionSpinner);
+        selectCompany = (Spinner) view.findViewById(R.id.selectCompanySpinner);
         utlCamera=new UtlCamera(getContext(),getActivity());
 
         pref = getContext().getSharedPreferences("strImg",MODE_PRIVATE);
@@ -78,6 +80,8 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         ArrayAdapter<String> listProductAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_view, getResources().getStringArray(R.array.product_list));
         ArrayAdapter<String> listCategoryAAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_view, getResources().getStringArray(R.array.category_a_list));
         ArrayAdapter<String> listRegionAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_view, getResources().getStringArray(R.array.region_list));
+        listCompanyAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_view, UtlFirebase.getAllCompanies());
+
 
         listProductAdapter.setDropDownViewResource(R.layout.spinner_row);
         listCategoryAAdapter.setDropDownViewResource(R.layout.spinner_row);
@@ -91,6 +95,9 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
 
         selectRegion.setAdapter(listRegionAdapter);
         selectRegion.setOnItemSelectedListener(this);
+
+        selectCompany.setAdapter(listCompanyAdapter);
+        selectCompany.setOnItemSelectedListener(this);
 
         btnSubmitTicket = (Button)view.findViewById(R.id.btnSubmitTicket);
         btnSubmitTicket.setOnClickListener(new View.OnClickListener() {
@@ -202,6 +209,10 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
                 selectRegion.setSelection(position);
                 region = selectRegion.getItemAtPosition(position).toString();
                 break;
+            case R.id.selectCompanySpinner:
+                selectCompany.setSelection(position);
+                region = selectCompany.getItemAtPosition(position).toString();
+                break;
         }
     }
 
@@ -218,7 +229,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     private void submitTicket(){
         Calendar cal = Calendar.getInstance(); // creates calendar
         String uid = getUUID();
-        Ticket ticket = new Ticket(product,category,region,address.getText().toString(),phone.getText().toString(),
+        Ticket ticket = new Ticket(company,product,category,region,address.getText().toString(),phone.getText().toString(),
                 desShort.getText().toString(),desLong.getText().toString(),"error","error",uid);
         ticket.saveTicket();
         UtlFirebase.changeState(uid, ProductID.STATE_A01);

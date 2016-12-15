@@ -12,10 +12,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.teamrm.teamrm.Fragment.NewTicket;
 import com.teamrm.teamrm.Fragment.TicketList;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.Type.Chat;
+import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.Users;
 
@@ -32,6 +34,7 @@ public class UtlFirebase {
     private static FirebaseAuth firebaseAuth;
     private static TicketFactory ticketFactory;
     private static List<Ticket> ticketList = new ArrayList<Ticket>();
+    private static List<String> companyList = new ArrayList<>();
 
     public UtlFirebase() {
     }
@@ -197,7 +200,6 @@ public class UtlFirebase {
     }
 
     public static List<Ticket> getAllTicket() {
-
         //creating an instance to the database
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         //creating a reference to the database
@@ -407,19 +409,6 @@ public class UtlFirebase {
         myRef.child(ticketID).removeValue();
     }
 
-    public static void updateClient(String userId, String address, String phone)
-    {
-        //creating a connection to fire base
-        FirebaseDatabase database= FirebaseDatabase.getInstance();
-
-        //creating a reference to Users object
-        DatabaseReference myRef=database.getReference("Users");
-
-        //update the user under the UUID
-        myRef.child("Client").child(userId).child("address").setValue(address);
-        myRef.child("Client").child(userId).child("phone").setValue(phone);
-    }
-
     public static void getUserByKey(final String key, Object object) {
 
         final FireBaseAble fireBaseAble = (FireBaseAble) object;
@@ -456,7 +445,7 @@ public class UtlFirebase {
 
             @Override
             protected void onPostExecute(Users users) {
-                //fireBaseAble.resultTicket(users);
+                fireBaseAble.resultUser(users);
                 Log.e("RETURN METHOD ", returnUser == null ? "NULL" : "NOT NULL");
                 isWait = false;
             }
@@ -468,5 +457,63 @@ public class UtlFirebase {
         DatabaseReference myRef = database.getReference("Users");
 
         myRef.child("Client").child(userID).removeValue();
+    }
+
+    public static void updateClient(String userId, String address, String phone)
+    {
+        //creating a connection to fire base
+        FirebaseDatabase database= FirebaseDatabase.getInstance();
+
+        //creating a reference to Users object
+        DatabaseReference myRef=database.getReference("Users");
+
+        //update the user under the UUID
+        myRef.child("Client").child(userId).child("address").setValue(address);
+        myRef.child("Client").child(userId).child("phone").setValue(phone);
+    }
+
+    public static void changeUserStatus(String userID, String status) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Users");
+
+        myRef.child("Client").child(userID).child("status").setValue(status);
+    }
+
+    public static void setCompany(String userID, String company) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Users");
+
+        myRef.child("Client").child(userID).child("company").setValue(company);
+    }
+
+    public static List<String> getAllCompanies()
+    {
+        //creating an instance to the database
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        //creating a reference to the database
+        final DatabaseReference myRef = database.getReference("Company");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                companyList.clear();
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    Company retrive = item.getValue(Company.class);
+                    companyList.add(retrive.name);
+                }
+                Log.e("LIST SIZE COMPANIES: ", companyList.size() + "");
+
+                //Need to notify for current list adapter
+                NewTicket.listCompanyAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                //Toast.makeText(MainActivity.context, "Error retrieving data ", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        Log.e("ALL", "COMPANIES LIST");
+        return companyList;
     }
 }
