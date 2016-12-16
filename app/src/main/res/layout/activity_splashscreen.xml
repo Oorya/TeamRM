@@ -17,7 +17,7 @@
         <ImageView
             android:layout_width="250dp"
             android:layout_height="250dp"
-            android:background="@drawable/ic_templogo3_white" />
+            android:background="@drawable/ic_logo_white" />
 
         <TextView
             android:layout_width="match_parent"

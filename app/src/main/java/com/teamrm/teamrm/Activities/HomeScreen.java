@@ -29,12 +29,12 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.teamrm.teamrm.Fragment.CalendarView;
-import com.teamrm.teamrm.Fragment.CompanySettingFrag;
+import com.teamrm.teamrm.Fragment.AdvancedFirmSettingsFrag;
 import com.teamrm.teamrm.Fragment.FragmentDrawer;
 import com.teamrm.teamrm.Fragment.NewTicket;
-import com.teamrm.teamrm.Fragment.Setting;
+import com.teamrm.teamrm.Fragment.BasicFirmSettings;
 import com.teamrm.teamrm.Fragment.TicketList;
-import com.teamrm.teamrm.Fragment.UserDetailsFrag;
+import com.teamrm.teamrm.Fragment.FirmDetailsFrag;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Utility.App;
 
@@ -177,20 +177,20 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 addTicket.hide();
                 break;
             case 3:
-                UserDetailsFrag userDetailsFrag = new UserDetailsFrag();
-                fragmentTransaction.replace(R.id.container_body, userDetailsFrag).addToBackStack(TAG_FRAGMENT[0]).commit();
+                FirmDetailsFrag firmDetailsFrag = new FirmDetailsFrag();
+                fragmentTransaction.replace(R.id.container_body, firmDetailsFrag).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[3]);
                 addTicket.hide();
                 break;
             case 4:
-                CompanySettingFrag companySettingFrag = new CompanySettingFrag();
-                fragmentTransaction.replace(R.id.container_body, companySettingFrag).addToBackStack(TAG_FRAGMENT[0]).commit();
+                AdvancedFirmSettingsFrag advancedFirmSettingsFrag = new AdvancedFirmSettingsFrag();
+                fragmentTransaction.replace(R.id.container_body, advancedFirmSettingsFrag).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[4]);
                 addTicket.hide();
                 break;
             case 5:
-                Setting setting = new Setting();
-                fragmentTransaction.replace(R.id.container_body, setting).addToBackStack(TAG_FRAGMENT[0]).commit();
+                BasicFirmSettings basicFirmSettings = new BasicFirmSettings();
+                fragmentTransaction.replace(R.id.container_body, basicFirmSettings).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[5]);
                 addTicket.hide();
                 break;
