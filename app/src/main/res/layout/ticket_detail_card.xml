@@ -74,7 +74,7 @@
 
 
                 <TextView
-                    android:id="@+id/productLabel"
+                    android:id="@+id/categoryALabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -88,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toEndOf="@id/productLabel"
+                    android:layout_toEndOf="@id/categoryALabel"
                     android:paddingEnd="32dp"
                     android:textColor="@color/textColor_primary"
                     tools:text="דגכלךעידךגעלחי" />

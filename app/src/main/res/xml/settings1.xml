@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceCategory
+    android:title="הגדרות מערכת">
+    <SwitchPreference
+        android:key="allow_secondary_category"
+        android:title="סיווג משני לקריאות"
+        android:summary="קביעת סיווג משני לקריאות בנוסף לסיווג הראשוני"
+        android:defaultValue="false"
+        />
+
+</PreferenceCategory>
+</PreferenceScreen>
