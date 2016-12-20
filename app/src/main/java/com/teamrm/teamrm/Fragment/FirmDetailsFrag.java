@@ -46,7 +46,7 @@ public class FirmDetailsFrag extends Fragment implements FireBaseAble {
         company = (EditText)view.findViewById(R.id.txtcompany);
         createCompany = (RadioButton)view.findViewById(R.id.adminRadio);
         updateUser = (Button) view.findViewById(R.id.btnUpdateUser);
-        UtlFirebase.getUserByKey(MainActivity.userId,this);
+        //UtlFirebase.getUserByKey(MainActivity.userId,this); //fix AsyncTask racing
 
         updateUser.setOnClickListener(new View.OnClickListener() {
             @Override

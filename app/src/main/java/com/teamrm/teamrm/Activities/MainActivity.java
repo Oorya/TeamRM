@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
 
-            UtlFirebase.getUserByKey(userId,this);
+            //UtlFirebase.getUserByKey(userId,this); //fix AsyncTask racing
             Log.w("EMAIL", email);
 
             userImage = acct.getPhotoUrl()==null?"":acct.getPhotoUrl().toString();

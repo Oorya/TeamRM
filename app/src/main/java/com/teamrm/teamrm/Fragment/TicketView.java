@@ -72,7 +72,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         ((TextView)view.findViewById(R.id.dateTimeOpen)).setTypeface(REGULAR);
         ((TextView)view.findViewById(R.id.ticketNum)).setTypeface(SEMI_BOLD);
 
-        //UtlFirebase.getTicketByKey(ticketID,this); //fix AsyncTask racing
+        UtlFirebase.getTicketByKey(ticketID,this);
         txtCancel.setText(MainActivity.userStatus.equals("User")?"בטל":"דחה");
         return view;   
     }

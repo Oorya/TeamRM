@@ -156,7 +156,6 @@ public class UtlFirebase {
     }
 
 
-    /* // fix AsyncTask racing
     public static void getTicketByKey(final String key, Object object) {
 
         final FireBaseAble fireBaseAble = (FireBaseAble) object;
@@ -199,7 +198,7 @@ public class UtlFirebase {
             }
         }.execute();
     }
-    */
+
 
     public static List<Ticket> getAllTicket() {
         //creating an instance to the database
@@ -411,6 +410,7 @@ public class UtlFirebase {
         myRef.child(ticketID).removeValue();
     }
 
+    /* //fix AsyncTask racing
     public static void getUserByKey(final String key, Object object) {
 
         final FireBaseAble fireBaseAble = (FireBaseAble) object;
@@ -453,6 +453,7 @@ public class UtlFirebase {
             }
         }.execute();
     }
+*/
 
     public static void removeClient(String userID) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
