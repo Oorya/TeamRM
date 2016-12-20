@@ -156,6 +156,7 @@ public class UtlFirebase {
     }
 
 
+    /* // fix AsyncTask racing
     public static void getTicketByKey(final String key, Object object) {
 
         final FireBaseAble fireBaseAble = (FireBaseAble) object;
@@ -198,6 +199,7 @@ public class UtlFirebase {
             }
         }.execute();
     }
+    */
 
     public static List<Ticket> getAllTicket() {
         //creating an instance to the database

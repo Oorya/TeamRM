@@ -3,7 +3,6 @@ package com.teamrm.teamrm.Fragment;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -23,6 +22,8 @@ import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 
 /**
@@ -71,7 +72,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         ((TextView)view.findViewById(R.id.dateTimeOpen)).setTypeface(REGULAR);
         ((TextView)view.findViewById(R.id.ticketNum)).setTypeface(SEMI_BOLD);
 
-        UtlFirebase.getTicketByKey(ticketID,this);
+        //UtlFirebase.getTicketByKey(ticketID,this); //fix AsyncTask racing
         txtCancel.setText(MainActivity.userStatus.equals("User")?"בטל":"דחה");
         return view;   
     }
