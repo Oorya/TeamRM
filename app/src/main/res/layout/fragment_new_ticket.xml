@@ -17,36 +17,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <RelativeLayout
-                android:id="@+id/line1open"
-                android:layout_width="match_parent"
-                android:layout_height="36dp"
-                android:background="@color/app_bg"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp">
 
-                <ImageView
-                    android:id="@+id/userIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_icon_ticket" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="8dp"
-                    android:layout_toEndOf="@id/userIcon"
-                    android:text="פרטי קריאה חדשה" />
-
-            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/companyRow"
                 style="@style/RegularRow"
-                android:layout_below="@id/line1open">
+                >
 
                 <ImageView
                     android:id="@+id/companyIcon"

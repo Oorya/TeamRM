@@ -65,17 +65,20 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calendar_veiw, container, false);
+        Log.d("list  mEvent = ","onCreateView");
 
         mWeekView = (WeekView) view.findViewById(R.id.weekView);
         mWeeViewEvent = new ArrayList<>();
         mEvent = new ArrayList<>();
         cal = new CalendarUtil(getActivity(),this);
         cal.getResultsFromApi();
+
         mWeekView.setMonthChangeListener(this);
 
         mWeekView.setOnEventClickListener(this);
         mWeekView.setEventLongPressListener(this);
         mWeekView.setEmptyViewLongPressListener(this);
+        mWeekView.setEmptyViewClickListener(this);
         // setupDateTimeInterpreter(false);
 
         return view;
@@ -136,14 +139,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onEventClick(WeekViewEvent event, RectF eventRect) {
-
-
-
-    }
-
-    @Override
+     @Override
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
 
 
@@ -222,30 +218,30 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
 
 
     }
-
     @Override
-    public void getResult(Event event) {
+    public void onEventClick(WeekViewEvent event, RectF eventRect) {
 
     }
-
-
-
-
-    @Override
-    public void getEventList(List<Event> calList)
-    {
-        Log.d("list get resolt","start");
-
-        mEvent.clear();
-        mEvent = calList;
-        Log.d("list = ",mEvent.size()+"");
-        mWeekView.notifyDatasetChanged();
-    }
-
     @Override
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
 
 
+    }
+    @Override
+    public void getResult(Event event) {
+
+    }
+    @Override
+    public void getEventList(List<Event> eventUtil)
+    {
+
+        Log.d("list","getEventList");
+
+        mEvent.clear();
+
+        mEvent = eventUtil;
+        Log.d("list = ",mEvent.size()+"");
+        mWeekView.notifyDatasetChanged();
     }
 
     private void setupDateTimeInterpreter(final boolean shortDate)

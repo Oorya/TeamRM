@@ -22,7 +22,7 @@
             <RelativeLayout
                 android:id="@+id/createCompany"
                 style="@style/RegularRow.Alt"
-                android:layout_below="@id/categoryRow">
+               >
 
                 <ImageView
                     android:id="@+id/adminIcon"
@@ -182,15 +182,12 @@
             <Button
                 android:id="@+id/btnUpdateUser"
                 style="@style/paddedBtn"
-                android:layout_below="@id/labelDescription"
+                android:layout_below="@id/phoneRow"
                 android:backgroundTint="@color/status_ok"
                 android:layout_marginBottom="700dp"
                 android:text="@string/update_details_btn" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_below="@id/btnSubmitTicket" />
+
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

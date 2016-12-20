@@ -65,10 +65,10 @@ public class Ticket {
         this.status=1;
     }
 
-    public void saveTicket()
+    public void saveTicket(Ticket ticket)
     {
         //create an instance of User class
-        Ticket ticket=new Ticket(company,product,classification,area,address,phone,desShort,desLong,ticketImage1,ticketImage2,ticketId);
+       // Ticket ticket=new Ticket(company,product,classification,area,address,phone,desShort,desLong,ticketImage1,ticketImage2,ticketId);
 
         //creating a connection to fire base
         FirebaseDatabase database= FirebaseDatabase.getInstance();

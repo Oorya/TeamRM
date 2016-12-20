@@ -1,9 +1,9 @@
 {
   "project_info": {
     "project_number": "840847860575",
-        "firebase_url": "https://teamrm-b1c06.firebaseio.com",
-        "project_id": "teamrm-b1c06",
-        "storage_bucket": "teamrm-b1c06.appspot.com"
+    "firebase_url": "https://teamrm-b1c06.firebaseio.com",
+    "project_id": "teamrm-b1c06",
+    "storage_bucket": "teamrm-b1c06.appspot.com"
   },
   "client": [
     {
@@ -15,7 +15,23 @@
       },
       "oauth_client": [
         {
-          "client_id": "787361860556-iamje7un3ckbh7td623f06k0evt3jer5.apps.googleusercontent.com",
+          "client_id": "840847860575-ek7sdcvik9153vqaeh5m657hdhkdcf0p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.teamrm.teamrm",
+            "certificate_hash": "B57961786730A71265489BD9C37448BA4F9AB650"
+          }
+        },
+        {
+          "client_id": "840847860575-vdr0ad2ct5cqo4v87csoetcie3ihtkeu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.teamrm.teamrm",
+            "certificate_hash": "27B90EEC9B45FD0E86F487BBFCBDD7D5F926D42E"
+          }
+        },
+        {
+          "client_id": "840847860575-6dao2i9t3knl325517pm9rd3h7b5rt43.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.teamrm.teamrm",
@@ -23,27 +39,11 @@
           }
         },
         {
-          "client_id": "787361860556-a93e6d6e3ul2q51ql73f5s5b2506tkt5.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.teamrm.teamrm",
-            "certificate_hash": "B77CD7E1D756AAD956C7CA71657BE3822C614838"
-          }
-        },
-        {
-          "client_id": "787361860556-1rj4np2ld99p4dkjm4utdbs3jejnvltb.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.teamrm.teamrm",
-            "certificate_hash": "5DDE41E692C35161C32C35B926767F86ED868F96"
-          }
-        },
-        {
-          "client_id": "787361860556-q4qlhscj1292jhrbrs9sl2ron3t3jatr.apps.googleusercontent.com",
+          "client_id": "840847860575-dr3uu6fbfpa6s0lknpd7h2hh90r5rhd8.apps.googleusercontent.com",
           "client_type": 3
         },
         {
-          "client_id": "787361860556-m9ietsg9qcf90gte337lo0moal04tbli.apps.googleusercontent.com",
+          "client_id": "840847860575-tcsdcj9r5c4o2243f3janvug66kdclrg.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -58,12 +58,12 @@
         },
         "appinvite_service": {
           "status": 2,
-                    "other_platform_oauth_client": [
-                        {
-                    "client_id": "840847860575-tcsdcj9r5c4o2243f3janvug66kdclrg.apps.googleusercontent.com",
-                  "client_type": 3
-                }
-              ]
+          "other_platform_oauth_client": [
+            {
+              "client_id": "840847860575-dr3uu6fbfpa6s0lknpd7h2hh90r5rhd8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

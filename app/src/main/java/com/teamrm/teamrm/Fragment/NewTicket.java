@@ -231,7 +231,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         String uid = getUUID();
         Ticket ticket = new Ticket(company,product,category,region,address.getText().toString(),phone.getText().toString(),
                 desShort.getText().toString(),desLong.getText().toString(),"error","error",uid);
-        ticket.saveTicket();
+        ticket.saveTicket(ticket);
         UtlFirebase.changeState(uid, ProductID.STATE_A01);
         address.setText("");
         phone.setText("");

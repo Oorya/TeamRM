@@ -4,7 +4,9 @@ package com.teamrm.teamrm.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
@@ -54,6 +56,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     private final static String[] TAG_FRAGMENT = {"NEW_TICKET"};
     private GoogleSignInOptions gso;
     private GoogleApiClient mGoogleApiClient;
+    public final static int PERM_REQUEST_CODE_DRAW_OVERLAYS = 1234;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +87,8 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         fragmentTransaction.add(R.id.container_body, new TicketList());
         fragmentTransaction.commit();
         setTitle(getResources().getStringArray(R.array.nav_list)[0]);
+        permissionToDrawOverlays();
+
 
         addTicket.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,10 +104,18 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
             }
         });
 
-        //if(Settings)
+
 
     }
 
+    public void permissionToDrawOverlays() {
+        if (android.os.Build.VERSION.SDK_INT >= 23) {   //Android M Or Over
+            if (!Settings.canDrawOverlays(this)) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, PERM_REQUEST_CODE_DRAW_OVERLAYS);
+            }
+        }
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults) {
@@ -124,10 +137,18 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         Log.d("REQUEST = "+requestCode,"onActivityResult HOME SCREEN");
-        Toast.makeText(this, "HOME SCREEN  "+requestCode, Toast.LENGTH_SHORT).show();
         if(requestCode==FROM_CAMERA || requestCode==SELECT_FILE)
         {
             NewTicket.utlCamera.onActivityResult(requestCode,resultCode,data);
+        }
+
+        else if(requestCode == PERM_REQUEST_CODE_DRAW_OVERLAYS)
+        {
+            if (android.os.Build.VERSION.SDK_INT >= 23) {   //Android M Or Over
+                if (!Settings.canDrawOverlays(this)) {
+                    // ADD UI FOR USER TO KNOW THAT UI for SYSTEM_ALERT_WINDOW permission was not granted earlier...
+                }
+            }
         }
         else
         {
@@ -162,6 +183,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
             case 0:
                 fragmentTransaction.replace(R.id.container_body, ticketList).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[0]);
+                addTicket.show();
                 break;
             case 1:
                 NewTicket ticket = new NewTicket();
@@ -170,10 +192,12 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 addTicket.hide();
                 break;
             case 2:
+                Log.d("droeswech","case2");
+
                 CalendarView calendarView = new CalendarView();
                 fragmentTransaction.replace(R.id.container_body, calendarView).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[2]);
-                findViewById(R.id.toolbar).setVisibility(View.GONE);
+                findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.GONE);
                 addTicket.hide();
                 break;
             case 3:

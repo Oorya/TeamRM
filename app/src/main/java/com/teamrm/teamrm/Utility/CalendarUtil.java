@@ -131,6 +131,8 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
         } else if (!isDeviceOnline()) {
             Toast.makeText(_context, "isDeviceOnline false", Toast.LENGTH_LONG).show();
         } else if (mCredential.getSelectedAccountName() == null) {
+            Log.d("REQUEST", "getSelectedAccountName() == null");
+
             chooseAccount();
         } else {
 
@@ -138,6 +140,8 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                     transport, jsonFactory, mCredential)
                     .setApplicationName("Google Calendar API Android Quickstart")
                     .build();
+            Log.d("REQUEST", mService.toString());
+
 
             calList.addAll(getCalList());
         }
@@ -270,7 +274,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                 break;
             case REQUEST_AUTHORIZATION:
                 if (resultCode == RESULT_OK) {
-                    getCalList();
+
                     getResultsFromApi();
                 }
                 break;
@@ -724,6 +728,8 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             protected void onPreExecute() {
                 super.onPreExecute();
                // mProgress.show();
+                Log.d("REQUEST = ","doInBackground");
+
 
 
             }
@@ -731,6 +737,8 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             @Override
             protected Void doInBackground(Void... params)
             {
+                Log.d("REQUEST = ","doInBackground");
+
                 do {
                     try {
                         if(mService==null)
@@ -742,6 +750,8 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                         Log.d("REQUEST = ","UserRecoverable(e)");
 
                     } catch (IOException e) {
+                        Log.d("REQUEST = ","IOException e");
+
                         Log.e("REQUEST = ", Log.getStackTraceString(e));
                     }
                     if(calendarList != null ) {
@@ -755,9 +765,13 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 if(items!=null) {
+                    Log.d("REQUEST = ","onPostExecute = ");
+
                     calList = items;
                     new MakeRequestTask().execute();
                 }
+                Log.d("REQUEST = ","items!=null");
+
             }
         }.execute();
         return calList;
