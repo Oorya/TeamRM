@@ -13,10 +13,10 @@ import com.teamrm.teamrm.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BasicFirmSettings extends Fragment {
+public class BasicSettingsAdmin extends Fragment {
 
 
-    public BasicFirmSettings() {
+    public BasicSettingsAdmin() {
         // Required empty public constructor
     }
 
@@ -26,7 +26,7 @@ public class BasicFirmSettings extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        return inflater.inflate(R.layout.fragment_setting, container, false);
+        return inflater.inflate(R.layout.fragment_basic_settings_admin, container, false);
     }
 
 }

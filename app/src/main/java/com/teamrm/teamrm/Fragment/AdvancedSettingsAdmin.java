@@ -12,10 +12,10 @@ import com.teamrm.teamrm.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AdvancedFirmSettingsFrag extends Fragment {
+public class AdvancedSettingsAdmin extends Fragment {
 
 
-    public AdvancedFirmSettingsFrag() {
+    public AdvancedSettingsAdmin() {
         // Required empty public constructor
     }
 
@@ -24,7 +24,7 @@ public class AdvancedFirmSettingsFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_company_setting, container, false);
+        return inflater.inflate(R.layout.fragment_advanced_settings_admin, container, false);
     }
 
 }
