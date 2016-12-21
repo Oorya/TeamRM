@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Fragment.TicketView;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.R;
@@ -129,9 +130,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
                 TicketView ticketView = new TicketView();
                 ticketView.setArguments(bundel);
                 fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-                fragmentManager.replace(R.id.container_body,  ticketView).commit();
+                fragmentManager.replace(R.id.container_body,  ticketView).addToBackStack("NEW_TICKET").commit();
 
-                //mContext.setTitle(mContext.getResources().getString(R.string.new_ticket));
 
             }
         });

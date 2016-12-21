@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Ticket;
@@ -61,6 +62,8 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_new_ticket, container, false);
+        getActivity().findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
+
 
         imageView1 = (ImageView)view.findViewById(R.id.photoChooser1);
         imageView2 = (ImageView)view.findViewById(R.id.photoChooser2);

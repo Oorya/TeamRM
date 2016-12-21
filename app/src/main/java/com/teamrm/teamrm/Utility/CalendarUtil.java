@@ -494,7 +494,8 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             Event event = new Event()
                     .setSummary(eventDitile[0])
                     .setLocation(eventDitile[1])
-                    .setDescription(eventDitile[2]);
+                    .setDescription(eventDitile[2])
+                    .setId(eventDitile[3]);//uuid
 
             @Override
             protected Void doInBackground(Void... params) {
@@ -519,6 +520,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
 
                     event.setStart(startEventDateTime);
                     event.setEnd(endEventDateTime);
+
 
                 } catch (ParseException e) {
 
