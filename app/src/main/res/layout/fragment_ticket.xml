@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/app_bg"
     tools:context="com.teamrm.teamrm.Fragment.TicketView"
+tools:paddingTop="25dp"
     >
 
     
@@ -34,8 +35,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/status"
             android:background="#ff7043"
-            android:gravity="right"
+            android:gravity="start"
             android:layout_below="@id/ticketNum"
+            android:layoutDirection="rtl"
            >
         <ImageView
             android:layout_width="wrap_content"
