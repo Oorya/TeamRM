@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.teamrm.teamrm.Fragment.TicketList">
+    tools:context="com.teamrm.teamrm.Fragment.TicketList"
+    tools:paddingTop="25dp">
 
     <RelativeLayout
         android:id="@+id/had"

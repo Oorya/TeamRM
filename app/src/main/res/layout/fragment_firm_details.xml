@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
 
     android:layoutDirection="rtl"
-    tools:context="com.teamrm.teamrm.Fragment.NewTicket">
+    tools:context="com.teamrm.teamrm.Fragment.FirmDetailsFrag"
+    tools:paddingTop="25dp">
 
 
     <ScrollView
@@ -17,8 +18,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="100dp">
-
+            >
             <RelativeLayout
                 android:id="@+id/createCompany"
                 style="@style/RegularRow.Alt"

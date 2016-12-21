@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    tools:paddingTop="25dp">
+
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,41 +25,29 @@
                 android:id="@+id/ticketHeadingExpand"
                 style="@style/CardRow"
                 android:layout_height="42dp"
-                android:background="@color/listRow_alt"
-                >
+                android:background="@color/listRow_alt">
 
                 <ImageView
                     android:id="@+id/userIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="12dp"
+                    style="@style/CardRowImageStart"
                     android:src="@drawable/ic_icon_ticket" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                    style="@style/CardRowLabel"
                     android:layout_toEndOf="@id/userIcon"
-                    android:text="פרטי קריאה" />
+                    android:text="פרטי קריאה"
+                    android:textColor="@color/textColor_lighter" />
 
                 <ImageView
                     android:id="@+id/expandButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_icon_up"
-                    />
-
-
+                    style="@style/CardRowImageEnd"
+                    android:src="@drawable/ic_icon_up" />
             </RelativeLayout>
+
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/app_bg"
-                android:layout_below="@id/ticketHeadingExpand"
-                />
+                style="@style/Separator1px"
+                android:layout_below="@id/ticketHeadingExpand" />
+
             <RelativeLayout
                 android:id="@+id/productRow"
                 style="@style/CardRow"
@@ -67,31 +55,21 @@
 
                 <ImageView
                     android:id="@+id/productIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="12dp"
+                    style="@style/CardRowImageStart"
                     android:src="@drawable/ic_icon_product2" />
 
 
                 <TextView
                     android:id="@+id/categoryALabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="12dp"
+                    style="@style/CardRowLabel"
                     android:layout_toEndOf="@id/productIcon"
-                    android:textColor="@color/textColor_primary"
                     android:text="מוצר:" />
 
                 <TextView
                     android:id="@+id/productText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                    style="@style/CardRowText"
                     android:layout_toEndOf="@id/categoryALabel"
                     android:paddingEnd="32dp"
-                    android:textColor="@color/textColor_primary"
                     tools:text="דגכלךעידךגעלחי" />
 
             </RelativeLayout>
@@ -104,33 +82,20 @@
 
                 <ImageView
                     android:id="@+id/ClassificationIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="12dp"
+                    style="@style/CardRowImageStart"
                     android:src="@drawable/ic_icon_sivug" />
 
                 <TextView
                     android:id="@+id/categoryLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="12dp"
+                    style="@style/CardRowLabel"
                     android:layout_toEndOf="@id/ClassificationIcon"
-                    android:layoutDirection="rtl"
-                    android:textColor="@color/textColor_primary"
-                    android:text="סיווג:"
-                    android:textDirection="rtl" />
+                    android:text="סיווג:" />
 
                 <TextView
                     android:id="@+id/categoryText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                    style="@style/CardRowText"
                     android:layout_toEndOf="@id/categoryLabel"
-                    tools:text="דגכלךעידךגעלחי"
-                    android:textColor="@color/textColor_primary"
-                    />
+                    tools:text="דגכלךעידךגעלחי" />
 
             </RelativeLayout>
 
@@ -141,32 +106,20 @@
 
                 <ImageView
                     android:id="@+id/regionIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="12dp"
+                    style="@style/CardRowImageStart"
                     android:src="@drawable/ic_icon_location" />
 
                 <TextView
                     android:id="@+id/regionLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="12dp"
+                    style="@style/CardRowLabel"
                     android:layout_toEndOf="@id/regionIcon"
-                    android:text="אזור:"
-                    android:textColor="@color/textColor_primary"
-                    />
+                    android:text="אזור:" />
 
                 <TextView
                     android:id="@+id/regionText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                    style="@style/CardRowText"
                     android:layout_toEndOf="@id/regionLabel"
-                    tools:text="דגכלךעידךגעלחי"
-                    android:textColor="@color/textColor_primary"
-                    />
+                    tools:text="דגכלךעידךגעלחי" />
 
             </RelativeLayout>
 
@@ -180,43 +133,28 @@
 
                 <ImageView
                     android:id="@+id/addressIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="12dp"
+                    style="@style/CardRowImageStart"
                     android:src="@drawable/ic_icon_location" />
 
                 <TextView
                     android:id="@+id/addressLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="12dp"
+                    style="@style/CardRowLabel"
                     android:layout_toEndOf="@+id/addressIcon"
-                    android:textColor="@color/textColor_primary"
                     android:text="כתובת:" />
 
                 <TextView
                     android:id="@+id/addressText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                    style="@style/CardRowText"
                     android:layout_toEndOf="@id/addressLabel"
                     android:paddingBottom="4dp"
                     android:paddingEnd="32dp"
                     android:paddingTop="4dp"
-                    android:textColor="@color/textColor_primary"
                     tools:text="גכע דגכע דגכ  דגכעדגכ דגכ  דכדכגד  דגכדגכ דגכ דכג גכג כ דגכעדגעדדגעדדגכ שדגעדגעגכ דגכ דגכדגכעדגכעדג דגכעדגכעד דגכעד גכע דגכ" />
 
                 <ImageView
                     android:id="@+id/navigateToAddress"
-                    style="@style/RegularRowItem"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignParentEnd="true"
-                    android:src="@drawable/ic_icon_nav"
-                    android:textColor="@color/textColor_primary"
-                    />
+                    style="@style/CardRowImageEnd"
+                    android:src="@drawable/ic_icon_nav" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -226,39 +164,25 @@
 
                 <ImageView
                     android:id="@+id/phoneIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="12dp"
+                    style="@style/CardRowImageStart"
                     android:src="@drawable/ic_icon_phone" />
 
                 <TextView
                     android:id="@+id/phoneLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="8dp"
+                    style="@style/CardRowLabel"
                     android:layout_toEndOf="@+id/phoneIcon"
-                    android:text="טלפון:"
-                    android:textColor="@color/textColor_primary"
-                    />
+                    android:text="טלפון:" />
 
                 <TextView
                     android:id="@+id/phoneText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                    style="@style/CardRowText"
                     android:layout_toEndOf="@id/phoneLabel"
                     android:paddingEnd="32dp"
-                    android:textColor="@color/textColor_primary"
                     tools:text="0546-9876-987698" />
 
                 <ImageView
                     android:id="@+id/callNumber"
-                    style="@style/RegularRowItem"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignParentEnd="true"
+                    style="@style/CardRowImageEnd"
                     android:src="@drawable/ic_call_24px" />
 
             </RelativeLayout>
@@ -267,25 +191,18 @@
                 android:id="@+id/labelDescription"
                 style="@style/CardRow"
                 android:layout_below="@id/phoneRow"
-                android:background="@color/listRow_alt"
-                >
+                android:background="@color/listRow_alt">
 
                 <ImageView
                     android:id="@+id/descriptionIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="12dp"
+                    style="@style/CardRowImageStart"
                     android:src="@drawable/ic_icon_note" />
 
                 <TextView
                     android:id="@+id/descriptionLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                    style="@style/CardRowLabel"
                     android:layout_toEndOf="@id/descriptionIcon"
-                    android:text="תוכן הקריאה"
-                    android:textColor="@color/textColor_primary"/>
+                    android:text="תוכן הקריאה" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -302,20 +219,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/dotted_rect"
-                    android:paddingTop="10dp"
                     android:paddingBottom="8dp"
-                    android:paddingStart="16dp"
                     android:paddingEnd="16dp"
-                    >
+                    android:paddingStart="16dp"
+                    android:paddingTop="10dp">
 
                     <TextView
                         android:id="@+id/descriptionShort"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
                         android:textColor="@color/textColor_primary"
                         android:textColorHint="@color/textColor_lighter"
                         android:textSize="16sp"
-                        android:layout_marginBottom="8dp"
                         tools:text="קריאת שרות תקנית">
 
                     </TextView>
@@ -325,15 +241,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/descriptionShort"
+                        android:layout_marginBottom="8dp"
                         android:gravity="top"
+                        android:lineSpacingExtra="2sp"
                         android:minHeight="48dp"
                         android:textColor="@color/textColor_primary"
                         android:textColorHint="@color/textColor_lighter"
                         android:textSize="14sp"
-                        android:layout_marginBottom="8dp"
-                        android:lineSpacingExtra="2sp"
-                        tools:text="קריאת שירות הינה פנייה יזומה של יצרן הרכב אל בעלי הרכבים לשם ביצוע בדיקה ו/או פעולה מונעת ו/או תיקון "
-                        />
+                        tools:text="קריאת שירות הינה פנייה יזומה של יצרן הרכב אל בעלי הרכבים לשם ביצוע בדיקה ו/או פעולה מונעת ו/או תיקון " />
                 </RelativeLayout>
             </RelativeLayout>
 
@@ -344,17 +259,12 @@
 
                 <ImageView
                     android:id="@+id/photoIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="12dp"
+                    style="@style/CardRowImageStart"
                     android:src="@drawable/ic_icon_camera" />
 
                 <TextView
                     android:id="@+id/photoLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                    style="@style/CardRowLabel"
                     android:layout_toEndOf="@id/photoIcon"
                     android:text="תמונות מצורפות" />
             </RelativeLayout>

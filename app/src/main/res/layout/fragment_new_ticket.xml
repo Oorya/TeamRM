@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
 
     android:layoutDirection="rtl"
-    tools:context="com.teamrm.teamrm.Fragment.NewTicket">
+    tools:context="com.teamrm.teamrm.Fragment.NewTicket"
+    tools:paddingTop="25px">
 
 
     <ScrollView
