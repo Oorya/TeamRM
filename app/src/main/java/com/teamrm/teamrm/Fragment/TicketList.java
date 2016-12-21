@@ -21,7 +21,7 @@ public class TicketList extends Fragment {
 
     public RecyclerView mRecyclerView;
     public static MyRecyclerAdapter myRecyclerAdapter;
-    private TextView title,Filter,search,order;
+    private TextView title,filter,search,order;
 
 
     public TicketList() {} // Required empty public constructor
@@ -32,6 +32,10 @@ public class TicketList extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list_ticket, container, false);
 
         Typeface SEMI_BOLD = Typeface.createFromAsset(this.getContext().getAssets(), "Assistant-SemiBold.ttf");
+
+        filter = (TextView)view.findViewById(R.id.filtertxt);
+        search = (TextView)view.findViewById(R.id.searchTxt);
+        order = (TextView)view.findViewById(R.id.sortimgTxt);
 
 
         //((TextView)view.findViewById(R.id.titleText)).setTypeface(BOLD);
