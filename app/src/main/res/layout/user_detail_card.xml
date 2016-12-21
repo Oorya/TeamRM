@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:paddingTop="25dp">
 
 
    
@@ -20,31 +22,30 @@
             >
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="48dp"
+                style="@style/CardRow"
+                >
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginRight="15dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:id="@+id/userIcon"
                     android:src="@drawable/ic_icon_person"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="ישראל ישראלי"
-                    android:layout_marginTop="10dp"
                     android:id="@+id/userNameCard"
-                    android:layout_toEndOf="@id/userIcon"/>
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/userIcon"
+                    android:textSize="16sp"/>
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     android:id="@+id/expandButton"
                     android:src="@drawable/ic_icon_down"
                     />

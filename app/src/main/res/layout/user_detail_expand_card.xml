@@ -1,251 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    tools:paddingTop="25dp">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/userDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="5dp"
+        android:layout_marginTop="12dp"
         android:layoutDirection="rtl"
-        android:id="@+id/userDetail"> 
-        <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-       
-            >
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/name"
-           
+
             >
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginRight="15dp"
-                android:id="@+id/userIcon"
-                android:src="@drawable/ic_icon_person"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/userNameExpand"
-                android:layout_marginTop="10dp"
-                android:layout_toEndOf="@id/userIcon"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="10dp"
-                android:layout_alignParentLeft="true"
-                android:id="@+id/expandButton"
-                android:src="@drawable/ic_icon_up"
-                />
-        </RelativeLayout>
+
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/name"
+                android:id="@+id/name"
+                style="@style/CardRow">
+
+                <ImageView
+                    android:id="@+id/userIcon"
+                    style="@style/CardRowImageStart"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_icon_person" />
+
+                <TextView
+                    android:id="@+id/userNameCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/userIcon"
+                    android:text="ישראל ישראלי"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/expandButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_icon_down" />
+            </RelativeLayout>
+
+            <View
+                style="@style/Separator1px"
+                android:layout_below="@id/name" />
+
+            <RelativeLayout
                 android:id="@+id/mail"
-                >
+                style="@style/CardRow"
+                android:layout_below="@id/name">
+
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginRight="15dp"
                     android:id="@+id/mailIcon"
-                    android:src="@drawable/ic_icon_mail"
-                    />
+                    style="@style/CardRowImageStart"
+                    android:src="@drawable/ic_icon_mail" />
+
                 <TextView
-                    android:layout_width="41dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/mail"
-                    android:layout_marginTop="10dp"
                     android:id="@+id/mailAdd1"
-                    android:layout_toEndOf="@id/mailIcon"/>
+                    style="@style/CardRowLabel"
+                    android:layout_toEndOf="@id/mailIcon"
+                    android:text="@string/mail_label" />
+
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="xxx@xxxx"
-                    android:layout_marginTop="10dp"
                     android:id="@+id/mailAdd"
-                    android:layout_toEndOf="@id/mailAdd1"/>
+                    style="@style/CardRowLabel"
+                    android:layout_toEndOf="@id/mailAdd1"
+                    android:text="xxx@xxxx" />
+
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_alignParentLeft="true"
                     android:id="@+id/mailButton"
-                    android:src="@drawable/ic_icon_newmail"
-                    />
+                    style="@style/CardRowImageEnd"
+                    android:src="@drawable/ic_icon_newmail" />
 
             </RelativeLayout>
+
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/mail"
                 android:id="@+id/location"
-                >
+                style="@style/CardRow"
+                android:layout_below="@id/mail">
+
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginRight="15dp"
                     android:id="@+id/locationIcon"
-                    android:src="@drawable/ic_icon_ezor"
-                    />
+                    style="@style/CardRowImageStart"
+                    android:src="@drawable/ic_icon_ezor" />
+
                 <TextView
-                    android:layout_width="41dp"
-                    android:layout_height="wrap_content"
-                    android:text="אזור"
-                    android:layout_marginTop="10dp"
                     android:id="@+id/locationTitel"
-                    android:layout_toEndOf="@id/locationIcon"/>
+                    style="@style/CardRowLabel"
+                    android:layout_toEndOf="@id/locationIcon"
+                    android:text="אזור" />
+
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="אזור"
-                    android:layout_marginTop="10dp"
                     android:id="@+id/locationAdd"
-                    android:layout_toEndOf="@id/locationTitel"/>
-                    />
+                    style="@style/CardRowText"
+                    android:layout_toEndOf="@id/locationTitel"
+                    android:text="אזור" />
+                />
 
             </RelativeLayout>
+
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/location"
-                android:id="@+id/add"
-                >
+                android:id="@+id/address"
+                style="@style/CardRow"
+                android:layout_below="@id/location">
+
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginRight="15dp"
-                    android:id="@+id/addIcon"
-                    android:src="@drawable/ic_icon_location"
-                    />
+                    android:id="@+id/addressIcon"
+                    style="@style/CardRowImageStart"
+                    android:src="@drawable/ic_icon_location" />
+
                 <TextView
-                    android:layout_width="41dp"
-                    android:layout_height="wrap_content"
-                    android:text="אזור "
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/addTitel"
-                    android:layout_toEndOf="@id/addIcon"/>
+                    android:id="@+id/addressLabel"
+                    style="@style/CardRowLabel"
+                    android:layout_toEndOf="@id/addressIcon"
+                    android:text="אזור " />
+
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="xxxxxxx"
-                    android:layout_marginTop="10dp"
                     android:id="@+id/locationText"
-                    android:layout_toEndOf="@id/addTitel"/>
+                    style="@style/CardRowText"
+                    android:layout_toEndOf="@id/addressLabel"
+                    android:text="xxxxxxx" />
+
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_alignParentLeft="true"
                     android:id="@+id/locationButton"
-                    android:src="@drawable/ic_icon_nav"
-                    />
+                    style="@style/CardRowImageEnd"
+                    android:src="@drawable/ic_icon_nav" />
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/add"
                 android:id="@+id/phone"
-                >
+                style="@style/CardRow"
+                android:layout_below="@id/address">
+
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginRight="15dp"
                     android:id="@+id/phoneIcon"
-                    android:src="@drawable/ic_icon_phone"
-                    />
+                    style="@style/CardRowImageStart"
+                    android:src="@drawable/ic_icon_phone" />
+
                 <TextView
-                    android:layout_width="41dp"
-                    android:layout_height="wrap_content"
-                    android:text="אזור "
-                    android:layout_marginTop="10dp"
                     android:id="@+id/phoneTitel"
-                    android:layout_toEndOf="@id/phoneIcon"/>
+                    style="@style/CardRowLabel"
+                    android:layout_toEndOf="@id/phoneIcon"
+                    android:text="אזור " />
+
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="xxxxxxx"
-                    android:layout_marginTop="10dp"
                     android:id="@+id/phoneText"
-                    android:layout_toEndOf="@id/phoneTitel"/>
+                    style="@style/CardRowText"
+                    android:layout_toEndOf="@id/phoneTitel"
+                    android:text="xxxxxxx" />
+
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_alignParentLeft="true"
                     android:id="@+id/phoneButton"
-                    android:src="@drawable/ic_call_24px"
-                    />
-                
+                    style="@style/CardRowImageEnd"
+                    android:src="@drawable/ic_call_24px" />
+
             </RelativeLayout>
+
             <android.support.v7.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/phone"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="7dp"
                 android:layout_marginBottom="6dp"
+                android:layout_marginTop="7dp"
                 android:layoutDirection="rtl"
                 android:onClick="userProfile"
-                app:cardCornerRadius="5dp"
-                app:cardBackgroundColor="#c8c8c8"
-                >
+                app:cardBackgroundColor="@color/app_bg"
+                app:cardCornerRadius="5dp">
+
                 <ImageView
+                    android:id="@+id/user"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="2dp"
                     android:layout_marginLeft="4.5dp"
                     android:layout_marginRight="3dp"
                     android:layout_marginTop="2dp"
-                    android:id="@+id/user"
-                    android:src="@drawable/ic_icon_person"
-                    />
+                    android:src="@drawable/ic_icon_person" />
+
                 <TextView
+                    android:id="@+id/userProfile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="פרופיל משתמש"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginLeft="15dp"
                     android:layout_marginBottom="2dp"
-                    android:id="@+id/userProfile"
-                    />
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="6dp"
+                    android:text="פרופיל משתמש" />
             </android.support.v7.widget.CardView>
-            
-    </RelativeLayout>
+
+        </RelativeLayout>
     </android.support.v7.widget.CardView>
 
 </RelativeLayout>

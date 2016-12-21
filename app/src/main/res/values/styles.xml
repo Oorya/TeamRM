@@ -107,6 +107,37 @@
         <item name="android:paddingEnd">8dp</item>
     </style>
 
+    <style name="CardRowImageStart">
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="CardRowImageEnd">
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="CardRowLabel">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:textColor">@color/textColor_primary</item>
+    </style>
+
+    <style name="CardRowText">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/textColor_primary</item>
+    </style>
+
     <style name="PrefRowBig">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">48dp</item>
@@ -114,6 +145,10 @@
         <item name="android:paddingEnd">24dp</item>
     </style>
 
-
+    <style name="Separator1px">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">@color/app_bg</item>
+    </style>
 
 </resources>
