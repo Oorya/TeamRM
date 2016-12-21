@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Activities.MainActivity;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.ProductID;
@@ -21,6 +22,7 @@ import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
+import java.sql.Time;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -35,9 +37,10 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     RelativeLayout userDetailOpen;
     RelativeLayout ticketDetailClose;
     RelativeLayout ticketDetailOpen;
-    TextView userName, userProfile, txtCancel;
+    TextView userName, userProfile, txtCancel,endTimeTxt;
     Ticket ticket;
     String ticketID;
+    static String endTime;
     
     
     public TicketView() {
@@ -52,9 +55,19 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         Bundle bundle = this.getArguments();
         if (bundle != null)
         {
-            String ticketId = bundle.getString("ticketID", "error");
-            Log.w("TICKET_ID:  ",ticketId);
-            this.ticketID = ticketId;
+            if(bundle.getString("ticketID", "error")!="error") {
+                String ticketId = bundle.getString("ticketID", "error");
+                Log.w("TICKET_ID:  ", ticketId);
+                this.ticketID = ticketId;
+            }
+            else if (bundle.getString("time", "error")!="error")
+            {
+                endTime = bundle.getString("time", "error");
+            }
+            if(endTimeTxt!=null&&ticketID!=null)
+            {
+                UtlFirebase.getTicketByKey(ticketID,this);
+            }
         }
     }
 
@@ -67,15 +80,24 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         Typeface REGULAR = Typeface.createFromAsset(this.getContext().getAssets(), "Assistant-Regular.ttf");
         Typeface SEMI_BOLD = Typeface.createFromAsset(this.getContext().getAssets(), "Assistant-SemiBold.ttf");
 
+        getActivity().setTitle(getContext().getResources().getString(R.string.new_ticket));
+        getActivity().findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
+        ((HomeScreen)getActivity()).btnaddTicketGon();
+
+
         ((TextView)view.findViewById(R.id.statusTxt)).setTypeface(REGULAR);
         ((TextView)view.findViewById(R.id.dateTimeChange)).setTypeface(REGULAR);
         ((TextView)view.findViewById(R.id.dateTimeOpen)).setTypeface(REGULAR);
         ((TextView)view.findViewById(R.id.ticketNum)).setTypeface(SEMI_BOLD);
 
-        UtlFirebase.getTicketByKey(ticketID,this);
-        txtCancel.setText(MainActivity.userStatus.equals("User")?"בטל":"דחה");
-        return view;   
+        if(ticketID!=null)
+
+      // txtCancel.setText(MainActivity.userStatus.equals("User")?"בטל":"דחה");
+        if (endTime!=null)
+            endTimeTxt.setText(endTime);
+        return view;
     }
+
 
 
     @Override
@@ -115,6 +137,11 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         {
             //UtlFirebase.stateListener("Admin",MainActivity.email,"NULL");
         }
+        else if(view.getId()==endTimeTxt.getId())
+        {
+            ((HomeScreen)getActivity()).onDrawerItemSelected(view,2);
+            ((HomeScreen)getActivity()).setTitle("יומן");
+        }
     }
     private void setListeners(View view)
     {
@@ -127,6 +154,8 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         approval = (CardView)view.findViewById(R.id.ok);
         cancel = (CardView)view.findViewById(R.id.cancel);
         txtCancel = (TextView)view.findViewById(R.id.txtCancel);
+        endTimeTxt = (TextView)view.findViewById(R.id.dateTimeChange);
+        endTimeTxt.setOnClickListener(this);
         userDetailCard.setOnClickListener(this);
         userDetailOpen.setOnClickListener(this);
         ticketDetailClose.setOnClickListener(this);
@@ -140,6 +169,12 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     public void resultTicket(Ticket ticket) {
         this.ticket=ticket;
         userName.setText(ticket.customerName);
+
+        if(ticket.state != ProductID.STATE_A03)
+        {
+        UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_A03);
+        ticket.state = ProductID.STATE_A03;
+        }
     }
 
     @Override

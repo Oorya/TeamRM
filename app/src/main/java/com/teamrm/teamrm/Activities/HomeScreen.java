@@ -87,6 +87,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         fragmentTransaction.add(R.id.container_body, new TicketList());
         fragmentTransaction.commit();
         setTitle(getResources().getStringArray(R.array.nav_list)[0]);
+
         permissionToDrawOverlays();
 
 
@@ -98,13 +99,18 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 NewTicket newTicket = new NewTicket();
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
                 fragmentTransaction.replace(R.id.container_body,  newTicket).addToBackStack(TAG_FRAGMENT[0]).commit();
-                //fragmentTransaction.commit();
+                fragmentTransaction.commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[1]);
                 addTicket.hide();
             }
         });
 
 
+
+    }
+    public void btnaddTicketGon()
+    {
+        addTicket.hide();
 
     }
 
@@ -183,12 +189,16 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
             case 0:
                 fragmentTransaction.replace(R.id.container_body, ticketList).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[0]);
+                findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
+
                 addTicket.show();
                 break;
             case 1:
                 NewTicket ticket = new NewTicket();
                 fragmentTransaction.replace(R.id.container_body, ticket).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[1]);
+                findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
+
                 addTicket.hide();
                 break;
             case 2:
@@ -204,18 +214,24 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 FirmDetailsFrag firmDetailsFrag = new FirmDetailsFrag();
                 fragmentTransaction.replace(R.id.container_body, firmDetailsFrag).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[3]);
+                findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
+
                 addTicket.hide();
                 break;
             case 4:
                 AdvancedFirmSettingsFrag advancedFirmSettingsFrag = new AdvancedFirmSettingsFrag();
                 fragmentTransaction.replace(R.id.container_body, advancedFirmSettingsFrag).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[4]);
+                findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
+
                 addTicket.hide();
                 break;
             case 5:
                 BasicFirmSettings basicFirmSettings = new BasicFirmSettings();
                 fragmentTransaction.replace(R.id.container_body, basicFirmSettings).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[5]);
+                findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
+
                 addTicket.hide();
                 break;
             case 6:
@@ -226,6 +242,8 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
                 fragmentTransaction.replace(R.id.container_body, ticketList).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[0]);
+                findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
+
         }
     }
 
@@ -234,7 +252,8 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         //final NewTicket NEW_TICKET_FRAGMENT = (NewTicket)getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT[0]);
         if(getFragmentManager().getBackStackEntryCount() > 0)
         {
-            getFragmentManager().popBackStack();
+
+            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
         else
         {

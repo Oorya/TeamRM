@@ -1,9 +1,15 @@
 package com.teamrm.teamrm.Fragment;
 
 
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -12,6 +18,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TimePicker;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
@@ -23,6 +33,7 @@ import com.teamrm.teamrm.Interfaces.CalendarHelper;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Utility.CalendarUtil;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,7 +61,12 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
     private static List<WeekViewEvent> mWeeViewEvent;
     private static List<Event> mEvent;
     public static CalendarUtil cal;
-    
+    private static String ticketID;
+    public static TimePicker timePicker;
+    private static Calendar pickerTime;
+    private static Bundle bundel;
+
+
     public CalendarView() {
         // Required empty public constructor
     }
@@ -58,6 +74,16 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null)
+        {
+            String ticketId = bundle.getString("ticketID", "error");
+            Log.w("TICKET_ID:  ",ticketId);
+            ticketID = ticketId;
+        }
+
+
     }
 
 
@@ -65,13 +91,16 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calendar_veiw, container, false);
-        Log.d("list  mEvent = ","onCreateView");
+        getActivity().findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.GONE);
 
+        Log.d("list  mEvent = ","onCreateView");
+        bundel = new Bundle();
         mWeekView = (WeekView) view.findViewById(R.id.weekView);
         mWeeViewEvent = new ArrayList<>();
         mEvent = new ArrayList<>();
         cal = new CalendarUtil(getActivity(),this);
         cal.getResultsFromApi();
+        timePicker = (TimePicker) view.findViewById(R.id.timePicker);
 
         mWeekView.setMonthChangeListener(this);
 
@@ -146,13 +175,11 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
         Log.d("list  mEvent = ",mEvent.size()+"");
 
         mWeeViewEvent.clear();
-        int id=0;
+        long id=0;
         for (Event EVENT : mEvent)
         {
-            id++;
-
-            WeekViewEvent Wevent = new WeekViewEvent(id,EVENT.getSummary(), convertStart(EVENT),convertEnd(EVENT));
-
+           // WeekViewEvent Wevent = new WeekViewEvent(Long.parseLong(EVENT.getId()),EVENT.getSummary(), convertStart(EVENT),convertEnd(EVENT));
+            WeekViewEvent Wevent = new WeekViewEvent(id++,EVENT.getId(),EVENT.getSummary(),convertStart(EVENT),convertEnd(EVENT));
             mWeeViewEvent.add(Wevent);
 
         }
@@ -214,13 +241,64 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
 
     }
     @Override
-    public void onEmptyViewClicked(Calendar time) {
+    public void onEmptyViewClicked(final Calendar time) {
 
 
+        // custom dialog
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.radiobutton_dialog);
+
+       final RadioGroup rg = (RadioGroup) dialog.findViewById(R.id.radio_group);
+
+
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                if(checkedId==R.id.allDay)
+                {
+                    time.set(Calendar.HOUR_OF_DAY, 0);
+                    time.set(Calendar.MINUTE, 0);
+                    time.set(Calendar.SECOND, 0);
+                    time.set(Calendar.MILLISECOND, 0);
+                    SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+                    String formatted = format1.format(time.getTime());
+                    bundel.putString("time",formatted);
+                    bundel.putString("ticketID",ticketID);
+
+                    FragmentTransaction fragmentManager = (getActivity().getSupportFragmentManager())
+                            .beginTransaction();
+                    TicketView ticketView = new TicketView();
+                    ticketView.setArguments(bundel);
+                    fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+                    fragmentManager.replace(R.id.container_body,  ticketView).addToBackStack("NEW_TICKET").commit();
+                    dialog.dismiss();
+
+                }
+                else
+                {
+                    DialogFragment newFragment = new TimePickerFragment();
+                    newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+                   pickerTime = time;
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        dialog.show();
     }
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
+        Bundle bundel = new Bundle();
+        bundel.putString("ticketID",event.getName());
 
+        FragmentTransaction fragmentManager = (getActivity().getSupportFragmentManager())
+                .beginTransaction();
+        TicketView ticketView = new TicketView();
+        ticketView.setArguments(bundel);
+        fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+        fragmentManager.replace(R.id.container_body,  ticketView).commit();
     }
     @Override
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
@@ -271,5 +349,43 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
         });
     }
 
+
+            public static class TimePickerFragment extends DialogFragment
+                    implements TimePickerDialog.OnTimeSetListener
+            {
+
+                @Override
+                public Dialog onCreateDialog(Bundle savedInstanceState) {
+                    // Use the current time as the default values for the picker
+                    final Calendar c = Calendar.getInstance();
+                    int hour = c.get(Calendar.HOUR_OF_DAY);
+                    int minute = c.get(Calendar.MINUTE);
+
+                    // Create a new instance of TimePickerDialog and return it
+                    return new TimePickerDialog(getActivity(), this, hour, minute,
+                            DateFormat.is24HourFormat(getActivity()));
+                }
+
+                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    Calendar pickerTime = Calendar.getInstance();
+                    //pickerTime.set(Calendar.HOUR_OF_DAY,hourOfDay);
+                   // pickerTime.set(Calendar.MINUTE,minute);
+
+                    pickerTime.set(Calendar.HOUR_OF_DAY,hourOfDay);
+                    pickerTime.set(Calendar.MINUTE, minute);
+                    SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                    String formatted = format1.format(pickerTime.getTime());
+                    bundel.putString("time",formatted);
+                    bundel.putString("ticketID",ticketID);
+
+                    FragmentTransaction fragmentManager = (getActivity().getSupportFragmentManager())
+                            .beginTransaction();
+                    TicketView ticketView = new TicketView();
+                    ticketView.setArguments(bundel);
+                    fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+                    fragmentManager.replace(R.id.container_body,  ticketView).addToBackStack("NEW_TICKET").commit();
+                    this.dismiss();
+                }
+            }
 
 }
