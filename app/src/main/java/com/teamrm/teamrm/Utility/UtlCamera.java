@@ -92,24 +92,28 @@ public class UtlCamera extends Activity
             {
                 File imgFile = new  File(picturePath);
 
-                Log.w("FROM CAMERA: ",requestCode+"");
-                Log.w("FILE EXIST 1: ",imgFile.exists()+"");
                 if(imgFile.exists()){
-                    Log.w("FILE EXIST 2: ",imgFile.exists()+"");
+                    Log.w("FILE EXIST : ",imgFile.exists()+"");
 
                     Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
 
                     myBitmap.compress(Bitmap.CompressFormat.JPEG,80,baos);
                     //savePicSP("img1",UtlImage.bitmap2string(myBitmap));
-                    Log.w("BITMAP: ",myBitmap+"");
-                    NewTicket.imageView2.setImageBitmap(myBitmap);
-                    NewTicket.imageView1.setImageBitmap(myBitmap);
 
+                    switch (NewTicket.imgClick)
+                    {
+                        case 1:
+                            NewTicket.imageView1.setImageBitmap(myBitmap);
+                            break;
+                        case 2:
+                            NewTicket.imageView2.setImageBitmap(myBitmap);
+                            break;
+                    }
                 }
             }
             else if (requestCode == SELECT_FILE)
             {
-                Log.w("select file: ","Select file");
+                Log.w("Select file: ","Select file");
                 Uri selectedImageUri = data.getData();
 
                 String tempPath = getPath(selectedImageUri, activity);
@@ -118,8 +122,15 @@ public class UtlCamera extends Activity
                 bm = BitmapFactory.decodeFile(tempPath, btmapOptions);
                 bm.compress(Bitmap.CompressFormat.JPEG,80,baos);
                 //savePicSP("img1",UtlImage.bitmap2string(bm));
-                NewTicket.imageView2.setImageBitmap(bm);
-                NewTicket.imageView1.setImageBitmap(bm);
+                switch (NewTicket.imgClick)
+                {
+                    case 1:
+                        NewTicket.imageView1.setImageBitmap(bm);
+                        break;
+                    case 2:
+                        NewTicket.imageView2.setImageBitmap(bm);
+                        break;
+                }
             }
         }
     }

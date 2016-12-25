@@ -4,6 +4,8 @@ package com.teamrm.teamrm.Fragment;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +24,9 @@ import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -38,9 +43,9 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     RelativeLayout ticketDetailOpen;
     TextView userName, userProfile, txtCancel, endTimeTxt;
     Ticket ticket;
-    String ticketID;
-    static String endTime;
-
+    String ticketID, timeFormated;
+    static Long bumdleEndTime;
+    Calendar endTime;
 
     public TicketView() {
         // Required empty public constructor
@@ -54,14 +59,18 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         if (bundle != null) {
             if (!bundle.getString("ticketID", "error").equals("error")) {
                 String ticketId = bundle.getString("ticketID", "error");
-                Log.w("TICKET_ID:  ", ticketId);
+                Log.w("TICKET_ID Bundle:  ", ticketId);
                 this.ticketID = ticketId;
-            } else if (!bundle.getString("time", "error").equals("error")) {
-                endTime = bundle.getString("time", "error");
-            }
-            if (endTimeTxt != null && ticketID != null) {
                 UtlFirebase.getTicketByKey(ticketID, this);
             }
+            if (bundle.getLong("time", 0) != 0) {
+                bumdleEndTime = bundle.getLong("time", 0);
+                endTime = Calendar.getInstance();
+                endTime.setTime(new Date(bumdleEndTime));
+                SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+                timeFormated = format1.format(endTime.getTime());
+            }
+
         }
     }
 
@@ -84,11 +93,14 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         ((TextView) view.findViewById(R.id.dateTimeOpen)).setTypeface(REGULAR);
         ((TextView) view.findViewById(R.id.ticketNum)).setTypeface(SEMI_BOLD);
 
-        if (ticketID != null)
 
             // txtCancel.setText(MainActivity.userStatus.equals("User")?"בטל":"דחה");
-            if (endTime != null)
-                endTimeTxt.setText(endTime);
+            if (endTime != null) {
+
+                endTimeTxt.setText(timeFormated);
+                UtlFirebase.updateTicket(ticketID, "endTime", endTime.getTime());
+            }
+
         return view;
     }
 
@@ -117,7 +129,16 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         } else if (view.getId() == approval.getId()) {
             //UtlFirebase.stateListener("Admin",MainActivity.email,"NULL");
         } else if (view.getId() == endTimeTxt.getId()) {
-            ((HomeScreen) getActivity()).onDrawerItemSelected(view, 2);
+            Bundle bundle = new Bundle();
+            bundle.putString("ticketID",ticketID);
+
+            FragmentTransaction fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager()
+                    .beginTransaction();
+            CalendarView calendarView = new CalendarView();
+            calendarView.setArguments(bundle);
+            fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+            fragmentManager.replace(R.id.container_body,  calendarView).addToBackStack("NEW_TICKET").commit();
+            //((HomeScreen) getActivity()).onDrawerItemSelected(view, 2);
             ((HomeScreen) getActivity()).setTitle("יומן");
         }
     }
@@ -146,12 +167,27 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     @Override
     public void resultTicket(Ticket ticket) {
         this.ticket = ticket;
-        userName.setText(ticket.customerName);
+        initializeTicket();
 
         if (ticket.state != ProductID.STATE_A03) {
             UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_A03);
             ticket.state = ProductID.STATE_A03;
         }
+    }
+
+    private void initializeTicket() {
+        userName.setText(ticket.customerName);
+        if(ticket.endTime != null)
+        {
+            endTimeTxt.setText(date2String(ticket.endTime));
+        }
+    }
+
+    private String date2String(Date date)
+    {
+        SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+        String timeFormated = format1.format(date);
+        return timeFormated;
     }
 
     @Override

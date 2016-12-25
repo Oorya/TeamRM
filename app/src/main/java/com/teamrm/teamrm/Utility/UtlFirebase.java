@@ -22,6 +22,7 @@ import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.Users;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -155,6 +156,12 @@ public class UtlFirebase {
         }.execute();
     }
 
+    public static void updateTicket(String ticketID, String key, Date value)
+    {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Ticket");
+        myRef.child(ticketID).child(key).setValue(value);
+    }
 
     public static void getTicketByKey(final String key, Object object) {
 

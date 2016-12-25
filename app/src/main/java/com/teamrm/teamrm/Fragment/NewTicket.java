@@ -45,7 +45,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     private Button btnSubmitTicket;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-    private int imgClick = 0;
+    public static int imgClick = 0;
     private boolean isAllow = false;
 
     private static final int PERMISSION_CALLBACK_CONSTANT = 101;
@@ -61,7 +61,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_new_ticket, container, false);
+        final View view = inflater.inflate(R.layout.fragment_new_ticket, container, false);
         getActivity().findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
 
 
@@ -89,6 +89,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         listProductAdapter.setDropDownViewResource(R.layout.spinner_row);
         listCategoryAAdapter.setDropDownViewResource(R.layout.spinner_row);
         listRegionAdapter.setDropDownViewResource(R.layout.spinner_row);
+        listCompanyAdapter.setDropDownViewResource(R.layout.spinner_row);
 
         selectProduct.setAdapter(listProductAdapter);
         selectProduct.setOnItemSelectedListener(this);
@@ -107,7 +108,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
             @Override
             public void onClick(View v) {
                 if(checkEntries()){
-                    submitTicket();
+                    submitTicket(view);
                 }
             }
         });
@@ -115,10 +116,9 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         imageView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //imgClick=1;
-
                 if (isAllow)
                 {
+                    imgClick=1;
                     utlCamera.selectImage();
                 }
                 else
@@ -133,10 +133,9 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         imageView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //imgClick=2;
-                //getPermission();
                 if (isAllow)
                 {
+                    imgClick=2;
                     utlCamera.selectImage();
                 }
                 else
@@ -229,7 +228,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         return true;
     }
 
-    private void submitTicket(){
+    private void submitTicket(View view){
         Calendar cal = Calendar.getInstance(); // creates calendar
         String uid = getUUID();
         Ticket ticket = new Ticket(company,product,category,region,address.getText().toString(),phone.getText().toString(),
@@ -240,6 +239,8 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         phone.setText("");
         desShort.setText("");
         desLong.setText("");
+
+        ((HomeScreen) getActivity()).onDrawerItemSelected(view, 0);
     }
 
     private String getUUID()

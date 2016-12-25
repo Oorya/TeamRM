@@ -53,7 +53,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     private static final int SELECT_FILE = 105;
     private static final int FROM_CAMERA = 205;
     private static final int ACTION_OVERLAY = 300;
-    private final static String[] TAG_FRAGMENT = {"NEW_TICKET"};
+    private final static String[] TAG_FRAGMENT = {"NEW_TICKET", "CALENDER"};
     private GoogleSignInOptions gso;
     private GoogleApiClient mGoogleApiClient;
     public final static int PERM_REQUEST_CODE_DRAW_OVERLAYS = 1234;
@@ -99,7 +99,6 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 NewTicket newTicket = new NewTicket();
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
                 fragmentTransaction.replace(R.id.container_body,  newTicket).addToBackStack(TAG_FRAGMENT[0]).commit();
-                fragmentTransaction.commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[1]);
                 addTicket.hide();
             }
@@ -205,7 +204,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 Log.d("droeswech","case2");
 
                 CalendarView calendarView = new CalendarView();
-                fragmentTransaction.replace(R.id.container_body, calendarView).addToBackStack(TAG_FRAGMENT[0]).commit();
+                fragmentTransaction.replace(R.id.container_body, calendarView).addToBackStack(TAG_FRAGMENT[1]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[2]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.GONE);
                 addTicket.hide();
@@ -250,13 +249,17 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     @Override
     public void onBackPressed() {
         //final NewTicket NEW_TICKET_FRAGMENT = (NewTicket)getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT[0]);
+        Log.w("ON BACK", getFragmentManager().getBackStackEntryCount()
+                + "  SHALTY");
         if(getFragmentManager().getBackStackEntryCount() > 0)
         {
-
+            Log.w(" ON BACK","IF");
+            //Log.w("ON BACK", getFragmentManager().findFragmentByTag(TAG_FRAGMENT[1]).getTag()+ "  SHALTY");
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
         else
         {
+            Log.w("SUPER ON BACK","ELSE");
             super.onBackPressed();
         }
     }

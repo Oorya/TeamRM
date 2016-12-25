@@ -79,7 +79,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
         if (bundle != null)
         {
             String ticketId = bundle.getString("ticketID", "error");
-            Log.w("TICKET_ID:  ",ticketId);
+            Log.w("TICKET Bundle calendar:", ticketId);
             ticketID = ticketId;
         }
 
@@ -264,13 +264,14 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
                     time.set(Calendar.MILLISECOND, 0);
                     SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
                     String formatted = format1.format(time.getTime());
-                    bundel.putString("time",formatted);
+                    bundel.putLong("time",time.getTime().getTime());
                     bundel.putString("ticketID",ticketID);
 
                     FragmentTransaction fragmentManager = (getActivity().getSupportFragmentManager())
                             .beginTransaction();
                     TicketView ticketView = new TicketView();
                     ticketView.setArguments(bundel);
+
                     fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
                     fragmentManager.replace(R.id.container_body,  ticketView).addToBackStack("NEW_TICKET").commit();
                     dialog.dismiss();
@@ -383,7 +384,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
                     TicketView ticketView = new TicketView();
                     ticketView.setArguments(bundel);
                     fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-                    fragmentManager.replace(R.id.container_body,  ticketView).addToBackStack("NEW_TICKET").commit();
+                    fragmentManager.replace(R.id.container_body,  ticketView).addToBackStack("CALENDER").commit();
                     this.dismiss();
                 }
             }
