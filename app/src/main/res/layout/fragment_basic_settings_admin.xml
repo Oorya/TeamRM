@@ -6,16 +6,18 @@
     android:layoutDirection="rtl"
     android:orientation="vertical"
     tools:context="com.teamrm.teamrm.Fragment.BasicSettingsAdmin"
-    tools:paddingTop="25dp">
+    tools:paddingTop="25dp"
+    android:backgroundTint="@color/app_bg">
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@color/listRow_alt" />
+        style="@style/Separator4dp"
+        />
 
     <RelativeLayout
         android:id="@+id/defineFirm"
-        style="@style/PrefRowBig">
+        style="@style/PrefRowBig"
+        android:background="@color/listRow_alt"
+        >
 
         <ImageView
             android:id="@+id/firmIcon"
@@ -38,13 +40,14 @@
     </RelativeLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@color/listRow_alt" />
+        style="@style/Separator4dp"
+        />
 
     <RelativeLayout
         android:id="@+id/defineTechnicians"
-        style="@style/PrefRowBig">
+        style="@style/PrefRowBig"
+        android:background="@color/listRow_alt"
+        >
 
         <ImageView
             android:id="@+id/technicianIcon"
@@ -67,13 +70,14 @@
     </RelativeLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@color/listRow_alt" />
+        style="@style/Separator4dp"
+        />
 
     <RelativeLayout
         android:id="@+id/defineProducts"
-        style="@style/PrefRowBig">
+        style="@style/PrefRowBig"
+        android:background="@color/listRow_alt"
+        >
 
         <ImageView
             android:id="@+id/productIcon"
@@ -96,14 +100,14 @@
     </RelativeLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@color/listRow_alt" />
+        style="@style/Separator4dp"
+        />
 
     <RelativeLayout
         android:id="@+id/defineCategoryA"
         style="@style/PrefRowBig"
-        android:layout_below="@id/defineProducts">
+        android:background="@color/listRow_alt"
+        >
 
         <ImageView
             android:id="@+id/categoryAIcon"
@@ -127,13 +131,13 @@
     </RelativeLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@color/listRow_alt" />
+        style="@style/Separator4dp"
+        />
 
     <RelativeLayout
         android:id="@+id/defineCategoryB"
         style="@style/PrefRowBig"
+        android:background="@color/listRow_alt"
         >
 
         <ImageView
@@ -158,14 +162,14 @@
     </RelativeLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@color/listRow_alt" />
+        style="@style/Separator4dp"
+        />
 
     <RelativeLayout
         android:id="@+id/defineRegion"
         style="@style/PrefRowBig"
-        android:layout_below="@id/defineProducts">
+        android:background="@color/listRow_alt"
+        >
 
         <ImageView
             android:id="@+id/regionIcon"
@@ -189,13 +193,14 @@
     </RelativeLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@color/listRow_alt" />
+        style="@style/Separator4dp"
+        />
+
     <RelativeLayout
         android:id="@+id/appSettings"
         style="@style/PrefRowBig"
-        android:layout_below="@id/defineProducts">
+        android:background="@color/listRow_alt"
+        >
 
         <ImageView
             android:id="@+id/appSettingsIcon"
@@ -219,7 +224,7 @@
     </RelativeLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@color/listRow_alt" />
+        style="@style/Separator4dp"
+        />
+
 </LinearLayout>

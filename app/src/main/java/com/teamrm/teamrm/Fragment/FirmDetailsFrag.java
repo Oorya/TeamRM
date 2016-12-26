@@ -89,4 +89,7 @@ public class FirmDetailsFrag extends Fragment implements FireBaseAble {
     public void resultBoolean(boolean bool) {
 
     }
+
+
 }
+
