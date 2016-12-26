@@ -43,7 +43,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     RelativeLayout ticketDetailOpen;
     TextView userName, userProfile, txtCancel, endTimeTxt;
     Ticket ticket;
-    String ticketID, timeFormated;
+    static  String ticketID, timeFormated;
     static Long bumdleEndTime;
     Calendar endTime;
 
@@ -55,20 +55,25 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             if (!bundle.getString("ticketID", "error").equals("error")) {
                 String ticketId = bundle.getString("ticketID", "error");
                 Log.w("TICKET_ID Bundle:  ", ticketId);
-                this.ticketID = ticketId;
-                UtlFirebase.getTicketByKey(ticketID, this);
-            }
-            if (bundle.getLong("time", 0) != 0) {
-                bumdleEndTime = bundle.getLong("time", 0);
-                endTime = Calendar.getInstance();
-                endTime.setTime(new Date(bumdleEndTime));
-                SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
-                timeFormated = format1.format(endTime.getTime());
+                ticketID = ticketId;
+
+
+                if (bundle.getLong("time", 0) != 0) {
+                    Log.w("TICKET_ID Bundle:  ", bundle.getLong("time", 0)+"");
+
+                    bumdleEndTime = bundle.getLong("time", 0);
+                    endTime = Calendar.getInstance();
+                    endTime.setTime(new Date(bumdleEndTime));
+                    SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+                    timeFormated = format1.format(endTime.getTime());
+                    UtlFirebase.updateTicket(ticketID, "endTime", endTime.getTime());
+                }
             }
 
         }
@@ -92,15 +97,16 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         ((TextView) view.findViewById(R.id.dateTimeChange)).setTypeface(REGULAR);
         ((TextView) view.findViewById(R.id.dateTimeOpen)).setTypeface(REGULAR);
         ((TextView) view.findViewById(R.id.ticketNum)).setTypeface(SEMI_BOLD);
+        UtlFirebase.getTicketByKey(ticketID, this);
 
-
-            // txtCancel.setText(MainActivity.userStatus.equals("User")?"בטל":"דחה");
-            if (endTime != null) {
+            /* txtCancel.setText(MainActivity.userStatus.equals("User")?"בטל":"דחה");
+            if (timeFormated != null) {
+                Log.w("TICKET_ID Bundle:  ", timeFormated);
 
                 endTimeTxt.setText(timeFormated);
-                UtlFirebase.updateTicket(ticketID, "endTime", endTime.getTime());
-            }
 
+            }
+*/
         return view;
     }
 
@@ -138,7 +144,6 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             calendarView.setArguments(bundle);
             fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
             fragmentManager.replace(R.id.container_body,  calendarView).addToBackStack("NEW_TICKET").commit();
-            //((HomeScreen) getActivity()).onDrawerItemSelected(view, 2);
             ((HomeScreen) getActivity()).setTitle("יומן");
         }
     }
@@ -169,7 +174,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         this.ticket = ticket;
         initializeTicket();
 
-        if (ticket.state != ProductID.STATE_A03) {
+        if (ticket.endTime!=null) {
             UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_A03);
             ticket.state = ProductID.STATE_A03;
         }
@@ -177,10 +182,9 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
     private void initializeTicket() {
         userName.setText(ticket.customerName);
-        if(ticket.endTime != null)
-        {
+        if(ticket.endTime!=null)
             endTimeTxt.setText(date2String(ticket.endTime));
-        }
+
     }
 
     private String date2String(Date date)

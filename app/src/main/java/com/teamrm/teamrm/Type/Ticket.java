@@ -32,6 +32,7 @@ public class Ticket {
     public Date endTime;
     public Date ttl;
     public int alarmID;
+    public int repeatSendCounter;
     public String ticketNumber;
     public String calenderID;
     public String eventID;

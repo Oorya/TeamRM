@@ -262,8 +262,8 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
                     time.set(Calendar.MINUTE, 0);
                     time.set(Calendar.SECOND, 0);
                     time.set(Calendar.MILLISECOND, 0);
-                    SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
-                    String formatted = format1.format(time.getTime());
+                    //SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+                    //String formatted = format1.format(time.getTime());
                     bundel.putLong("time",time.getTime().getTime());
                     bundel.putString("ticketID",ticketID);
 

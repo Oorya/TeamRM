@@ -119,7 +119,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, "its fucking working!!!", Toast.LENGTH_SHORT).show();
 
                 Bundle bundel = new Bundle();
                 bundel.putString("ticketID",item.ticketId);
