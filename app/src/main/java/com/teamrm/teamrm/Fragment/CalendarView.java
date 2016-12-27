@@ -19,9 +19,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
@@ -33,6 +41,7 @@ import com.teamrm.teamrm.Interfaces.CalendarHelper;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Utility.CalendarUtil;
 
+import java.lang.reflect.Field;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -243,27 +252,67 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
     @Override
     public void onEmptyViewClicked(final Calendar time) {
 
+        final Dialog dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.timepickerdialog);
+        dialog.setTitle("בחר שעה");
+        final RadioButton allDay = (RadioButton)dialog.findViewById(R.id.allDayEvent);
+        final RadioButton timeRange = (RadioButton)dialog.findViewById(R.id.timeRange);
+        final LinearLayout timeSet = (LinearLayout)dialog.findViewById(R.id.pikDite);
+        Button cancel = (Button)dialog.findViewById(R.id.cancel);
+        Button enter = (Button)dialog.findViewById(R.id.enter);
+        final Spinner min = (Spinner)dialog.findViewById(R.id.SelectManet);
+        Spinner hour = (Spinner)dialog.findViewById(R.id.SelectHour);
+        Spinner tech = (Spinner)dialog.findViewById(R.id.SelectTech);
+        final TextView startTime = (TextView)dialog.findViewById(R.id.startTimeTxt);
+        SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+        String formatted = format1.format(time.getTime());
+        startTime.setText(formatted);
 
-        // custom dialog
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.radiobutton_dialog);
 
-       final RadioGroup rg = (RadioGroup) dialog.findViewById(R.id.radio_group);
+        ArrayAdapter<CharSequence> hourAdapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.hour_array, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        hourAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        hour.setAdapter(hourAdapter);
+
+        ArrayAdapter<CharSequence> minAdapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.Minutes_array, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        minAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        min.setAdapter(minAdapter);
 
 
-        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        timeRange.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-                if(checkedId==R.id.allDay)
+            public void onClick(View v) {
+                timeSet.setVisibility(View.VISIBLE);
+                SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                String formatted = format1.format(time.getTime());
+                startTime.setText(formatted);
+            }
+        });
+        allDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timeSet.setVisibility(View.GONE);
+                SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+                String formatted = format1.format(time.getTime());
+                startTime.setText(formatted);
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        enter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(timeRange.isChecked())
                 {
-                    time.set(Calendar.HOUR_OF_DAY, 0);
-                    time.set(Calendar.MINUTE, 0);
-                    time.set(Calendar.SECOND, 0);
-                    time.set(Calendar.MILLISECOND, 0);
-                    //SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
-                    //String formatted = format1.format(time.getTime());
                     bundel.putLong("time",time.getTime().getTime());
                     bundel.putString("ticketID",ticketID);
 
@@ -275,19 +324,29 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
                     fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
                     fragmentManager.replace(R.id.container_body,  ticketView).addToBackStack("NEW_TICKET").commit();
                     dialog.dismiss();
-
-                }
-                else
+                }else if(allDay.isChecked())
                 {
-                    DialogFragment newFragment = new TimePickerFragment();
-                    newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
-                   pickerTime = time;
+                    time.set(Calendar.HOUR_OF_DAY, 0);
+                    time.set(Calendar.MINUTE, 0);
+                    time.set(Calendar.SECOND, 0);
+                    time.set(Calendar.MILLISECOND, 0);
+                    bundel.putLong("time",time.getTime().getTime());
+                    bundel.putString("ticketID",ticketID);
+
+                    FragmentTransaction fragmentManager = (getActivity().getSupportFragmentManager())
+                            .beginTransaction();
+                    TicketView ticketView = new TicketView();
+                    ticketView.setArguments(bundel);
+
+                    fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+                    fragmentManager.replace(R.id.container_body,  ticketView).addToBackStack("NEW_TICKET").commit();
                     dialog.dismiss();
                 }
+
             }
         });
-
         dialog.show();
+
     }
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
@@ -349,44 +408,5 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
             }
         });
     }
-
-
-            public static class TimePickerFragment extends DialogFragment
-                    implements TimePickerDialog.OnTimeSetListener
-            {
-
-                @Override
-                public Dialog onCreateDialog(Bundle savedInstanceState) {
-                    // Use the current time as the default values for the picker
-                    final Calendar c = Calendar.getInstance();
-                    int hour = c.get(Calendar.HOUR_OF_DAY);
-                    int minute = c.get(Calendar.MINUTE);
-
-                    // Create a new instance of TimePickerDialog and return it
-                    return new TimePickerDialog(getActivity(), this, hour, minute,
-                            DateFormat.is24HourFormat(getActivity()));
-                }
-
-                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    Calendar pickerTime = Calendar.getInstance();
-                    //pickerTime.set(Calendar.HOUR_OF_DAY,hourOfDay);
-                   // pickerTime.set(Calendar.MINUTE,minute);
-
-                    pickerTime.set(Calendar.HOUR_OF_DAY,hourOfDay);
-                    pickerTime.set(Calendar.MINUTE, minute);
-                    SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-                    String formatted = format1.format(pickerTime.getTime());
-                    bundel.putString("time",formatted);
-                    bundel.putString("ticketID",ticketID);
-
-                    FragmentTransaction fragmentManager = (getActivity().getSupportFragmentManager())
-                            .beginTransaction();
-                    TicketView ticketView = new TicketView();
-                    ticketView.setArguments(bundel);
-                    fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-                    fragmentManager.replace(R.id.container_body,  ticketView).addToBackStack("CALENDER").commit();
-                    this.dismiss();
-                }
-            }
 
 }

@@ -70,9 +70,16 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                     bumdleEndTime = bundle.getLong("time", 0);
                     endTime = Calendar.getInstance();
                     endTime.setTime(new Date(bumdleEndTime));
-                    SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat format1;
+                    if(endTime.get(Calendar.HOUR_OF_DAY)>0)
+                        format1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                    else
+                        format1 = new SimpleDateFormat("dd-MM-yyyy");
                     timeFormated = format1.format(endTime.getTime());
+                    Log.w(" Bundle_timeFormated:  ", timeFormated);
+
                     UtlFirebase.updateTicket(ticketID, "endTime", endTime.getTime());
+
                 }
             }
 
@@ -99,14 +106,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         ((TextView) view.findViewById(R.id.ticketNum)).setTypeface(SEMI_BOLD);
         UtlFirebase.getTicketByKey(ticketID, this);
 
-            /* txtCancel.setText(MainActivity.userStatus.equals("User")?"בטל":"דחה");
-            if (timeFormated != null) {
-                Log.w("TICKET_ID Bundle:  ", timeFormated);
 
-                endTimeTxt.setText(timeFormated);
-
-            }
-*/
         return view;
     }
 
@@ -133,7 +133,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             UtlFirebase.changeState(ticketID,
                     MainActivity.userStatus.equals("User") ? ProductID.STATE_E00 : ProductID.STATE_E01);
         } else if (view.getId() == approval.getId()) {
-            //UtlFirebase.stateListener("Admin",MainActivity.email,"NULL");
+
         } else if (view.getId() == endTimeTxt.getId()) {
             Bundle bundle = new Bundle();
             bundle.putString("ticketID",ticketID);
@@ -189,7 +189,12 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
     private String date2String(Date date)
     {
-        SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat format1;
+        if(date.getHours()> 0)
+            format1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        else
+            format1 = new SimpleDateFormat("dd-MM-yyyy");
+
         String timeFormated = format1.format(date);
         return timeFormated;
     }
