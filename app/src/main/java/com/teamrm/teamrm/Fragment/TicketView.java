@@ -68,7 +68,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
                 if (bundle.getLong("time", 0) != 0) {
                     Log.w("TICKET_ID Bundle:  ", bundle.getLong("time", 0)+"");
-
+                    ticket.incCounter();
                     bumdleEndTime = bundle.getLong("time", 0);
                     endTime = Calendar.getInstance();
                     endTime.setTime(new Date(bumdleEndTime));
@@ -133,9 +133,11 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             Toast.makeText(getContext(), "USER PROFILE " + ticket.customerName, Toast.LENGTH_SHORT).show();
         } else if (view.getId() == approval.getId()) {
             if(userProfileObj.getStatus().equals("admin")) {
+                if(ticket.state == ProductID.STATE_A01){
                 UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_A02CN);
                 ticket.state = ProductID.STATE_A02CN;
-                ticket.incCounter();
+                }
+
 
             }
             if(ticket.state == ProductID.STATE_A03&&userProfileObj.getStatus()=="user")
