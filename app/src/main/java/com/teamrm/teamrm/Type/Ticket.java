@@ -102,4 +102,18 @@ public class Ticket {
         str+="Status: "+this.status+"\n";
         return str;
     }
+    public int getRepeatSendCounter() {
+        return repeatSendCounter;
+    }
+
+    public void incCounter() {
+
+        //מתודה שמעדקנת את השדה repeatSendCounter בפיירבייס
+        this.repeatSendCounter += repeatSendCounter;
+    }
+    public void incInitialization() {
+
+        //מתודה שמעדקנת את השדה repeatSendCounter בפיירבייס
+        this.repeatSendCounter = 0;
+    }
 }

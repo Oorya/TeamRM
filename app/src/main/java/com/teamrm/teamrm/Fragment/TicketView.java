@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,6 +47,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     static  String ticketID, timeFormated;
     static Long bumdleEndTime;
     Calendar endTime;
+    Users userProfileObj;
 
     public TicketView() {
         // Required empty public constructor
@@ -129,11 +131,17 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             this.getView().findViewById(R.id.ticketDetailsOpen).setVisibility(View.GONE);
         } else if (view.getId() == userProfile.getId()) {
             Toast.makeText(getContext(), "USER PROFILE " + ticket.customerName, Toast.LENGTH_SHORT).show();
-        } else if (view.getId() == cancel.getId()) {
-            UtlFirebase.changeState(ticketID,
-                    MainActivity.userStatus.equals("User") ? ProductID.STATE_E00 : ProductID.STATE_E01);
         } else if (view.getId() == approval.getId()) {
+            if(userProfileObj.getStatus().equals("admin")) {
+                UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_A02CN);
+                ticket.state = ProductID.STATE_A02CN;
+                ticket.incCounter();
 
+            }
+            if(ticket.state == ProductID.STATE_A03&&userProfileObj.getStatus()=="user")
+            {
+                ticket.incInitialization();
+            }
         } else if (view.getId() == endTimeTxt.getId()) {
             Bundle bundle = new Bundle();
             bundle.putString("ticketID",ticketID);
@@ -145,6 +153,26 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
             fragmentManager.replace(R.id.container_body,  calendarView).addToBackStack("NEW_TICKET").commit();
             ((HomeScreen) getActivity()).setTitle("יומן");
+        }
+        else if(view.getId() == cancel.getId())
+        {
+            if(userProfileObj.getStatus().equals("admin")) {
+                UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_E01);
+                ticket.state = ProductID.STATE_E01;
+                UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_Z00);
+                ticket.state = ProductID.STATE_Z00;
+            }else if (userProfileObj.getStatus().equals("tech"))
+            {
+
+                UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_C01);
+                ticket.state = ProductID.STATE_E01;
+
+
+            }else if (userProfileObj.getStatus().equals("user"))
+            {
+                UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_E00);
+                ticket.state = ProductID.STATE_E00;
+            }
         }
     }
 
@@ -159,6 +187,8 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         cancel = (CardView) view.findViewById(R.id.cancel);
         txtCancel = (TextView) view.findViewById(R.id.txtCancel);
         endTimeTxt = (TextView) view.findViewById(R.id.dateTimeChange);
+
+
         endTimeTxt.setOnClickListener(this);
         userDetailCard.setOnClickListener(this);
         userDetailOpen.setOnClickListener(this);

@@ -57,7 +57,7 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
                  }
                  case TicketStateAble.WAITING_FOR_USER_APPROVAL:
                  {
-                     UtlNotification utlNotification = new UtlNotification("הלקוח עדיין לא אשר מועד","יום נפלא");
+                     UtlNotification utlNotification = new UtlNotification("הלקוח לא אשר מועד בזמן","יום נפלא");
                      utlNotification.sendNotification();
                      break;
                  }

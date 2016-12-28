@@ -14,7 +14,7 @@
         android:id="@+id/SelectFormat">
         <RadioButton
             android:layout_width="wrap_content"
-            android:text="פתח ארוע יומי"
+            android:text="ארוע יומי"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textAlignment="viewStart"
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textAlignment="viewStart"
-            android:text="פתח ארוע לפי זמן"
+            android:text="ארוע לפי זמן"
             android:id="@+id/timeRange"/>
     </RadioGroup>
     <LinearLayout
