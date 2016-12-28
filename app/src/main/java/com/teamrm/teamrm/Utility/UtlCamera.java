@@ -99,14 +99,16 @@ public class UtlCamera extends Activity
 
                     myBitmap.compress(Bitmap.CompressFormat.JPEG,80,baos);
                     //savePicSP("img1",UtlImage.bitmap2string(myBitmap));
-
+                    Log.w("image click", NewTicket.imgClick+" ==");
                     switch (NewTicket.imgClick)
                     {
                         case 1:
                             NewTicket.imageView1.setImageBitmap(myBitmap);
+                            NewTicket.img1 = myBitmap;
                             break;
                         case 2:
                             NewTicket.imageView2.setImageBitmap(myBitmap);
+                            NewTicket.img2 = myBitmap;
                             break;
                     }
                 }
@@ -126,9 +128,11 @@ public class UtlCamera extends Activity
                 {
                     case 1:
                         NewTicket.imageView1.setImageBitmap(bm);
+                        NewTicket.img1 = bm;
                         break;
                     case 2:
                         NewTicket.imageView2.setImageBitmap(bm);
+                        NewTicket.img2 = bm;
                         break;
                 }
             }

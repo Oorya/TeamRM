@@ -40,7 +40,6 @@ public class UtlFirebase {
     public UtlFirebase() {
     }
 
-
     public static void signOut() {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signOut();
@@ -205,7 +204,6 @@ public class UtlFirebase {
             }
         }.execute();
     }
-
 
     public static List<Ticket> getAllTicket() {
         //creating an instance to the database
@@ -526,4 +524,29 @@ public class UtlFirebase {
         Log.e("ALL", "COMPANIES LIST");
         return companyList;
     }
+
+    public static void saveUser(Users user)
+    {
+        //creating a connection to fire base
+        FirebaseDatabase database= FirebaseDatabase.getInstance();
+
+        //creating a reference to Users object
+        DatabaseReference myRef=database.getReference("Users");
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        String mail[] = user.getEmail().split("@");
+        //saving the user under the UUID
+        myRef.child(mail[0]).setValue(user);
+    }
 }
+

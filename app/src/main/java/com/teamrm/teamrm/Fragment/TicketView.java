@@ -11,19 +11,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.teamrm.teamrm.Activities.HomeScreen;
-import com.teamrm.teamrm.Activities.MainActivity;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.Users;
+import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
+import com.teamrm.teamrm.Utility.UtlImage;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -43,6 +44,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     RelativeLayout ticketDetailClose;
     RelativeLayout ticketDetailOpen;
     TextView userName, userProfile, txtCancel, endTimeTxt;
+    ImageView img1, img2;
     Ticket ticket;
     static  String ticketID, timeFormated;
     static Long bumdleEndTime;
@@ -58,6 +60,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Toast.makeText(getContext(), UserSingleton.getInstance().getEmail(), Toast.LENGTH_SHORT).show();
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             if (!bundle.getString("ticketID", "error").equals("error")) {
@@ -189,7 +192,8 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         cancel = (CardView) view.findViewById(R.id.cancel);
         txtCancel = (TextView) view.findViewById(R.id.txtCancel);
         endTimeTxt = (TextView) view.findViewById(R.id.dateTimeChange);
-
+        img1 = (ImageView)view.findViewById(R.id.photo1);
+        img2 = (ImageView)view.findViewById(R.id.photo2);
 
         endTimeTxt.setOnClickListener(this);
         userDetailCard.setOnClickListener(this);
@@ -214,6 +218,14 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
     private void initializeTicket() {
         userName.setText(ticket.customerName);
+        if(!ticket.ticketImage1.equals("error"))
+        {
+            img1.setImageBitmap(UtlImage.string2bitmap(ticket.ticketImage1));
+        }
+        if(!ticket.ticketImage2.equals("error"))
+        {
+            img2.setImageBitmap(UtlImage.string2bitmap(ticket.ticketImage2));
+        }
         if(ticket.endTime!=null)
             endTimeTxt.setText(date2String(ticket.endTime));
 

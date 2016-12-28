@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.teamrm.teamrm.Fragment.TicketView;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
@@ -120,13 +119,13 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
             @Override
             public void onClick(View view) {
 
-                Bundle bundel = new Bundle();
-                bundel.putString("ticketID",item.ticketId);
+                Bundle bundle = new Bundle();
+                bundle.putString("ticketID",item.ticketId);
 
                 FragmentTransaction fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager()
                         .beginTransaction();
                 TicketView ticketView = new TicketView();
-                ticketView.setArguments(bundel);
+                ticketView.setArguments(bundle);
                 fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
                 fragmentManager.replace(R.id.container_body,  ticketView).addToBackStack("NEW_TICKET").commit();
             }

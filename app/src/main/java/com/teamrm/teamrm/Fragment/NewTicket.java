@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -28,6 +29,7 @@ import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Utility.UtlCamera;
 import com.teamrm.teamrm.Utility.UtlFirebase;
+import com.teamrm.teamrm.Utility.UtlImage;
 
 import java.util.Calendar;
 import java.util.UUID;
@@ -38,6 +40,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
 
     private Spinner selectProduct, selectCategoryA, selectRegion, selectCompany;
     public static ImageView imageView1, imageView2;
+    public static Bitmap img1, img2;
     private String product, category, region, company;
     private EditText address, phone, desShort, desLong;
     public static ArrayAdapter<String> listCompanyAdapter;
@@ -46,7 +49,6 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     SharedPreferences pref;
     SharedPreferences.Editor editor;
     public static int imgClick = 0;
-    private boolean isAllow = false;
 
     private static final int PERMISSION_CALLBACK_CONSTANT = 101;
     private static final int REQUEST_PERMISSION_SETTING = 102;
@@ -54,8 +56,6 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     public static UtlCamera utlCamera;
 
     public NewTicket() {}
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -116,33 +116,15 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         imageView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isAllow)
-                {
-                    imgClick=1;
-                    utlCamera.selectImage();
-                }
-                else
-                {
-                    getPermission();
-                }
-
-                Toast.makeText(getContext(), "IMAGE 1", Toast.LENGTH_SHORT).show();
-
+                imgClick = 1;
+                getPermission();
             }
         });
         imageView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isAllow)
-                {
-                    imgClick=2;
-                    utlCamera.selectImage();
-                }
-                else
-                {
-                    getPermission();
-                }
-                Toast.makeText(getContext(), "IMAGE 2", Toast.LENGTH_SHORT).show();
+                imgClick = 2;
+                getPermission();
             }
         });
         return view;
@@ -161,7 +143,6 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         if(grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED)
         {
             Log.w("Permission new ticket", "INSIDE IF");
-            isAllow=true;
             utlCamera.selectImage();
         }
         else
@@ -232,7 +213,8 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         Calendar cal = Calendar.getInstance(); // creates calendar
         String uid = getUUID();
         Ticket ticket = new Ticket(company,product,category,region,address.getText().toString(),phone.getText().toString(),
-                desShort.getText().toString(),desLong.getText().toString(),"error","error",uid);
+                desShort.getText().toString(),desLong.getText().toString(),img1 != null ? UtlImage.bitmap2string(img1):"error",
+                img2 != null ? UtlImage.bitmap2string(img2):"error",uid);
         ticket.saveTicket(ticket);
         UtlFirebase.changeState(uid, ProductID.STATE_A01);
         address.setText("");

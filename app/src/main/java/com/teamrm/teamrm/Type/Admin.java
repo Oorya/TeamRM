@@ -8,6 +8,6 @@ public class Admin extends Users {
     public Admin(){}
 
     public Admin(String userName, String email, String address, String phone, String userID) {
-        super(userName, email, address, phone, userID);
+        super(userName, email, userID);
     }
 }

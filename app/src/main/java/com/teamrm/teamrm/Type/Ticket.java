@@ -43,7 +43,7 @@ public class Ticket {
     public Ticket(){}  //empty constructor, must have
 
     public Ticket(String company, String product, String classification, String area, String address, String phone, String desShort, String desLong
-                 ,String ticketImage1, String ticketImage2,String ticketId)
+                 ,String ticketImage1, String ticketImage2, String ticketId)
     {
         this.customerName = MainActivity.userName;   //Taking from login
         this.email=MainActivity.email; //Taking from login

@@ -32,10 +32,10 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.R;
-import com.teamrm.teamrm.Type.Client;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.App;
+import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             acct = result.getSignInAccount();
-            //firebaseAuthWithGoogle(acct);
+            firebaseAuthWithGoogle(acct);
             SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = settings.edit();
             editor.putString(PREF_ACCOUNT_NAME, acct.getEmail());
@@ -201,8 +201,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             prefUser = getApplicationContext().getSharedPreferences("users", MODE_PRIVATE);
             if(!prefUser.contains(acct.getId()))
             {
-                Client client = new Client(acct.getDisplayName(),acct.getEmail(),"","",acct.getId());
-                client.saveClient();
+
             }
 
             editorUser = prefUser.edit();
@@ -215,10 +214,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             //userStatus="User";
             //UtlFirebase.stateListener(userStatus,email,"NULL");
 
-
+            UserSingleton.init(acct);
 
             //UtlFirebase.getUserByKey(userId,this); //fix AsyncTask racing
-            Log.w("EMAIL", email);
+            Log.w("EMAIL", UserSingleton.getInstance().getEmail()+" ==");
 
             userImage = acct.getPhotoUrl()==null?"":acct.getPhotoUrl().toString();
             Log.w("IMAGE GOOGLE ACCOUNT", acct.getPhotoUrl()==null?"NULL":"NOT NULL");
@@ -247,6 +246,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
+
     public void signOut(View V) {
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
@@ -263,7 +263,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         FirebaseAuth.getInstance().signOut();
         findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
     }
-
 
     public void alert10Sec(View view) {
 
@@ -284,18 +283,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         utlAlarmManager.setAlarm(calendar.getTime(), TicketStateAble.TICKET_LIST_STATUS_OK);
         Log.d("MESSEGE","alert1Sec");
     }
-
     public void stopAlert(View view) {
         utlAlarmManager.cancelAlarm(this.utlAlarmManager);
         Log.d("MESSEGE","stopAlert");
     }
-
     public void nev(View view) {
         Intent nav = new Intent(this,HomeScreen.class);
         startActivity(nav);
     }
-
-
 
     public void btnTestStates(View view) {
         startActivity(new Intent(this,TestStates.class));
@@ -310,10 +305,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     @Override
     public void resultUser(Users user) {
-        userStatus=user.status;
+        userStatus=user.getStatus();
         if (userStatus.equals("Admin"))
         {
-            UtlFirebase.stateListener(userStatus, email, user.company);
+            UtlFirebase.stateListener(userStatus, email, user.getCompany());
         }
         else if (userStatus.equals("Client"))
         {

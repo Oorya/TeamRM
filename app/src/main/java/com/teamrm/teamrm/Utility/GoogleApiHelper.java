@@ -59,7 +59,7 @@ public class GoogleApiHelper implements GoogleApiClient.ConnectionCallbacks, Goo
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestId()
-                //.requestIdToken(SERVER_CLIENT_ID)
+                .requestIdToken(SERVER_CLIENT_ID)
                 .build();
         GoogleApiClient.Builder apiCliBuilder = new GoogleApiClient.Builder(context);
         mGoogleApiClient = apiCliBuilder

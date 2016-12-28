@@ -252,23 +252,6 @@
                 </RelativeLayout>
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/photos"
-                style="@style/CardRow"
-                android:layout_below="@id/descriptionLayout">
-
-                <ImageView
-                    android:id="@+id/photoIcon"
-                    style="@style/CardRowImageStart"
-                    android:src="@drawable/ic_icon_camera" />
-
-                <TextView
-                    android:id="@+id/photoLabel"
-                    style="@style/CardRowLabel"
-                    android:layout_toEndOf="@id/photoIcon"
-                    android:text="תמונות מצורפות" />
-            </RelativeLayout>
-
             <LinearLayout
                 android:id="@+id/photosLayout"
                 android:layout_width="match_parent"
@@ -287,7 +270,7 @@
                     android:layout_weight="1"
                     android:background="#e7e7e7"
                     android:src="@drawable/ic_image_black_24dp"
-                    android:tint="#c0c0c0"
+
 
                     />
 
@@ -303,9 +286,27 @@
                     android:layout_weight="1"
                     android:background="#e7e7e7"
                     android:src="@drawable/ic_image_black_24dp"
-                    android:tint="#c0c0c0" />
+                     />
 
             </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/photos"
+                style="@style/CardRow"
+                android:layout_below="@+id/descriptionLayout"
+                android:layout_alignParentStart="true">
+
+                <ImageView
+                    android:id="@+id/photoIcon"
+                    style="@style/CardRowImageStart"
+                    android:src="@drawable/ic_icon_camera" />
+
+                <TextView
+                    android:id="@+id/photoLabel"
+                    style="@style/CardRowLabel"
+                    android:layout_toEndOf="@id/photoIcon"
+                    android:text="תמונות מצורפות" />
+            </RelativeLayout>
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>
