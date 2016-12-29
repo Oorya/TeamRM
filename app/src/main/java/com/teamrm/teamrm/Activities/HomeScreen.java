@@ -30,10 +30,10 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.teamrm.teamrm.Fragment.CalendarView;
-import com.teamrm.teamrm.Fragment.AdvancedSettingsAdmin;
+import com.teamrm.teamrm.Fragment.AdminSettingsAdvanced;
 import com.teamrm.teamrm.Fragment.FragmentDrawer;
 import com.teamrm.teamrm.Fragment.NewTicket;
-import com.teamrm.teamrm.Fragment.BasicSettingsAdmin;
+import com.teamrm.teamrm.Fragment.AdminSettingsBasic;
 import com.teamrm.teamrm.Fragment.TicketList;
 import com.teamrm.teamrm.Fragment.FirmDetailsFrag;
 import com.teamrm.teamrm.R;
@@ -217,16 +217,16 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 addTicket.hide();
                 break;
             case 4:
-                AdvancedSettingsAdmin advancedSettingsAdmin = new AdvancedSettingsAdmin();
-                fragmentTransaction.replace(R.id.container_body, advancedSettingsAdmin).addToBackStack(TAG_FRAGMENT[0]).commit();
+                AdminSettingsAdvanced adminSettingsAdvanced = new AdminSettingsAdvanced();
+                fragmentTransaction.replace(R.id.container_body, adminSettingsAdvanced).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[4]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
 
                 addTicket.hide();
                 break;
             case 5:
-                BasicSettingsAdmin basicSettingsAdmin = new BasicSettingsAdmin();
-                fragmentTransaction.replace(R.id.container_body, basicSettingsAdmin).addToBackStack(TAG_FRAGMENT[0]).commit();
+                AdminSettingsBasic adminSettingsBasic = new AdminSettingsBasic();
+                fragmentTransaction.replace(R.id.container_body, adminSettingsBasic).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[5]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
 

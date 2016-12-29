@@ -2,20 +2,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="@color/app_bg"
     android:layoutDirection="rtl"
     android:orientation="vertical"
-    tools:context="com.teamrm.teamrm.Fragment.AdvancedSettingsAdmin"
-    tools:paddingTop="25dp">
+    tools:context="com.teamrm.teamrm.Fragment.AdminSettingsBasic"
+    tools:paddingTop="25dp"
+    >
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@color/listRow_alt" />
+        style="@style/Separator4dp"
+        />
 
     <RelativeLayout
         android:id="@+id/defineFirm"
-        style="@style/PrefRowBig">
+        style="@style/PrefRowBig"
+        android:background="@color/listRow_alt"
+        >
 
         <ImageView
             android:id="@+id/firmIcon"
@@ -32,19 +34,20 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="12dp"
             android:layout_toEndOf="@id/firmIcon"
-            android:text="kjglkjg"
+            android:text="נתוני חברה"
             android:textColor="@color/textColor_primary"
             android:textSize="18sp" />
     </RelativeLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@color/listRow_alt" />
+        style="@style/Separator4dp"
+        />
 
     <RelativeLayout
         android:id="@+id/defineTechnicians"
-        style="@style/PrefRowBig">
+        style="@style/PrefRowBig"
+        android:background="@color/listRow_alt"
+        >
 
         <ImageView
             android:id="@+id/technicianIcon"
@@ -67,13 +70,14 @@
     </RelativeLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@color/listRow_alt" />
+        style="@style/Separator4dp"
+        />
 
     <RelativeLayout
         android:id="@+id/defineProducts"
-        style="@style/PrefRowBig">
+        style="@style/PrefRowBig"
+        android:background="@color/listRow_alt"
+        >
 
         <ImageView
             android:id="@+id/productIcon"
@@ -96,14 +100,14 @@
     </RelativeLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@color/listRow_alt" />
+        style="@style/Separator4dp"
+        />
 
     <RelativeLayout
         android:id="@+id/defineCategoryA"
         style="@style/PrefRowBig"
-        android:layout_below="@id/defineProducts">
+        android:background="@color/listRow_alt"
+        >
 
         <ImageView
             android:id="@+id/categoryAIcon"
@@ -127,13 +131,13 @@
     </RelativeLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@color/listRow_alt" />
+        style="@style/Separator4dp"
+        />
 
     <RelativeLayout
         android:id="@+id/defineCategoryB"
         style="@style/PrefRowBig"
+        android:background="@color/listRow_alt"
         >
 
         <ImageView
@@ -158,14 +162,14 @@
     </RelativeLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@color/listRow_alt" />
+        style="@style/Separator4dp"
+        />
 
     <RelativeLayout
         android:id="@+id/defineRegion"
         style="@style/PrefRowBig"
-        android:layout_below="@id/defineProducts">
+        android:background="@color/listRow_alt"
+        >
 
         <ImageView
             android:id="@+id/regionIcon"
@@ -189,7 +193,38 @@
     </RelativeLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@color/listRow_alt" />
+        style="@style/Separator4dp"
+        />
+
+    <RelativeLayout
+        android:id="@+id/appPrefs"
+        style="@style/PrefRowBig"
+        android:background="@color/listRow_alt"
+        >
+
+        <ImageView
+            android:id="@+id/appPrefsIcon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_settings" />
+
+        <TextView
+            android:id="@+id/appPrefsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="12dp"
+            android:layout_toEndOf="@id/appPrefsIcon"
+            android:text="תצורת האפליקציה"
+            android:textColor="@color/textColor_primary"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+    <View
+        style="@style/Separator4dp"
+        />
+
 </LinearLayout>
