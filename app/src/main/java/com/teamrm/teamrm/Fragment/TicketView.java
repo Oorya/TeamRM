@@ -23,6 +23,7 @@ import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.UserSingleton;
+import com.teamrm.teamrm.Utility.UtlAlarmManager;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 import com.teamrm.teamrm.Utility.UtlImage;
 
@@ -135,6 +136,8 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             this.getView().findViewById(R.id.ticketDetailsOpen).setVisibility(View.GONE);
         } else if (view.getId() == userProfile.getId()) {
             Toast.makeText(getContext(), "USER PROFILE " + ticket.customerName, Toast.LENGTH_SHORT).show();
+
+
         } else if (view.getId() == approval.getId()) {
             if(userProfileObj.getStatus().equals(Users.STATUS_ADMIN)) {
                 if(ticket.state == ProductID.STATE_A01){
@@ -144,11 +147,23 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
 
             }
-            if(ticket.state == ProductID.STATE_A03&&userProfileObj.getStatus()==Users.STATUS_USER)
+            else if(ticket.state == ProductID.STATE_A03&&userProfileObj.getStatus()==Users.STATUS_USER)
             {
                 UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_B01);
                 ticket.state = ProductID.STATE_B01;
                 ticket.incInitialization();
+            }
+            else if(userProfileObj.getStatus()==Users.STATUS_THEC&&ticket.state == ProductID.STATE_B01)
+            {
+                UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_B02);
+                ticket.state = ProductID.STATE_B02;
+            }
+            else if (userProfileObj.getStatus()==Users.STATUS_THEC && ticket.state == ProductID.STATE_B02)
+            {
+                UtlAlarmManager utlAlarmManager = new UtlAlarmManager(getContext());
+                utlAlarmManager.cancelAlarm(ticket.getAlarm());
+                UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_B03);
+                ticket.state = ProductID.STATE_B03;
             }
         } else if (view.getId() == endTimeTxt.getId()) {
             Bundle bundle = new Bundle();

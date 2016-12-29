@@ -7,10 +7,13 @@ import android.util.Log;
 
 import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
+import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
+import com.teamrm.teamrm.Interfaces.TicketStatus;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.Users;
+import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 import com.teamrm.teamrm.Utility.UtlNotification;
@@ -26,6 +29,9 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
 
     List<Ticket> tickets;
     Context context;
+    Ticket ticket;
+    private String ticketId;
+    private int alamId;
     UtlAlarmManager utlAlarmManager;
 
     @Override
@@ -40,28 +46,12 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
          }
          else
          {
-                Log.d("MESSEGE", "BootReceiver is activate wen alarm start ");
-             switch (intent.getIntExtra("alarmId",5))
-             {
-                 case TicketStateAble.TTL_SEND_DATE:
-                 {
-                     UtlNotification utlNotification = new UtlNotification("הלקוח מחקה לקביעת מועד","יום נפלא");
-                     utlNotification.sendNotification();
-                     break;
-                 }
-                 case TicketStateAble.WAITING_FOR_TECH_APPROVAL:
-                 {
-                     UtlNotification utlNotification = new UtlNotification("התכנאי עדיין לא אשר מועד","יום נפלא");
-                     utlNotification.sendNotification();
-                     break;
-                 }
-                 case TicketStateAble.WAITING_FOR_USER_APPROVAL:
-                 {
-                     UtlNotification utlNotification = new UtlNotification("הלקוח לא אשר מועד בזמן","יום נפלא");
-                     utlNotification.sendNotification();
-                     break;
-                 }
-             }
+             ticketId = intent.getStringExtra("ticketId");
+             alamId = intent.getIntExtra("alarmId",5);
+             UtlFirebase.getTicketByKey(ticketId,this);
+
+
+             Log.d("MESSEGE", "BootReceiver is activate wen alarm start ");
 
          }
 
@@ -71,7 +61,8 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
 
     @Override
     public void resultTicket(Ticket ticket) {
-
+        this.ticket = ticket;
+        handelAlam();
     }
 
     @Override
@@ -98,7 +89,7 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
                         sendNotification();
                     }else
                     {
-                        utlAlarmManager.setAlarm(ticket.get(i).endTime,ticket.get(i).alarmID);
+                        utlAlarmManager.setAlarm(ticket.get(i).endTime,ticket.get(i).alarmID,ticket.get(i).ticketId);
                     }
                 }
                 if(ticket.get(i).ttl != null)
@@ -108,10 +99,60 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
                         sendNotification();
                     }else
                     {
-                        utlAlarmManager.setAlarm(ticket.get(i).ttl,ticket.get(i).alarmID);
+                        utlAlarmManager.setAlarm(ticket.get(i).ttl,ticket.get(i).alarmID,ticket.get(i).ticketId);
                     }
                 }
 
+            }
+        }
+    }
+    public void handelAlam()
+    {
+        switch (alamId)
+        {
+            case TicketStateAble.TTL_SEND_DATE:
+            {
+                UtlNotification utlNotification = new UtlNotification("הלקוח מחקה לקביעת מועד","יום נפלא");
+                utlNotification.sendNotification();
+                break;
+            }
+            case TicketStateAble.WAITING_FOR_TECH_APPROVAL:
+            {
+                if(UserSingleton.getInstance().getStatus()==Users.STATUS_ADMIN) {
+                    UtlNotification utlNotification = new UtlNotification("התכנאי עדיין לא אשר מועד", "יום נפלא");
+                    utlNotification.sendNotification();
+                }
+                break;
+            }
+            case TicketStateAble.WAITING_FOR_USER_APPROVAL:
+            {
+                if (ticket.getRepeatSendCounter()>3)
+                {
+                    UtlFirebase.changeState(ticketId, ProductID.STATE_E02);
+                    ticket.incInitialization();
+                }else
+                {
+                    ticket.incCounter();
+                    UtlFirebase.changeState(ticketId, ProductID.STATE_A02CN);
+
+
+                }
+                break;
+            }
+            case TicketStateAble.TTL_END_TICKET_DATE:
+            {
+                if(ticket.state!=ProductID.STATE_B03) {
+                    if (UserSingleton.getInstance().getStatus() == Users.STATUS_ADMIN) {
+                        UtlNotification utlNotification = new UtlNotification("תקלה לא תופלה", "יום נפלא");
+                        utlNotification.sendNotification();
+                        UtlFirebase.changeState(ticketId, ProductID.STATE_E02);
+                        ticket.incInitialization();
+                    }
+                }else
+                {
+
+                }
+                break;
             }
         }
     }
@@ -131,4 +172,5 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
         UtlNotification notification = new UtlNotification(R.drawable.new_msg_icon, "Status changed", " status", intent);
         notification.sendNotification();
     }
+
 }

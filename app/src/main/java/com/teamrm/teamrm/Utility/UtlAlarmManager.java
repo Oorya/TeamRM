@@ -5,6 +5,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import com.teamrm.teamrm.Broadcast.BootReceiver;
@@ -28,6 +30,18 @@ public class UtlAlarmManager extends Activity{
         this.context=context;
     }
 
+    public void setAlarm(Date date ,int alarmId,String ticketId){
+
+        int Id = (int) System.currentTimeMillis();
+        myIntent.putExtra("alarmId",alarmId);
+        myIntent.putExtra("ticketId",ticketId);
+        pendingIntent = PendingIntent.getBroadcast(context,Id , myIntent, PendingIntent.FLAG_ONE_SHOT);
+
+        this.alarmManager.setExact(AlarmManager.RTC_WAKEUP, date.getTime(), this.pendingIntent);
+        Log.d("MESSAGE","setAlarm");
+        //set alamId filed  in ticket in firebase int Id
+        //set alam filed in ticket in firebase
+    }
     public void setAlarm(Date date ,int alarmId){
 
         int Id = (int) System.currentTimeMillis();
@@ -38,9 +52,11 @@ public class UtlAlarmManager extends Activity{
         Log.d("MESSAGE","setAlarm");
     }
 
+
     public  void cancelAlarm(UtlAlarmManager alarm) {
         if (alarm!= null) {
             alarm.alarmManager.cancel(alarm.pendingIntent);
+
             Log.d("MESSAGE","cancelAlarm");
         }
     }

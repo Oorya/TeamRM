@@ -3,12 +3,17 @@ package com.teamrm.teamrm.Type;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.teamrm.teamrm.Activities.MainActivity;
+import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStatus;
+import com.teamrm.teamrm.Utility.UtlAlarmManager;
+import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by אוריה on 18/07/2016.
@@ -32,6 +37,16 @@ public class Ticket {
     public Date endTime;
     public Date ttl;
     public int alarmID;
+
+    public UtlAlarmManager getAlarm() {
+        return alarm;
+    }
+
+    public void setAlarm(UtlAlarmManager alarm) {
+        this.alarm = alarm;
+    }
+
+    private UtlAlarmManager alarm;
     public int repeatSendCounter;
     public String ticketNumber;
     public String calenderID;
@@ -39,6 +54,9 @@ public class Ticket {
     public String company;
     public String statusA;
     public int status;
+
+
+
 
     public Ticket(){}  //empty constructor, must have
 
@@ -116,4 +134,6 @@ public class Ticket {
         //מתודה שמעדקנת את השדה repeatSendCounter בפיירבייס
         this.repeatSendCounter = 0;
     }
+
+
 }
