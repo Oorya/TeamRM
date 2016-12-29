@@ -5,6 +5,9 @@ package com.teamrm.teamrm.Type;
  */
 public abstract class Users
 {
+    public static final String STATUS_ADMIN = "admin";
+    public static final String STATUS_THEC = "tech";
+    public static final String STATUS_USER = "user";
     private String userName;  //hold userName
     private String email;
     private String userId; //hold userId

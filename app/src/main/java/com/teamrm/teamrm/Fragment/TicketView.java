@@ -49,7 +49,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     static  String ticketID, timeFormated;
     static Long bumdleEndTime;
     Calendar endTime;
-    Users userProfileObj;
+    Users userProfileObj ;
 
     public TicketView() {
         // Required empty public constructor
@@ -61,6 +61,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         super.onCreate(savedInstanceState);
 
         Toast.makeText(getContext(), UserSingleton.getInstance().getEmail(), Toast.LENGTH_SHORT).show();
+        userProfileObj = UserSingleton.getInstance();
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             if (!bundle.getString("ticketID", "error").equals("error")) {
@@ -135,7 +136,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         } else if (view.getId() == userProfile.getId()) {
             Toast.makeText(getContext(), "USER PROFILE " + ticket.customerName, Toast.LENGTH_SHORT).show();
         } else if (view.getId() == approval.getId()) {
-            if(userProfileObj.getStatus().equals("admin")) {
+            if(userProfileObj.getStatus().equals(Users.STATUS_ADMIN)) {
                 if(ticket.state == ProductID.STATE_A01){
                 UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_A02CN);
                 ticket.state = ProductID.STATE_A02CN;
@@ -143,8 +144,10 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
 
             }
-            if(ticket.state == ProductID.STATE_A03&&userProfileObj.getStatus()=="user")
+            if(ticket.state == ProductID.STATE_A03&&userProfileObj.getStatus()==Users.STATUS_USER)
             {
+                UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_B01);
+                ticket.state = ProductID.STATE_B01;
                 ticket.incInitialization();
             }
         } else if (view.getId() == endTimeTxt.getId()) {
@@ -161,22 +164,28 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         }
         else if(view.getId() == cancel.getId())
         {
-            if(userProfileObj.getStatus().equals("admin")) {
+            if(userProfileObj.getStatus().equals(Users.STATUS_ADMIN)) {
                 UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_E01);
                 ticket.state = ProductID.STATE_E01;
                 UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_Z00);
                 ticket.state = ProductID.STATE_Z00;
-            }else if (userProfileObj.getStatus().equals("tech"))
+            }else if (userProfileObj.getStatus().equals(Users.STATUS_THEC))
             {
 
                 UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_C01);
                 ticket.state = ProductID.STATE_E01;
 
 
-            }else if (userProfileObj.getStatus().equals("user"))
+            }else if (userProfileObj.getStatus().equals(Users.STATUS_USER))
             {
                 UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_E00);
                 ticket.state = ProductID.STATE_E00;
+            }
+            else if(ticket.state == ProductID.STATE_A03&&userProfileObj.getStatus()==Users.STATUS_USER)
+            {
+                UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_E02);
+                ticket.state = ProductID.STATE_E02;
+                ticket.incInitialization();
             }
         }
     }
