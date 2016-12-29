@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/action_today"
-        android:title="basicSettingsAdmin"
+        android:title="adminSettingsBasic"
         android:orderInCategory="100"
         />
    

@@ -10,18 +10,19 @@
     <color name="event_color_04">#f8b552</color>
     <color name="toolbar">#efefef</color>
     <color name="toolbar_text">#efefef</color>
-    <color name="accent">#2789e4</color>
+    <color name="accent">#FF9800</color>
     <color name="title">#039be5</color>
     <color name="white">#ffffff</color>
     <color name="menu_bg">#3F51B5</color> <!--Indigo 500-->
-    <color name="app_bg">#EEEEEE</color>
+    <color name="app_bg">#ECEFF1</color>
     <color name="status_error">#ef5350</color> <!--Red 400-->
     <color name="status_urgent">#ff7043</color> <!--Deep orange 400-->
     <color name="status_pending">#ffa726</color> <!--Orange 400-->
     <color name="status_ok">#66bb6a</color> <!--Green 400-->
-    <color name="listRow_alt">#fafafa</color>
+    <color name="listRow_alt">#f2f5f7</color>
     <color name="textColor_primary">#455A64</color>
     <color name="textColor_lighter">#78909C</color>
+    <color name="icon_gray">#90A4AE</color>
 
     
 </resources>
