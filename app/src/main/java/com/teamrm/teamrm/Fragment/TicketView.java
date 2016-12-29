@@ -140,25 +140,25 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
         } else if (view.getId() == approval.getId()) {
             if(userProfileObj.getStatus().equals(Users.STATUS_ADMIN)) {
-                if(ticket.state == ProductID.STATE_A01){
+                if(ticket.state.equals(ProductID.STATE_A01)){
                 UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_A02CN);
                 ticket.state = ProductID.STATE_A02CN;
                 }
 
 
             }
-            else if(ticket.state == ProductID.STATE_A03&&userProfileObj.getStatus()==Users.STATUS_USER)
+            else if(ticket.state.equals(ProductID.STATE_A03)&&userProfileObj.getStatus().equals(Users.STATUS_USER))
             {
                 UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_B01);
                 ticket.state = ProductID.STATE_B01;
                 ticket.incInitialization();
             }
-            else if(userProfileObj.getStatus()==Users.STATUS_THEC&&ticket.state == ProductID.STATE_B01)
+            else if(userProfileObj.getStatus().equals(Users.STATUS_THEC)&&ticket.state.equals(ProductID.STATE_B01))
             {
                 UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_B02);
                 ticket.state = ProductID.STATE_B02;
             }
-            else if (userProfileObj.getStatus()==Users.STATUS_THEC && ticket.state == ProductID.STATE_B02)
+            else if (userProfileObj.getStatus().equals(Users.STATUS_THEC)&& ticket.state.equals(ProductID.STATE_B02))
             {
                 UtlAlarmManager utlAlarmManager = new UtlAlarmManager(getContext());
                 utlAlarmManager.cancelAlarm(ticket.getAlarm());
@@ -196,7 +196,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                 UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_E00);
                 ticket.state = ProductID.STATE_E00;
             }
-            else if(ticket.state == ProductID.STATE_A03&&userProfileObj.getStatus()==Users.STATUS_USER)
+            else if(ticket.state.equals(ProductID.STATE_A03)&&userProfileObj.getStatus().equals(Users.STATUS_USER))
             {
                 UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_E02);
                 ticket.state = ProductID.STATE_E02;
