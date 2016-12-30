@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -52,6 +53,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     static Long bumdleEndTime;
     Calendar endTime;
     Users userProfileObj ;
+    Fragment stateActionButtons;
 
     public TicketView() {
         // Required empty public constructor
@@ -61,6 +63,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         Toast.makeText(getContext(), UserSingleton.getInstance().getEmail(), Toast.LENGTH_SHORT).show();
         userProfileObj = UserSingleton.getInstance();
@@ -92,13 +95,18 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             }
 
         }
+
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.btnFragment, new StateActionButtons(), null);
+        ft.disallowAddToBackStack();
+        ft.commit();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ticket, container, false);
+        stateActionButtons = new StateActionButtons();
         setListeners(view);
         Typeface REGULAR = Typeface.createFromAsset(this.getContext().getAssets(), "Assistant-Regular.ttf");
         Typeface SEMI_BOLD = Typeface.createFromAsset(this.getContext().getAssets(), "Assistant-SemiBold.ttf");
@@ -113,6 +121,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         ((TextView) view.findViewById(R.id.dateTimeOpen)).setTypeface(REGULAR);
         ((TextView) view.findViewById(R.id.ticketNum)).setTypeface(SEMI_BOLD);
         UtlFirebase.getTicketByKey(ticketID, this);
+
 
 
         return view;
@@ -310,5 +319,9 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     public void resultBoolean(boolean bool) {
 
     }
+
+
+
+
 }
 

@@ -1,0 +1,43 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.teamrm.teamrm.Fragment.TicketView"
+    android:layoutDirection="rtl"
+    android:background="@android:color/transparent"
+    >
+
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    android:layout_marginBottom="42dp"
+    android:layout_marginStart="42dp"
+    android:layout_marginEnd="42dp"
+    android:background="@android:color/transparent"
+    >
+    <Button
+        style="@style/paddedBtn"
+        android:text="אישור"
+        android:drawableStart="@drawable/ic_icon_ok"
+        android:drawablePadding="16dp"
+        android:elevation="10dp"
+        android:background="@color/status_ok"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnRight"
+        />
+
+    <Button
+        style="@style/paddedBtn"
+        android:text="דחיה"
+        android:drawableStart="@drawable/ic_icon_cancel"
+        android:drawablePadding="16dp"
+        android:elevation="10dp"
+        android:background="@color/status_error"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/btnLeft"
+        />
+
+</RelativeLayout>
+</FrameLayout>
