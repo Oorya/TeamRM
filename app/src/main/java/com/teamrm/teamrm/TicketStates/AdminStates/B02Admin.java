@@ -29,12 +29,9 @@ public class B02Admin extends TicketStateAdmin implements TicketStateAble {
         //initials ttl example
         UtlNotification utlNotification = new UtlNotification("טכנאי אישר מועד","יום נפלא");
         utlNotification.sendNotification();
-        Calendar cal = Calendar.getInstance(); // creates calendar
-        cal.setTime(new Date()); // sets calendar startTime/date
-        cal.add(Calendar.HOUR_OF_DAY, 5); // adds 5 hours
 
-        UtlAlarmManager utlAlarmManager = new UtlAlarmManager(context);
-        utlAlarmManager.setAlarm(cal.getTime(),TicketStateAble.TTL_END_TICKET_DATE);
+       // UtlAlarmManager utlAlarmManager = new UtlAlarmManager(context);
+        //utlAlarmManager.setAlarm(cal.getTime(),TicketStateAble.TTL_END_TICKET_DATE);
     }
 
     @Override

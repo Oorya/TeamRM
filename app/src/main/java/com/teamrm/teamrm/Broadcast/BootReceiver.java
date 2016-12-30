@@ -126,16 +126,14 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
             }
             case TicketStateAble.WAITING_FOR_USER_APPROVAL:
             {
-                if (ticket.getRepeatSendCounter()>3)
+                if (ticket.getRepeatSendCounter()>=3)
                 {
-                    UtlFirebase.changeState(ticketId, ProductID.STATE_E02);
+                    ticket.ChangeStat(ProductID.STATE_E02);
                     ticket.incInitialization();
                 }else
                 {
                     ticket.incCounter();
-                    UtlFirebase.changeState(ticketId, ProductID.STATE_A02CN);
-
-
+                    ticket.ChangeStat(ProductID.STATE_A02CN);
                 }
                 break;
             }
@@ -153,6 +151,10 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
 
                 }
                 break;
+            }
+            case TicketStateAble.TTL_END_TIKCET_TIME_EXTENSION:
+            {
+                ticket.ChangeStat(ProductID.STATE_E05);
             }
         }
     }

@@ -54,6 +54,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     Calendar endTime;
     Users userProfileObj ;
     Fragment stateActionButtons;
+    UtlAlarmManager utlAlarmManager;
 
     public TicketView() {
         // Required empty public constructor
@@ -68,6 +69,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         Toast.makeText(getContext(), UserSingleton.getInstance().getEmail(), Toast.LENGTH_SHORT).show();
         userProfileObj = UserSingleton.getInstance();
         Bundle bundle = this.getArguments();
+        utlAlarmManager = new UtlAlarmManager(getContext());
         if (bundle != null) {
             if (!bundle.getString("ticketID", "error").equals("error")) {
                 String ticketId = bundle.getString("ticketID", "error");
@@ -177,7 +179,6 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                             ticket.incInitialization();
                             break;
                         }
-
                     }
                 }
                 case ProductID.STATE_A03:
@@ -190,6 +191,8 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                 {
                     ticket.ChangeStat(ProductID.STATE_B02);
                     ticket.getStateObj().setView(this.getView());
+                    utlAlarmManager.cancelAlarm(ticket.get_alarm());
+                    ticket.setAlarm(utlAlarmManager.setAlarm(ticket.endTime,TicketStateAble.TTL_END_TICKET_DATE,ticketID));
                     break;
                 }
                 case ProductID.STATE_B03:
@@ -204,29 +207,24 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                         ticket.getStateObj().setView(this.getView());
                         break;
                     }
-
                 }
                 case ProductID.STATE_C01:
                 {
-                    if (ticket.isUserApprove()) {
                         ticket.ChangeStat(ProductID.STATE_C02);
                         ticket.getStateObj().setView(this.getView());
                         break;
-                    }else {
-                        Toast.makeText(getContext(),"אנא אשר או דחה קריאה",Toast.LENGTH_LONG).show();
-                        break;
-                    }
                 }
                 case ProductID.STATE_C02:
                 {
                         ticket.ChangeStat(ProductID.STATE_Z00);
                         break;
                 }
+                case ProductID.STATE_E03:
+                {
+                    ticket.ChangeStat(ProductID.STATE_E02);
+                    break;
+                }
             }
-
-
-
-
         } else if (view.getId() == endTimeTxt.getId()) {
             Bundle bundle = new Bundle();
             bundle.putString("ticketID",ticketID);
@@ -241,7 +239,45 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         }
         else if(view.getId() == cancel.getId())
         {
+            switch (ticket.state)
+            {
+                case ProductID.STATE_A00: {
+                    ticket.ChangeStat(ProductID.STATE_E00);
+                    ticket.getStateObj().setView(this.getView());
+                    break;
+                }
+                case ProductID.STATE_A01:{
+                    ticket.ChangeStat(ProductID.STATE_E01);
+                    ticket.getStateObj().setView(this.getView());
+                    break;
+                }
+                case ProductID.STATE_A03:
+                {
+                    ticket.ChangeStat(ProductID.STATE_E02);
+                    ticket.getStateObj().setView(this.getView());
+                    break;
+                }
+                case ProductID.STATE_E03:
+                {
+                    ticket.ChangeStat(ProductID.STATE_E04);
+                    ticket.endTime.setTime(ticket.endTime.getTime()+14000);
+                    ticket.setAlarm(utlAlarmManager.setAlarm(ticket.endTime,TicketStateAble.TTL_END_TIKCET_TIME_EXTENSION,ticketID));
 
+                    ticket.getStateObj().setView(this.getView());
+                    break;
+                }
+                case ProductID.STATE_C01:
+                {
+                        ticket.ChangeStat(ProductID.STATE_E07);
+                        ticket.getStateObj().setView(this.getView());
+                        break;
+                }
+                case ProductID.STATE_C02:
+                {
+                    ticket.ChangeStat(ProductID.STATE_Z00);
+                    break;
+                }
+            }
         }
     }
 

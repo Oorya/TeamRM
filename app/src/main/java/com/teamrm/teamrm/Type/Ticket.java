@@ -1,5 +1,8 @@
 package com.teamrm.teamrm.Type;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.teamrm.teamrm.Activities.MainActivity;
@@ -44,7 +47,7 @@ public class Ticket {
     public Date endTime;
     public Date ttl;
     public int alarmID;
-    private UtlAlarmManager alarm;
+    private PendingIntent _alarm;
     public int repeatSendCounter;
     public String ticketNumber;
     public String calenderID;
@@ -53,15 +56,14 @@ public class Ticket {
     public String statusA;
     public int status;
     private boolean isticketDon;
-
-
-
     private boolean isUserApprove;
-
-
-
+    private boolean isTechdon;
 
     public Ticket(){}  //empty constructor, must have
+
+
+
+
 
     public Ticket(String company, String product, String classification, String area, String address, String phone, String desShort, String desLong
                  ,String ticketImage1, String ticketImage2, String ticketId)
@@ -90,6 +92,13 @@ public class Ticket {
 
 
     }
+    public PendingIntent get_alarm() {
+        return _alarm;
+    }
+
+    public void setAlarm(PendingIntent alarm) {
+        _alarm = alarm;
+    }
     public TicketStateAble getStateObj() {
         return stateObj;
     }
@@ -100,13 +109,7 @@ public class Ticket {
         this.stateObj = TicketFactory.getNewState("TicketState"+UserSingleton.getInstance().getStatus(),stateName);
         //update state in firebase
     }
-    public UtlAlarmManager getAlarm() {
-        return alarm;
-    }
 
-    public void setAlarm(UtlAlarmManager alarm) {
-        this.alarm = alarm;
-    }
     public boolean isticketDon() {
         return isticketDon;
     }
@@ -120,6 +123,13 @@ public class Ticket {
 
     public void setUserApprove(boolean userApprove) {
         isUserApprove = userApprove;
+    }
+    public boolean isTechdon() {
+        return isTechdon;
+    }
+
+    public void setTechdon(boolean techdon) {
+        isTechdon = techdon;
     }
 
     public void saveTicket(Ticket ticket)
