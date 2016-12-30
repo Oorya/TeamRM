@@ -1,5 +1,7 @@
 package com.teamrm.teamrm.TicketStates.UserStates;
 
+import android.view.View;
+
 import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
@@ -24,5 +26,10 @@ public class A00User extends TicketStateUser implements TicketStateAble {
     @Override
     public TicketStateAble getNewState() {
         return new A00User(1);
+    }
+
+    @Override
+    public View setView(View view) {
+        return null;
     }
 }

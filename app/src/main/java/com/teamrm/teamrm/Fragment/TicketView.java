@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.ProductID;
+import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.Users;
@@ -73,7 +74,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
                 if (bundle.getLong("time", 0) != 0) {
                     Log.w("TICKET_ID Bundle:  ", bundle.getLong("time", 0)+"");
-                    ticket.incCounter();
+
                     bumdleEndTime = bundle.getLong("time", 0);
                     endTime = Calendar.getInstance();
                     endTime.setTime(new Date(bumdleEndTime));
@@ -139,32 +140,84 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
 
         } else if (view.getId() == approval.getId()) {
-            if(userProfileObj.getStatus().equals(Users.STATUS_ADMIN)) {
-                if(ticket.state.equals(ProductID.STATE_A01)){
-                UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_A02CN);
-                ticket.state = ProductID.STATE_A02CN;
+
+            switch (ticket.state)
+            {
+                case ProductID.STATE_A00: {
+                    ticket.ChangeStat(ProductID.STATE_A01);
+                    ticket.getStateObj().setView(this.getView());
+                    break;
                 }
+                case ProductID.STATE_A01:{
+                    ticket.ChangeStat(ProductID.STATE_A02CN);
+                    ticket.getStateObj().setView(this.getView());
+                    break;
+                }
+                case ProductID.STATE_A02CN:
+                {
+                    if(timeFormated!=null)
+                    {
+                        if(!(ticket.repeatSendCounter>3)) {
+                            ticket.incCounter();
+                            ticket.ChangeStat(ProductID.STATE_A03);
+                            ticket.getStateObj().setView(this.getView());
+                            break;
+                        }else
+                        {
+                            ticket.ChangeStat(ProductID.STATE_E02);
+                            ticket.incInitialization();
+                            break;
+                        }
+
+                    }
+                }
+                case ProductID.STATE_A03:
+                {
+                        ticket.ChangeStat(ProductID.STATE_B01);
+                        ticket.getStateObj().setView(this.getView());
+                        break;
+                }
+                case ProductID.STATE_B01:
+                {
+                    ticket.ChangeStat(ProductID.STATE_B02);
+                    ticket.getStateObj().setView(this.getView());
+                    break;
+                }
+                case ProductID.STATE_B03:
+                {
+                    if(ticket.isticketDon()) {
+                        ticket.ChangeStat(ProductID.STATE_C01);
+                        ticket.getStateObj().setView(this.getView());
+                        break;
+                    }else
+                    {
+                        ticket.ChangeStat(ProductID.STATE_E06);
+                        ticket.getStateObj().setView(this.getView());
+                        break;
+                    }
+
+                }
+                case ProductID.STATE_C01:
+                {
+                    if (ticket.isUserApprove()) {
+                        ticket.ChangeStat(ProductID.STATE_C02);
+                        ticket.getStateObj().setView(this.getView());
+                        break;
+                    }else {
+                        Toast.makeText(getContext(),"אנא אשר או דחה קריאה",Toast.LENGTH_LONG).show();
+                        break;
+                    }
+                }
+                case ProductID.STATE_C02:
+                {
+                        ticket.ChangeStat(ProductID.STATE_Z00);
+                        break;
+                }
+            }
 
 
-            }
-            else if(ticket.state.equals(ProductID.STATE_A03)&&userProfileObj.getStatus().equals(Users.STATUS_USER))
-            {
-                UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_B01);
-                ticket.state = ProductID.STATE_B01;
-                ticket.incInitialization();
-            }
-            else if(userProfileObj.getStatus().equals(Users.STATUS_THEC)&&ticket.state.equals(ProductID.STATE_B01))
-            {
-                UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_B02);
-                ticket.state = ProductID.STATE_B02;
-            }
-            else if (userProfileObj.getStatus().equals(Users.STATUS_THEC)&& ticket.state.equals(ProductID.STATE_B02))
-            {
-                UtlAlarmManager utlAlarmManager = new UtlAlarmManager(getContext());
-                utlAlarmManager.cancelAlarm(ticket.getAlarm());
-                UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_B03);
-                ticket.state = ProductID.STATE_B03;
-            }
+
+
         } else if (view.getId() == endTimeTxt.getId()) {
             Bundle bundle = new Bundle();
             bundle.putString("ticketID",ticketID);
@@ -179,29 +232,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         }
         else if(view.getId() == cancel.getId())
         {
-            if(userProfileObj.getStatus().equals(Users.STATUS_ADMIN)) {
-                UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_E01);
-                ticket.state = ProductID.STATE_E01;
-                UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_Z00);
-                ticket.state = ProductID.STATE_Z00;
-            }else if (userProfileObj.getStatus().equals(Users.STATUS_THEC))
-            {
 
-                UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_C01);
-                ticket.state = ProductID.STATE_E01;
-
-
-            }else if (userProfileObj.getStatus().equals(Users.STATUS_USER))
-            {
-                UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_E00);
-                ticket.state = ProductID.STATE_E00;
-            }
-            else if(ticket.state.equals(ProductID.STATE_A03)&&userProfileObj.getStatus().equals(Users.STATUS_USER))
-            {
-                UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_E02);
-                ticket.state = ProductID.STATE_E02;
-                ticket.incInitialization();
-            }
         }
     }
 
@@ -234,14 +265,12 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         this.ticket = ticket;
         initializeTicket();
 
-        if (ticket.endTime!=null) {
-            UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_A03);
-            ticket.state = ProductID.STATE_A03;
-        }
+
     }
 
     private void initializeTicket() {
         userName.setText(ticket.customerName);
+
         if(!ticket.ticketImage1.equals("error"))
         {
             img1.setImageBitmap(UtlImage.string2bitmap(ticket.ticketImage1));

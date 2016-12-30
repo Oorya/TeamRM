@@ -1,5 +1,7 @@
 package com.teamrm.teamrm.TicketStates.AdminStates;
 
+import android.view.View;
+
 import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
@@ -35,7 +37,11 @@ public class A02CNAdmin extends TicketStateAdmin implements TicketStateAble {
     public TicketStateAble getNewState() {
         return new A02CNAdmin(1);
     }
-    
-    
-    
+
+    @Override
+    public View setView(View view) {
+        return null;
+    }
+
+
 }

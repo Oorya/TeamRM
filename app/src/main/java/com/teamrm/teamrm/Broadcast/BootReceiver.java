@@ -118,7 +118,7 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
             }
             case TicketStateAble.WAITING_FOR_TECH_APPROVAL:
             {
-                if(UserSingleton.getInstance().getStatus()==Users.STATUS_ADMIN) {
+                if(UserSingleton.getInstance().getStatus().equals(Users.STATUS_ADMIN)) {
                     UtlNotification utlNotification = new UtlNotification("התכנאי עדיין לא אשר מועד", "יום נפלא");
                     utlNotification.sendNotification();
                 }
@@ -142,7 +142,7 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
             case TicketStateAble.TTL_END_TICKET_DATE:
             {
                 if(ticket.state!=ProductID.STATE_B03) {
-                    if (UserSingleton.getInstance().getStatus() == Users.STATUS_ADMIN) {
+                    if (UserSingleton.getInstance().getStatus().equals(Users.STATUS_ADMIN) ) {
                         UtlNotification utlNotification = new UtlNotification("תקלה לא תופלה", "יום נפלא");
                         utlNotification.sendNotification();
                         UtlFirebase.changeState(ticketId, ProductID.STATE_E02);

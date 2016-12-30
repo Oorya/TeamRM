@@ -5,7 +5,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.teamrm.teamrm.Activities.MainActivity;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.ProductID;
+import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.Interfaces.TicketStatus;
+import com.teamrm.teamrm.TicketStates.TicketFactory;
+import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
@@ -19,6 +22,9 @@ import java.util.List;
  * Created by אוריה on 18/07/2016.
  */
 public class Ticket {
+
+    public static final TicketFactory TicketFactory = new TicketFactory();
+
     public String customerName;
     public String email;
     public String tech;
@@ -34,18 +40,10 @@ public class Ticket {
     public String ticketId;
     public String state;
     public String startTime;
+    public TicketStateAble stateObj;
     public Date endTime;
     public Date ttl;
     public int alarmID;
-
-    public UtlAlarmManager getAlarm() {
-        return alarm;
-    }
-
-    public void setAlarm(UtlAlarmManager alarm) {
-        this.alarm = alarm;
-    }
-
     private UtlAlarmManager alarm;
     public int repeatSendCounter;
     public String ticketNumber;
@@ -54,6 +52,11 @@ public class Ticket {
     public String company;
     public String statusA;
     public int status;
+    private boolean isticketDon;
+
+
+
+    private boolean isUserApprove;
 
 
 
@@ -82,6 +85,41 @@ public class Ticket {
         this.tech="אין טכנאי מצוות";
         this.ticketNumber=ticketId.substring(0,8);
         this.status=1;
+
+        this.stateObj = TicketFactory.getNewState("TicketState"+UserSingleton.getInstance().getStatus(),ProductID.STATE_A00);
+
+
+    }
+    public TicketStateAble getStateObj() {
+        return stateObj;
+    }
+
+    public void ChangeStat(String stateName)
+    {
+        this.state = stateName;
+        this.stateObj = TicketFactory.getNewState("TicketState"+UserSingleton.getInstance().getStatus(),stateName);
+        //update state in firebase
+    }
+    public UtlAlarmManager getAlarm() {
+        return alarm;
+    }
+
+    public void setAlarm(UtlAlarmManager alarm) {
+        this.alarm = alarm;
+    }
+    public boolean isticketDon() {
+        return isticketDon;
+    }
+
+    public void setIsticketDon(boolean isticketDon) {
+        this.isticketDon = isticketDon;
+    }
+    public boolean isUserApprove() {
+        return isUserApprove;
+    }
+
+    public void setUserApprove(boolean userApprove) {
+        isUserApprove = userApprove;
     }
 
     public void saveTicket(Ticket ticket)

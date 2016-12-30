@@ -1,5 +1,7 @@
 package com.teamrm.teamrm.Interfaces;
 
+import android.view.View;
+
 /**
  * Created by root on 01/09/2016.
  */
@@ -13,5 +15,7 @@ public interface TicketStateAble {
     int WAITING_FOR_TECH_APPROVAL = 7;
     int TTL_END_TICKET_DATE = 8;
     TicketStateAble getNewState();
+    View setView(View view);
+
          
 }

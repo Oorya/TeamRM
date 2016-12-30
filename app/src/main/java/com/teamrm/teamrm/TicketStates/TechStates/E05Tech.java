@@ -1,5 +1,7 @@
 package com.teamrm.teamrm.TicketStates.TechStates;
 
+import android.view.View;
+
 import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
@@ -26,5 +28,10 @@ public class E05Tech extends TicketStateTech implements TicketStateAble {
     @Override
     public TicketStateAble getNewState() {
         return new E05Tech(1);
+    }
+
+    @Override
+    public View setView(View view) {
+        return null;
     }
 }
