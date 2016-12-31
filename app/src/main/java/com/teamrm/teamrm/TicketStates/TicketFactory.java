@@ -1,6 +1,7 @@
 package com.teamrm.teamrm.TicketStates;
 
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
+import com.teamrm.teamrm.Type.Ticket;
 
 import java.util.HashMap;
 
@@ -16,7 +17,7 @@ public class TicketFactory
 
     public TicketFactory(){}
 
-    public TicketStateAble getNewState(String stateType, String nextStateName)
+    public TicketStateAble getNewState(String stateType, String nextStateName, Ticket ticket)
     {
         //Checking if class was recorded in HashMap if not force her to sign up 
         if(m_RegisteredProducts.get(nextStateName)==null)
@@ -27,7 +28,7 @@ public class TicketFactory
                 e.printStackTrace();
             }
         }
-        return ((TicketStateAble)m_RegisteredProducts.get(nextStateName)).getNewState();
+        return ((TicketStateAble)m_RegisteredProducts.get(nextStateName)).getNewState(ticket);
     }
 
     public static void registerProduct(String ticketID, TicketStateAble T)

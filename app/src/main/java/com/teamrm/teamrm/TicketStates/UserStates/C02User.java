@@ -6,6 +6,7 @@ import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.TicketStates.TicketStateUser;
+import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Utility.UtlNotification;
 
 /**
@@ -26,7 +27,7 @@ public class C02User extends TicketStateUser implements TicketStateAble {
     }
 
     @Override
-    public TicketStateAble getNewState() {
+    public TicketStateAble getNewState(Ticket ticket) {
         return new C02User(1);
     }
 

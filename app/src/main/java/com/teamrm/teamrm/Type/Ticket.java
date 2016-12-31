@@ -88,7 +88,7 @@ public class Ticket {
         this.ticketNumber=ticketId.substring(0,8);
         this.status=1;
 
-        this.stateObj = TicketFactory.getNewState("TicketState"+UserSingleton.getInstance().getStatus(),ProductID.STATE_A00);
+        this.stateObj = TicketFactory.getNewState("TicketState"+UserSingleton.getInstance().getStatus(),ProductID.STATE_A00,this);
 
 
     }
@@ -103,10 +103,10 @@ public class Ticket {
         return stateObj;
     }
 
-    public void ChangeStat(String stateName)
+    public void ChangeStat(String stateName,Ticket ticket)
     {
         this.state = stateName;
-        this.stateObj = TicketFactory.getNewState("TicketState"+UserSingleton.getInstance().getStatus(),stateName);
+        this.stateObj = TicketFactory.getNewState("TicketState"+UserSingleton.getInstance().getStatus(),stateName,ticket);
         //update state in firebase
     }
 

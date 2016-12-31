@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Log.d("MESSEGE","alert1Sec");
     }
     public void stopAlert(View view) {
-        utlAlarmManager.cancelAlarm(this.utlAlarmManager);
+        //utlAlarmManager.cancelAlarm(this.utlAlarmManager);
         Log.d("MESSEGE","stopAlert");
     }
     public void nev(View view) {

@@ -155,12 +155,12 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             switch (ticket.state)
             {
                 case ProductID.STATE_A00: {
-                    ticket.ChangeStat(ProductID.STATE_A01);
+                    ticket.ChangeStat(ProductID.STATE_A01,ticket);
                     ticket.getStateObj().setView(this.getView());
                     break;
                 }
                 case ProductID.STATE_A01:{
-                    ticket.ChangeStat(ProductID.STATE_A02CN);
+                    ticket.ChangeStat(ProductID.STATE_A02CN,ticket);
                     ticket.getStateObj().setView(this.getView());
                     break;
                 }
@@ -170,12 +170,12 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                     {
                         if(!(ticket.repeatSendCounter>3)) {
                             ticket.incCounter();
-                            ticket.ChangeStat(ProductID.STATE_A03);
+                            ticket.ChangeStat(ProductID.STATE_A03,ticket);
                             ticket.getStateObj().setView(this.getView());
                             break;
                         }else
                         {
-                            ticket.ChangeStat(ProductID.STATE_E02);
+                            ticket.ChangeStat(ProductID.STATE_E02,ticket);
                             ticket.incInitialization();
                             break;
                         }
@@ -183,13 +183,13 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                 }
                 case ProductID.STATE_A03:
                 {
-                        ticket.ChangeStat(ProductID.STATE_B01);
+                        ticket.ChangeStat(ProductID.STATE_B01,ticket);
                         ticket.getStateObj().setView(this.getView());
                         break;
                 }
                 case ProductID.STATE_B01:
                 {
-                    ticket.ChangeStat(ProductID.STATE_B02);
+                    ticket.ChangeStat(ProductID.STATE_B02,ticket);
                     ticket.getStateObj().setView(this.getView());
                     utlAlarmManager.cancelAlarm(ticket.get_alarm());
                     ticket.setAlarm(utlAlarmManager.setAlarm(ticket.endTime,TicketStateAble.TTL_END_TICKET_DATE,ticketID));
@@ -198,30 +198,30 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                 case ProductID.STATE_B03:
                 {
                     if(ticket.isticketDon()) {
-                        ticket.ChangeStat(ProductID.STATE_C01);
+                        ticket.ChangeStat(ProductID.STATE_C01,ticket);
                         ticket.getStateObj().setView(this.getView());
                         break;
                     }else
                     {
-                        ticket.ChangeStat(ProductID.STATE_E06);
+                        ticket.ChangeStat(ProductID.STATE_E06,ticket);
                         ticket.getStateObj().setView(this.getView());
                         break;
                     }
                 }
                 case ProductID.STATE_C01:
                 {
-                        ticket.ChangeStat(ProductID.STATE_C02);
+                        ticket.ChangeStat(ProductID.STATE_C02,ticket);
                         ticket.getStateObj().setView(this.getView());
                         break;
                 }
                 case ProductID.STATE_C02:
                 {
-                        ticket.ChangeStat(ProductID.STATE_Z00);
+                        ticket.ChangeStat(ProductID.STATE_Z00,ticket);
                         break;
                 }
                 case ProductID.STATE_E03:
                 {
-                    ticket.ChangeStat(ProductID.STATE_E02);
+                    ticket.ChangeStat(ProductID.STATE_E02,ticket);
                     break;
                 }
             }
@@ -242,24 +242,24 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             switch (ticket.state)
             {
                 case ProductID.STATE_A00: {
-                    ticket.ChangeStat(ProductID.STATE_E00);
+                    ticket.ChangeStat(ProductID.STATE_E00,ticket);
                     ticket.getStateObj().setView(this.getView());
                     break;
                 }
                 case ProductID.STATE_A01:{
-                    ticket.ChangeStat(ProductID.STATE_E01);
+                    ticket.ChangeStat(ProductID.STATE_E01,ticket);
                     ticket.getStateObj().setView(this.getView());
                     break;
                 }
                 case ProductID.STATE_A03:
                 {
-                    ticket.ChangeStat(ProductID.STATE_E02);
+                    ticket.ChangeStat(ProductID.STATE_E02,ticket);
                     ticket.getStateObj().setView(this.getView());
                     break;
                 }
                 case ProductID.STATE_E03:
                 {
-                    ticket.ChangeStat(ProductID.STATE_E04);
+                    ticket.ChangeStat(ProductID.STATE_E04,ticket);
                     ticket.endTime.setTime(ticket.endTime.getTime()+14000);
                     ticket.setAlarm(utlAlarmManager.setAlarm(ticket.endTime,TicketStateAble.TTL_END_TIKCET_TIME_EXTENSION,ticketID));
 
@@ -268,13 +268,13 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                 }
                 case ProductID.STATE_C01:
                 {
-                        ticket.ChangeStat(ProductID.STATE_E07);
+                        ticket.ChangeStat(ProductID.STATE_E07,ticket);
                         ticket.getStateObj().setView(this.getView());
                         break;
                 }
                 case ProductID.STATE_C02:
                 {
-                    ticket.ChangeStat(ProductID.STATE_Z00);
+                    ticket.ChangeStat(ProductID.STATE_Z00,ticket);
                     break;
                 }
             }

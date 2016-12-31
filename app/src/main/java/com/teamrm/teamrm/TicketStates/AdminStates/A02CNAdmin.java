@@ -6,6 +6,7 @@ import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.TicketStates.TicketStateAdmin;
+import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
 
 import java.util.Calendar;
@@ -34,7 +35,7 @@ public class A02CNAdmin extends TicketStateAdmin implements TicketStateAble {
     }
 
     @Override
-    public TicketStateAble getNewState() {
+    public TicketStateAble getNewState(Ticket ticket) {
         return new A02CNAdmin(1);
     }
 
