@@ -191,8 +191,6 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                 {
                     ticket.ChangeStat(ProductID.STATE_B02,ticket);
                     ticket.getStateObj().setView(this.getView());
-                    utlAlarmManager.cancelAlarm(ticket.get_alarm());
-                    ticket.setAlarm(utlAlarmManager.setAlarm(ticket.endTime,TicketStateAble.TTL_END_TICKET_DATE,ticketID));
                     break;
                 }
                 case ProductID.STATE_B03:

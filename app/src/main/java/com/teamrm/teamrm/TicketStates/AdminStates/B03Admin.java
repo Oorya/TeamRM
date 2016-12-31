@@ -2,11 +2,13 @@ package com.teamrm.teamrm.TicketStates.AdminStates;
 
 import android.view.View;
 
+import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.TicketStates.TicketStateAdmin;
 import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Utility.UtlAlarmManager;
 import com.teamrm.teamrm.Utility.UtlNotification;
 
 /**
@@ -19,16 +21,20 @@ public class B03Admin extends TicketStateAdmin implements TicketStateAble {
     public B03Admin() {
         super();
     }
-    public B03Admin(int ttl)
+    public B03Admin(Ticket ticket)
     {
         //initials ttl example
         UtlNotification utlNotification = new UtlNotification("טכנאי התחיל טיפול","יום נפלא");
         utlNotification.sendNotification();
+        UtlAlarmManager utlAlarmManager = new UtlAlarmManager(HomeScreen.context);
+        utlAlarmManager.cancelAlarm(ticket.get_alarmTechStartWorkOnTicket());
+        utlAlarmManager.cancelAlarm(ticket.get_alarm());
+        ticket.setAlarmID(0);
     }
 
     @Override
     public TicketStateAble getNewState(Ticket ticket) {
-        return new B03Admin(1);
+        return new B03Admin(ticket);
     }
 
     @Override

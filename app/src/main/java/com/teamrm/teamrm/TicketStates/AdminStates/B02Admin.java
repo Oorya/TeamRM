@@ -25,19 +25,24 @@ public class B02Admin extends TicketStateAdmin implements TicketStateAble {
     public B02Admin() {
         super();
     }
-    public B02Admin(int ttl)
+    public B02Admin(Ticket ticket)
     {
         //initials ttl example
         UtlNotification utlNotification = new UtlNotification("טכנאי אישר מועד","יום נפלא");
         utlNotification.sendNotification();
 
-       // UtlAlarmManager utlAlarmManager = new UtlAlarmManager(context);
-        //utlAlarmManager.setAlarm(cal.getTime(),TicketStateAble.TTL_END_TICKET_DATE);
+        UtlAlarmManager utlAlarmManager = new UtlAlarmManager(context);
+        utlAlarmManager.cancelAlarm(ticket.get_alarm());
+        ticket.setAlarm(utlAlarmManager.setAlarm(ticket.endTime,TicketStateAble.TTL_END_TICKET_DATE,ticket.ticketId));
+        ticket.setAlarmID(TicketStateAble.TTL_END_TICKET_DATE);
+        ticket.setAlarm(utlAlarmManager.setAlarm(ticket.endTime,TicketStateAble.TECH_START_WORK_ON_TICkET,ticket.ticketId));
+        ticket.setAlarmID(TicketStateAble.TECH_START_WORK_ON_TICkET);
+
     }
 
     @Override
     public TicketStateAble getNewState(Ticket ticket) {
-        return new B02Admin(1);
+        return new B02Admin(ticket);
     }
 
     @Override

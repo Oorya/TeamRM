@@ -47,7 +47,9 @@ public class Ticket {
     public Date endTime;
     public Date ttl;
     public int alarmID;
+    private int TechStartWorkOnTicketId;
     private PendingIntent _alarm;
+    private PendingIntent _alarmTechStartWorkOnTicket;
     public int repeatSendCounter;
     public String ticketNumber;
     public String calenderID;
@@ -95,8 +97,16 @@ public class Ticket {
     public PendingIntent get_alarm() {
         return _alarm;
     }
+    public PendingIntent get_alarmTechStartWorkOnTicket() {
+        return _alarmTechStartWorkOnTicket;
+    }
 
     public void setAlarm(PendingIntent alarm) {
+
+        if(_alarm!=null)
+        {
+            _alarmTechStartWorkOnTicket = alarm;
+        }else
         _alarm = alarm;
     }
     public TicketStateAble getStateObj() {
@@ -108,6 +118,17 @@ public class Ticket {
         this.state = stateName;
         this.stateObj = TicketFactory.getNewState("TicketState"+UserSingleton.getInstance().getStatus(),stateName,ticket);
         //update state in firebase
+    }
+    public int getAlarmID() {
+        return alarmID;
+    }
+
+    public void setAlarmID(int alarmID) {
+        if(!(this.alarmID<=0))
+        {
+            this.TechStartWorkOnTicketId = alarmID;
+        }else
+        this.alarmID = alarmID;
     }
 
     public boolean isticketDon() {

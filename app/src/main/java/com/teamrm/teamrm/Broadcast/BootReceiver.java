@@ -89,7 +89,7 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
                         sendNotification();
                     }else
                     {
-                        utlAlarmManager.setAlarm(ticket.get(i).endTime,ticket.get(i).alarmID,ticket.get(i).ticketId);
+                        ticket.get(i).setAlarm(utlAlarmManager.setAlarm(ticket.get(i).endTime,ticket.get(i).alarmID,ticket.get(i).ticketId));
                     }
                 }
                 if(ticket.get(i).ttl != null)
@@ -99,7 +99,7 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
                         sendNotification();
                     }else
                     {
-                        utlAlarmManager.setAlarm(ticket.get(i).ttl,ticket.get(i).alarmID,ticket.get(i).ticketId);
+                        ticket.get(i).setAlarm(utlAlarmManager.setAlarm(ticket.get(i).ttl,ticket.get(i).alarmID,ticket.get(i).ticketId));
                     }
                 }
 
@@ -128,12 +128,12 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
             {
                 if (ticket.getRepeatSendCounter()>=3)
                 {
-                    ticket.ChangeStat(ProductID.STATE_E02);
+                    ticket.ChangeStat(ProductID.STATE_E02,ticket);
                     ticket.incInitialization();
                 }else
                 {
                     ticket.incCounter();
-                    ticket.ChangeStat(ProductID.STATE_A02CN);
+                    ticket.ChangeStat(ProductID.STATE_A02CN,ticket);
                 }
                 break;
             }
@@ -143,7 +143,7 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
                     if (UserSingleton.getInstance().getStatus().equals(Users.STATUS_ADMIN) ) {
                         UtlNotification utlNotification = new UtlNotification("תקלה לא תופלה", "יום נפלא");
                         utlNotification.sendNotification();
-                        UtlFirebase.changeState(ticketId, ProductID.STATE_E02);
+                        ticket.ChangeStat(ProductID.STATE_E02,ticket);
                         ticket.incInitialization();
                     }
                 }else
@@ -154,7 +154,11 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
             }
             case TicketStateAble.TTL_END_TIKCET_TIME_EXTENSION:
             {
-                ticket.ChangeStat(ProductID.STATE_E05);
+                ticket.ChangeStat(ProductID.STATE_E05,ticket);
+            }
+            case TicketStateAble.TECH_START_WORK_ON_TICkET:
+            {
+                ticket.ChangeStat(ProductID.STATE_E03,ticket);
             }
         }
     }

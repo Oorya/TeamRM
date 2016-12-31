@@ -24,7 +24,7 @@ public class B01Admin extends TicketStateAdmin implements TicketStateAble {
     public B01Admin() {
         super();
     }
-    public B01Admin(int ttl)
+    public B01Admin(Ticket ticket)
     {
         //initials ttl example
         UtlNotification utlNotification = new UtlNotification("לקוח אישר מועד","יום נפלא");
@@ -32,14 +32,16 @@ public class B01Admin extends TicketStateAdmin implements TicketStateAble {
         Calendar cal = Calendar.getInstance(); // creates calendar
         cal.setTime(new Date()); // sets calendar startTime/date
         cal.add(Calendar.HOUR_OF_DAY, 6); // adds 5 hours
-
         UtlAlarmManager utlAlarmManager = new UtlAlarmManager(context);
-        utlAlarmManager.setAlarm(cal.getTime(),TicketStateAble.WAITING_FOR_TECH_APPROVAL);
+        utlAlarmManager.cancelAlarm(ticket.get_alarm());
+        ticket.setAlarmID(0);
+        ticket.setAlarm(utlAlarmManager.setAlarm(cal.getTime(),TicketStateAble.WAITING_FOR_TECH_APPROVAL,ticket.ticketId));
+        ticket.setAlarmID(TicketStateAble.WAITING_FOR_TECH_APPROVAL);
     }
 
     @Override
     public TicketStateAble getNewState(Ticket ticket) {
-        return new B01Admin(1);
+        return new B01Admin(ticket);
     }
 
     @Override

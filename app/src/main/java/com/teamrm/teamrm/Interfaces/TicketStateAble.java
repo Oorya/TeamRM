@@ -17,6 +17,7 @@ public interface TicketStateAble {
     int WAITING_FOR_TECH_APPROVAL = 7;
     int TTL_END_TICKET_DATE = 8;
     int TTL_END_TIKCET_TIME_EXTENSION = 9;
+    int TECH_START_WORK_ON_TICkET = 10;
     TicketStateAble getNewState(Ticket ticket);
     View setView(View view);
 
