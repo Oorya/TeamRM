@@ -1,5 +1,7 @@
 package com.teamrm.teamrm.TicketStates;
 
+import android.util.Log;
+
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.Type.Ticket;
 
@@ -19,11 +21,14 @@ public class TicketFactory
 
     public TicketStateAble getNewState(String stateType, String nextStateName, Ticket ticket)
     {
+        Log.d("FactorystateType = ", stateType+nextStateName);
+        Log.d("FactorFULtYPE","com.teamrm.teamrm.TicketStates."+stateType+"States."+nextStateName+stateType);
         //Checking if class was recorded in HashMap if not force her to sign up 
         if(m_RegisteredProducts.get(nextStateName)==null)
         {
             try {
-                Class.forName("com.teamrm.teamrm.TicketStates."+stateType+nextStateName);
+
+                Class.forName("com.teamrm.teamrm.TicketStates."+stateType+"States."+nextStateName+stateType);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -33,6 +38,8 @@ public class TicketFactory
 
     public static void registerProduct(String ticketID, TicketStateAble T)
     {
+        Log.d("FactorregisterProduct= ", ticketID);
+
         m_RegisteredProducts.put(ticketID, T);
     }
 

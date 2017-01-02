@@ -2,6 +2,7 @@ package com.teamrm.teamrm.Type;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.util.Log;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -90,7 +91,7 @@ public class Ticket {
         this.ticketNumber=ticketId.substring(0,8);
         this.status=1;
 
-        this.stateObj = TicketFactory.getNewState("TicketState"+UserSingleton.getInstance().getStatus(),ProductID.STATE_A00,this);
+       // this.stateObj = TicketFactory.getNewState(UserSingleton.getInstance().getStatus(),ProductID.STATE_A00,this);
 
 
     }
@@ -116,7 +117,12 @@ public class Ticket {
     public void ChangeStat(String stateName,Ticket ticket)
     {
         this.state = stateName;
-        this.stateObj = TicketFactory.getNewState("TicketState"+UserSingleton.getInstance().getStatus(),stateName,ticket);
+
+
+        Log.d("FactorystateType = ", UserSingleton.getInstance().getStatus());
+        Log.d("FactorstateName = ", stateName);
+
+        this.stateObj = TicketFactory.getNewState(UserSingleton.getInstance().getStatus(),stateName,ticket);
         //update state in firebase
     }
     public int getAlarmID() {

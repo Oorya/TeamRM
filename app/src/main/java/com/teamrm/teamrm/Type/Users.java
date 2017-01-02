@@ -23,7 +23,7 @@ public abstract class Users
         this.userName = userName;
         this.email = email;
         this.userId = userId;
-        this.status = "Client";
+        this.status = "User";
         this.isAdmin = false;
         this.company = "";
     }

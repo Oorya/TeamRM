@@ -41,7 +41,7 @@ public class TestStates extends AppCompatActivity {
 
     public void btnStateA01(View view)
     {
-        ticketFactory.getNewState("AdminStates.", ProductID.STATE_ADMIN_A01);
+       // ticketFactory.getNewState("AdminStates.", ProductID.STATE_ADMIN_A01);
     }
 
     public void btnStateA02(View view)

@@ -87,7 +87,7 @@ public class UtlFirebase {
                 for (int ctr = 0; ctr <= arrData.length; ctr++) {
                     if (arrData[ctr].contains("state")) {
                         Log.w("STATE FROM LOOP", statusUser + "States." + arrData[ctr].substring(7) + statusUser);
-                        ticketFactory.getNewState(statusUser + "States.", arrData[ctr].substring(7) + statusUser);
+                     //   ticketFactory.getNewState(statusUser + "States.", arrData[ctr].substring(7) + statusUser);
                         return;
                     }
                 }
