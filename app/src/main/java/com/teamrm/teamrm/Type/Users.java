@@ -6,89 +6,100 @@ package com.teamrm.teamrm.Type;
 public abstract class Users
 {
     public static final String STATUS_ADMIN = "Admin";
-    public static final String STATUS_THEC = "Tech";
-    public static final String STATUS_USER = "User";
-    private String userName;  //hold userName
-    private String email;
-    private String userId; //hold userId
-    private boolean isAdmin;
-    private String status;
-    private String address;
-    private String phone;
-    private String company;
+    public static final String STATUS_TECH = "Tech";
+    public static final String STATUS_CLIENT = "Client";
+    private String userID; //hold userID
+    private String userNameString;  //hold userNameString
+    private String userEmail;
+    private boolean userIsAdmin;
+    private String userStatus;
+    private String userPhone;
+    private String userAddress;
+    private String userCompany;
+
 
     public Users(){}  //empty constructor, must have
 
-    public Users(String userName, String email, String userId) {
-        this.userName = userName;
-        this.email = email;
-        this.userId = userId;
-        this.status = "User";
-        this.isAdmin = false;
-        this.company = "";
+    public Users(String userID, String userNameString, String userEmail) {
+        this.userID = userID;
+        this.userNameString = userNameString;
+        this.userEmail = userEmail;
+        this.userStatus = "Client";
+        this.userIsAdmin = false;
+        this.userCompany = "";
     }
 
-    public String getUserName() {
-        return userName;
+    public Users(String userID, String userNameString, String userEmail, String userPhone) {
+        this.userID = userID;
+        this.userNameString = userNameString;
+        this.userEmail = userEmail;
+        this.userPhone = userPhone;
+        this.userStatus = "Tech";
+        this.userIsAdmin = false;
+        this.userCompany = "";
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public String getUserNameString() {
+        return userNameString;
     }
 
-    public String getEmail() {
-        return email;
+    public void setUserNameString(String userNameString) {
+        this.userNameString = userNameString;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public String getUserId() {
-        return userId;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public String getUserID() {
+        return userID;
     }
 
-    public boolean isAdmin() {
-        return isAdmin;
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
+    public boolean isUserIsAdmin() {
+        return userIsAdmin;
     }
 
-    public String getStatus() {
-        return status;
+    public void setUserIsAdmin(boolean userIsAdmin) {
+        this.userIsAdmin = userIsAdmin;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public String getUserStatus() {
+        return userStatus;
     }
 
-    public String getCompany() {
-        return company;
+    public void setUserStatus(String userStatus) {
+        this.userStatus = userStatus;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public String getUserCompany() {
+        return userCompany;
     }
 
-    public String getPhone() {
-        return phone;
+    public void setUserCompany(String userCompany) {
+        this.userCompany = userCompany;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public String getUserPhone() {
+        return userPhone;
     }
 
-    public String getAddress() {
-        return address;
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public String getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(String userAddress) {
+        this.userAddress = userAddress;
     }
 }

@@ -23,7 +23,7 @@ import java.util.List;
  * Created by shalty on 24/10/2016.
  */
 
-public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.CustomViewHolder> {
+public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.CustomViewHolder> {
 
 
     private Typeface EXTRA_BOLD;
@@ -35,14 +35,14 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
     private List<Ticket> mTicketListItem;
     private Context mContext;
 
-    public MyRecyclerAdapter(Context context) {
+    public TicketListAdapter(Context context) {
         this.mTicketListItem = UtlFirebase.getAllTicket();
         this.mContext = context;
         setFont();
     }
 
     @Override
-    public MyRecyclerAdapter.CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TicketListAdapter.CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         CustomViewHolder viewHolder;
         switch (viewType)
@@ -105,7 +105,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
     }
 
     @Override
-    public void onBindViewHolder(MyRecyclerAdapter.CustomViewHolder holder, final int position) {
+    public void onBindViewHolder(TicketListAdapter.CustomViewHolder holder, final int position) {
         final Ticket item = mTicketListItem.get(position);
         holder.userName.setText(item.customerName);
         holder.product.setText(item.product);

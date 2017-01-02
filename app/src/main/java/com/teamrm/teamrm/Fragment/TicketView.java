@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -66,7 +65,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         super.onCreate(savedInstanceState);
 
 
-        Toast.makeText(getContext(), UserSingleton.getInstance().getEmail(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), UserSingleton.getInstance().getUserEmail(), Toast.LENGTH_SHORT).show();
         userProfileObj = UserSingleton.getInstance();
         Bundle bundle = this.getArguments();
         utlAlarmManager = new UtlAlarmManager(getContext());

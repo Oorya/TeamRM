@@ -222,7 +222,7 @@ public class UtlFirebase {
                 Log.e("LIST SIZE: ", ticketList.size() + "");
 
                 //Need to notify for current list adapter
-                TicketList.myRecyclerAdapter.notifyDataSetChanged();
+                TicketList.ticketListAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -544,7 +544,7 @@ public class UtlFirebase {
 
             }
         });
-        String mail[] = user.getEmail().split("@");
+        String mail[] = user.getUserEmail().split("@");
         //saving the user under the UUID
         myRef.child(mail[0]).setValue(user);
     }

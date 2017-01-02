@@ -9,7 +9,6 @@ import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
-import com.teamrm.teamrm.Interfaces.TicketStatus;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.Users;
@@ -118,7 +117,7 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
             }
             case TicketStateAble.WAITING_FOR_TECH_APPROVAL:
             {
-                if(UserSingleton.getInstance().getStatus().equals(Users.STATUS_ADMIN)) {
+                if(UserSingleton.getInstance().getUserStatus().equals(Users.STATUS_ADMIN)) {
                     UtlNotification utlNotification = new UtlNotification("התכנאי עדיין לא אשר מועד", "יום נפלא");
                     utlNotification.sendNotification();
                 }
@@ -140,7 +139,7 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
             case TicketStateAble.TTL_END_TICKET_DATE:
             {
                 if(ticket.state!=ProductID.STATE_B03) {
-                    if (UserSingleton.getInstance().getStatus().equals(Users.STATUS_ADMIN) ) {
+                    if (UserSingleton.getInstance().getUserStatus().equals(Users.STATUS_ADMIN) ) {
                         UtlNotification utlNotification = new UtlNotification("תקלה לא תופלה", "יום נפלא");
                         utlNotification.sendNotification();
                         ticket.ChangeStat(ProductID.STATE_E02,ticket);

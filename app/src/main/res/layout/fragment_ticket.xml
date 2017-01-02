@@ -29,7 +29,7 @@
 
 
             <RelativeLayout
-                android:id="@+id/status"
+                android:id="@+id/userStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ticketNum"
@@ -63,7 +63,7 @@
                 android:id="@+id/time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/status"
+                android:layout_below="@id/userStatus"
                 android:background="#f7f7f7">
 
                 <ImageView

@@ -119,10 +119,10 @@ public class Ticket {
         this.state = stateName;
 
 
-        Log.d("FactorystateType = ", UserSingleton.getInstance().getStatus());
+        Log.d("FactorystateType = ", UserSingleton.getInstance().getUserStatus());
         Log.d("FactorstateName = ", stateName);
 
-        this.stateObj = TicketFactory.getNewState(UserSingleton.getInstance().getStatus(),stateName,ticket);
+        this.stateObj = TicketFactory.getNewState(UserSingleton.getInstance().getUserStatus(),stateName,ticket);
         //update state in firebase
     }
     public int getAlarmID() {

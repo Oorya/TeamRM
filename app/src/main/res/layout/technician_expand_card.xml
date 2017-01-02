@@ -83,7 +83,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/phone"
+                android:id="@+id/userPhone"
                 style="@style/CardRow"
                 android:layout_below="@id/mail">
 
@@ -115,7 +115,7 @@
             <RelativeLayout
                 android:id="@+id/assignedCalendar"
                 style="@style/CardRow"
-                android:layout_below="@id/phone">
+                android:layout_below="@id/userPhone">
 
                 <ImageView
                     android:id="@+id/calendarIcon"
@@ -135,10 +135,6 @@
                     android:text="calendar_name" />
 
 
-                <ImageView
-                    style="@style/CardRowImageEnd"
-                    android:src="@drawable/ic_edit_24px_white" />
-
             </RelativeLayout>
 
             <RelativeLayout
@@ -155,21 +151,71 @@
                     android:id="@+id/colorLabel"
                     style="@style/CardRowLabel"
                     android:layout_toEndOf="@id/colorIcon"
-                    android:text="@string/label_calendar_color" />
+                    android:text="@string/label_calendar_color"
+                    android:layout_marginEnd="24dp"
+                    />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/colorLabel"
+                    android:layout_marginEnd="32dp"
+                    android:background="#f00"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/techShifts"
+                style="@style/CardRow"
+                android:layout_below="@id/color">
 
                 <ImageView
-                    android:id="@+id/locationButton"
-                    style="@style/CardRowImageEnd"
-                    android:src="@drawable/ic_icon_nav" />
+                    android:id="@+id/shiftsIcon"
+                    style="@style/CardRowImageStart"
+                    android:src="@drawable/ic_shifts" />
+
+                <TextView
+                    android:id="@+id/shiftsLabel"
+                    style="@style/CardRowLabel"
+                    android:layout_toEndOf="@id/shiftsIcon"
+                    android:text="@string/label_calendar" />
+
+                <TextView
+                    android:id="@+id/shiftsText"
+                    style="@style/CardRowText"
+                    android:layout_toEndOf="@id/shiftsLabel"
+                    android:text="calendar_name" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/techRegions"
+                style="@style/CardRow"
+                android:layout_below="@id/techShifts">
+
+                <ImageView
+                    android:id="@+id/regionIcon"
+                    style="@style/CardRowImageStart"
+                    android:src="@drawable/ic_region_new" />
+
+                <TextView
+                    android:id="@+id/regionLabel"
+                    style="@style/CardRowLabel"
+                    android:layout_toEndOf="@id/regionIcon"
+                    android:text="@string/label_tech_regions" />
+
+
+
 
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/address"
+                android:id="@+id/userAddress"
                 style="@style/CardRow"
-                android:layout_below="@id/color">
+                android:layout_below="@id/techRegions">
 
                 <ImageView
                     android:id="@+id/addressIcon"
@@ -180,7 +226,7 @@
                     android:id="@+id/addressLabel"
                     style="@style/CardRowLabel"
                     android:layout_toEndOf="@id/addressIcon"
-                    android:text="@string/label_address" />
+                    android:text="@string/label_post_address" />
 
 
                 <ImageView
@@ -190,27 +236,28 @@
 
 
             </RelativeLayout>
+
             <android.support.v7.widget.CardView
+                android:id="@+id/btnEditTechnician"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/address"
+                android:layout_below="@id/userAddress"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp"
                 android:layoutDirection="rtl"
                 android:onClick="editTechnician"
                 app:cardBackgroundColor="@color/listRow_alt"
-                app:cardCornerRadius="5dp"
-                android:id="@+id/btnEditTechnician">
+                app:cardCornerRadius="5dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingTop="4dp"
                     android:paddingBottom="4dp"
-                    android:paddingStart="8dp"
                     android:paddingEnd="8dp"
-                    >
+                    android:paddingStart="8dp"
+                    android:paddingTop="4dp">
+
                     <ImageView
                         android:id="@+id/userIconBtn"
                         android:layout_width="24dp"
@@ -225,8 +272,8 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@id/userIconBtn"
-                        android:textColor="@color/textColor_primary"
-                        android:text="ערוך פרטים" />
+                        android:text="ערוך פרטים"
+                        android:textColor="@color/textColor_primary" />
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
         </RelativeLayout>

@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.teamrm.teamrm.Adapter.MyRecyclerAdapter;
+import com.teamrm.teamrm.Adapter.TicketListAdapter;
 import com.teamrm.teamrm.R;
 
 /**
@@ -20,7 +20,7 @@ import com.teamrm.teamrm.R;
 public class TicketList extends Fragment {
 
     public RecyclerView mRecyclerView;
-    public static MyRecyclerAdapter myRecyclerAdapter;
+    public static TicketListAdapter ticketListAdapter;
     private TextView title,filter,search,order;
 
 
@@ -46,8 +46,8 @@ public class TicketList extends Fragment {
 
         mRecyclerView = (RecyclerView)view.findViewById(R.id.RecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        myRecyclerAdapter = new MyRecyclerAdapter(getContext());
-        mRecyclerView.setAdapter(myRecyclerAdapter);
+        ticketListAdapter = new TicketListAdapter(getContext());
+        mRecyclerView.setAdapter(ticketListAdapter);
 
         return view;
     }

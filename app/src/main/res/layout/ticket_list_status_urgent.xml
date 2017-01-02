@@ -22,7 +22,7 @@
             android:paddingBottom="20dp">
 
             <RelativeLayout
-                android:id="@+id/status"
+                android:id="@+id/userStatus"
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
                 android:background="@color/status_urgent">
@@ -65,10 +65,10 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/userName"
+                android:id="@+id/userNameString"
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:layout_below="@id/status"
+                android:layout_below="@id/userStatus"
                 android:paddingEnd="8dp"
                 android:paddingStart="12dp">
 
@@ -113,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"
-                android:layout_below="@id/userName">
+                android:layout_below="@id/userNameString">
 
                 <View
                     android:layout_width="fill_parent"
@@ -128,7 +128,7 @@
                 android:layout_height="wrap_content"
                 android:paddingEnd="8dp"
                 android:paddingStart="12dp"
-                android:layout_below="@id/userName">
+                android:layout_below="@id/userNameString">
 
                 <TextView
                     android:id="@+id/equipment"

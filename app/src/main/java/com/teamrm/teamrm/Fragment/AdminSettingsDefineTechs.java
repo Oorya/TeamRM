@@ -3,17 +3,30 @@ package com.teamrm.teamrm.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.teamrm.teamrm.Adapter.TechniciansAdapter;
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Type.Technician;
+
+import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class AdminSettingsDefineTechs extends Fragment {
 
+    public RecyclerView tRecyclerView;
+    TechniciansAdapter tAdapter;
+    protected final ArrayList<Technician> techniciansList = new ArrayList<>();
+    UUID tech1ID = new UUID(128, 64); //TODO: DEBUG - remove later
+    UUID tech2ID = new UUID(128, 64); //TODO: DEBUG - remove later
+    Technician tech1 = new Technician(tech1ID.toString(), "טכנאי מוסמך", "tech1@server.com", "0545555555", "cal1", "לוח שנה טכנאי 1", "#f00", "משמרת בוקר"); //TODO: DEBUG - remove later
+    Technician tech2 = new Technician(tech2ID.toString(), "טכנאי מעולה", "tech2@server.com", "0547777777", "cal2", "לוח שנה טכנאי 2", "#f00", "משמרת צהריים"); //TODO: DEBUG - remove later
 
     public AdminSettingsDefineTechs() {
         // Required empty public constructor
@@ -24,7 +37,16 @@ public class AdminSettingsDefineTechs extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin_settings_define_techs, container, false);
+        View view = inflater.inflate(R.layout.fragment_admin_settings_define_techs, container, false);
+        techniciansList.add(tech1); //TODO: DEBUG - remove later
+        techniciansList.add(tech2); //TODO: DEBUG - remove later
+        tRecyclerView = (RecyclerView)view.findViewById(R.id.tRecyclerView);
+        tAdapter = new TechniciansAdapter(getContext());
+        tRecyclerView.setAdapter(tAdapter);
+
+        return view;
+
+
     }
 
 }

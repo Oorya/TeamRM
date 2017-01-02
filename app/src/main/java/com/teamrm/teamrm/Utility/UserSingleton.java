@@ -33,11 +33,11 @@ public class UserSingleton extends Users{
         if(instance == null)
         {
             instance = new UserSingleton();
-            Log.w(TAG, instance.getEmail()+" if");
+            Log.w(TAG, instance.getUserEmail()+" if");
 
             return instance;
         }
-        Log.w(TAG, instance.getEmail()+" else");
+        Log.w(TAG, instance.getUserEmail()+" else");
         return instance;
     }
 
@@ -58,14 +58,14 @@ public class UserSingleton extends Users{
                if(!dataSnapshot.exists())
                {
                    instance = new Client(account.getDisplayName(),account.getEmail(),account.getId());
-                   Log.w(TAG, instance.getEmail()+" cons");
+                   Log.w(TAG, instance.getUserEmail()+" cons");
                    UtlFirebase.saveUser(instance);
                }else
                {
                    for(DataSnapshot item : dataSnapshot.getChildren())
                    {
                        instance = item.getValue(Client.class);
-                       Log.w(TAG, instance.getUserId()+"  FOR");
+                       Log.w(TAG, instance.getUserID()+"  FOR");
                    }
                }
 

@@ -266,7 +266,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
 
                     String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                         mCredential.setSelectedAccountName(accountName);
-                    Log.d("REQUEST", "onActivityResult acct.getEmail: "+accountName);
+                    Log.d("REQUEST", "onActivityResult acct.getUserEmail: "+accountName);
 
                         getResultsFromApi();
                     //}

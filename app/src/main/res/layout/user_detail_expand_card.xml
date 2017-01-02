@@ -106,7 +106,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/address"
+                android:id="@+id/userAddress"
                 style="@style/CardRow"
                 android:layout_below="@id/location">
 
@@ -135,9 +135,9 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/phone"
+                android:id="@+id/userPhone"
                 style="@style/CardRow"
-                android:layout_below="@id/address">
+                android:layout_below="@id/userAddress">
 
                 <ImageView
                     android:id="@+id/phoneIcon"
@@ -166,7 +166,7 @@
             <android.support.v7.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/phone"
+                android:layout_below="@id/userPhone"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp"

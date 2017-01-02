@@ -22,7 +22,7 @@
         android:paddingBottom="16dp">
 
         <RelativeLayout
-            android:id="@+id/status"
+            android:id="@+id/userStatus"
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:background="@color/status_ok"
@@ -65,10 +65,10 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/userName"
+            android:id="@+id/userNameString"
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            android:layout_below="@id/status"
+            android:layout_below="@id/userStatus"
             android:paddingEnd="8dp"
             android:paddingStart="12dp">
 
@@ -111,7 +111,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/userName"
+            android:layout_below="@id/userNameString"
             android:paddingEnd="16dp"
             android:paddingStart="16dp">
 
@@ -126,7 +126,7 @@
             android:id="@+id/tipe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/userName"
+            android:layout_below="@id/userNameString"
             android:paddingEnd="8dp"
             android:paddingStart="12dp">
 
