@@ -10,16 +10,20 @@ public class Technician extends Users {
             techCalendarID,
             techCalendarName,
             techColor,
-            techShifts;
+            techShifts,
+            techAssignedRegions;
 
-    public Technician(){}
+    public Technician() {
+    }
 
-    public Technician(String userID, String userNameString, String userEmail, String userPhone, String techCalendarID, String techCalendarName, String techColor, String techShifts) {
-        super(userID, userNameString, userEmail, userPhone);
+    public Technician(String userID, String userNameString, String userEmail, String userPhone, String userAddress,
+                      String techCalendarID, String techCalendarName, String techColor, String techShifts, String techAssignedRegions) {
+        super(userID, userNameString, userEmail, userPhone, userAddress);
         this.techCalendarID = techCalendarID;
         this.techCalendarName = techCalendarName; //TODO: get calendar name by ID? *MARK
         this.techColor = techColor;
         this.techShifts = techShifts;
+        this.techAssignedRegions = techAssignedRegions;
     }
 
     public String getTechCalendarID() {
@@ -53,5 +57,13 @@ public class Technician extends Users {
 
     public void setTechShifts(String techShifts) {
         this.techShifts = techShifts;
+    }
+
+    public String getTechAssignedRegions() {
+        return techAssignedRegions;
+    }
+
+    public void setTechAssignedRegions(String techAssignedRegions) {
+        this.techAssignedRegions = techAssignedRegions;
     }
 }

@@ -88,7 +88,7 @@
                 <ImageView
                     android:id="@+id/locationIcon"
                     style="@style/CardRowImageStart"
-                    android:src="@drawable/ic_icon_ezor" />
+                    android:src="@drawable/ic_region_new" />
 
                 <TextView
                     android:id="@+id/locationTitel"

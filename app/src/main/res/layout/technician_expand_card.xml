@@ -7,7 +7,7 @@
     tools:paddingTop="25dp">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/userDetail"
+        android:id="@+id/technicianCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
@@ -23,11 +23,11 @@
             >
 
             <RelativeLayout
-                android:id="@+id/name"
+                android:id="@+id/technicianName"
                 style="@style/CardRow">
 
                 <ImageView
-                    android:id="@+id/technicianIcon"
+                    android:id="@+id/technicianNameIcon"
                     style="@style/CardRowImageStart"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
@@ -35,9 +35,9 @@
                     android:src="@drawable/ic_icon_tech" />
 
                 <TextView
-                    android:id="@+id/userNameCard"
+                    android:id="@+id/technicianNameText"
                     style="@style/CardRowText"
-                    android:layout_toEndOf="@id/technicianIcon"
+                    android:layout_toEndOf="@id/technicianNameIcon"
                     android:text="טכנאי מוסמך"
                     android:textSize="16sp" />
 
@@ -49,191 +49,213 @@
 
             <View
                 style="@style/Separator1px"
-                android:layout_below="@id/name" />
-
+                android:layout_below="@id/technicianName" />
 
             <RelativeLayout
-                android:id="@+id/mail"
+                android:id="@+id/technicianMail"
                 style="@style/CardRow"
-                android:layout_below="@id/name">
+                android:layout_below="@id/technicianName">
 
                 <ImageView
-                    android:id="@+id/mailIcon"
+                    android:id="@+id/technicianMailIcon"
                     style="@style/CardRowImageStart"
                     android:src="@drawable/ic_icon_mail" />
 
                 <TextView
-                    android:id="@+id/mailLabel"
+                    android:id="@+id/technicianMailLabel"
                     style="@style/CardRowLabel"
-                    android:layout_toEndOf="@id/mailIcon"
+                    android:layout_toEndOf="@id/technicianMailIcon"
                     android:text="@string/label_mail" />
 
                 <TextView
-                    android:id="@+id/mailText"
+                    android:id="@+id/technicianMailText"
                     style="@style/CardRowLabel"
-                    android:layout_toEndOf="@id/mailLabel"
+                    android:layout_toEndOf="@id/technicianMailLabel"
                     android:text=""
                     tools:text="user@server.com" />
 
                 <ImageView
-                    android:id="@+id/mailButton"
+                    android:id="@+id/technicianMailButton"
                     style="@style/CardRowImageEnd"
                     android:src="@drawable/ic_icon_newmail" />
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/userPhone"
+                android:id="@+id/technicianPhone"
                 style="@style/CardRow"
-                android:layout_below="@id/mail">
+                android:layout_below="@id/technicianMail">
 
                 <ImageView
-                    android:id="@+id/phoneIcon"
+                    android:id="@+id/technicianPhoneIcon"
                     style="@style/CardRowImageStart"
                     android:src="@drawable/ic_icon_phone" />
 
                 <TextView
-                    android:id="@+id/phoneTitel"
+                    android:id="@+id/technicianPhoneLabel"
                     style="@style/CardRowLabel"
-                    android:layout_toEndOf="@id/phoneIcon"
+                    android:layout_toEndOf="@id/technicianPhoneIcon"
                     android:text="@string/label_phone_number" />
 
                 <TextView
-                    android:id="@+id/phoneText"
+                    android:id="@+id/technicianPhoneText"
                     style="@style/CardRowText"
-                    android:layout_toEndOf="@id/phoneTitel"
+                    android:layout_toEndOf="@id/technicianPhoneLabel"
                     android:text=""
                     tools:text="0545-123-456" />
 
                 <ImageView
-                    android:id="@+id/phoneButton"
+                    android:id="@+id/technicianPhoneButton"
                     style="@style/CardRowImageEnd"
                     android:src="@drawable/ic_call_24px" />
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/assignedCalendar"
+                android:id="@+id/technicianCalendar"
                 style="@style/CardRow"
-                android:layout_below="@id/userPhone">
+                android:layout_below="@id/technicianPhone">
 
                 <ImageView
-                    android:id="@+id/calendarIcon"
+                    android:id="@+id/technicianCalendarIcon"
                     style="@style/CardRowImageStart"
                     android:src="@drawable/ic_perm_contact_calendar" />
 
                 <TextView
-                    android:id="@+id/calendarLabel"
+                    android:id="@+id/technicianCalendarLabel"
                     style="@style/CardRowLabel"
-                    android:layout_toEndOf="@id/calendarIcon"
+                    android:layout_toEndOf="@id/technicianCalendarIcon"
                     android:text="@string/label_calendar" />
 
                 <TextView
-                    android:id="@+id/calendarText"
+                    android:id="@+id/technicianCalendarText"
                     style="@style/CardRowText"
-                    android:layout_toEndOf="@id/calendarLabel"
-                    android:text="calendar_name" />
+                    android:layout_toEndOf="@id/technicianCalendarLabel"
+                    android:text=""
+                    tools:text="לוח שנה 1" />
 
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/color"
+                android:id="@+id/technicianColor"
                 style="@style/CardRow"
-                android:layout_below="@id/assignedCalendar">
+                android:layout_below="@id/technicianCalendar">
 
                 <ImageView
-                    android:id="@+id/colorIcon"
+                    android:id="@+id/technicianColorIcon"
                     style="@style/CardRowImageStart"
                     android:src="@drawable/ic_palette" />
 
                 <TextView
-                    android:id="@+id/colorLabel"
+                    android:id="@+id/technicianColorLabel"
                     style="@style/CardRowLabel"
-                    android:layout_toEndOf="@id/colorIcon"
-                    android:text="@string/label_calendar_color"
                     android:layout_marginEnd="24dp"
-                    />
+                    android:layout_toEndOf="@id/technicianColorIcon"
+                    android:text="@string/label_calendar_color" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="16dp"
+                <android.support.v7.widget.CardView
+                    android:id="@+id/technicianColorView"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_toEndOf="@id/colorLabel"
-                    android:layout_marginEnd="32dp"
-                    android:background="#f00"
-                    />
+                    android:layout_marginEnd="8dp"
+                    app:cardBackgroundColor="#0f0"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="1dp"
+                    >
+
+                    <!--View
+                        android:id="@+id/technicianColorView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#f00"
+                        /-->
+
+                </android.support.v7.widget.CardView>
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/techShifts"
+                android:id="@+id/technicianShifts"
                 style="@style/CardRow"
-                android:layout_below="@id/color">
+                android:layout_below="@id/technicianColor">
 
                 <ImageView
-                    android:id="@+id/shiftsIcon"
+                    android:id="@+id/technicianShiftsIcon"
                     style="@style/CardRowImageStart"
                     android:src="@drawable/ic_shifts" />
 
                 <TextView
-                    android:id="@+id/shiftsLabel"
+                    android:id="@+id/technicianShiftsLabel"
                     style="@style/CardRowLabel"
-                    android:layout_toEndOf="@id/shiftsIcon"
+                    android:layout_toEndOf="@id/technicianShiftsIcon"
                     android:text="@string/label_calendar" />
 
                 <TextView
-                    android:id="@+id/shiftsText"
+                    android:id="@+id/technicianShiftsText"
                     style="@style/CardRowText"
-                    android:layout_toEndOf="@id/shiftsLabel"
-                    android:text="calendar_name" />
+                    android:layout_toEndOf="@id/technicianShiftsLabel"
+                    android:text=""
+                    tools:text="כל היום" />
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/techRegions"
+                android:id="@+id/technicianAssignedRegions"
                 style="@style/CardRow"
-                android:layout_below="@id/techShifts">
+                android:layout_below="@id/technicianShifts">
 
                 <ImageView
-                    android:id="@+id/regionIcon"
+                    android:id="@+id/technicianAssignedRegionsIcon"
                     style="@style/CardRowImageStart"
                     android:src="@drawable/ic_region_new" />
 
                 <TextView
-                    android:id="@+id/regionLabel"
+                    android:id="@+id/technicianAssignedRegionsLabel"
                     style="@style/CardRowLabel"
-                    android:layout_toEndOf="@id/regionIcon"
+                    android:layout_toEndOf="@id/technicianAssignedRegionsIcon"
                     android:text="@string/label_tech_regions" />
 
-
-
+                <TextView
+                    android:id="@+id/technicianAssignedRegionsText"
+                    style="@style/CardRowText"
+                    android:layout_toEndOf="@id/technicianAssignedRegionsLabel"
+                    android:text=""
+                    tools:text="כל האזורים" />
 
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/userAddress"
+                android:id="@+id/technicianAddress"
                 style="@style/CardRow"
-                android:layout_below="@id/techRegions">
+                android:layout_below="@id/technicianAssignedRegions">
 
                 <ImageView
-                    android:id="@+id/addressIcon"
+                    android:id="@+id/technicianAddressIcon"
                     style="@style/CardRowImageStart"
                     android:src="@drawable/ic_icon_location" />
 
                 <TextView
-                    android:id="@+id/addressLabel"
+                    android:id="@+id/technicianAddressLabel"
                     style="@style/CardRowLabel"
-                    android:layout_toEndOf="@id/addressIcon"
+                    android:layout_toEndOf="@id/technicianAddressIcon"
                     android:text="@string/label_post_address" />
+
+                <TextView
+                    android:id="@+id/technicianAddressText"
+                    style="@style/CardRowText"
+                    android:layout_toEndOf="@id/technicianAddressLabel"
+                    android:text=""
+                    tools:text="רחוב שומשום 666" />
 
 
                 <ImageView
-                    android:id="@+id/addressButton"
+                    android:id="@+id/technicianAddressButton"
                     style="@style/CardRowImageEnd"
                     android:src="@drawable/ic_icon_nav" />
-
 
             </RelativeLayout>
 
@@ -241,7 +263,7 @@
                 android:id="@+id/btnEditTechnician"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/userAddress"
+                android:layout_below="@id/technicianAddress"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp"

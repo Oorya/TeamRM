@@ -107,7 +107,7 @@
                 <ImageView
                     android:id="@+id/regionIcon"
                     style="@style/CardRowImageStart"
-                    android:src="@drawable/ic_icon_location" />
+                    android:src="@drawable/ic_region_new" />
 
                 <TextView
                     android:id="@+id/regionLabel"

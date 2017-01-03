@@ -29,11 +29,12 @@ public abstract class Users
         this.userCompany = "";
     }
 
-    public Users(String userID, String userNameString, String userEmail, String userPhone) {
+    public Users(String userID, String userNameString, String userEmail, String userPhone, String userAddress) {
         this.userID = userID;
         this.userNameString = userNameString;
         this.userEmail = userEmail;
         this.userPhone = userPhone;
+        this.userAddress = userAddress;
         this.userStatus = "Tech";
         this.userIsAdmin = false;
         this.userCompany = "";
