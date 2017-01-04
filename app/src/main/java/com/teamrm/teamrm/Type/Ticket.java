@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Created by אוריה on 18/07/2016.
@@ -58,6 +59,7 @@ public class Ticket {
     public String company;
     public String statusA;
     public int status;
+    private long calendarTicketId;
     private boolean isticketDon;
     private boolean isUserApprove;
     private boolean isTechdon;
@@ -90,10 +92,14 @@ public class Ticket {
         this.tech="אין טכנאי מצוות";
         this.ticketNumber=ticketId.substring(0,8);
         this.status=1;
-
+        this.calendarTicketId = (new Date()).getTime();
        // this.stateObj = TicketFactory.getNewState(UserSingleton.getInstance().getStatus(),ProductID.STATE_A00,this);
 
 
+    }
+
+    public long getCalendarTicketId() {
+        return calendarTicketId;
     }
     public PendingIntent get_alarm() {
         return _alarm;
