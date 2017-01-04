@@ -16,6 +16,7 @@ import com.teamrm.teamrm.Fragment.NewTicket;
 import com.teamrm.teamrm.Fragment.TicketList;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
+import com.teamrm.teamrm.TicketStates.ClientStates.A01Client;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.Type.Chat;
 import com.teamrm.teamrm.Type.Company;
@@ -225,6 +226,7 @@ public class UtlFirebase {
                 ticketList.clear();
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     Ticket retrive = item.getValue(Ticket.class);
+                    retrive.stateObj = (TicketStateAble) item.child("stateObj").getValue(A01Client.class);
                     ticketList.add(retrive);
                 }
                 Log.e("LIST SIZE: ", ticketList.size() + "");

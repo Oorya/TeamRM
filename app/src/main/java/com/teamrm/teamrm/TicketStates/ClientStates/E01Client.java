@@ -1,4 +1,4 @@
-package com.teamrm.teamrm.TicketStates.UserStates;
+package com.teamrm.teamrm.TicketStates.ClientStates;
 
 import android.view.View;
 
@@ -12,23 +12,23 @@ import com.teamrm.teamrm.Utility.UtlNotification;
 /**
  * Created by root on 01/09/2016.
  */
-public class E00User extends TicketStateUser implements TicketStateAble {
+public class E01Client extends TicketStateUser implements TicketStateAble {
     static {
-        TicketFactory.registerProduct(ProductID.STATE_USER_E00,new E00User());
+        TicketFactory.registerProduct(ProductID.STATE_USER_E01 ,new E01Client());
     }
-    public E00User() {
+    public E01Client() {
         super();
     }
-    public E00User(int ttl)
+    public E01Client(int ttl)
     {
         //initials ttl example
-        UtlNotification utlNotification = new UtlNotification("קריאה בוטלה","יום נפלא");
+        UtlNotification utlNotification = new UtlNotification("הקריאה נדחתה","יום נפלא");
         utlNotification.sendNotification();
     }
 
     @Override
     public TicketStateAble getNewState(Ticket ticket) {
-        return new E00User(1);
+        return new E01Client(1);
     }
 
     @Override

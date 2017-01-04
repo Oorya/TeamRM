@@ -1,4 +1,4 @@
-package com.teamrm.teamrm.TicketStates.UserStates;
+package com.teamrm.teamrm.TicketStates.ClientStates;
 
 import android.view.View;
 
@@ -7,30 +7,33 @@ import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.TicketStates.TicketStateUser;
 import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Utility.UtlNotification;
 
 /**
  * Created by root on 01/09/2016.
  */
-public class A00User extends TicketStateUser implements TicketStateAble {
-
+public class B03Client extends TicketStateUser implements TicketStateAble {
     static {
-        TicketFactory.registerProduct(ProductID.STATE_USER_A00,new A00User());
+        TicketFactory.registerProduct(ProductID.STATE_USER_B03,new B03Client());
     }
-    public A00User() {
+    public B03Client() {
         super();
     }
-    public A00User(int ttl)
+    public B03Client(int ttl)
     {
         //initials ttl example
+        UtlNotification utlNotification = new UtlNotification("טכנאי התחיל טיפול","יום נפלא");
+        utlNotification.sendNotification();
     }
 
     @Override
     public TicketStateAble getNewState(Ticket ticket) {
-        return new A00User(1);
+        return new B03Client(1);
     }
 
     @Override
     public View setView(View view) {
         return null;
     }
+
 }

@@ -1,4 +1,4 @@
-package com.teamrm.teamrm.TicketStates.UserStates;
+package com.teamrm.teamrm.TicketStates.ClientStates;
 
 import android.view.View;
 
@@ -11,21 +11,21 @@ import com.teamrm.teamrm.Type.Ticket;
 /**
  * Created by root on 01/09/2016.
  */
-public class E05User extends TicketStateUser implements TicketStateAble {
+public class B01Client extends TicketStateUser implements TicketStateAble {
     static {
-        TicketFactory.registerProduct(ProductID.STATE_USER_E05,new E05User());
+        TicketFactory.registerProduct(ProductID.STATE_USER_B01,new B01Client());
     }
-    public E05User() {
+    public B01Client() {
         super();
     }
-    public E05User(int ttl)
+    public B01Client(int ttl)
     {
         //initials ttl example
     }
 
     @Override
     public TicketStateAble getNewState(Ticket ticket) {
-        return new E05User(1);
+        return new B01Client(1);
     }
 
     @Override

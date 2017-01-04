@@ -43,9 +43,9 @@ public class Ticket {
     public Date endTime;
     public Date ttl;
     public int alarmID;
-    private int techStartWorkOnTicketId;
-    private PendingIntent _alarm;
-    private PendingIntent _alarmTechStartWorkOnTicket;
+    public int techStartWorkOnTicketId;
+    public PendingIntent _alarm;
+    public PendingIntent _alarmTechStartWorkOnTicket;
     public int repeatSendCounter;
     public String ticketNumber;
     public String calenderID;
@@ -53,10 +53,10 @@ public class Ticket {
     public String company;
     public String statusA;
     public int status;
-    private long calendarTicketId;
-    private boolean isTicketDone;
-    private boolean isUserApprove;
-    private boolean isTechDone;
+    public long calendarTicketId;
+    public boolean isTicketDone;
+    public boolean isUserApprove;
+    public boolean isTechDone;
 
     public Ticket(){}  //empty constructor, must have
 
@@ -113,18 +113,22 @@ public class Ticket {
     public TicketStateAble getStateObj() {
         return stateObj;
     }
+    public void setStateObj(TicketStateAble stateObj) {
+        this.stateObj = stateObj;
+    }
 
-    public void ChangeStat(String stateName,Ticket ticket)
+    public TicketStateAble ChangeStat(String stateName,Ticket ticket)
     {
         this.state = stateName;
 
-
-        Log.d("FactorystateType = ", UserSingleton.getInstance().getUserStatus());
+        //Log.d("FactorystateType = ", UserSingleton.getInstance().getUserStatus()==null?"null":UserSingleton.getInstance().getUserStatus());
         Log.d("FactorstateName = ", stateName);
 
-        this.stateObj = TicketFactory.getNewState(UserSingleton.getInstance().getUserStatus(),stateName,ticket);
-        UtlFirebase.updateState(ticket.ticketId,"stateObj",this.stateObj);
+        this.stateObj = TicketFactory.getNewState("Client",stateName,ticket);
+       // UtlFirebase.updateState(ticket.ticketId,"stateObj",this.stateObj);
+        return this.stateObj;
     }
+
     public int getAlarmID() {
         return alarmID;
     }

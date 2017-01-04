@@ -21,7 +21,7 @@ public class TicketFactory
 
     public TicketStateAble getNewState(String stateType, String nextStateName, Ticket ticket)
     {
-        Log.d("FactorystateType = ", stateType+nextStateName);
+        Log.d("FactorystateType = ", nextStateName+stateType);
         Log.d("FactorFULtYPE","com.teamrm.teamrm.TicketStates."+stateType+"States."+nextStateName+stateType);
         //Checking if class was recorded in HashMap if not force her to sign up 
         if(m_RegisteredProducts.get(nextStateName)==null)
@@ -33,7 +33,7 @@ public class TicketFactory
                 e.printStackTrace();
             }
         }
-        return ((TicketStateAble)m_RegisteredProducts.get(nextStateName)).getNewState(ticket);
+        return ((TicketStateAble)m_RegisteredProducts.get(nextStateName+stateType)).getNewState(ticket);
     }
 
     public static void registerProduct(String ticketID, TicketStateAble T)

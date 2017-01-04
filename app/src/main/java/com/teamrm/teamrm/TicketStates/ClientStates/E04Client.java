@@ -1,4 +1,4 @@
-package com.teamrm.teamrm.TicketStates.UserStates;
+package com.teamrm.teamrm.TicketStates.ClientStates;
 
 import android.view.View;
 
@@ -12,14 +12,14 @@ import com.teamrm.teamrm.Utility.UtlNotification;
 /**
  * Created by root on 01/09/2016.
  */
-public class E04User extends TicketStateUser implements TicketStateAble {
+public class E04Client extends TicketStateUser implements TicketStateAble {
     static {
-        TicketFactory.registerProduct(ProductID.STATE_USER_E04,new E04User());
+        TicketFactory.registerProduct(ProductID.STATE_USER_E04,new E04Client());
     }
-    public E04User() {
+    public E04Client() {
         super();
     }
-    public E04User(int ttl)
+    public E04Client(int ttl)
     {
         //initials ttl example
         UtlNotification utlNotification = new UtlNotification("טיפול נדחה ברבע שעה","יום נפלא");
@@ -28,7 +28,7 @@ public class E04User extends TicketStateUser implements TicketStateAble {
 
     @Override
     public TicketStateAble getNewState(Ticket ticket) {
-        return new E04User(1);
+        return new E04Client(1);
     }
 
     @Override
