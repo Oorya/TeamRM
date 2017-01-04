@@ -15,6 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.teamrm.teamrm.Fragment.NewTicket;
 import com.teamrm.teamrm.Fragment.TicketList;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
+import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.Type.Chat;
 import com.teamrm.teamrm.Type.Company;
@@ -156,6 +157,13 @@ public class UtlFirebase {
     }
 
     public static void updateTicket(String ticketID, String key, Date value)
+    {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Ticket");
+        myRef.child(ticketID).child(key).setValue(value);
+    }
+
+    public static void updateState(String ticketID, String key, TicketStateAble value)
     {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Ticket");

@@ -1,27 +1,20 @@
 package com.teamrm.teamrm.Type;
 
-import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.util.Log;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.teamrm.teamrm.Activities.MainActivity;
-import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.Interfaces.TicketStatus;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.Utility.UserSingleton;
-import com.teamrm.teamrm.Utility.UtlAlarmManager;
-import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Created by אוריה on 18/07/2016.
@@ -49,7 +42,7 @@ public class Ticket {
     public Date endTime;
     public Date ttl;
     public int alarmID;
-    private int TechStartWorkOnTicketId;
+    private int techStartWorkOnTicketId;
     private PendingIntent _alarm;
     private PendingIntent _alarmTechStartWorkOnTicket;
     public int repeatSendCounter;
@@ -60,9 +53,9 @@ public class Ticket {
     public String statusA;
     public int status;
     private long calendarTicketId;
-    private boolean isticketDon;
+    private boolean isTicketDone;
     private boolean isUserApprove;
-    private boolean isTechdon;
+    private boolean isTechDone;
 
     public Ticket(){}  //empty constructor, must have
 
@@ -138,18 +131,19 @@ public class Ticket {
     public void setAlarmID(int alarmID) {
         if(!(this.alarmID<=0))
         {
-            this.TechStartWorkOnTicketId = alarmID;
+            this.techStartWorkOnTicketId = alarmID;
         }else
         this.alarmID = alarmID;
     }
 
-    public boolean isticketDon() {
-        return isticketDon;
+    public boolean getTicketDone() {
+        return isTicketDone;
     }
 
-    public void setIsticketDon(boolean isticketDon) {
-        this.isticketDon = isticketDon;
+    public void setIsTicketDone(boolean isTicketDone) {
+        this.isTicketDone = isTicketDone;
     }
+
     public boolean isUserApprove() {
         return isUserApprove;
     }
@@ -157,12 +151,13 @@ public class Ticket {
     public void setUserApprove(boolean userApprove) {
         isUserApprove = userApprove;
     }
-    public boolean isTechdon() {
-        return isTechdon;
+
+    public boolean getTechDone() {
+        return isTechDone;
     }
 
-    public void setTechdon(boolean techdon) {
-        isTechdon = techdon;
+    public void setTechDone(boolean techDone) {
+        isTechDone = techDone;
     }
 
     public void saveTicket(Ticket ticket)
@@ -190,7 +185,6 @@ public class Ticket {
         return dateFormat.format(date);
     }
 
-
     public String toString()
     {
         String str="";
@@ -201,6 +195,7 @@ public class Ticket {
         str+="Status: "+this.status+"\n";
         return str;
     }
+
     public int getRepeatSendCounter() {
         return repeatSendCounter;
     }
@@ -210,11 +205,10 @@ public class Ticket {
         //מתודה שמעדקנת את השדה repeatSendCounter בפיירבייס
         this.repeatSendCounter += repeatSendCounter;
     }
+
     public void incInitialization() {
 
         //מתודה שמעדקנת את השדה repeatSendCounter בפיירבייס
         this.repeatSendCounter = 0;
     }
-
-
 }

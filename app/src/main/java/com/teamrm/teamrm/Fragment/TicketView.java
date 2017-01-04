@@ -194,7 +194,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                 }
                 case ProductID.STATE_B03:
                 {
-                    if(ticket.isticketDon()) {
+                    if(ticket.getTicketDone()) {
                         ticket.ChangeStat(ProductID.STATE_C01,ticket);
                         ticket.getStateObj().setView(this.getView());
                         break;
