@@ -226,7 +226,7 @@ public class UtlFirebase {
                 ticketList.clear();
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     Ticket retrive = item.getValue(Ticket.class);
-                    retrive.stateObj = (TicketStateAble) item.child("stateObj").getValue(A01Client.class);
+                   // retrive.stateObj = (TicketStateAble) item.child("stateObj").getValue(A01Client.class);
                     ticketList.add(retrive);
                 }
                 Log.e("LIST SIZE: ", ticketList.size() + "");

@@ -24,7 +24,7 @@ public abstract class Users
         this.userID = userID;
         this.userNameString = userNameString;
         this.userEmail = userEmail;
-        this.userStatus = "Client";
+        this.userStatus = STATUS_CLIENT;
         this.userIsAdmin = false;
         this.userCompany = "";
     }
@@ -35,7 +35,7 @@ public abstract class Users
         this.userEmail = userEmail;
         this.userPhone = userPhone;
         this.userAddress = userAddress;
-        this.userStatus = "Tech";
+        this.userStatus = STATUS_TECH;
         this.userIsAdmin = false;
         this.userCompany = "";
     }
