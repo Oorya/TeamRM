@@ -11,6 +11,7 @@ import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.Interfaces.TicketStatus;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.Utility.UserSingleton;
+import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -122,7 +123,7 @@ public class Ticket {
         Log.d("FactorstateName = ", stateName);
 
         this.stateObj = TicketFactory.getNewState(UserSingleton.getInstance().getUserStatus(),stateName,ticket);
-        //update state in firebase
+        UtlFirebase.updateState(ticket.ticketId,"stateObj",this.stateObj);
     }
     public int getAlarmID() {
         return alarmID;
