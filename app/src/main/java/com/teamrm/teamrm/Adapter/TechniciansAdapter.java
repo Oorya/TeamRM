@@ -1,10 +1,13 @@
 package com.teamrm.teamrm.Adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +49,8 @@ public class TechniciansAdapter extends RecyclerView.Adapter<TechniciansAdapter.
 
 
     public void onBindViewHolder(TechniciansAdapter.TechnicianViewHolder holder, int position) {
+        int _position;
+        _position = position;
         Technician technician = techniciansList.get(position);
         holder.userName.setText(technician.getUserNameString());
         holder.userEmail.setText(technician.getUserEmail());
@@ -55,6 +60,10 @@ public class TechniciansAdapter extends RecyclerView.Adapter<TechniciansAdapter.
         holder.techShifts.setText(technician.getTechShifts());
         holder.techColorView.setCardBackgroundColor(Color.parseColor(technician.getTechColor()));
         holder.userAddress.setText(technician.getUserAddress());
+        if (_position == techniciansList.size()-1){
+            CardView.MarginLayoutParams mlp = (CardView.MarginLayoutParams)holder.cardContainer.getLayoutParams();
+            mlp.setMargins(mlp.leftMargin, mlp.topMargin, mlp.rightMargin, convertDpToPx(120)); //add 120dp margin after last card
+        }
     }
 
     @Override
@@ -68,6 +77,7 @@ public class TechniciansAdapter extends RecyclerView.Adapter<TechniciansAdapter.
         //protected String userID, calendarID;
         protected TextView userName, userEmail, userPhone, techCalendarName, techShifts, techAssignedRegions, userAddress;
         protected CardView techColorView;
+        protected CardView cardContainer;
 
         public TechnicianViewHolder(View view){
             super(view);
@@ -79,7 +89,12 @@ public class TechniciansAdapter extends RecyclerView.Adapter<TechniciansAdapter.
             this.techAssignedRegions = (TextView)view.findViewById(R.id.technicianAssignedRegionsText);
             this.userAddress = (TextView)view.findViewById(R.id.technicianAddressText);
             this.techColorView = (CardView)view.findViewById(R.id.technicianColorView);
+            this.cardContainer = (CardView)view.findViewById(R.id.technicianCard);
         }
     }
 
+    private int convertDpToPx(int dp) {
+        float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().getDisplayMetrics());
+        return Math.round(pixels);
+    }
 }

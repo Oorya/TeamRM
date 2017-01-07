@@ -26,9 +26,12 @@ import com.teamrm.teamrm.Type.Users;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Nullable;
 
 
-public class UtlFirebase {
+public class UtlFirebase { //TODO: make singleton
     private static String status;
     private static Ticket returnTicket;
     private static Users returnUser;
@@ -63,7 +66,7 @@ public class UtlFirebase {
         //creating a reference to the database
         DatabaseReference myRef = database.getReference("Ticket");
 
-        Query query = myRef.orderByChild("email").equalTo(email);
+        Query query = myRef.orderByChild("userEmail").equalTo(email);
 
         switch (statusUser) {
             case "Admin":
@@ -224,12 +227,21 @@ public class UtlFirebase {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ticketList.clear();
-                for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    Ticket retrive = item.getValue(Ticket.class);
-                   // retrive.stateObj = (TicketStateAble) item.child("stateObj").getValue(A01Client.class);
-                    ticketList.add(retrive);
+                for (@Nullable DataSnapshot item : dataSnapshot.getChildren()) {
+                    Ticket retrievedTicket = null;
+                    try {
+                        retrievedTicket = item.getValue(Ticket.class);
+                    } catch (Exception e) {
+                        Log.e(":::UTLFIREBASE:::", "could not retrieve ticket");
+                        Ticket mockTicket = new Ticket("","","", "", "", "", "אין כרטיסים לתצוגה","","","", UUID.randomUUID().toString());
+                        Log.e(":::UTLFIREBASE:::", mockTicket.toString());
+                        ticketList.add(mockTicket);
+
+                    }
+                    // retrievedTicket.stateObj = (TicketStateAble) item.child("stateObj").getValue(A01Client.class);
+                    ticketList.add(retrievedTicket);
                 }
-                Log.e("LIST SIZE: ", ticketList.size() + "");
+                Log.e(":::UTLFIREBASE:::", "LIST SIZE: " + ticketList.size() + "");
 
                 //Need to notify for current list adapter
                 TicketList.ticketListAdapter.notifyDataSetChanged();
@@ -241,7 +253,7 @@ public class UtlFirebase {
 
             }
         });
-        Log.e("ALL", "");
+        Log.e(":::UTLFIREBASE::: ALL", "");
         return ticketList;
     }
 
@@ -401,8 +413,8 @@ public class UtlFirebase {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 chatList.clear();
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    Chat retrive = item.getValue(Chat.class);
-                    chatList.add(retrive);
+                    Chat retrievedChat = item.getValue(Chat.class);
+                    chatList.add(retrievedChat);
                 }
                 Log.e("LIST SIZE: ", chatList.size() + "");
 
@@ -516,8 +528,8 @@ public class UtlFirebase {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 companyList.clear();
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    Company retrive = item.getValue(Company.class);
-                    companyList.add(retrive.name);
+                    Company retrieveCompany = item.getValue(Company.class);
+                    companyList.add(retrieveCompany.name);
                 }
                 Log.e("LIST SIZE COMPANIES: ", companyList.size() + "");
 
@@ -554,9 +566,11 @@ public class UtlFirebase {
 
             }
         });
-        String mail[] = user.getUserEmail().split("@");
+        String mail = user.getUserEmail().replace(".", "_");
         //saving the user under the UUID
-        myRef.child(mail[0]).setValue(user);
+        myRef.child(mail).setValue(user);
+
+        Log.d("SETUSER::", user.toString());
     }
 }
 

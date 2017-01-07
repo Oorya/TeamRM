@@ -50,14 +50,14 @@ public class UserSingleton extends Users{
         DatabaseReference myRef=database.getReference("Users");
 
 
-        Query q = myRef.orderByChild("email").equalTo(account.getEmail());
+        Query q = myRef.orderByChild("userEmail").equalTo(account.getEmail());
         q.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.w(TAG, dataSnapshot.exists()+"ok ==LY");
+                Log.w(TAG, dataSnapshot.exists()+" ok ==LY");
                if(!dataSnapshot.exists())
                {
-                   instance = new Client(account.getDisplayName(),account.getEmail(),account.getId());
+                   instance = new Client(account.getId(),account.getDisplayName(),account.getEmail());
                    Log.w(TAG, instance.getUserEmail()+" cons");
                    UtlFirebase.saveUser(instance);
                }else

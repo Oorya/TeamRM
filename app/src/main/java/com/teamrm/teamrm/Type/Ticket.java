@@ -10,8 +10,6 @@ import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.Interfaces.TicketStatus;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
-import com.teamrm.teamrm.Utility.UserSingleton;
-import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -24,7 +22,7 @@ public class Ticket {
 
     public static final TicketFactory TicketFactory = new TicketFactory();
 
-    public String customerName;
+    public String clientName;
     public String email;
     public String tech;
     public String product;
@@ -67,8 +65,8 @@ public class Ticket {
     public Ticket(String company, String product, String classification, String area, String address, String phone, String desShort, String desLong
                  ,String ticketImage1, String ticketImage2, String ticketId)
     {
-        this.customerName = MainActivity.userName;   //Taking from login
-        this.email=MainActivity.email; //Taking from login
+        this.clientName = MainActivity.userName;   //Taking from login
+        this.email=MainActivity.userEmail; //Taking from login
         this.company=company;
         this.product=product;
         this.classification=classification;
@@ -173,7 +171,7 @@ public class Ticket {
         //creating a connection to fire base
         FirebaseDatabase database= FirebaseDatabase.getInstance();
 
-        //creating a reference to Users object
+        //creating a reference to Ticket object
         DatabaseReference myRef=database.getReference("Ticket");
 
         //saving the user under the UUID
@@ -196,7 +194,7 @@ public class Ticket {
         str+="Ticket name: "+this.product+"\n";
         str+="Ticket description: "+this.desShort+"\n";
         str+="Phone: "+this.phone+"\n";
-        str+="User name: "+this.customerName+"\n";
+        str+="User name: "+this.clientName +"\n";
         str+="Status: "+this.status+"\n";
         return str;
     }

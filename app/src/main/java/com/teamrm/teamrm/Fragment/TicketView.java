@@ -146,7 +146,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             this.getView().findViewById(R.id.ticketDetails).setVisibility(View.VISIBLE);
             this.getView().findViewById(R.id.ticketDetailsOpen).setVisibility(View.GONE);
         } else if (view.getId() == userProfile.getId()) {
-            Toast.makeText(getContext(), "USER PROFILE " + ticket.customerName, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "USER PROFILE " + ticket.clientName, Toast.LENGTH_SHORT).show();
 
 
         } else if (view.getId() == approval.getId()) {
@@ -311,7 +311,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     }
 
     private void initializeTicket() {
-        userName.setText(ticket.customerName);
+        userName.setText(ticket.clientName);
 
         if(!ticket.ticketImage1.equals("error"))
         {

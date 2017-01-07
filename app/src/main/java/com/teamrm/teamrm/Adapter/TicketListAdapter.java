@@ -107,7 +107,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
     @Override
     public void onBindViewHolder(TicketListAdapter.CustomViewHolder holder, final int position) {
         final Ticket item = mTicketListItem.get(position);
-        holder.userName.setText(item.customerName);
+        holder.userName.setText(item.clientName);
         holder.product.setText(item.product);
         holder.address.setText(item.address);
         holder.area.setText(item.area);

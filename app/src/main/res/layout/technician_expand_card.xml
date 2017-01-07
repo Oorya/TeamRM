@@ -10,36 +10,49 @@
         android:id="@+id/technicianCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:layoutDirection="rtl"
         app:cardCornerRadius="10dp"
-        app:cardElevation="5dp">
+        app:cardElevation="@dimen/card_elevation_default"
+        app:cardUseCompatPadding="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            >
+            android:layout_height="wrap_content">
 
             <RelativeLayout
                 android:id="@+id/technicianName"
-                style="@style/CardRow">
+                style="@style/CardRow"
+                android:layout_height="72dp">
 
-                <ImageView
-                    android:id="@+id/technicianNameIcon"
+                <android.support.v7.widget.CardView
+                    android:id="@+id/technicianNameIconCard"
                     style="@style/CardRowImageStart"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/ic_icon_tech" />
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="8dp"
+                    android:foregroundGravity="center"
+                    android:src="@drawable/ic_icon_tech"
+                    app:cardCornerRadius="25dp"
+                    app:cardElevation="@dimen/item_elevation_default"
+                    app:cardUseCompatPadding="false">
+
+                    <ImageView
+                        android:id="@+id/technicianNameIcon"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_icon_tech" />
+                </android.support.v7.widget.CardView>
 
                 <TextView
                     android:id="@+id/technicianNameText"
                     style="@style/CardRowText"
-                    android:layout_toEndOf="@id/technicianNameIcon"
-                    android:text="טכנאי מוסמך"
-                    android:textSize="16sp" />
+                    android:layout_toEndOf="@id/technicianNameIconCard"
+                    android:text=""
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="טכנאי מוסמך" />
 
                 <ImageView
                     android:id="@+id/expandButton"
@@ -150,7 +163,7 @@
                 <TextView
                     android:id="@+id/technicianColorLabel"
                     style="@style/CardRowLabel"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_toEndOf="@id/technicianColorIcon"
                     android:text="@string/label_calendar_color" />
 
@@ -158,20 +171,12 @@
                     android:id="@+id/technicianColorView"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="8dp"
+                    android:layout_toEndOf="@id/technicianColorLabel"
                     app:cardBackgroundColor="#0f0"
                     app:cardCornerRadius="16dp"
-                    app:cardElevation="1dp"
-                    >
-
-                    <!--View
-                        android:id="@+id/technicianColorView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="#f00"
-                        /-->
+                    app:cardElevation="@dimen/item_elevation_default"
+                    app:cardUseCompatPadding="false">
 
                 </android.support.v7.widget.CardView>
 
@@ -191,7 +196,7 @@
                     android:id="@+id/technicianShiftsLabel"
                     style="@style/CardRowLabel"
                     android:layout_toEndOf="@id/technicianShiftsIcon"
-                    android:text="@string/label_calendar" />
+                    android:text="@string/label_tech_shifts" />
 
                 <TextView
                     android:id="@+id/technicianShiftsText"
@@ -268,9 +273,9 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp"
                 android:layoutDirection="rtl"
-                android:onClick="editTechnician"
                 app:cardBackgroundColor="@color/listRow_alt"
-                app:cardCornerRadius="5dp">
+                app:cardCornerRadius="5dp"
+                app:cardUseCompatPadding="false">
 
                 <RelativeLayout
                     android:layout_width="match_parent"

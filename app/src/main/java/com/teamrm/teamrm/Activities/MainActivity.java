@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private TextView fontX;
     private SignInButton signInButton;
     public static GoogleSignInAccount acct;
-    public static String userName, email, userImage, userStatus, userId;
+    public static String userName, userEmail, userImage, userStatus, userId;
     public static boolean resume = false;
     private SharedPreferences prefUser;
     private SharedPreferences.Editor editorUser;
@@ -210,9 +210,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
             userId=acct.getId();
             userName=acct.getDisplayName();
-            email=acct.getEmail();
+            userEmail =acct.getEmail();
             //userStatus="User";
-            //UtlFirebase.stateListener(userStatus,email,"NULL");
+            //UtlFirebase.stateListener(userStatus,userEmail,"NULL");
 
             UserSingleton.init(acct);
 
@@ -308,15 +308,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         userStatus=user.getUserStatus();
         if (userStatus.equals("Admin"))
         {
-            UtlFirebase.stateListener(userStatus, email, user.getUserCompany());
+            UtlFirebase.stateListener(userStatus, userEmail, user.getUserCompany());
         }
         else if (userStatus.equals("Client"))
         {
-            UtlFirebase.stateListener(userStatus, email, "NULL");
+            UtlFirebase.stateListener(userStatus, userEmail, "NULL");
         }
         else // TECH
         {
-            //UtlFirebase.stateListener(userStatus, email, "NULL");
+            //UtlFirebase.stateListener(userStatus, userEmail, "NULL");
         }
 
     }

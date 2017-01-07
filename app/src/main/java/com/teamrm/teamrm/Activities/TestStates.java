@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.Utility.UtlFirebase;
@@ -58,7 +57,7 @@ public class TestStates extends AppCompatActivity {
 
     public void btnStateB01(View view)
     {
-        Toast.makeText(this, MainActivity.email, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, MainActivity.userEmail, Toast.LENGTH_SHORT).show();
     }
 
     public void btnStateB02(View view)
