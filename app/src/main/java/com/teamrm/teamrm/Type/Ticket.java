@@ -15,6 +15,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.teamrm.teamrm.Activities.MainActivity.userEmail;
+import static com.teamrm.teamrm.Activities.MainActivity.userName;
+
 /**
  * Created by אוריה on 18/07/2016.
  */
@@ -65,8 +68,8 @@ public class Ticket {
     public Ticket(String company, String product, String classification, String area, String address, String phone, String desShort, String desLong
                  ,String ticketImage1, String ticketImage2, String ticketId)
     {
-        this.clientName = MainActivity.userName;   //Taking from login
-        this.email=MainActivity.userEmail; //Taking from login
+        this.clientName = userName;
+        this.email= userEmail;
         this.company=company;
         this.product=product;
         this.classification=classification;
@@ -191,10 +194,12 @@ public class Ticket {
     public String toString()
     {
         String str="";
-        str+="Ticket name: "+this.product+"\n";
-        str+="Ticket description: "+this.desShort+"\n";
+        str+="Client email: "+this.email +"\n";
+        str+="Client name: "+this.clientName +"\n";
+        str+="Product:" +this.product+"\n";
+        str+="Ticket name: "+this.desShort+"\n";
+        str+="Ticket description: "+this.desLong+"\n";
         str+="Phone: "+this.phone+"\n";
-        str+="User name: "+this.clientName +"\n";
         str+="Status: "+this.status+"\n";
         return str;
     }

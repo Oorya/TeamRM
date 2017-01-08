@@ -32,6 +32,7 @@ import javax.annotation.Nullable;
 
 
 public class UtlFirebase { //TODO: make singleton
+                            //TODO: make abstract factory above DB util classes
     private static String status;
     private static Ticket returnTicket;
     private static Users returnUser;
@@ -569,7 +570,6 @@ public class UtlFirebase { //TODO: make singleton
         String mail = user.getUserEmail().replace(".", "_");
         //saving the user under the UUID
         myRef.child(mail).setValue(user);
-
         Log.d("SETUSER::", user.toString());
     }
 }
