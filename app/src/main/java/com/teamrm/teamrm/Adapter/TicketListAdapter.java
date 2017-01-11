@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,6 +82,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
     @Override
     public int getItemViewType(int position) {
         // super.getItemViewType(position);
+        Log.e(":::TICKET ADAPTER:::", mTicketListItem.toString()+" size");
         switch (mTicketListItem.get(position).status)
         {
             case TicketStateAble.TICKET_LIST_STATUS_URGENT:
@@ -101,7 +103,6 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
             }
             default:return 0;
         }
-
     }
 
     @Override

@@ -5,18 +5,15 @@ import android.util.Log;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.teamrm.teamrm.Activities.MainActivity;
 import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.Interfaces.TicketStatus;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
+import com.teamrm.teamrm.Utility.UserSingleton;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static com.teamrm.teamrm.Activities.MainActivity.userEmail;
-import static com.teamrm.teamrm.Activities.MainActivity.userName;
 
 /**
  * Created by אוריה on 18/07/2016.
@@ -61,44 +58,40 @@ public class Ticket {
 
     public Ticket(){}  //empty constructor, must have
 
-
-
-
-
     public Ticket(String company, String product, String classification, String area, String address, String phone, String desShort, String desLong
                  ,String ticketImage1, String ticketImage2, String ticketId)
     {
-        this.clientName = userName;
-        this.email= userEmail;
-        this.company=company;
-        this.product=product;
-        this.classification=classification;
-        this.area=area;
-        this.address=address;
-        this.phone=phone;
-        this.desShort=desShort;
-        this.desLong=desLong;
-        this.ticketImage1=ticketImage1;
-        this.ticketImage2=ticketImage2;
-        this.ticketId=ticketId;
-        this.startTime =getCurrentTime();
-        this.state= ProductID.STATE_A00;
-        this.statusA= TicketStatus.waitForApproval;
-        this.tech="אין טכנאי מצוות";
-        this.ticketNumber=ticketId.substring(0,8);
-        this.status=1;
+        this.clientName = UserSingleton.getInstance().getUserNameString();
+        this.email = UserSingleton.getInstance().getUserEmail();
+        this.company = company;
+        this.product = product;
+        this.classification = classification;
+        this.area = area;
+        this.address = address;
+        this.phone = phone;
+        this.desShort = desShort;
+        this.desLong = desLong;
+        this.ticketImage1 = ticketImage1;
+        this.ticketImage2 = ticketImage2;
+        this.ticketId = ticketId;
+        this.startTime = getCurrentTime();
+        this.state = ProductID.STATE_A00;
+        this.statusA = TicketStatus.waitForApproval;
+        this.tech ="אין טכנאי מצוות" ;
+        this.ticketNumber = ticketId.substring(0,8);
+        this.status = 1;
         this.calendarTicketId = (new Date()).getTime();
        // this.stateObj = TicketFactory.getNewState(UserSingleton.getInstance().getStatus(),ProductID.STATE_A00,this);
-
-
     }
 
     public long getCalendarTicketId() {
         return calendarTicketId;
     }
+
     public PendingIntent get_alarm() {
         return _alarm;
     }
+
     public PendingIntent get_alarmTechStartWorkOnTicket() {
         return _alarmTechStartWorkOnTicket;
     }
@@ -111,14 +104,16 @@ public class Ticket {
         }else
         _alarm = alarm;
     }
+
     public TicketStateAble getStateObj() {
         return stateObj;
     }
+
     public void setStateObj(TicketStateAble stateObj) {
         this.stateObj = stateObj;
     }
 
-    public TicketStateAble ChangeStat(String stateName,Ticket ticket)
+    public TicketStateAble changeState(String stateName,Ticket ticket)
     {
         this.state = stateName;
 

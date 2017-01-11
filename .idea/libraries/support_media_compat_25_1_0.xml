@@ -9,9 +9,9 @@
     </CLASSES>
     <JAVADOC />
     <SOURCES>
+      <root url="jar://C:/android_sdk/extras/android/m2repository/com/android/support/support-media-compat/25.1.0/support-media-compat-25.1.0-sources.jar!/" />
       <root url="jar://C:/AndroidSDK/extras/android/m2repository/com/android/support/support-media-compat/25.1.0/support-media-compat-25.1.0-sources.jar!/" />
       <root url="jar://I:/AndroidSDK/extras/android/m2repository/com/android/support/support-media-compat/25.1.0/support-media-compat-25.1.0-sources.jar!/" />
-      <root url="jar://C:/android_sdk/extras/android/m2repository/com/android/support/support-media-compat/25.1.0/support-media-compat-25.1.0-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

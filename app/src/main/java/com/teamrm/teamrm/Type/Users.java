@@ -26,7 +26,6 @@ public abstract class Users
         this.userEmail = userEmail;
         this.userStatus = STATUS_CLIENT;
         this.userIsAdmin = false;
-        this.userCompany = "";
     }
 
     public Users(String userID, String userNameString, String userEmail, String userPhone, String userAddress) {

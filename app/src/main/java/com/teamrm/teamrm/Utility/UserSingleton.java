@@ -12,6 +12,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.teamrm.teamrm.Type.Client;
 import com.teamrm.teamrm.Type.Users;
 
+import java.util.UUID;
+
 
 /**
  * Created by Oorya on 28/12/2016.
@@ -57,7 +59,7 @@ public class UserSingleton extends Users{
                 Log.w(TAG, dataSnapshot.exists()+" ok ==LY");
                if(!dataSnapshot.exists())
                {
-                   instance = new Client(account.getId(),account.getDisplayName(),account.getEmail());
+                   instance = new Client(UUID.randomUUID().toString(),account.getDisplayName(),account.getEmail());
                    Log.w(TAG, instance.getUserEmail()+" cons");
                    UtlFirebase.saveUser(instance);
                }else
