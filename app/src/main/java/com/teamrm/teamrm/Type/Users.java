@@ -36,7 +36,6 @@ public abstract class Users
         this.userAddress = userAddress;
         this.userStatus = STATUS_TECH;
         this.userIsAdmin = false;
-        this.userCompany = "";
     }
 
     public String getUserNameString() {

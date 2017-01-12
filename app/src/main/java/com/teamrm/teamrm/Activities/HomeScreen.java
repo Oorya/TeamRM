@@ -29,13 +29,12 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
-import com.teamrm.teamrm.Fragment.CalendarView;
 import com.teamrm.teamrm.Fragment.AdminSettingsAdvanced;
+import com.teamrm.teamrm.Fragment.AdminSettingsBasic;
+import com.teamrm.teamrm.Fragment.CalendarView;
 import com.teamrm.teamrm.Fragment.FragmentDrawer;
 import com.teamrm.teamrm.Fragment.NewTicket;
-import com.teamrm.teamrm.Fragment.AdminSettingsBasic;
 import com.teamrm.teamrm.Fragment.TicketList;
-import com.teamrm.teamrm.Fragment.FirmDetailsFrag;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Utility.App;
 
@@ -209,12 +208,13 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 addTicket.hide();
                 break;
             case 3:
-                FirmDetailsFrag firmDetailsFrag = new FirmDetailsFrag();
-                fragmentTransaction.replace(R.id.container_body, firmDetailsFrag).addToBackStack(TAG_FRAGMENT[0]).commit();
+                AdminSettingsBasic adminSettingsBasic = new AdminSettingsBasic();
+                fragmentTransaction.replace(R.id.container_body, adminSettingsBasic).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[3]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
 
                 addTicket.hide();
+
                 break;
             case 4:
                 AdminSettingsAdvanced adminSettingsAdvanced = new AdminSettingsAdvanced();
@@ -225,14 +225,6 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 addTicket.hide();
                 break;
             case 5:
-                AdminSettingsBasic adminSettingsBasic = new AdminSettingsBasic();
-                fragmentTransaction.replace(R.id.container_body, adminSettingsBasic).addToBackStack(TAG_FRAGMENT[0]).commit();
-                setTitle(getResources().getStringArray(R.array.nav_list)[5]);
-                findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
-
-                addTicket.hide();
-                break;
-            case 6:
                 signOut();
                 break;
 

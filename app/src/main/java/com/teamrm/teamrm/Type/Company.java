@@ -1,8 +1,5 @@
 package com.teamrm.teamrm.Type;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,14 +14,18 @@ public class Company
     public String name;
     public String companyId;
     public String adminId;
+    public String phone;
+    public String address;
     public String time;
 
     public Company(){}
 
-    public Company(String name, String adminId) {
+    public Company(String name, String adminId, String address, String phone) {
         this.name = name;
         this.companyId = getUUID();
         this.adminId = adminId;
+        this.address = address;
+        this.phone = phone;
         this.time = getCurrentTime();
     }
 
@@ -46,20 +47,5 @@ public class Company
 
         //return dateFormat.format(cal.getTime()));
         return dateFormat.format(date);
-    }
-
-    public void saveCompany(String reference)
-    {
-        //create an instance of Company class
-        Company company = new Company(name , adminId);
-
-        //creating a connection to fire base
-        FirebaseDatabase database= FirebaseDatabase.getInstance();
-
-        //creating a reference to Users object
-        DatabaseReference myRef=database.getReference("Company");
-
-        //saving the user and msg under the UUID
-        myRef.child(name).setValue(company);
     }
 }

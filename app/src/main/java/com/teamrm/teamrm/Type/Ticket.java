@@ -3,8 +3,6 @@ package com.teamrm.teamrm.Type;
 import android.app.PendingIntent;
 import android.util.Log;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.Interfaces.TicketStatus;
@@ -159,21 +157,6 @@ public class Ticket {
 
     public void setTechDone(boolean techDone) {
         isTechDone = techDone;
-    }
-
-    public void saveTicket(Ticket ticket)
-    {
-        //create an instance of User class
-       // Ticket ticket=new Ticket(company,product,classification,area,address,phone,desShort,desLong,ticketImage1,ticketImage2,ticketId);
-
-        //creating a connection to fire base
-        FirebaseDatabase database= FirebaseDatabase.getInstance();
-
-        //creating a reference to Ticket object
-        DatabaseReference myRef=database.getReference("Ticket");
-
-        //saving the user under the UUID
-        myRef.child(ticketId).setValue(ticket);
     }
 
     private String getCurrentTime()

@@ -82,7 +82,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
     @Override
     public int getItemViewType(int position) {
         // super.getItemViewType(position);
-        Log.e(":::TICKET ADAPTER:::", mTicketListItem.toString()+" size");
+        Log.e(":::TICKET ADAPTER:::", mTicketListItem.size()+" size");
         switch (mTicketListItem.get(position).status)
         {
             case TicketStateAble.TICKET_LIST_STATUS_URGENT:

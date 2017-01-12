@@ -22,13 +22,9 @@ import java.util.UUID;
 public class UserSingleton extends Users{
 
     private static Users instance = null;
-    private GoogleSignInAccount account;
     private static final String TAG = "USER_SINGLETON";
 
-
-    private UserSingleton() {
-
-    }
+    private UserSingleton() {}
 
     public static Users getInstance()
     {
@@ -45,14 +41,10 @@ public class UserSingleton extends Users{
 
     public static void init(final GoogleSignInAccount account)
     {
-        //creating a connection to fire base
-        FirebaseDatabase database= FirebaseDatabase.getInstance();
-
         //creating a reference to Users object
-        DatabaseReference myRef=database.getReference("Users");
+        DatabaseReference myRef=FirebaseDatabase.getInstance().getReference("Users");
 
-
-        Query q = myRef.orderByChild("userEmail").equalTo(account.getEmail());
+        final Query q = myRef.orderByChild("userEmail").equalTo(account.getEmail());
         q.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -62,7 +54,8 @@ public class UserSingleton extends Users{
                    instance = new Client(UUID.randomUUID().toString(),account.getDisplayName(),account.getEmail());
                    Log.w(TAG, instance.getUserEmail()+" cons");
                    UtlFirebase.saveUser(instance);
-               }else
+               }
+               else
                {
                    for(DataSnapshot item : dataSnapshot.getChildren())
                    {
@@ -70,16 +63,14 @@ public class UserSingleton extends Users{
                        Log.w(TAG, instance.getUserID()+"  FOR");
                    }
                }
-
+                UtlFirebase.stateListener("l","l","l");
+                q.removeEventListener(this);
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.w(TAG," cancel==LY");
 
             }
         });
-
-
     }
 }

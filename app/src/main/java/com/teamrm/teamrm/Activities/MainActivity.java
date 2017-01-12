@@ -216,9 +216,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             //UtlFirebase.stateListener(userStatus,userEmail,"NULL");
 
             UserSingleton.init(acct);
-
             //UtlFirebase.getUserByKey(userId,this); //fix AsyncTask racing
-            Log.w("EMAIL", UserSingleton.getInstance().getUserEmail()+" ==");
+            Log.w("user id main ", userId);
+            Log.w("EMAIL", UserSingleton.getInstance().getUserEmail()+" == ");
 
             userImage = acct.getPhotoUrl()==null?"":acct.getPhotoUrl().toString();
             Log.w("IMAGE GOOGLE ACCOUNT", acct.getPhotoUrl()==null?"NULL":"NOT NULL");
@@ -243,6 +243,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             mProgressDialog.hide();
         }
     }
+
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
@@ -271,9 +272,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         calendar.add(Calendar.SECOND,180);//(Calendar.DATE)
         utlAlarmManager.setAlarm(calendar.getTime(), TicketStateAble.TICKET_LIST_STATUS_OK);
         Log.d("MESSEGE","alert10Sec");
-
-
     }
+
     public void alert1Sec(View view) {
 
         // Calendar calendar = GregorianCalendar.getInstance();
@@ -284,10 +284,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         utlAlarmManager.setAlarm(calendar.getTime(), TicketStateAble.TICKET_LIST_STATUS_OK);
         Log.d("MESSEGE","alert1Sec");
     }
+
     public void stopAlert(View view) {
         //utlAlarmManager.cancelAlarm(this.utlAlarmManager);
         Log.d("MESSEGE","stopAlert");
     }
+
     public void nev(View view) {
         Intent nav = new Intent(this,HomeScreen.class);
         startActivity(nav);

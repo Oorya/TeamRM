@@ -32,7 +32,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="12dp"
             android:layout_toEndOf="@id/firmIcon"
-            android:text="kjglkjg"
+            android:text="פרטים אישיים"
             android:textColor="@color/textColor_primary"
             android:textSize="18sp" />
     </RelativeLayout>
@@ -43,11 +43,11 @@
         android:background="@color/listRow_alt" />
 
     <RelativeLayout
-        android:id="@+id/defineTechnicians"
+        android:id="@+id/defineCompany"
         style="@style/PrefRowBig">
 
         <ImageView
-            android:id="@+id/technicianIcon"
+            android:id="@+id/companyIcon"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_centerVertical="true"
@@ -55,13 +55,13 @@
             android:src="@drawable/ic_icon_tech" />
 
         <TextView
-            android:id="@+id/technicianLabel"
+            android:id="@+id/companyLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="12dp"
-            android:layout_toEndOf="@id/technicianIcon"
-            android:text="הגדרת טכנאים"
+            android:layout_toEndOf="@id/companyIcon"
+            android:text="יצירת חברה"
             android:textColor="@color/textColor_primary"
             android:textSize="18sp" />
     </RelativeLayout>
@@ -90,7 +90,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="12dp"
             android:layout_toEndOf="@id/productIcon"
-            android:text="הגדרת מוצרים"
+            android:text="התקשרות לחברה"
             android:textColor="@color/textColor_primary"
             android:textSize="18sp" />
     </RelativeLayout>
@@ -182,7 +182,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="12dp"
             android:layout_toEndOf="@id/regionIcon"
-            android:text="הגדרת אזורים"
+            android:text="אודות"
             android:textColor="@color/textColor_primary"
             android:textSize="18sp" />
 

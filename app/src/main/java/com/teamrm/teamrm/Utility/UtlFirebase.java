@@ -38,17 +38,21 @@ public class UtlFirebase { //TODO: make singleton
     //Listener for state changed
     public static void stateListener(final String statusUser, String email, String company) {
         ticketFactory = new TicketFactory();
+        final String STATUS_USER = UserSingleton.getInstance().getUserStatus();
+        final String MAIL_USER = UserSingleton.getInstance().getUserEmail();
+        final String COMPANY = UserSingleton.getInstance().getUserCompany();
+        Log.w("STATE CHANGED", "state listener");
         //creating a reference to the database
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Ticket");
 
-        Query query = myRef.orderByChild("userEmail").equalTo(email);
+        Query query = myRef.orderByChild("userEmail").equalTo(MAIL_USER);
 
-        switch (statusUser) {
-            case "Admin":
-                query = myRef.orderByChild("company").equalTo(company);
+        switch (STATUS_USER) {
+            case Users.STATUS_ADMIN:
+                query = myRef.orderByChild("company").equalTo(COMPANY);
                 break;
-            case "Tech":
-                query = myRef.orderByChild("tech").equalTo(email);
+            case Users.STATUS_TECH:
+                query = myRef.orderByChild("tech").equalTo(MAIL_USER);
                 break;
         }
 
@@ -65,8 +69,8 @@ public class UtlFirebase { //TODO: make singleton
                 //{state=A00Admin, userName=oorya, company=yes, status=0, ticketId=11111};
                 for (int ctr = 0; ctr <= arrData.length; ctr++) {
                     if (arrData[ctr].contains("state")) {
-                        Log.w("STATE FROM LOOP", statusUser + "States." + arrData[ctr].substring(7) + statusUser);
-                        //ticketFactory.getNewState(statusUser + "States.", arrData[ctr].substring(7) + statusUser);
+                        Log.w("STATE FROM LOOP", STATUS_USER + "States." + arrData[ctr].substring(7) + STATUS_USER);
+                        ticketFactory.getNewState(STATUS_USER + "States.", arrData[ctr].substring(7) + STATUS_USER);
                         return;
                     }
                 }
@@ -152,7 +156,7 @@ public class UtlFirebase { //TODO: make singleton
                     ticketList.add(retrievedTicket);
                 }
 
-                Log.e(":::UTLFIREBASE:::", "LIST SIZE: " + ticketList.toString() + "");
+                Log.e(":::UTLFIREBASE:::", "LIST SIZE: " + ticketList.size() + "");
                 //Need to notify for current list adapter
                 TicketList.ticketListAdapter.notifyDataSetChanged();
             }
@@ -302,20 +306,22 @@ public class UtlFirebase { //TODO: make singleton
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Users");
 
         //update the user under the UUID
-        myRef.child("Client").child(userId).child("address").setValue(address);
-        myRef.child("Client").child(userId).child("phone").setValue(phone);
+        myRef.child(userId).child("userAddress").setValue(address);
+        myRef.child(userId).child("userPhone").setValue(phone);
     }
 
-    public static void changeUserStatus(String userID, String status) {
+    public static void changeUserStatus(String userID, String status, boolean isAdmin) {
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Users");
 
-        myRef.child("Client").child(userID).child("status").setValue(status);
+        myRef.child(userID).child("userStatus").setValue(status);
+        myRef.child(userID).child("userIsAdmin").setValue(isAdmin);
+
     }
 
     public static void setCompany(String userID, String company) {
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Users");
 
-        myRef.child("Client").child(userID).child("company").setValue(company);
+        myRef.child(userID).child("userCompany").setValue(company);
     }
 
     public static List<String> getAllCompanies() {
@@ -361,16 +367,25 @@ public class UtlFirebase { //TODO: make singleton
         Log.d("SET USER::", user.toString());
     }
 
-    public static void saveTicket(Ticket ticket)
-    {
-        //create an instance of User class
-        // Ticket ticket=new Ticket(company,product,classification,area,address,phone,desShort,desLong,ticketImage1,ticketImage2,ticketId);
-
+    public static void saveTicket(Ticket ticket) {
         //creating a reference to Ticket object
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Ticket");
 
         //saving the user under the UUID
         myRef.child(ticket.ticketId).setValue(ticket, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+            }
+        });
+    }
+
+    public static void saveCompany(Company company) {
+        //creating a reference to Company object
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Company");
+
+        //saving the user under the UUID
+        myRef.child(company.name).setValue(company, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
