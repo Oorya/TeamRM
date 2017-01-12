@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-
+                    startActivity(new Intent(MainActivity.this,HomeScreen.class));
                     Log.w("USER SIGNIN", "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
                     // User is signed out
@@ -109,7 +109,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             }
         };
     }
-
 
     @Override
     public void onStart() {

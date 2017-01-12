@@ -46,13 +46,14 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     RelativeLayout ticketDetailClose;
     RelativeLayout ticketDetailOpen;
     TextView userName, userProfile, txtCancel, endTimeTxt, txtProduct, txtCategory, txtRegion,
-        txtProductEx, txtCategoryEx, txtRegionEx, txtAddressEx, txtPhoneEx, descriptionShort, descriptionLong;
+        txtProductEx, txtCategoryEx, txtRegionEx, txtAddressEx, txtPhoneEx, descriptionShort, descriptionLong,
+        userNameEx, mailUserEx, regionUserEx, addressUserEx, phoneUserEx;
     ImageView img1, img2;
-    Ticket ticket;
+    private Ticket ticket;
     static  String ticketID, timeFormated;
-    static Long bumdleEndTime;
+    static Long bundleEndTime;
     Calendar endTime;
-    Users userProfileObj ;
+    private Users userProfileObj ;
     Fragment stateActionButtons;
     UtlAlarmManager utlAlarmManager;
 
@@ -80,9 +81,9 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                 if (bundle.getLong("time", 0) != 0) {
                     Log.w("TICKET_ID Bundle:  ", bundle.getLong("time", 0)+"");
 
-                    bumdleEndTime = bundle.getLong("time", 0);
+                    bundleEndTime = bundle.getLong("time", 0);
                     endTime = Calendar.getInstance();
-                    endTime.setTime(new Date(bumdleEndTime));
+                    endTime.setTime(new Date(bundleEndTime));
                     SimpleDateFormat format1;
                     if(endTime.get(Calendar.HOUR_OF_DAY)>0)
                         format1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
@@ -92,7 +93,6 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                     Log.w(" Bundle_timeFormated:  ", timeFormated);
 
                     UtlFirebase.updateTicket(ticketID, "endTime", endTime.getTime());
-
                 }
             }
 
@@ -123,10 +123,16 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         ((TextView) view.findViewById(R.id.dateTimeOpen)).setTypeface(REGULAR);
         ((TextView) view.findViewById(R.id.ticketNum)).setTypeface(SEMI_BOLD);
         UtlFirebase.getTicketByKey(ticketID, this);
-
-
-
+        initUserCard();
         return view;
+    }
+
+    private void initUserCard() {
+        userNameEx.setText(userProfileObj.getUserNameString());
+        mailUserEx.setText(userProfileObj.getUserEmail());
+        regionUserEx.setText(userProfileObj.getUserRegion());
+        addressUserEx.setText(userProfileObj.getUserAddress());
+        phoneUserEx.setText(userProfileObj.getUserPhone());
     }
 
     @Override
@@ -301,6 +307,11 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         txtPhoneEx  = (TextView)view.findViewById(R.id.phoneTextEx);
         descriptionShort  = (TextView)view.findViewById(R.id.descriptionShortEx);
         descriptionLong = (TextView)view.findViewById(R.id.descriptionLongEx);
+        userNameEx = (TextView)view.findViewById(R.id.userNameCard);
+        mailUserEx = (TextView)view.findViewById(R.id.mailAdd);
+        regionUserEx = (TextView)view.findViewById(R.id.locationAdd);
+        addressUserEx = (TextView)view.findViewById(R.id.locationText);
+        phoneUserEx = (TextView)view.findViewById(R.id.phoneText);
 
         endTimeTxt.setOnClickListener(this);
         userDetailCard.setOnClickListener(this);
@@ -370,9 +381,6 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     public void resultBoolean(boolean bool) {
 
     }
-
-
-
 
 }
 
