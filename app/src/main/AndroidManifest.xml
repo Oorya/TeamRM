@@ -34,16 +34,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        <activity android:name=".Activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".Activities.SplashScreen"
-            android:theme="@style/myStyleNoTitle" />
+            android:theme="@style/myStyleNoTitle" >
+
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+
         <activity
             android:name=".Activities.HomeScreen"
             android:screenOrientation="portrait"
@@ -56,6 +57,7 @@
         </receiver>
 
         <activity android:name=".Activities.TestStates" />
+        <activity android:name=".Activities.MainActivity"/>
     </application>
 
 </manifest>

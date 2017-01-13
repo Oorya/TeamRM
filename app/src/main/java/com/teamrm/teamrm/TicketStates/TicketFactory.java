@@ -16,6 +16,7 @@ public class TicketFactory
 
     public TicketFactory(){}
 
+    /*
     public TicketStateAble getNewState(String stateType, String nextStateName, Ticket ticket)
     {
         Log.d("FactorystateType = ", nextStateName+stateType);
@@ -32,7 +33,7 @@ public class TicketFactory
         }
         return ((TicketStateAble)m_RegisteredProducts.get(nextStateName+stateType)).getNewState(ticket);
     }
-
+*/
     public TicketStateAble getNewState(String stateType, String nextStateName) {
         //Checking if class was recorded in HashMap if not force her to sign up
         if (m_RegisteredProducts.get(nextStateName) == null) {

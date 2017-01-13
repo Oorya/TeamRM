@@ -264,8 +264,8 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                     @Override
                     public void onResult(Status status)
                     {
-                        Toast.makeText(context,"logout OK home",Toast.LENGTH_LONG).show();
-                        MainActivity.resume=true;
+                        //Toast.makeText(context,"logout OK home",Toast.LENGTH_LONG).show();
+                        SplashScreen.resume=true;
                         FirebaseAuth.getInstance().signOut();
                         finish();
                     }

@@ -118,7 +118,7 @@ public class Ticket {
         //Log.d("FactorystateType = ", UserSingleton.getInstance().getUserStatus()==null?"null":UserSingleton.getInstance().getUserStatus());
         Log.d("FactorstateName = ", stateName);
 
-        this.stateObj = TicketFactory.getNewState("Client",stateName,ticket);
+        this.stateObj = TicketFactory.getNewState("Client",stateName);
        // UtlFirebase.updateState(ticket.ticketId,"stateObj",this.stateObj);
         return this.stateObj;
     }

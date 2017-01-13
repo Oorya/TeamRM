@@ -12,7 +12,9 @@
         android:gravity="center"
         android:orientation="vertical"
         android:paddingBottom="64dp"
-        android:layoutDirection="rtl">
+        android:layoutDirection="rtl"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <ImageView
             android:layout_width="250dp"
@@ -31,11 +33,19 @@
         <android.support.v4.widget.Space
             android:layout_width="match_parent"
             android:layout_height="32dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/load"
+            android:orientation="vertical"
+            android:layoutDirection="rtl"
+            >
 
         <ImageView
             android:id="@+id/iconWait"
             android:layout_width="36dp"
             android:layout_height="36dp"
+            android:layout_gravity="center"
             android:alpha="0.33"
             android:background="@drawable/ic_wait" />
 
@@ -48,7 +58,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="מכין אפליקציה לשימוש..."
+            android:layout_gravity="center"
             android:textColor="#4bffffff"
             android:textSize="16sp" />
+        </LinearLayout>
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"/>
     </LinearLayout>
 </RelativeLayout>
