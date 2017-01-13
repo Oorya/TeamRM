@@ -178,7 +178,7 @@ public class UtlFirebase { //TODO: make singleton
         return ticketList;
     }
 
-    public static List<Ticket> getTicketByName(String title, String name, String name2) {
+    public static List<Ticket> getTicketByName(String title, String name, String name2) { //TODO:why do we need this?
         //creating a reference to the database
         final DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Ticket");
         //DataSnapshot data = new DataSnapshot(myRef);

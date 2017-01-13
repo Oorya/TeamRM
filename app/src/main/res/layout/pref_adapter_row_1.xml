@@ -21,7 +21,7 @@
         tools:text="גכע דגכע דגכ  דגכעדגכ גכע דגכ" />
 
     <ImageView
-        android:id="@+id/navigateToAddress"
+        android:id="@+id/prefIconEdit"
         style="@style/CardRowImageEnd"
         android:src="@drawable/ic_edit" />
 </RelativeLayout>

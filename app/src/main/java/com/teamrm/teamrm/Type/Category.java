@@ -8,7 +8,6 @@ public class Category
 {
     private String categoryName;
     private int categoryID;
-    private Product product;
     private static int counterID = 1000;
 
     public Category(){}
@@ -20,10 +19,6 @@ public class Category
 
     public String getCategoryName() {
         return categoryName;
-    }
-
-    public Product getProduct() {
-        return product;
     }
 
     public int getCategoryID() {
