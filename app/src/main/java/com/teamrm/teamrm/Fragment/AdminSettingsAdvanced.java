@@ -61,5 +61,6 @@ public class AdminSettingsAdvanced extends Fragment implements View.OnClickListe
     }
 
     private void startDialogDetails() {
+
     }
 }

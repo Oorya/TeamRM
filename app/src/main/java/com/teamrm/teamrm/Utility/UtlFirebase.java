@@ -15,8 +15,10 @@ import com.teamrm.teamrm.Fragment.TicketList;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
+import com.teamrm.teamrm.Type.Category;
 import com.teamrm.teamrm.Type.Chat;
 import com.teamrm.teamrm.Type.Company;
+import com.teamrm.teamrm.Type.Product;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.Users;
 
@@ -65,15 +67,21 @@ public class UtlFirebase { //TODO: make singleton
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 String arrData[] = dataSnapshot.getValue().toString().split("[{,]");
+                for (DataSnapshot item : dataSnapshot.getChildren())
+                {
+                    Ticket retrievedTicket = item.getValue(Ticket.class);
+                    Log.w("STATE FROM LOOP", STATUS_USER + "States." + retrievedTicket.state + STATUS_USER);
+                    ticketFactory.getNewState(STATUS_USER + "States.", retrievedTicket.state + STATUS_USER, retrievedTicket);
+                }
                 Log.w("STATE CHANGED", arrData[1]);
                 //{state=A00Admin, userName=oorya, company=yes, status=0, ticketId=11111};
-                for (int ctr = 0; ctr <= arrData.length; ctr++) {
+                /*for (int ctr = 0; ctr <= arrData.length; ctr++) {
                     if (arrData[ctr].contains("state")) {
                         Log.w("STATE FROM LOOP", STATUS_USER + "States." + arrData[ctr].substring(7) + STATUS_USER);
-                        ticketFactory.getNewState(STATUS_USER + "States.", arrData[ctr].substring(7) + STATUS_USER);
+                        ticketFactory.getNewState(STATUS_USER + "States.", arrData[ctr].substring(7) + STATUS_USER, );
                         return;
                     }
-                }
+                }*/
             }
 
             @Override
@@ -334,7 +342,7 @@ public class UtlFirebase { //TODO: make singleton
                 companyList.clear();
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     Company retrieveCompany = item.getValue(Company.class);
-                    companyList.add(retrieveCompany.name);
+                    companyList.add(retrieveCompany.getCompanyName());
                 }
                 Log.e("LIST SIZE COMPANIES: ", companyList.size() + "");
 
@@ -385,12 +393,98 @@ public class UtlFirebase { //TODO: make singleton
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Company");
 
         //saving the user under the UUID
-        myRef.child(company.name).setValue(company, new DatabaseReference.CompletionListener() {
+        myRef.child(company.getCompanyId()).setValue(company, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
             }
         });
+    }
+
+    public static void saveCategory(String companyName, List<Category> categoryList) {
+        //creating a reference to Company object
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Company");
+
+        //saving the category under the UUID
+        for(Category item:categoryList)
+        {
+            myRef.child(companyName).child("category").setValue(item, new DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                }
+            });
+        }
+    }
+
+    public static void saveProduct(String companyName, String categoryName, List<Product> productList) {
+        //creating a reference to Company object
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Company");
+
+        //saving the product under the UUID
+        for(Product item:productList) {
+            myRef.child(companyName).child("category").child(categoryName).child("product").setValue(item, new DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                }
+            });
+        }
+    }
+
+    public static List<String> getCategories(String companyName)
+    {
+        final List<String> categoryList = new ArrayList<>();
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Company");
+
+        Query query = myRef.child("companyName").child(companyName).child("category");
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                categoryList.clear();
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    Category category = item.getValue(Category.class);
+                    categoryList.add(category.getCategoryName());
+                }
+                //notify data set changed
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        return categoryList;
+    }
+
+    public static List<String> getProducts(String companyName, String categoryName)
+    {
+        final List<String> productList = new ArrayList<>();
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Company");
+
+        Query query = myRef.child("companyName").child(companyName).child("category");
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                productList.clear();
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    Product product = item.getValue(Product.class);
+                    productList.add(product.getProductName());
+                }
+                //notify data set changed
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        return productList;
     }
 }
 

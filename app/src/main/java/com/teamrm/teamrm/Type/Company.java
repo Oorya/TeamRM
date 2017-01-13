@@ -11,17 +11,18 @@ import java.util.UUID;
 
 public class Company
 {
-    public String name;
-    public String companyId;
-    public String adminId;
-    public String phone;
-    public String address;
-    public String time;
+    private String companyName;
+    private String companyId;
+    private String adminId;
+    private String phone;
+    private String address;
+    private String time;
+    private Category category;
 
     public Company(){}
 
-    public Company(String name, String adminId, String address, String phone) {
-        this.name = name;
+    public Company(String companyName, String adminId, String address, String phone) {
+        this.companyName = companyName;
         this.companyId = getUUID();
         this.adminId = adminId;
         this.address = address;
@@ -47,5 +48,33 @@ public class Company
 
         //return dateFormat.format(cal.getTime()));
         return dateFormat.format(date);
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public String getAdminId() {
+        return adminId;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public Category getCategory() {
+        return category;
     }
 }
