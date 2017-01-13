@@ -274,7 +274,7 @@
                 android:layout_marginTop="16dp"
                 android:layoutDirection="rtl"
                 app:cardBackgroundColor="@color/listRow_alt"
-                app:cardCornerRadius="5dp"
+                app:cardCornerRadius="@dimen/card_button_radius_default"
                 app:cardUseCompatPadding="false">
 
                 <RelativeLayout

@@ -14,6 +14,7 @@
         android:layout_marginRight="6dp"
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="4dp"
+        android:id="@+id/cardContainer"
         >
 
         <RelativeLayout

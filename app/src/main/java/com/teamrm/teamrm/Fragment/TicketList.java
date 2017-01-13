@@ -4,6 +4,7 @@ package com.teamrm.teamrm.Fragment;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,34 +22,54 @@ public class TicketList extends Fragment {
 
     public RecyclerView mRecyclerView;
     public static TicketListAdapter ticketListAdapter;
-    private TextView title,filter,search,order;
+    private TextView title, filter, search, order;
+    private SwipeRefreshLayout swipeContainer;
 
-
-    public TicketList() {} // Required empty public constructor
+    public TicketList() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_ticket, container, false);
 
         Typeface SEMI_BOLD = Typeface.createFromAsset(this.getContext().getAssets(), "Assistant-SemiBold.ttf");
 
-        filter = (TextView)view.findViewById(R.id.filtertxt);
-        search = (TextView)view.findViewById(R.id.searchTxt);
-        order = (TextView)view.findViewById(R.id.sortimgTxt);
+        filter = (TextView) view.findViewById(R.id.filtertxt);
+        search = (TextView) view.findViewById(R.id.searchTxt);
+        order = (TextView) view.findViewById(R.id.sortimgTxt);
 
 
         //((TextView)view.findViewById(R.id.titleText)).setTypeface(BOLD);
-        ((TextView)view.findViewById(R.id.filtertxt)).setTypeface(SEMI_BOLD);
-        ((TextView)view.findViewById(R.id.searchTxt)).setTypeface(SEMI_BOLD);
-        ((TextView)view.findViewById(R.id.sortimgTxt)).setTypeface(SEMI_BOLD);
+        ((TextView) view.findViewById(R.id.filtertxt)).setTypeface(SEMI_BOLD);
+        ((TextView) view.findViewById(R.id.searchTxt)).setTypeface(SEMI_BOLD);
+        ((TextView) view.findViewById(R.id.sortimgTxt)).setTypeface(SEMI_BOLD);
 
 
-        mRecyclerView = (RecyclerView)view.findViewById(R.id.RecyclerView);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager recyclerViewManager = new LinearLayoutManager(getContext());
+        recyclerViewManager.setInitialPrefetchItemCount(4); //initial number of tickets prefetched
+
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView);
+        mRecyclerView.setLayoutManager(recyclerViewManager);
+
         ticketListAdapter = new TicketListAdapter(getContext());
+
         mRecyclerView.setAdapter(ticketListAdapter);
 
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefresh);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mRecyclerView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ticketListAdapter.refresh();
+                        swipeContainer.setRefreshing(false);
+                    }
+                });
+            }
+        });
         return view;
     }
+
 }

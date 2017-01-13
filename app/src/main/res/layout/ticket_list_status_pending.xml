@@ -13,7 +13,9 @@
     android:layout_marginLeft="4dp"
     android:layout_marginRight="6dp"
     card_view:cardCornerRadius="4dp"
-    card_view:cardElevation="4dp">
+    card_view:cardElevation="4dp"
+    android:id="@+id/cardContainer"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"

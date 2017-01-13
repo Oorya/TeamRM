@@ -1,12 +1,15 @@
 package com.teamrm.teamrm.Adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,7 +85,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
     @Override
     public int getItemViewType(int position) {
         // super.getItemViewType(position);
-        Log.e(":::TICKET ADAPTER:::", mTicketListItem.size()+" size");
+        Log.d(":::TICKET ADAPTER:::", mTicketListItem.size()+" size");
         switch (mTicketListItem.get(position).status)
         {
             case TicketStateAble.TICKET_LIST_STATUS_URGENT:
@@ -131,6 +134,10 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
                 fragmentManager.replace(R.id.container_body,  ticketView).addToBackStack("NEW_TICKET").commit();
             }
         });
+        /*if (position == mTicketListItem.size()-1){
+            CardView.MarginLayoutParams mlp = (CardView.MarginLayoutParams)holder.cardContainer.getLayoutParams();
+            mlp.setMargins(mlp.leftMargin, mlp.topMargin, mlp.rightMargin, convertDpToPx(120)); //add 120dp margin after last card
+        }*/
     }
 
     @Override
@@ -151,6 +158,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
         protected TextView description;
         protected TextView time;
         protected TextView endTime;
+        protected CardView cardContainer;
 
 
         public CustomViewHolder(View view, int viewNum) {
@@ -204,6 +212,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
             this.time = (TextView) view.findViewById(R.id.openDate);
             this.time.setTypeface(REGULAR);
             ((TextView)view.findViewById(R.id.DescriptionTitel)).setTypeface(BOLD);
+            this.cardContainer = (CardView)view.findViewById(R.id.cardContainer);
         }
         private void setView2()
         {
@@ -221,5 +230,19 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
         LIGHT = Typeface.createFromAsset(mContext.getAssets(), "Assistant-Light.ttf");
         REGULAR = Typeface.createFromAsset(mContext.getAssets(), "Assistant-Regular.ttf");
         SEMI_BOLD = Typeface.createFromAsset(mContext.getAssets(), "Assistant-SemiBold.ttf");
+    }
+
+    private int convertDpToPx(int dp) {
+        float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().getDisplayMetrics());
+        return Math.round(pixels);
+    }
+
+
+    // Add a list of items
+    public void refresh() {
+
+        this.mTicketListItem = UtlFirebase.getAllTicket();
+
+        notifyDataSetChanged();
     }
 }
