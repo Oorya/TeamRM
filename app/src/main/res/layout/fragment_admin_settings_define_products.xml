@@ -15,15 +15,6 @@
 
     </android.support.v7.widget.RecyclerView>
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_margin="32dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_plus"
-        app:layout_anchor="@id/productRecyclerView"
-        app:layout_anchorGravity="bottom|end"
-        android:scaleType="center"
-        android:id="@+id/addProductBtn"
-        />
+    <include layout="@layout/floating_action_button" />
 
 </android.support.design.widget.CoordinatorLayout>

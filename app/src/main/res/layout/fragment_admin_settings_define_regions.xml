@@ -2,11 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.teamrm.teamrm.Fragment.AdminSettingsDefineRegions"
     android:layoutDirection="rtl"
-    tools:paddingTop="25dp"
-    >
+    android:background="@color/app_bg"
+    tools:paddingTop="25dp">
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
@@ -15,15 +14,6 @@
 
     </android.support.v7.widget.RecyclerView>
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_margin="32dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_plus"
-        app:layout_anchor="@id/regionRecyclerView"
-        app:layout_anchorGravity="bottom|end"
-        android:scaleType="center"
-        android:id="@+id/addRegionBtn"
-        />
+    <include layout="@layout/floating_action_button" />
 
 </android.support.design.widget.CoordinatorLayout>

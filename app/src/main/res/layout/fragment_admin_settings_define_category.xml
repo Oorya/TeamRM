@@ -1,9 +1,9 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
+    android:background="@color/app_bg"
     tools:context="com.teamrm.teamrm.Fragment.AdminSettingsDefineCategory"
     tools:paddingTop="25dp">
 
@@ -14,18 +14,5 @@
 
     </android.support.v7.widget.RecyclerView>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/addCategoryBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="32dp"
-        android:scaleType="center"
-        android:src="@drawable/ic_plus"
-        app:layout_anchor="@id/categoryRecyclerView"
-        app:layout_anchorGravity="bottom|end"
-        app:fabSize="normal"
-        app:pressedTranslationZ="5dp"
-        app:useCompatPadding="true"
-        />
-
+    <include layout="@layout/floating_action_button" />
 </android.support.design.widget.CoordinatorLayout>

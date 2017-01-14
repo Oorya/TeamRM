@@ -6,22 +6,20 @@ package com.teamrm.teamrm.Type;
 
 public class Product
 {
-    private String productName;
-    private int productID;
-    private static int counterID = 1000;
+    private String productID, productName;
 
     public Product(){}
 
-    public Product(String productName, int productID) {
+    public Product(String productID, String productName) {
+        this.productID = productID;
         this.productName = productName;
-        this.productID = ++counterID;
+    }
+
+    public String getProductID() {
+        return productID;
     }
 
     public String getProductName() {
         return productName;
-    }
-
-    public int getProductID() {
-        return productID;
     }
 }
