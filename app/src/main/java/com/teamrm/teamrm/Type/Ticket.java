@@ -1,13 +1,13 @@
 package com.teamrm.teamrm.Type;
 
 import android.app.PendingIntent;
-import android.util.Log;
 
 import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.Interfaces.TicketStatus;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.Utility.UserSingleton;
+import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -111,16 +111,17 @@ public class Ticket {
         this.stateObj = stateObj;
     }
 
-    public TicketStateAble changeState(String stateName,Ticket ticket)
+    public void changeState(String stateName, Ticket ticket)
     {
-        this.state = stateName;
+        UtlFirebase.changeState(ticket.ticketId, stateName);
+        /*this.state = stateName;
 
         //Log.d("FactorystateType = ", UserSingleton.getInstance().getUserStatus()==null?"null":UserSingleton.getInstance().getUserStatus());
         Log.d("FactorstateName = ", stateName);
 
         this.stateObj = TicketFactory.getNewState("Client",stateName);
        // UtlFirebase.updateState(ticket.ticketId,"stateObj",this.stateObj);
-        return this.stateObj;
+        return this.stateObj;*/
     }
 
     public int getAlarmID() {

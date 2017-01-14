@@ -1,12 +1,29 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.teamrm.teamrm.Fragment.AdminSettingsDefineProducts">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.teamrm.teamrm.Fragment.AdminSettingsDefineProducts"
+    android:layoutDirection="rtl"
+    tools:paddingTop="25dp"
+    >
 
-    <TextView
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/productRecyclerView">
 
-</FrameLayout>
+    </android.support.v7.widget.RecyclerView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_margin="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_plus"
+        app:layout_anchor="@id/productRecyclerView"
+        app:layout_anchorGravity="bottom|end"
+        android:scaleType="center"
+        android:id="@+id/addProductBtn"
+        />
+
+</android.support.design.widget.CoordinatorLayout>

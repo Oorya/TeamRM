@@ -122,12 +122,17 @@
 
         </LinearLayout>
 
-
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/actionBar"
+            android:id="@+id/swipeRefresh"
+            >
         <android.support.v7.widget.RecyclerView
             android:id="@+id/RecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/actionBar"
+
             android:paddingBottom="8dp"
             android:paddingTop="8dp"
 
@@ -139,5 +144,20 @@
             android:layout_height="60dp"
             android:layout_below="@id/RecyclerView"
             />
+        </android.support.v4.widget.SwipeRefreshLayout>
     </RelativeLayout>
+    <!--RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/loaderPlaceholder">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="טוען כרטיסים..."
+            android:textSize="24sp"
+            android:textColor="@color/icon_gray"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+            android:elevation="10dp"/>
+    </RelativeLayout-->
 </FrameLayout>

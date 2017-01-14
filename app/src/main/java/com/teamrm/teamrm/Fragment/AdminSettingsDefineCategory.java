@@ -15,6 +15,7 @@ import com.teamrm.teamrm.R;
 public class AdminSettingsDefineCategory extends Fragment {
 
 
+
     public AdminSettingsDefineCategory() {
         // Required empty public constructor
     }
@@ -25,6 +26,7 @@ public class AdminSettingsDefineCategory extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_admin_settings_define_category, container, false);
+
     }
 
 }

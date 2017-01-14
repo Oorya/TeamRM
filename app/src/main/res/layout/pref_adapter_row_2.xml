@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/prefRow"
+    style="@style/CardRow"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/regionRow"
+    android:background="@color/listRow_alt"
+    android:minHeight="48dp"
+    tools:paddingTop="25dp"
+    android:layoutDirection="rtl">
+
+    <ImageView
+        android:id="@+id/prefIcon"
+        style="@style/CardRowImageStart"
+        />
+
+    <TextView
+        android:id="@+id/addressLabel"
+        style="@style/CardRowLabel"
+        android:layout_toEndOf="@+id/addressIcon"
+        android:text="כתובת:" />
+
+    <TextView
+        android:id="@+id/addressTextEx"
+        style="@style/CardRowText"
+        android:layout_toEndOf="@id/addressLabel"
+        android:paddingBottom="4dp"
+        android:paddingEnd="32dp"
+        android:paddingTop="4dp"
+        tools:text="גכע דגכע דגכ  דגכעדגכ דגכ  דכדכגד  דגכדגכ דגכ דכג גכג כ דגכעדגעדדגעדדגכ שדגעדגעגכ דגכ דגכדגכעדגכעדג דגכעדגכעד דגכעד גכע דגכ"
+        />
+
+    <ImageView
+        android:id="@+id/navigateToAddress"
+        style="@style/CardRowImageEnd"
+        android:src="@drawable/ic_icon_nav" />
+</RelativeLayout>

@@ -15,6 +15,7 @@
     android:layout_marginBottom="5dp"
     android:layout_marginLeft="4dp"
     android:layout_marginRight="6dp"
+    android:id="@+id/cardContainer"
     >
     <RelativeLayout
         android:layout_width="match_parent"

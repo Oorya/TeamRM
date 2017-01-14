@@ -216,8 +216,8 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
                 desShort.getText().toString(),desLong.getText().toString(),img1 != null ? UtlImage.bitmap2string(img1):"error",
                 img2 != null ? UtlImage.bitmap2string(img2):"error",uid);
         UtlFirebase.saveTicket(ticket);
-        //ticket.changeState(ProductID.STATE_A01,ticket);
-        UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_A01);
+        ticket.changeState(ProductID.STATE_A01,ticket);
+        //UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_A01);
         address.setText("");
         phone.setText("");
         desShort.setText("");

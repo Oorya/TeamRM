@@ -23,6 +23,7 @@
             <RelativeLayout
                 android:id="@+id/companyRow"
                 style="@style/RegularRow"
+                android:background="@color/listRow_alt"
                 >
 
                 <ImageView
@@ -238,7 +239,9 @@
                 <EditText
                     android:id="@+id/txtPhone"
                     style="@style/RegularRowItem.EditText"
-                    android:layout_toEndOf="@id/phoneLabel">
+                    android:layout_toEndOf="@id/phoneLabel"
+                    android:inputType="phone"
+                    >
                     <requestFocus></requestFocus>
                 </EditText>
             </RelativeLayout>

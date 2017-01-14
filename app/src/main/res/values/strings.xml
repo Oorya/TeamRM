@@ -152,6 +152,9 @@
     <string name="label_category_a">סיווג ראשוני:</string>
     <string name="label_category_b">סיווג משני:</string>
     <string name="label_calendar_color">צבע ביומן:</string>
+    <string name="label_edittext_dialog_title">עריכת רשומה</string>
+    <string name="label_button_save">שמירה</string>
+    <string name="label_button_cancel">ביטול</string>
 
     <!--/labels-->
 

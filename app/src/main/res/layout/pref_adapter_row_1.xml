@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/prefRow"
+    style="@style/CardRow"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/regionRow"
+    android:layoutDirection="rtl"
+    android:minHeight="42dp"
+    android:paddingStart="16dp"
+    tools:layout_marginTop="25dp">
+
+
+    <TextView
+        android:id="@+id/prefText"
+        style="@style/CardRowText"
+        android:paddingBottom="4dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="4dp"
+        tools:text="גכע דגכע דגכ  דגכעדגכ גכע דגכ" />
+
+    <ImageView
+        android:id="@+id/prefIconEdit"
+        style="@style/CardRowImageEnd"
+        android:src="@drawable/ic_edit" />
+</RelativeLayout>
