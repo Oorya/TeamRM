@@ -155,6 +155,7 @@
     <string name="label_edittext_dialog_title">עריכת רשומה</string>
     <string name="label_button_save">שמירה</string>
     <string name="label_button_cancel">ביטול</string>
+    <string name="label_category_empty_list">אין סיווגים מוגדרים</string>
 
     <!--/labels-->
 

@@ -124,7 +124,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="12dp"
             android:layout_toEndOf="@id/categoryAIcon"
-            android:text="הגדרת סיווג ראשי לקריאות"
+            android:text="הגדרת סיווג לקריאות"
             android:textColor="@color/textColor_primary"
             android:textSize="18sp" />
 
@@ -134,7 +134,7 @@
         style="@style/Separator4dp"
         />
 
-    <RelativeLayout
+    <!--RelativeLayout
         android:id="@+id/defineCategoryB"
         style="@style/PrefRowBig"
         android:background="@color/listRow_alt"
@@ -163,7 +163,7 @@
 
     <View
         style="@style/Separator4dp"
-        />
+        /-->
 
     <RelativeLayout
         android:id="@+id/defineRegion"

@@ -6,22 +6,21 @@ package com.teamrm.teamrm.Type;
 
 public class Category
 {
-    private String categoryName;
-    private int categoryID;
-    private static int counterID = 1000;
+    private String categoryID, categoryName;
 
     public Category(){}
 
-    public Category(String categoryName) {
+    public Category(String categoryID, String categoryName) {
+        this.categoryID = categoryID;
         this.categoryName = categoryName;
-        this.categoryID = ++counterID;
     }
+
 
     public String getCategoryName() {
         return categoryName;
     }
 
-    public int getCategoryID() {
+    public String getCategoryID() {
         return categoryID;
     }
 }

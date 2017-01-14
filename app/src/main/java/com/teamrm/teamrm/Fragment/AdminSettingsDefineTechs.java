@@ -24,6 +24,7 @@ public class AdminSettingsDefineTechs extends Fragment {
     public RecyclerView tRecyclerView;
     TechniciansAdapter tAdapter;
     protected final ArrayList<Technician> techniciansList = new ArrayList<>();
+
     UUID tech1ID = new UUID(128, 64); //TODO: DEBUG - remove later
     UUID tech2ID = new UUID(128, 64); //TODO: DEBUG - remove later
     Technician tech1 = new Technician(tech1ID.toString(), "טכנאי מוסמך", "tech1@server.com", "0545555555", "רחוב שומשום 666", "cal1", "לוח שנה טכנאי 1", "#ff0000", "משמרת בוקר", "כל האזורים"); //TODO: DEBUG - remove later

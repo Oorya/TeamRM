@@ -145,6 +145,8 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
         return (null != mTicketListItem ? mTicketListItem.size() : 0);
     }
 
+
+
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
         protected View view;

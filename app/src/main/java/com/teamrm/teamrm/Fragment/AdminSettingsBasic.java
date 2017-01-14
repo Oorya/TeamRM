@@ -89,7 +89,7 @@ public class AdminSettingsBasic extends Fragment implements View.OnClickListener
             }
         });
 
-        defineCategoryB.setOnClickListener(new View.OnClickListener() {
+        /*defineCategoryB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
@@ -98,7 +98,7 @@ public class AdminSettingsBasic extends Fragment implements View.OnClickListener
                 ft.addToBackStack(null);
                 ft.commit();
             }
-        });
+        });*/
 
         defineRegions.setOnClickListener(new View.OnClickListener() {
             @Override

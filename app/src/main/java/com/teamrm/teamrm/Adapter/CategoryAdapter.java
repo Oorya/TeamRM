@@ -2,6 +2,8 @@ package com.teamrm.teamrm.Adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,7 +29,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     List<Category> categoryList = new ArrayList<>();
     Context cContext;
 
-    int viewType;
 
     public CategoryAdapter(Context context, List<Category> categoryList) {
         this.cContext = context;
@@ -37,42 +38,42 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public CategoryHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pref_adapter_row_1, null);
-                CategoryHolder categoryHolder = new CategoryHolder(view, PrefListable.TEXTVIEW_AND_EDIT_ICON);
-        return null;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pref_adapter_row_1, null);
+        CategoryAdapter.CategoryHolder cHolder = new CategoryAdapter.CategoryHolder(view);
+        return cHolder;
     }
 
     @Override
     public void onBindViewHolder(final CategoryHolder holder, final int position) {
 
-                final Category categoryItem = categoryList.get(position);
-                //holder.itemID.;
-                //holder.categoryName.setText(prefItem[1]);
-                holder.iconEdit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        final EditText editText = new EditText(cContext);
-                        editText.setText(categoryItem.getCategoryName());
-                        new AlertDialog.Builder(cContext)
-                                .setCancelable(true)
-                                .setView(editText)
-                                .setTitle(R.string.label_edittext_dialog_title)
-                                .setPositiveButton(R.string.label_button_save, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        CategoryAdapter.super.notifyItemChanged(position);
-                                    }
-                                })
-                                .setNegativeButton(R.string.label_button_cancel, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.dismiss();
-                                    }
-                                })
-                                .show();
-                    }
-                });
+        final Category categoryItem = categoryList.get(position);
+        holder.categoryName.setText(categoryItem.getCategoryName());
+        holder.iconEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final EditText editText = new EditText(cContext);
+                editText.setText(categoryItem.getCategoryName());
+                new AlertDialog.Builder(cContext)
+                        .setCancelable(true)
+                        .setView(editText)
+                        .setTitle(R.string.label_edittext_dialog_title)
+                        .setPositiveButton(R.string.label_button_save, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                CategoryAdapter.super.notifyItemChanged(position);
+                            }
+                        })
+                        .setNegativeButton(R.string.label_button_cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .show();
             }
+        });
+
+    }
 
     @Override
     public int getItemCount() {
@@ -82,20 +83,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     public class CategoryHolder extends RecyclerView.ViewHolder {
         protected View view;
-        protected int categoryID;
+        protected String categoryID;
         protected TextView categoryName;
         protected ImageView iconEdit;
 
-        public CategoryHolder(View view, int viewType) {
+        public CategoryHolder(View view) {
             super(view);
 
             this.view = view;
-            switch (viewType) {
-                case PrefListable.TEXTVIEW_AND_EDIT_ICON: {
-                    this.categoryName = (TextView) view.findViewById(R.id.prefText);
-                    this.iconEdit = (ImageView) view.findViewById(R.id.prefIconEdit);
-                }
-            }
+            this.categoryName = (TextView) view.findViewById(R.id.prefText);
+            this.iconEdit = (ImageView) view.findViewById(R.id.prefIconEdit);
         }
 
     }
