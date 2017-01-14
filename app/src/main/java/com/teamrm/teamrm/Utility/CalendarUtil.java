@@ -95,28 +95,6 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                 .setBackOff(new ExponentialBackOff());
         calendarHelper=(CalendarHelper) result;
     }
-
-
-    public CalendarUtil(Context context) {
-
-        _context = context;
-        mProgress = new ProgressDialog(context);
-        mProgress.setMessage("Calling Google Calendar API ...");
-        mProgress.setCanceledOnTouchOutside(false);
-
-        // Initialize credentials and service object.
-        this.mCredential = GoogleAccountCredential.usingOAuth2(
-                context, Arrays.asList(SCOPES))
-                .setBackOff(new ExponentialBackOff());
-        // Initialize calendar service object.
-        mService = new com.google.api.services.calendar.Calendar.Builder(
-                transport, jsonFactory, this.mCredential)
-                .setApplicationName("Google Calendar API Android Quickstart")
-                .build();
-
-        
-    }
-
     /**
      * Attempt to call the API, after verifying that all the preconditions are
      * satisfied. The preconditions are: Google Play Services installed, an
@@ -486,46 +464,29 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
         ((Activity) _context).startActivityForResult(e.getIntent(), REQUEST_AUTHORIZATION);
         
     }
-    public void addNewEvent(final String[] eventDitile) {
-
+    public void addNewEvent(final String calendarId ,final String summary,
+                            final String description, final String uid, final Date startDate,
+                            final Date endDate )
+    {
 
         new AsyncTask<Void, Void, Void>() {
 
             Event event = new Event()
-                    .setSummary(eventDitile[0])
-                    .setLocation(eventDitile[1])
-                    .setDescription(eventDitile[2])
-                    .setId(eventDitile[3]);//uuid
+                    .setSummary(summary)
+                    .setDescription(description)
+                    .setId(uid);//uuid
 
             @Override
             protected Void doInBackground(Void... params) {
                 SimpleDateFormat fromUser = new SimpleDateFormat("dd/MM/yyyy");
-
-                try {
-
-                    Date startDate = new Date(); // Or a date from the database
-                    Date endDate = fromUser.parse(eventDitile[3]); // An all-day event is 1 day (or 86400000 ms) long
-
-                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    String startDateStr = dateFormat.format(startDate);
-                    String endDateStr = dateFormat.format(endDate);
-
-                    // Out of the 6 methods for creating a DateTime object with no startTime element, only the String version works
-                    DateTime startDateTime = new DateTime(startDateStr);
-                    DateTime endDateTime = new DateTime(endDateStr);
-
-                    // Must use the setDate() method for an all-day event (setDateTime() is used for timed events)
+                    String startDateFormated = fromUser.format(startDate);
+                    String endDateFormated = fromUser.format(endDate);
+                    DateTime startDateTime = new DateTime(startDateFormated);
+                    DateTime endDateTime = new DateTime(endDateFormated);
                     EventDateTime startEventDateTime = new EventDateTime().setDate(startDateTime);
                     EventDateTime endEventDateTime = new EventDateTime().setDate(endDateTime);
-
                     event.setStart(startEventDateTime);
                     event.setEnd(endEventDateTime);
-
-
-                } catch (ParseException e) {
-
-                }
-                String calendarId = eventDitile[4];
                 try {
                     event = mService.events().insert(calendarId, event).execute();
                 } catch (IOException e) {
@@ -681,11 +642,9 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
         Uri newUri = cr.insert(CAL_URI, cv);
 
         final Long calId = Long.parseLong(newUri.getLastPathSegment());
-
-
         return null;
     }
-    public void sherCal(String scopeValue)
+    public void sherCalendar(String scopeValue)
     {
         final AclRule rule = new AclRule();
         final AclRule.Scope scope = new AclRule.Scope();
@@ -694,7 +653,6 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
 
         new AsyncTask<Void,Void,Void>()
         {
-
             @Override
             protected Void doInBackground(Void... params)
             {
@@ -703,10 +661,8 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
                 return null;
             }
-
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
@@ -717,44 +673,27 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
     }
     public List<CalendarListEntry> getCalList()
     {
-
-
         new AsyncTask<Void,Void,Void>()
         {
             List<CalendarListEntry> items;
             String pageToken = null;
             CalendarList calendarList = null;
-
-
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
                // mProgress.show();
-                Log.d("REQUEST = ","doInBackground");
-
-
-
             }
 
             @Override
             protected Void doInBackground(Void... params)
             {
-                Log.d("REQUEST = ","doInBackground");
-
                 do {
                     try {
                         if(mService==null)
-                            Log.d("REQUEST = ","mService == null");
                         calendarList = mService.calendarList().list().setPageToken(pageToken).execute();
-
                     } catch (UserRecoverableAuthIOException e) {
                         UserRecoverable(e);
-                        Log.d("REQUEST = ","UserRecoverable(e)");
-
                     } catch (IOException e) {
-                        Log.d("REQUEST = ","IOException e");
-
-                        Log.e("REQUEST = ", Log.getStackTraceString(e));
                     }
                     if(calendarList != null ) {
                         items = calendarList.getItems();
@@ -767,13 +706,9 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 if(items!=null) {
-                    Log.d("REQUEST = ","onPostExecute = ");
-
                     calList = items;
                     new MakeRequestTask().execute();
                 }
-                Log.d("REQUEST = ","items!=null");
-
             }
         }.execute();
         return calList;

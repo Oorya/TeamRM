@@ -2,14 +2,10 @@ package com.teamrm.teamrm.Fragment;
 
 
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -18,18 +14,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
@@ -39,10 +30,9 @@ import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
 import com.teamrm.teamrm.Interfaces.CalendarHelper;
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Type.WeekViewEventCustom;
 import com.teamrm.teamrm.Utility.CalendarUtil;
 
-import java.lang.reflect.Field;
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -188,8 +178,10 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
         for (Event EVENT : mEvent)
         {
            // WeekViewEvent Wevent = new WeekViewEvent(Long.parseLong(EVENT.getId()),EVENT.getSummary(), convertStart(EVENT),convertEnd(EVENT));
-            WeekViewEvent Wevent = new WeekViewEvent(id++,EVENT.getId(),EVENT.getSummary(),convertStart(EVENT),convertEnd(EVENT));
-            mWeeViewEvent.add(Wevent);
+           // WeekViewEvent Wevent = new WeekViewEvent(id++,EVENT.getId(),EVENT.getSummary(),convertStart(EVENT),convertEnd(EVENT));
+            WeekViewEventCustom weekViewEventCustom = new WeekViewEventCustom(EVENT.getId(),id++,EVENT.getSummary(),convertStart(EVENT),convertEnd(EVENT));
+
+            mWeeViewEvent.add(weekViewEventCustom);
 
         }
 
@@ -351,7 +343,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
         Bundle bundel = new Bundle();
-        bundel.putString("ticketID",event.getName());
+        bundel.putString("ticketID",((WeekViewEventCustom)event).getEventId());
 
         FragmentTransaction fragmentManager = (getActivity().getSupportFragmentManager())
                 .beginTransaction();
