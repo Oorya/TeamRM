@@ -2,6 +2,7 @@ package com.teamrm.teamrm.Adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,9 +12,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.GravityEnum;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.teamrm.teamrm.Interfaces.PrefListable;
 import com.teamrm.teamrm.R;
-import com.teamrm.teamrm.Type.Category;
 import com.teamrm.teamrm.Type.Product;
 
 import java.util.ArrayList;
@@ -37,7 +40,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
     @Override
     public ProductHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pref_adapter_row_1, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pref_adapter_row_6, null);
         ProductHolder productHolder = new ProductHolder(view);
         return productHolder;
     }
@@ -52,26 +55,78 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
             public void onClick(View view) {
                 final EditText editText = new EditText(prContext);
                 editText.setText(productItem.getProductName());
-                new AlertDialog.Builder(prContext)
-                        .setCancelable(true)
-                        .setView(editText)
-                        .setTitle(R.string.label_edittext_dialog_title)
-                        .setPositiveButton(R.string.label_button_save, new DialogInterface.OnClickListener() {
+                new MaterialDialog.Builder(prContext)
+                        .title(R.string.label_edit_prefitem_dialog_title)
+                        .input("", productItem.getProductName(), new MaterialDialog.InputCallback() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                ProductAdapter.super.notifyItemChanged(position);
+                            public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+
                             }
                         })
-                        .setNegativeButton(R.string.label_button_cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        })
+                        //.onPositive() //TODO:add method
+                        .positiveText(R.string.label_button_save)
+                        .contentColorRes(R.color.textColor_primary)
+                        .contentGravity(GravityEnum.CENTER)
+                        .negativeText(R.string.label_button_cancel)
+                        .titleGravity(GravityEnum.END)
+                        .buttonsGravity(GravityEnum.END)
+                        .backgroundColorRes(R.color.app_bg)
+                        .titleColorRes(R.color.textColor_lighter)
+                        .positiveColorRes(R.color.colorPrimary)
+                        .negativeColorRes(R.color.colorPrimaryDark)
+                        .dividerColorRes(R.color.textColor_lighter)
                         .show();
             }
         });
 
+        holder.iconRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new MaterialDialog.Builder(prContext)
+                        .title(R.string.label_remove_prefitem_dialog_title)
+                        .content(productList.get(position).getProductName())
+                        .positiveText(R.string.label_button_confirm)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.dismiss();
+                                new MaterialDialog.Builder(prContext)
+                                        .title(R.string.label_confirm_remove)
+                                        .content(productList.get(position).getProductName())
+                                        .positiveText(R.string.label_button_confirm)
+                                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                            @Override
+                                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                productList.remove(position);
+                                                ProductAdapter.super.notifyItemRemoved(position);
+                                            }
+                                        })
+                                        .contentColorRes(R.color.textColor_primary)
+                                        .contentGravity(GravityEnum.CENTER)
+                                        .negativeText(R.string.label_button_cancel)
+                                        .titleGravity(GravityEnum.END)
+                                        .buttonsGravity(GravityEnum.END)
+                                        .backgroundColorRes(R.color.app_bg)
+                                        .titleColorRes(R.color.textColor_lighter)
+                                        .positiveColorRes(R.color.colorPrimary)
+                                        .negativeColorRes(R.color.colorPrimaryDark)
+                                        .dividerColorRes(R.color.textColor_lighter)
+                                        .show();
+                            }
+                        })
+                        .contentColorRes(R.color.textColor_primary)
+                        .contentGravity(GravityEnum.CENTER)
+                        .negativeText(R.string.label_button_cancel)
+                        .titleGravity(GravityEnum.END)
+                        .buttonsGravity(GravityEnum.END)
+                        .backgroundColorRes(R.color.app_bg)
+                        .titleColorRes(R.color.textColor_lighter)
+                        .positiveColorRes(R.color.colorPrimary)
+                        .negativeColorRes(R.color.colorPrimaryDark)
+                        .dividerColorRes(R.color.textColor_lighter)
+                        .show();
+            }
+        });
     }
 
     @Override
@@ -84,7 +139,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
         protected View view;
         protected String productID;
         protected TextView productName;
-        protected ImageView iconEdit;
+        protected ImageView iconEdit, iconRemove;
 
         public ProductHolder(View view) {
             super(view);
@@ -92,6 +147,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
             this.view = view;
             this.productName = (TextView) view.findViewById(R.id.prefText);
             this.iconEdit = (ImageView) view.findViewById(R.id.prefIconEdit);
+            this.iconRemove = (ImageView) view.findViewById(R.id.prefIconRemove);
         }
 
     }

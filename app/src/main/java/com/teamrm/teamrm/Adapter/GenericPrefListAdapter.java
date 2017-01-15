@@ -63,7 +63,7 @@ public class GenericPrefListAdapter extends RecyclerView.Adapter<GenericPrefList
                         new AlertDialog.Builder(pContext)
                                 .setCancelable(true)
                                 .setView(editText)
-                                .setTitle(R.string.label_edittext_dialog_title)
+                                .setTitle(R.string.label_edit_prefitem_dialog_title)
                                 .setPositiveButton(R.string.label_button_save, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {

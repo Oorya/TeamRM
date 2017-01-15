@@ -2,12 +2,14 @@ package com.teamrm.teamrm.Fragment;
 
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.BounceInterpolator;
 
 import com.teamrm.teamrm.Adapter.TechniciansAdapter;
 import com.teamrm.teamrm.R;
@@ -15,6 +17,8 @@ import com.teamrm.teamrm.Type.Technician;
 
 import java.util.ArrayList;
 import java.util.UUID;
+
+import static com.teamrm.teamrm.R.id.floatBtn;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +28,7 @@ public class AdminSettingsDefineTechs extends Fragment {
     public RecyclerView tRecyclerView;
     TechniciansAdapter tAdapter;
     protected final ArrayList<Technician> techniciansList = new ArrayList<>();
+    private FloatingActionButton floatBtn;
 
     UUID tech1ID = new UUID(128, 64); //TODO: DEBUG - remove later
     UUID tech2ID = new UUID(128, 64); //TODO: DEBUG - remove later
@@ -39,14 +44,24 @@ public class AdminSettingsDefineTechs extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_admin_settings_define_techs, container, false);
+        View view = inflater.inflate(R.layout.fragment_admin_settings_define_generic, container, false);
+        floatBtn = (FloatingActionButton) view.findViewById(R.id.floatBtn);
         techniciansList.add(tech1); //TODO: DEBUG - remove later
         techniciansList.add(tech2); //TODO: DEBUG - remove later
-        tRecyclerView = (RecyclerView)view.findViewById(R.id.tRecyclerView);
+        tRecyclerView = (RecyclerView)view.findViewById(R.id.prefRecyclerView);
         tRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         tAdapter = new TechniciansAdapter(getContext(), techniciansList);
         tRecyclerView.setAdapter(tAdapter);
 
+        tRecyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                floatBtn.show();
+                floatBtn.setScaleX(.25f);
+                floatBtn.setScaleY(.25f);
+                floatBtn.animate().scaleX(1).scaleY(1).setInterpolator(new BounceInterpolator()).start();
+            }
+        }, 250);
         return view;
 
 

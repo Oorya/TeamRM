@@ -160,5 +160,9 @@
         <item name="android:background">#fff</item>
     </style>
 
+    <style name="GenericDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="@android:textColor">@color/textColor_primary</item>
+        <item name="android:layoutDirection">rtl</item>
+    </style>
 
 </resources>

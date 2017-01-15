@@ -22,9 +22,15 @@
         tools:text="גכע דגכע דגכ  דגכעדגכ גכע דגכ" />
 
     <ImageView
+        android:id="@+id/prefIconRemove"
+        style="@style/CardRowImageEnd"
+        android:src="@drawable/ic_remove" />
+
+    <ImageView
         android:id="@+id/prefIconEdit"
         style="@style/CardRowImageEnd"
-        android:src="@drawable/ic_edit" />
+        android:src="@drawable/ic_edit"
+        android:layout_marginEnd="48dp"/>
 
     <View
         style="@style/Separator1px"

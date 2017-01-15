@@ -17,7 +17,7 @@
         android:layout_margin="32dp"
         android:layout_gravity="bottom|end"
         android:scaleType="center"
-        android:src="@drawable/ic_plus"
+        android:src="@drawable/ic_icon_plus_small"
         app:fabSize="normal"
         app:pressedTranslationZ="5dp"
         app:useCompatPadding="true"

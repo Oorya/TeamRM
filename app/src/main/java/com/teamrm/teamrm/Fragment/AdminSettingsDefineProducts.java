@@ -40,11 +40,11 @@ public class AdminSettingsDefineProducts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_admin_settings_define_products, container, false);
+        View view = inflater.inflate(R.layout.fragment_admin_settings_define_generic, container, false);
         floatBtn = (FloatingActionButton) view.findViewById(R.id.floatBtn);
         floatBtn.hide();
 
-        /*productList = UtlFirebase.getCategories(UserSingleton.getInstance().getUserCompany()); //TODO:fix this
+        /*productList = UtlFirebase.getProducts(UserSingleton.getInstance().getUserCompany()); //TODO:fix this
         Log.d(TAG, "initDone true, list="+productList.toString());*/
 
         productList.add(new Product("100", "טוסטר משולשים"));
@@ -52,7 +52,7 @@ public class AdminSettingsDefineProducts extends Fragment {
         productList.add(new Product("102", "שתיקת הכבשים"));
         productList.add(new Product("103", "קמחא דפסחא"));
 
-        productView = (RecyclerView) view.findViewById(R.id.productRecyclerView);
+        productView = (RecyclerView) view.findViewById(R.id.prefRecyclerView);
         productView.setLayoutManager(new LinearLayoutManager(getContext()));
         productAdapter = new ProductAdapter(getContext(), productList);
         productView.setAdapter(productAdapter);

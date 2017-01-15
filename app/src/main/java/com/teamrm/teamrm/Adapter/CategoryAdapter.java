@@ -1,10 +1,7 @@
 package com.teamrm.teamrm.Adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.support.v7.app.AlertDialog;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +10,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.GravityEnum;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.teamrm.teamrm.Interfaces.PrefListable;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Category;
@@ -38,7 +38,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public CategoryHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pref_adapter_row_1, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pref_adapter_row_6, null);
         CategoryAdapter.CategoryHolder cHolder = new CategoryAdapter.CategoryHolder(view);
         return cHolder;
     }
@@ -53,23 +53,83 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             public void onClick(View view) {
                 final EditText editText = new EditText(cContext);
                 editText.setText(categoryItem.getCategoryName());
-                new AlertDialog.Builder(cContext)
-                        .setCancelable(true)
-                        .setView(editText)
-                        .setTitle(R.string.label_edittext_dialog_title)
-                        .setPositiveButton(R.string.label_button_save, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                CategoryAdapter.super.notifyItemChanged(position);
-                            }
-                        })
-                        .setNegativeButton(R.string.label_button_cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        })
-                        .show();
+                holder.iconEdit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final EditText editText = new EditText(cContext);
+                        editText.setText(categoryItem.getCategoryName());
+                        new MaterialDialog.Builder(cContext)
+                                .title(R.string.label_edit_prefitem_dialog_title)
+                                .input("", categoryItem.getCategoryName(), new MaterialDialog.InputCallback() {
+                                    @Override
+                                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+
+                                    }
+                                })
+                                //.onPositive() //TODO:add method
+                                .positiveText(R.string.label_button_save)
+                                .contentColorRes(R.color.textColor_primary)
+                                .contentGravity(GravityEnum.CENTER)
+                                .negativeText(R.string.label_button_cancel)
+                                .titleGravity(GravityEnum.END)
+                                .buttonsGravity(GravityEnum.END)
+                                .backgroundColorRes(R.color.app_bg)
+                                .titleColorRes(R.color.textColor_lighter)
+                                .positiveColorRes(R.color.colorPrimary)
+                                .negativeColorRes(R.color.colorPrimaryDark)
+                                .dividerColorRes(R.color.textColor_lighter)
+                                .show();
+                    }
+                });
+
+                holder.iconRemove.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        new MaterialDialog.Builder(cContext)
+                                .title(R.string.label_remove_prefitem_dialog_title)
+                                .content(categoryList.get(position).getCategoryName())
+                                .positiveText(R.string.label_button_confirm)
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        dialog.dismiss();
+                                        new MaterialDialog.Builder(cContext)
+                                                .title(R.string.label_confirm_remove)
+                                                .content(categoryList.get(position).getCategoryName())
+                                                .positiveText(R.string.label_button_confirm)
+                                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                                    @Override
+                                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                        categoryList.remove(position);
+                                                        CategoryAdapter.super.notifyItemRemoved(position);
+                                                    }
+                                                })
+                                                .contentColorRes(R.color.textColor_primary)
+                                                .contentGravity(GravityEnum.CENTER)
+                                                .negativeText(R.string.label_button_cancel)
+                                                .titleGravity(GravityEnum.END)
+                                                .buttonsGravity(GravityEnum.END)
+                                                .backgroundColorRes(R.color.app_bg)
+                                                .titleColorRes(R.color.textColor_lighter)
+                                                .positiveColorRes(R.color.colorPrimary)
+                                                .negativeColorRes(R.color.colorPrimaryDark)
+                                                .dividerColorRes(R.color.textColor_lighter)
+                                                .show();
+                                    }
+                                })
+                                .contentColorRes(R.color.textColor_primary)
+                                .contentGravity(GravityEnum.CENTER)
+                                .negativeText(R.string.label_button_cancel)
+                                .titleGravity(GravityEnum.END)
+                                .buttonsGravity(GravityEnum.END)
+                                .backgroundColorRes(R.color.app_bg)
+                                .titleColorRes(R.color.textColor_lighter)
+                                .positiveColorRes(R.color.colorPrimary)
+                                .negativeColorRes(R.color.colorPrimaryDark)
+                                .dividerColorRes(R.color.textColor_lighter)
+                                .show();
+                    }
+                });
             }
         });
 
@@ -85,7 +145,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         protected View view;
         protected String categoryID;
         protected TextView categoryName;
-        protected ImageView iconEdit;
+        protected ImageView iconEdit, iconRemove;
 
         public CategoryHolder(View view) {
             super(view);
@@ -93,6 +153,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             this.view = view;
             this.categoryName = (TextView) view.findViewById(R.id.prefText);
             this.iconEdit = (ImageView) view.findViewById(R.id.prefIconEdit);
+            this.iconRemove = (ImageView) view.findViewById(R.id.prefIconRemove);
         }
 
     }

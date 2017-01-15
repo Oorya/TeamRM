@@ -41,7 +41,7 @@ public class AdminSettingsDefineCategory extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_admin_settings_define_category, container, false);
+        View view = inflater.inflate(R.layout.fragment_admin_settings_define_generic, container, false);
         floatBtn = (FloatingActionButton) view.findViewById(R.id.floatBtn);
         floatBtn.hide();
 
@@ -55,7 +55,7 @@ public class AdminSettingsDefineCategory extends Fragment {
 
 
 
-        categoryView = (RecyclerView) view.findViewById(R.id.categoryRecyclerView);
+        categoryView = (RecyclerView) view.findViewById(R.id.prefRecyclerView);
         categoryView.setLayoutManager(new LinearLayoutManager(getContext()));
         categoryAdapter = new CategoryAdapter(getContext(), categoryList);
         categoryView.setAdapter(categoryAdapter);

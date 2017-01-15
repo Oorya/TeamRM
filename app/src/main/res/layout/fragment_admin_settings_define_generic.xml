@@ -4,13 +4,14 @@
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:background="@color/app_bg"
-    tools:context="com.teamrm.teamrm.Fragment.AdminSettingsDefineCategory"
     tools:paddingTop="25dp">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/categoryRecyclerView"
+        android:id="@+id/prefRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        >
 
     </android.support.v7.widget.RecyclerView>
 
