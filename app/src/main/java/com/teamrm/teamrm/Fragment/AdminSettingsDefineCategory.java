@@ -1,18 +1,20 @@
 package com.teamrm.teamrm.Fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
-import android.view.animation.LinearInterpolator;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.GravityEnum;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.teamrm.teamrm.Adapter.CategoryAdapter;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Category;
@@ -30,7 +32,7 @@ public class AdminSettingsDefineCategory extends Fragment {
     final static String TAG = ":::Settings:Category:::";
     public RecyclerView categoryView;
     protected List<Category> categoryList = new ArrayList<>();
-    CategoryAdapter categoryAdapter;
+    public static CategoryAdapter categoryAdapter;
     FloatingActionButton floatBtn;
 
     public AdminSettingsDefineCategory() {
@@ -48,16 +50,9 @@ public class AdminSettingsDefineCategory extends Fragment {
         /*categoryList = UtlFirebase.getCategories(UserSingleton.getInstance().getUserCompany()); //TODO:fix this
         Log.d(TAG, "initDone true, list="+categoryList.toString());*/
 
-        categoryList.add(new Category("100", "תקלה"));
-        categoryList.add(new Category("101", "התקנה"));
-        categoryList.add(new Category("102", "הסרה"));
-        categoryList.add(new Category("103", "איסוף"));
-
-
-
         categoryView = (RecyclerView) view.findViewById(R.id.prefRecyclerView);
         categoryView.setLayoutManager(new LinearLayoutManager(getContext()));
-        categoryAdapter = new CategoryAdapter(getContext(), categoryList);
+        categoryAdapter = new CategoryAdapter(getContext());
         categoryView.setAdapter(categoryAdapter);
         categoryView.postDelayed(new Runnable() {
             @Override
@@ -69,9 +64,47 @@ public class AdminSettingsDefineCategory extends Fragment {
             }
         }, 250);
 
+        
+        floatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                new MaterialDialog.Builder(getContext())
+                        .title("הוספת סיווג")
+                        .input("", "", new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                                Toast.makeText(getContext(),  input.toString(), Toast.LENGTH_SHORT).show();
+                                Category category = new Category(input.toString());
+                                UtlFirebase.saveCategory(UserSingleton.getInstance().getUserCompany(), category);
+                            }
+                        })
+                        //.onPositive() //TODO:add method
+
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                //Toast.makeText(getContext(), "positive", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .positiveText(R.string.label_button_save)
+                        .contentColorRes(R.color.textColor_primary)
+                        .contentGravity(GravityEnum.CENTER)
+                        .negativeText(R.string.label_button_cancel)
+                        .titleGravity(GravityEnum.END)
+                        .buttonsGravity(GravityEnum.END)
+                        .backgroundColorRes(R.color.app_bg)
+                        .titleColorRes(R.color.textColor_lighter)
+                        .positiveColorRes(R.color.colorPrimary)
+                        .negativeColorRes(R.color.colorPrimaryDark)
+                        .dividerColorRes(R.color.textColor_lighter)
+                        .show();
+            }
+
+        });
+        
         return view;
-
-
+        
     }
 
 }

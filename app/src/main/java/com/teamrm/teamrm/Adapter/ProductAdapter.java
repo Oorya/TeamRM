@@ -1,9 +1,7 @@
 package com.teamrm.teamrm.Adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +16,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.teamrm.teamrm.Interfaces.PrefListable;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Product;
+import com.teamrm.teamrm.Utility.UserSingleton;
+import com.teamrm.teamrm.Utility.UtlFirebase;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,13 +27,13 @@ import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductHolder> implements PrefListable {
 
-    List<Product> productList = new ArrayList<>();
+    List<Product> productList ;
     Context prContext;
 
 
-    public ProductAdapter(Context context, List<Product> productList) {
+    public ProductAdapter(Context context) {
         this.prContext = context;
-        this.productList = productList;
+        this.productList = UtlFirebase.getProducts(UserSingleton.getInstance().getUserCompany());
     }
 
     @Override

@@ -16,8 +16,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.teamrm.teamrm.Interfaces.PrefListable;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Category;
+import com.teamrm.teamrm.Utility.UserSingleton;
+import com.teamrm.teamrm.Utility.UtlFirebase;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,13 +27,14 @@ import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryHolder> implements PrefListable {
 
-    List<Category> categoryList = new ArrayList<>();
+    List<Category> categoryList;
     Context cContext;
 
 
-    public CategoryAdapter(Context context, List<Category> categoryList) {
+    public CategoryAdapter(Context context) {
         this.cContext = context;
-        this.categoryList = categoryList;
+        this.categoryList = UtlFirebase.getCategories(UserSingleton.getInstance().getUserCompany());
+
     }
 
     @Override

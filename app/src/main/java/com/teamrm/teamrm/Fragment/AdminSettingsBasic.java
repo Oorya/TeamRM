@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.teamrm.teamrm.R;
 
@@ -49,11 +50,12 @@ public class AdminSettingsBasic extends Fragment implements View.OnClickListener
         defineFirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                /*FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
                 ft.replace(R.id.container_body, new FirmDetailsFrag(), null);
                 ft.addToBackStack(null);
-                ft.commit();
+                ft.commit();*/
+                Toast.makeText(getContext(), "הגדרות חברה", Toast.LENGTH_SHORT).show();
             }
         });
         defineTechnicians.setOnClickListener(new View.OnClickListener() {

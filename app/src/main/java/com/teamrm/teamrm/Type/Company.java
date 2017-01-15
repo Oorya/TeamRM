@@ -18,6 +18,7 @@ public class Company
     private String address;
     private String time;
     private Category category;
+    private Product product;
 
     public Company(){}
 
@@ -76,5 +77,10 @@ public class Company
 
     public Category getCategory() {
         return category;
+    }
+
+    public Product getProduct()
+    {
+        return product;
     }
 }

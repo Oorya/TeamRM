@@ -10,7 +10,7 @@ public class Category
 
     public Category(){}
 
-    public Category(String categoryID, String categoryName) {
+    public Category( String categoryName) {
         this.categoryID = categoryID;
         this.categoryName = categoryName;
     }
