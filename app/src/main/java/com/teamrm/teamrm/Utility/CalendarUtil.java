@@ -44,8 +44,6 @@ import com.teamrm.teamrm.Activities.MainActivity;
 import com.teamrm.teamrm.Interfaces.CalendarHelper;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -175,12 +173,10 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             }
 
         }
-         else if(ActivityCompat.checkSelfPermission(_context, Manifest.permission.GET_ACCOUNTS)
+        else if(ActivityCompat.checkSelfPermission(_context, Manifest.permission.GET_ACCOUNTS)
                 == _context.getPackageManager().PERMISSION_GRANTED)
         {
-
-
-            String accountName = MainActivity.acct.getEmail();
+            String accountName = UserSingleton.getInstance().getUserEmail();
             Log.d("REQUEST", "chooseAccount 23 accountName: "+accountName);
 
             if (accountName != null)
@@ -189,10 +185,10 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
 
                 Log.d("REQUEST", "chooseAccount getSelectedAccount: "+mCredential.getSelectedAccount());
 
-
-
                 getResultsFromApi();
-            }else {
+            }
+            else
+            {
                 // Start a dialog from which the user can choose an account
                 ((Activity) _context).startActivityForResult(
                         mCredential.newChooseAccountIntent(),
@@ -361,7 +357,6 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             showGooglePlayServicesAvailabilityErrorDialog(connectionStatusCode);
         }
     }
-
 
     /**
      * Display an error dialog showing that Google Play Services is missing

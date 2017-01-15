@@ -10,7 +10,7 @@ import android.net.Uri;
 import android.support.v7.app.NotificationCompat;
 
 import com.teamrm.teamrm.Activities.HomeScreen;
-import com.teamrm.teamrm.Activities.MainActivity;
+import com.teamrm.teamrm.Activities.SplashScreen;
 import com.teamrm.teamrm.R;
 
 public class UtlNotification {
@@ -35,32 +35,32 @@ public class UtlNotification {
         this.title = title;
         this.text = text;
         this.intent = intent;
-        this.context = MainActivity.context;
+        this.context = SplashScreen.context;
 
         resultPendingIntent = PendingIntent.getActivity(context, 0, this.intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public UtlNotification(int icon, CharSequence title, String text)
     {
-        Intent homeScreen = new Intent(MainActivity.context,HomeScreen.class);
+        Intent homeScreen = new Intent(SplashScreen.context,HomeScreen.class);
         notificationID=++notificationCounter;
         this.icon=icon;
         this.title=title;
         this.text=text;
-        this.context= MainActivity.context;
+        this.context= SplashScreen.context;
 
         resultPendingIntent = PendingIntent.getActivity(context, 0, homeScreen, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public UtlNotification(CharSequence title, String text)
     {
-        Intent homeScreen = new Intent(MainActivity.context,HomeScreen.class);
+        Intent homeScreen = new Intent(SplashScreen.context,HomeScreen.class);
 
         notificationID=++notificationCounter;
         this.icon= R.drawable.new_msg_icon;
         this.title=title;
         this.text=text;
-        this.context= MainActivity.context;
+        this.context= SplashScreen.context;
 
         resultPendingIntent = PendingIntent.getActivity(context, 0, homeScreen, PendingIntent.FLAG_UPDATE_CURRENT);
     }

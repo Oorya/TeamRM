@@ -196,22 +196,27 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
                 region = selectRegion.getItemAtPosition(position).toString();
                 break;
             case R.id.selectCompanySpinner:
+                category = "";
+                product = "";
                 selectCompany.setSelection(position);
                 company = selectCompany.getItemAtPosition(position).toString();
-
-                listProductAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_view, UtlFirebase.getStringProducts(company));
-                listCategoryAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_view, UtlFirebase.getStringCategories(company));
-                selectProduct.setEnabled(true);
-                selectCategory.setEnabled(true);
-                listProductAdapter.setDropDownViewResource(R.layout.spinner_row);
-                listCategoryAdapter.setDropDownViewResource(R.layout.spinner_row);
-                selectProduct.setAdapter(listProductAdapter);
-                selectProduct.setOnItemSelectedListener(this);
-
-                selectCategory.setAdapter(listCategoryAdapter);
-                selectCategory.setOnItemSelectedListener(this);
+                setSpinnerAdapters();
                 break;
         }
+    }
+
+    private void setSpinnerAdapters() {
+        listProductAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_view, UtlFirebase.getStringProducts(company));
+        listCategoryAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_view, UtlFirebase.getStringCategories(company));
+        selectProduct.setEnabled(true);
+        selectCategory.setEnabled(true);
+        listProductAdapter.setDropDownViewResource(R.layout.spinner_row);
+        listCategoryAdapter.setDropDownViewResource(R.layout.spinner_row);
+        selectProduct.setAdapter(listProductAdapter);
+        selectProduct.setOnItemSelectedListener(this);
+
+        selectCategory.setAdapter(listCategoryAdapter);
+        selectCategory.setOnItemSelectedListener(this);
     }
 
     @Override

@@ -11,6 +11,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.teamrm.teamrm.Fragment.AdminSettingsDefineCategory;
+import com.teamrm.teamrm.Fragment.AdminSettingsDefineProducts;
 import com.teamrm.teamrm.Fragment.NewTicket;
 import com.teamrm.teamrm.Fragment.TicketList;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
@@ -62,7 +63,7 @@ public class UtlFirebase { //TODO: make singleton
                 break;
         }
 
-        query.addChildEventListener(new ChildEventListener() {
+        myRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
@@ -71,20 +72,20 @@ public class UtlFirebase { //TODO: make singleton
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 String arrData[] = dataSnapshot.getValue().toString().split("[{,]");
-                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                /*for (DataSnapshot item : dataSnapshot.getChildren()) {
                     Ticket retrievedTicket = item.getValue(Ticket.class);
                     Log.w("STATE FROM LOOP", STATUS_USER + "States." + retrievedTicket.state + STATUS_USER);
                     ticketFactory.getNewState(STATUS_USER + "States.", retrievedTicket.state + STATUS_USER, retrievedTicket);
-                }
+                }*/
                 Log.w("STATE CHANGED", arrData[1]);
                 //{state=A00Admin, userName=oorya, company=yes, status=0, ticketId=11111};
-                /*for (int ctr = 0; ctr <= arrData.length; ctr++) {
+                for (int ctr = 0; ctr <= arrData.length; ctr++) {
                     if (arrData[ctr].contains("state")) {
                         Log.w("STATE FROM LOOP", STATUS_USER + "States." + arrData[ctr].substring(7) + STATUS_USER);
-                        ticketFactory.getNewState(STATUS_USER + "States.", arrData[ctr].substring(7) + STATUS_USER, );
+                        ticketFactory.getNewState(STATUS_USER + "States.", arrData[ctr].substring(7) + STATUS_USER, new Ticket());
                         return;
                     }
-                }*/
+                }
             }
 
             @Override
@@ -282,20 +283,20 @@ public class UtlFirebase { //TODO: make singleton
         myRef.child(ticketID).removeValue();
     }
 
-    public static void getUserByKey(final String key, Object object) {
+    public static void getUserByEmail(final String email, Object object) {
 
         final FireBaseAble fireBaseAble = (FireBaseAble) object;
 
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Users");
 
-        Query query = myRef.orderByKey().equalTo(key);
+        Query query = myRef.orderByChild("email").equalTo(email);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    Users users = item.getValue(Users.class);
-                    fireBaseAble.resultUser(users);
-                    Log.e("ON DATA CHANGE ", users == null ? "NULL" : "NOT NULL");
+                    Users user = item.getValue(Users.class);
+                    fireBaseAble.resultUser(user);
+                    Log.e("ON DATA CHANGE ", user == null ? "NULL" : "NOT NULL");
                 }
             }
 
@@ -514,8 +515,7 @@ public class UtlFirebase { //TODO: make singleton
                     Product product = item.getValue(Product.class);
                     productList.add(product);
                 }
-                //notify data set changed
-
+                AdminSettingsDefineProducts.productAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -596,4 +596,3 @@ public class UtlFirebase { //TODO: make singleton
         return productList;
     }
 }
-

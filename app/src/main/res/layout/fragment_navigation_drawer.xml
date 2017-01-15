@@ -13,7 +13,7 @@
         android:id="@+id/nav_header_container"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:paddingTop="64dp"
+        android:paddingTop="50dp"
         android:background="@color/colorPrimary"
         >
 

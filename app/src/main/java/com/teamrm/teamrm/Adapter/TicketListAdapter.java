@@ -116,7 +116,8 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
         holder.address.setText(item.address);
         holder.area.setText(item.area);
         holder.classification.setText(item.classification);
-        holder.description.setText(item.desShort);
+        holder.descriptionShort.setText(item.desShort);
+        holder.descriptionLong.setText(item.desLong);
         holder.ticketNumber.setText(item.ticketNumber);
         holder.time.setText(item.startTime);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -157,7 +158,8 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
         protected TextView area;
         protected TextView address;
         protected TextView ticketNumber;
-        protected TextView description;
+        protected TextView descriptionShort;
+        protected TextView descriptionLong;
         protected TextView time;
         protected TextView endTime;
         protected CardView cardContainer;
@@ -193,6 +195,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
                 }
             }
         }
+
         private void setView1()
         {
             this.product = (TextView) view.findViewById(R.id.equipment);
@@ -209,11 +212,13 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
             this.area.setTypeface(BOLD);
             this.address = (TextView) view.findViewById(R.id.add);
             this.address.setTypeface(SEMI_BOLD);
-            this.description = (TextView) view.findViewById(R.id.DescriptionTxt);
-            this.description.setTypeface(SEMI_BOLD);
+            this.descriptionShort = (TextView)view.findViewById(R.id.DescriptionTitle);
+            this.descriptionShort.setTypeface(BOLD);
+            this.descriptionLong = (TextView) view.findViewById(R.id.DescriptionTxt);
+            this.descriptionLong.setTypeface(SEMI_BOLD);
             this.time = (TextView) view.findViewById(R.id.openDate);
             this.time.setTypeface(REGULAR);
-            ((TextView)view.findViewById(R.id.DescriptionTitel)).setTypeface(BOLD);
+            ((TextView)view.findViewById(R.id.DescriptionTitle)).setTypeface(BOLD);
             this.cardContainer = (CardView)view.findViewById(R.id.cardContainer);
         }
         private void setView2()

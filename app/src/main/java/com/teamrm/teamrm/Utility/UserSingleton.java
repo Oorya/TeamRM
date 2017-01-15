@@ -9,6 +9,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Type.Client;
 import com.teamrm.teamrm.Type.Users;
 
@@ -39,8 +40,9 @@ public class UserSingleton extends Users{
         return instance;
     }
 
-    public static void init(final GoogleSignInAccount account)
+    public static void init(final GoogleSignInAccount account, Object object)
     {
+        final FireBaseAble fireBaseAble = (FireBaseAble) object;
         //creating a reference to Users object
         DatabaseReference myRef=FirebaseDatabase.getInstance().getReference("Users");
 
@@ -54,12 +56,14 @@ public class UserSingleton extends Users{
                    instance = new Client(UUID.randomUUID().toString(),account.getDisplayName(),account.getEmail());
                    Log.w(TAG, instance.getUserEmail()+" cons");
                    UtlFirebase.saveUser(instance);
+                   fireBaseAble.resultUser(instance);
                }
                else
                {
                    for(DataSnapshot item : dataSnapshot.getChildren())
                    {
                        instance = item.getValue(Client.class);
+                       fireBaseAble.resultUser(instance);
                        Log.w(TAG, instance.getUserID()+"  FOR");
                    }
                }

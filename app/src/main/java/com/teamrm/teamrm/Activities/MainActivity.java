@@ -214,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             //userStatus="User";
             //UtlFirebase.stateListener(userStatus,userEmail,"NULL");
 
-            UserSingleton.init(acct);
+            //UserSingleton.init(acct);
             //UtlFirebase.getUserByKey(userId,this); //fix AsyncTask racing
             Log.w("user id main ", userId);
             Log.w("EMAIL", UserSingleton.getInstance().getUserEmail()+" == ");

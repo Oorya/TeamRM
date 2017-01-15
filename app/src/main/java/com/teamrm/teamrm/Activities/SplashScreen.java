@@ -4,19 +4,16 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -27,15 +24,16 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.firebase.auth.FirebaseAuth;
+import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.App;
 import com.teamrm.teamrm.Utility.UserSingleton;
-import com.teamrm.teamrm.Utility.UtlAlarmManager;
 
-import static com.teamrm.teamrm.R.id.fontX;
+import java.util.List;
 
-public class SplashScreen extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
+public class SplashScreen extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, FireBaseAble {
 
     ImageView iconWait;
     TextView loadingStatus;
@@ -56,10 +54,6 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     private LinearLayout linearLayout;
 
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,9 +69,9 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         signInButton.setVisibility(View.VISIBLE);
         signInButton.setScopes(gso.getScopeArray());
         signInButton.setOnClickListener(this);
-
-
+        context=this;
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -109,7 +103,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         if (resume)
         {
             signInButton.setVisibility(View.VISIBLE);
-            linearLayout.setVisibility(View.GONE);
+            //linearLayout.setVisibility(View.GONE);
             resume=false;
         }
     }
@@ -135,10 +129,11 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         loadingStatus = (TextView) findViewById(R.id.loadingStatus);
         loadingStatus.setText(newStatus);
     }
+
     private void UpdateRecords()
     {
-
     }
+
     private int UserType()
     {
         return 1;
@@ -149,13 +144,13 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     }
     private void stTicketList()
     {
-
     }
 
     @Override
     public void onClick(View v) {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
+        linearLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -167,7 +162,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             acct = result.getSignInAccount();
-           // firebaseAuthWithGoogle(acct);
+            //firebaseAuthWithGoogle(acct);
             SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = settings.edit();
             editor.putString(PREF_ACCOUNT_NAME, acct.getEmail());
@@ -189,7 +184,8 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
             //userStatus="User";
             //UtlFirebase.stateListener(userStatus,userEmail,"NULL");
 
-            UserSingleton.init(acct);
+
+
             //UtlFirebase.getUserByKey(userId,this); //fix AsyncTask racing
             Log.w("user id main ", userId);
             Log.w("EMAIL", UserSingleton.getInstance().getUserEmail()+" == ");
@@ -198,8 +194,8 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
             Log.w("IMAGE GOOGLE ACCOUNT", acct.getPhotoUrl()==null?"NULL":"NOT NULL");
 
             signInButton.setVisibility(View.GONE);
-
-            startActivity(new Intent(this,HomeScreen.class));
+            linearLayout.setVisibility(View.GONE);
+            UserSingleton.init(acct, this);
 
         } else {
             signInButton.setVisibility(View.VISIBLE);
@@ -208,6 +204,29 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
             // Toast.makeText(this,"Incorrect Username or Password ",Toast.LENGTH_LONG).show();
         }
+    }
+
+
+    @Override
+    public void resultTicket(Ticket ticket) {
+
+    }
+
+    @Override
+    public void resultUser(Users user) {
+        linearLayout.setVisibility(View.GONE);
+        startActivity(new Intent(this,HomeScreen.class));
+        finish();
+    }
+
+    @Override
+    public void resultList(List<Ticket> ticket) {
+
+    }
+
+    @Override
+    public void resultBoolean(boolean bool) {
+
     }
 }
 

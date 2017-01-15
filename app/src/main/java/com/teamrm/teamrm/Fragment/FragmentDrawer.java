@@ -17,11 +17,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.teamrm.teamrm.Activities.MainActivity;
 import com.teamrm.teamrm.Activities.SplashScreen;
 import com.teamrm.teamrm.Adapter.NavigationDrawerAdapter;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Utility.NavDrawerItem;
+import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlBitmapUrl;
 
 import java.util.ArrayList;
@@ -84,7 +84,7 @@ public class FragmentDrawer extends Fragment {
 
         adapter = new NavigationDrawerAdapter(getActivity(), getData());
         userName = (TextView)layout.findViewById(R.id.userNameString);
-        userName.setText(MainActivity.userName);
+        userName.setText(UserSingleton.getInstance().getUserNameString());
         imageAvatar = (ImageView)layout.findViewById(R.id.userAvatar);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -102,11 +102,11 @@ public class FragmentDrawer extends Fragment {
             }
         }));
 
-       // if(!SplashScreen.userImage.equals(""))
-      //  {
-      //      UtlBitmapUrl bitmapUrl = new UtlBitmapUrl();
-     //       bitmapUrl.execute(MainActivity.userImage);
-     //   }
+       if(!SplashScreen.userImage.equals(""))
+       {
+            UtlBitmapUrl bitmapUrl = new UtlBitmapUrl();
+            bitmapUrl.execute(SplashScreen.userImage);
+       }
 
         return layout;
     }
