@@ -244,7 +244,6 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
         return Math.round(pixels);
     }
 
-
     // Add a list of items
     public void refresh() {
 

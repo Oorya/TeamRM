@@ -172,7 +172,6 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp"
                 android:layoutDirection="rtl"
-                android:onClick="userProfile"
                 app:cardBackgroundColor="@color/listRow_alt"
                 app:cardCornerRadius="5dp"
                 android:id="@+id/btnProfile">

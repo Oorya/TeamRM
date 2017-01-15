@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -41,7 +42,7 @@ import javax.annotation.Nullable;
  */
 public class TicketView extends Fragment implements View.OnClickListener, FireBaseAble {
 
-    CardView userDetailCard, approval, cancel;
+    CardView userDetailCard, approval, cancel, btnProfile;
     RelativeLayout userDetailOpen;
     RelativeLayout ticketDetailClose;
     RelativeLayout ticketDetailOpen;
@@ -56,11 +57,11 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     private Users userProfileObj ;
     Fragment stateActionButtons;
     UtlAlarmManager utlAlarmManager;
+    Button btnRight;
 
     public TicketView() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,10 +99,10 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
         }
 
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        /*FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         ft.add(R.id.btnFragment, new StateActionButtons(), null);
         ft.disallowAddToBackStack();
-        ft.commit();
+        ft.commit();*/
     }
 
     @Override
@@ -155,8 +156,12 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             Toast.makeText(getContext(), "USER PROFILE " + ticket.clientName, Toast.LENGTH_SHORT).show();
 
 
-        } else if (view.getId() == approval.getId()) {
+        } else if (view.getId() == btnProfile.getId())
+        {
+            Toast.makeText(getContext(), UserSingleton.getInstance().getUserNameString(), Toast.LENGTH_SHORT).show();
+        }else if (view.getId() == approval.getId()) {
 
+            Toast.makeText(getContext(), "ok", Toast.LENGTH_SHORT).show();
             switch (ticket.state)
             {
                 case ProductID.STATE_A00: {
@@ -165,8 +170,9 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                     break;
                 }
                 case ProductID.STATE_A01:{
-                    ticket.changeState(ProductID.STATE_A02CN,ticket);
-                    ticket.getStateObj().setView(this.getView());
+                    ticket.changeState(ProductID.STATE_B01,ticket);
+                    UtlFirebase.changeStatus(ticket.ticketId,2);
+                    //ticket.getStateObj().setView(this.getView());
                     break;
                 }
                 case ProductID.STATE_A02CN:
@@ -291,6 +297,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         ticketDetailOpen = (RelativeLayout) view.findViewById(R.id.ticketHeadingExpand);
         userName = (TextView) view.findViewById(R.id.userNameCard);
         userProfile = (TextView) view.findViewById(R.id.userProfileLabel);
+        btnProfile = (CardView)view.findViewById(R.id.btnProfile); 
         approval = (CardView) view.findViewById(R.id.ok);
         cancel = (CardView) view.findViewById(R.id.cancel);
         txtCancel = (TextView) view.findViewById(R.id.txtCancel);
@@ -312,6 +319,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         regionUserEx = (TextView)view.findViewById(R.id.locationAdd);
         addressUserEx = (TextView)view.findViewById(R.id.locationText);
         phoneUserEx = (TextView)view.findViewById(R.id.phoneText);
+        //btnRight = (Button)view.findViewById(R.id.btnRight);
 
         endTimeTxt.setOnClickListener(this);
         userDetailCard.setOnClickListener(this);
@@ -319,8 +327,10 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         ticketDetailClose.setOnClickListener(this);
         ticketDetailOpen.setOnClickListener(this);
         userProfile.setOnClickListener(this);
+        btnProfile.setOnClickListener(this);
         approval.setOnClickListener(this);
         cancel.setOnClickListener(this);
+        //btnRight.setOnClickListener(this);
     }
 
     @Override

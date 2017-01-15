@@ -20,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -268,6 +267,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                         SplashScreen.resume=true;
                         FirebaseAuth.getInstance().signOut();
                         finish();
+                        startActivity(new Intent(HomeScreen.this, SplashScreen.class));
                     }
                 });
     }

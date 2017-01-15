@@ -229,7 +229,7 @@ public class UtlFirebase { //TODO: make singleton
         return status;
     }
 
-    public static void changeStatus(String ticketID, String status) {
+    public static void changeStatus(String ticketID, int status) {
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Ticket");
 
         myRef.child(ticketID).child("status").setValue(status);
