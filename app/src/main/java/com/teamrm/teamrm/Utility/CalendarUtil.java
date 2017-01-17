@@ -684,7 +684,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             {
                 do {
                     try {
-                        if(mService==null)
+                        if(mService!=null)
                         calendarList = mService.calendarList().list().setPageToken(pageToken).execute();
                     } catch (UserRecoverableAuthIOException e) {
                         UserRecoverable(e);
