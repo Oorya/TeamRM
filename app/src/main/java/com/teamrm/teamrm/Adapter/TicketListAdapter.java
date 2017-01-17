@@ -116,8 +116,8 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
         holder.address.setText(item.address);
         holder.area.setText(item.area);
         holder.classification.setText(item.classification);
-        holder.descriptionShort.setText(item.desShort);
-        holder.descriptionLong.setText(item.desLong);
+        holder.descriptionShort.setText((item.desShort.isEmpty() ? "ל\"ת" : item.desShort));
+        holder.descriptionLong.setText((item.desLong.isEmpty() ? "ל\"ת" : item.desLong));
         holder.ticketNumber.setText(item.ticketNumber);
         holder.time.setText(item.startTime);
         holder.itemView.setOnClickListener(new View.OnClickListener() {

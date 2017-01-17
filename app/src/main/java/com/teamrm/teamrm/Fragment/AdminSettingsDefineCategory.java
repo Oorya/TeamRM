@@ -47,8 +47,6 @@ public class AdminSettingsDefineCategory extends Fragment {
         floatBtn = (FloatingActionButton) view.findViewById(R.id.floatBtn);
         floatBtn.hide();
 
-        /*categoryList = UtlFirebase.getCategories(UserSingleton.getInstance().getUserCompany()); //TODO:fix this
-        Log.d(TAG, "initDone true, list="+categoryList.toString());*/
 
         categoryView = (RecyclerView) view.findViewById(R.id.prefRecyclerView);
         categoryView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -70,7 +68,7 @@ public class AdminSettingsDefineCategory extends Fragment {
             public void onClick(View view) {
 
                 new MaterialDialog.Builder(getContext())
-                        .title("הוספת סיווג")
+                        .title(R.string.label_add_category)
                         .input("", "", new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
@@ -79,7 +77,6 @@ public class AdminSettingsDefineCategory extends Fragment {
                                 UtlFirebase.saveCategory(UserSingleton.getInstance().getUserCompany(), category);
                             }
                         })
-                        //.onPositive() //TODO:add method
 
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override

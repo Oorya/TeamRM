@@ -222,7 +222,7 @@
             android:layout_below="@id/area">
 
             <TextView
-                android:id="@+id/DescriptionTitel"
+                android:id="@+id/DescriptionTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="16dp"
@@ -237,7 +237,7 @@
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
                 android:layout_marginTop="10dp"
-                android:layout_toEndOf="@id/DescriptionTitel"
+                android:layout_toEndOf="@id/DescriptionTitle"
                 android:text="|" />
 
             <TextView
