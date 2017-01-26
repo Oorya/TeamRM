@@ -1,7 +1,6 @@
 package com.teamrm.teamrm.Adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,7 +63,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                                 .title(R.string.label_edit_prefitem_dialog_title)
                                 .input("", categoryItem.getCategoryName(), new MaterialDialog.InputCallback() {
                                     @Override
-                                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                                    public void onInput( MaterialDialog dialog, CharSequence input) {
 
                                     }
                                 })
@@ -93,7 +92,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                                 .positiveText(R.string.label_button_confirm)
                                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                                     @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    public void onClick( MaterialDialog dialog,  DialogAction which) {
                                         dialog.dismiss();
                                         new MaterialDialog.Builder(cContext)
                                                 .title(R.string.label_confirm_remove)
@@ -101,7 +100,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                                                 .positiveText(R.string.label_button_confirm)
                                                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                                                     @Override
-                                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                    public void onClick( MaterialDialog dialog,  DialogAction which) {
                                                         categoryList.remove(position);
                                                         CategoryAdapter.super.notifyItemRemoved(position);
                                                     }

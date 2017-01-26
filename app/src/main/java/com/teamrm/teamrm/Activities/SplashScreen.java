@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -66,10 +65,12 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         gso = App.getGoogleApiHelper().getGso();
         signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_WIDE);
-        signInButton.setVisibility(View.VISIBLE);
         signInButton.setScopes(gso.getScopeArray());
         signInButton.setOnClickListener(this);
+        signInButton.setVisibility(View.GONE);
+
         context=this;
+
     }
 
     @Override
@@ -83,6 +84,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
             Log.d(TAG, "Got cached sign-in");
             GoogleSignInResult result = opr.get();
             handleSignInResult(result);
+            linearLayout.setVisibility(View.VISIBLE);
         } else {
             // If the user has not previously signed in on this device or the sign-in has expired,
             // this asynchronous branch will attempt to sign in the user silently.  Cross-device
@@ -148,13 +150,16 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
     @Override
     public void onClick(View v) {
+        linearLayout.setVisibility(View.VISIBLE);
+        signInButton.setVisibility(View.GONE);
+
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
-        linearLayout.setVisibility(View.VISIBLE);
+
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    public void onConnectionFailed( ConnectionResult connectionResult) {
 
     }
     private void handleSignInResult(GoogleSignInResult result) {
@@ -193,8 +198,6 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
             userImage = acct.getPhotoUrl()==null?"":acct.getPhotoUrl().toString();
             Log.w("IMAGE GOOGLE ACCOUNT", acct.getPhotoUrl()==null?"NULL":"NOT NULL");
 
-            signInButton.setVisibility(View.GONE);
-            linearLayout.setVisibility(View.GONE);
             UserSingleton.init(acct, this);
 
         } else {

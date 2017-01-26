@@ -131,6 +131,9 @@ public class UtlFirebase { //TODO: make singleton
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
+
+
+
                     Ticket ticket = item.getValue(Ticket.class);
                     returnTicket = ticket;
                     Log.e("ON DATA CHANGE ", ticket == null ? "NULL" : "NOT NULL");
@@ -258,6 +261,7 @@ public class UtlFirebase { //TODO: make singleton
         //DataSnapshot data = new DataSnapshot(myRef);
         Query query = myRef.child(ticketID);
         query.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 chatList.clear();
@@ -271,10 +275,12 @@ public class UtlFirebase { //TODO: make singleton
                 //ChatTicket.chatAdapter.notifyDataSetChanged();
             }
 
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 //Toast.makeText(MainActivity.context, "Error retrieving data ", Toast.LENGTH_SHORT).show();
             }
+
         });
         return chatList;
     }
