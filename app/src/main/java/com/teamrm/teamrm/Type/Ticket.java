@@ -2,6 +2,7 @@ package com.teamrm.teamrm.Type;
 
 import android.app.PendingIntent;
 
+import com.google.firebase.FirebaseApp;
 import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.Interfaces.TicketStatus;

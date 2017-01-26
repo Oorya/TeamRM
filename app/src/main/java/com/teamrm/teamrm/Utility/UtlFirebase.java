@@ -8,6 +8,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.teamrm.teamrm.Fragment.AdminSettingsDefineCategory;
@@ -26,6 +27,7 @@ import com.teamrm.teamrm.Type.Users;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -361,6 +363,24 @@ public class UtlFirebase { //TODO: make singleton
         });
         Log.e("ALL", "COMPANIES LIST");
         return companyList;
+    }
+
+    public static List<HashMap> getAllClientCompanies(String userID){
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("UserCompanies");
+        final List<HashMap>clientCompanies = new ArrayList<HashMap>();
+        Query query = myRef.orderByChild(userID);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot single : dataSnapshot.getChildren()){
+                    clientCompanies.add((HashMap)single.getValue()); //TODO:key = userID, value = companyID
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+        return clientCompanies;
     }
 
     public static void saveUser(Users user) {

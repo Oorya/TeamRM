@@ -14,7 +14,6 @@ public abstract class Users
     private boolean userIsAdmin;
     private String userStatus;
     private String userPhone;
-    private String userRegion;
     private String userAddress;
     private String userCompany;
 
@@ -103,8 +102,4 @@ public abstract class Users
         this.userAddress = userAddress;
     }
 
-    public String getUserRegion()
-    {
-        return userRegion;
-    }
 }
