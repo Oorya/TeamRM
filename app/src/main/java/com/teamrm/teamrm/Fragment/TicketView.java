@@ -129,11 +129,11 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     }
 
     private void initUserCard() {
-        userNameEx.setText(userProfileObj.getUserNameString());
-        mailUserEx.setText(userProfileObj.getUserEmail());
-        regionUserEx.setText(userProfileObj.getUserRegion());
-        addressUserEx.setText(userProfileObj.getUserAddress());
-        phoneUserEx.setText(userProfileObj.getUserPhone());
+        userNameEx.setText(ticket.clientName);
+        mailUserEx.setText(ticket.email);
+        regionUserEx.setText(ticket.area);
+        addressUserEx.setText(ticket.address);
+        phoneUserEx.setText(ticket.phone);
     }
 
     @Override

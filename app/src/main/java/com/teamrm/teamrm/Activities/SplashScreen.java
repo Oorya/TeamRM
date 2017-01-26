@@ -196,7 +196,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
             Log.w("EMAIL", UserSingleton.getInstance().getUserEmail()+" == ");
 
             userImage = acct.getPhotoUrl()==null?"":acct.getPhotoUrl().toString();
-            Log.w("IMAGE GOOGLE ACCOUNT", acct.getPhotoUrl()==null?"NULL":"NOT NULL");
+            Log.w("IMAGE GOOGLE ACCOUNT", acct.getPhotoUrl()==null?"NULL":acct.getPhotoUrl().toString());
 
             UserSingleton.init(acct, this);
 
