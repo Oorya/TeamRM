@@ -15,7 +15,7 @@ public abstract class Users
     private String userStatus;
     private String userPhone;
     private String userAddress;
-    private String userCompany;
+    private String userCompanyID;
 
 
     public Users(){}  //empty constructor, must have
@@ -78,12 +78,12 @@ public abstract class Users
         this.userStatus = userStatus;
     }
 
-    public String getUserCompany() {
-        return userCompany;
+    public String getUserCompanyID() {
+        return userCompanyID;
     }
 
     public void setUserCompany(String userCompany) {
-        this.userCompany = userCompany;
+        this.userCompanyID = userCompany;
     }
 
     public String getUserPhone() {

@@ -32,7 +32,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     public CategoryAdapter(Context context) {
         this.cContext = context;
-        this.categoryList = UtlFirebase.getCategories(UserSingleton.getInstance().getUserCompany());
+        this.categoryList = UtlFirebase.getCategories(UserSingleton.getInstance().getUserCompanyID());
 
     }
 

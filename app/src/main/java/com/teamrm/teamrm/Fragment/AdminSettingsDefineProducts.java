@@ -84,8 +84,7 @@ public class AdminSettingsDefineProducts extends Fragment {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                         Toast.makeText(getContext(),  input.toString(), Toast.LENGTH_SHORT).show();
-                        Product product = new Product(input.toString());
-                        UtlFirebase.saveProduct(UserSingleton.getInstance().getUserCompany(), product);
+                        UtlFirebase.saveProduct(UserSingleton.getInstance().getUserCompanyID(), input.toString());
                     }
                 })
                 //.onPositive() //TODO:add method
