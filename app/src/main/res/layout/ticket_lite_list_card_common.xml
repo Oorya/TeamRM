@@ -14,20 +14,53 @@
         android:layout_width="match_parent"
         android:layout_height="40dp">
 
-        <ImageView
-            android:id="@+id/clientIcon"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="12dp"
-            android:src="@drawable/ic_icon_person" />
+            android:id="@+id/clientNameSpan"
+            android:visibility="gone">
 
-        <TextView
-            android:id="@+id/clientName"
-            style="@style/TicketCardText"
-            android:layout_toEndOf="@id/clientIcon"
-            android:textSize="14sp"
-            tools:text=" קריבורוז'סקי" />
+            <ImageView
+                android:id="@+id/clientIcon"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_icon_person" />
+
+            <TextView
+                android:id="@+id/clientName"
+                style="@style/TicketCardText"
+                android:layout_toEndOf="@id/clientIcon"
+                android:textSize="14sp"
+                tools:text=" קריבורוז'סקי" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:id="@+id/companyNameSpan">
+
+            <ImageView
+                android:id="@+id/companyIcon"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_logo_blue" />
+
+            <TextView
+                android:id="@+id/companyName"
+                style="@style/TicketCardText"
+                android:layout_toEndOf="@id/companyIcon"
+                android:textSize="14sp"
+                tools:text="המחרבש בעמ"
+                tools:textStyle="bold"
+                />
+        </RelativeLayout>
+
 
         <ImageView
             android:id="@+id/technicianIcon"
