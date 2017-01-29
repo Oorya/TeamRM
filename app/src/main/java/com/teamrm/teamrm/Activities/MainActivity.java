@@ -269,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.add(Calendar.SECOND,180);//(Calendar.DATE)
-        utlAlarmManager.setAlarm(calendar.getTime(), TicketStateAble.TICKET_LIST_STATUS_OK);
+        utlAlarmManager.setAlarm(calendar.getTime(), TicketStateAble.TICKET_LIST_PRESENTATION_OK);
         Log.d("MESSEGE","alert10Sec");
     }
 
@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.SECOND,10);//(Calendar.DATE)
-        utlAlarmManager.setAlarm(calendar.getTime(), TicketStateAble.TICKET_LIST_STATUS_OK);
+        utlAlarmManager.setAlarm(calendar.getTime(), TicketStateAble.TICKET_LIST_PRESENTATION_OK);
         Log.d("MESSEGE","alert1Sec");
     }
 
@@ -310,7 +310,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         userStatus=user.getUserStatus();
         if (userStatus.equals("Admin"))
         {
-            UtlFirebase.stateListener(userStatus, userEmail, user.getUserCompanyID());
+            UtlFirebase.stateListener(userStatus, userEmail, user.getUserCompany());
         }
         else if (userStatus.equals("Client"))
         {

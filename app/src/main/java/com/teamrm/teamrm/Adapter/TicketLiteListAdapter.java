@@ -52,28 +52,28 @@ public class TicketLiteListAdapter extends RecyclerView.Adapter<TicketLiteListAd
         CustomViewHolder viewHolder;
         switch (viewType)
         {
-            case TicketStateAble.TICKET_LIST_STATUS_URGENT:
+            case TicketStateAble.TICKET_LIST_PRESENTATION_URGENT:
             {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_list_status_urgent, null);
-                viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_STATUS_URGENT);
+                viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_PRESENTATION_URGENT);
                 break;
             }
-            case TicketStateAble.TICKET_LIST_STATUS_PENDING:
+            case TicketStateAble.TICKET_LIST_PRESENTATION_PENDING:
             {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_list_status_pending, null);
-                viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_STATUS_PENDING);
+                viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_PRESENTATION_PENDING);
                 break;
             }
-            case TicketStateAble.TICKET_LIST_STATUS_OK:
+            case TicketStateAble.TICKET_LIST_PRESENTATION_OK:
             {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_list_status_ok, null);
-                viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_STATUS_OK);
+                viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_PRESENTATION_OK);
                 break;
             }
-            case TicketStateAble.TICKET_LIST_STATUS_ERROR:
+            case TicketStateAble.TICKET_LIST_PRESENTATION_ERROR:
             {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_list_status_error, null);
-                viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_STATUS_ERROR);
+                viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_PRESENTATION_ERROR);
                 break;
             }
             default:viewHolder=null;
@@ -87,23 +87,23 @@ public class TicketLiteListAdapter extends RecyclerView.Adapter<TicketLiteListAd
     public int getItemViewType(int position) {
         // super.getItemViewType(position);
         Log.d(":::TICKET ADAPTER:::", mTicketListItem.size()+" size");
-        switch (mTicketListItem.get(position).status)
+        switch (mTicketListItem.get(position).ticketStateString)
         {
-            case TicketStateAble.TICKET_LIST_STATUS_URGENT:
+            case TicketStateAble.TICKET_LIST_PRESENTATION_URGENT:
             {
-                return TicketStateAble.TICKET_LIST_STATUS_URGENT;
+                return TicketStateAble.TICKET_LIST_PRESENTATION_URGENT;
             }
-            case TicketStateAble.TICKET_LIST_STATUS_PENDING:
+            case TicketStateAble.TICKET_LIST_PRESENTATION_PENDING:
             {
-                return TicketStateAble.TICKET_LIST_STATUS_PENDING;
+                return TicketStateAble.TICKET_LIST_PRESENTATION_PENDING;
             }
-            case TicketStateAble.TICKET_LIST_STATUS_OK:
+            case TicketStateAble.TICKET_LIST_PRESENTATION_OK:
             {
-                return TicketStateAble.TICKET_LIST_STATUS_OK;
+                return TicketStateAble.TICKET_LIST_PRESENTATION_OK;
             }
-            case TicketStateAble.TICKET_LIST_STATUS_ERROR:
+            case TicketStateAble.TICKET_LIST_PRESENTATION_ERROR:
             {
-                return TicketStateAble.TICKET_LIST_STATUS_ERROR;
+                return TicketStateAble.TICKET_LIST_PRESENTATION_ERROR;
             }
             default:return 0;
         }
@@ -172,23 +172,23 @@ public class TicketLiteListAdapter extends RecyclerView.Adapter<TicketLiteListAd
             this.view = view;
             switch (viewNum)
             {
-                case TicketStateAble.TICKET_LIST_STATUS_URGENT:
+                case TicketStateAble.TICKET_LIST_PRESENTATION_URGENT:
                 {
                     setView1();
                     break;
                 }
-                case TicketStateAble.TICKET_LIST_STATUS_PENDING:
+                case TicketStateAble.TICKET_LIST_PRESENTATION_PENDING:
                 {
                     setView1();
                     break;
                 }
-                case TicketStateAble.TICKET_LIST_STATUS_OK:
+                case TicketStateAble.TICKET_LIST_PRESENTATION_OK:
                 {
                     setView1();
                     setView2();
                     break;
                 }
-                case TicketStateAble.TICKET_LIST_STATUS_ERROR:
+                case TicketStateAble.TICKET_LIST_PRESENTATION_ERROR:
                 {
                     setView1();
                     setView2();
