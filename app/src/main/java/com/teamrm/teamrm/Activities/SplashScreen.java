@@ -57,12 +57,21 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        // getSupportActionBar().hide();
+
         setContentView(R.layout.activity_splashscreen);
+        Log.d("splash", "onCreate rotateWaitingIcon: ");
+
         rotateWaitingIcon();
         updateLoadingStatus("מכין אפליקציה לשימוש...");
+        Log.d("splash", "onCreate: ");
+
+            // everything else that doesn't update UI
+
         linearLayout = (LinearLayout)findViewById(R.id.load);
-        mGoogleApiClient= App.getGoogleApiHelper().getGoogleApiClient();
-        gso = App.getGoogleApiHelper().getGso();
+
+        App app = new App(this);
+        mGoogleApiClient= app.getGoogleApiHelper().getGoogleApiClient();
+        gso = app.getGoogleApiHelper().getGso();
         signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_WIDE);
         signInButton.setScopes(gso.getScopeArray());
@@ -71,11 +80,13 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
         context=this;
 
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        Log.d("splash", "onStart: ");
 
         OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
         if (opr.isDone()) {
@@ -112,6 +123,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d("splash", "onActivityResult: ");
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
@@ -163,7 +175,10 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
     }
     private void handleSignInResult(GoogleSignInResult result) {
-        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+
+        Log.d("splash", "handleSignInResult: ");
+
+
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             acct = result.getSignInAccount();
@@ -199,6 +214,8 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
             Log.w("IMAGE GOOGLE ACCOUNT", acct.getPhotoUrl()==null?"NULL":"NOT NULL");
 
             UserSingleton.init(acct, this);
+            Log.d("splash", "handleSignInResult: ");
+
 
         } else {
             signInButton.setVisibility(View.VISIBLE);
