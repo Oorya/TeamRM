@@ -8,7 +8,6 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -23,18 +22,12 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.teamrm.teamrm.Activities.HomeScreen;
-import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Company;
-import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Utility.UtlCamera;
 import com.teamrm.teamrm.Utility.UtlFirebase;
-import com.teamrm.teamrm.Utility.UtlImage;
 
-import java.util.Calendar;
 import java.util.List;
-import java.util.UUID;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -134,7 +127,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,  int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Log.w("Permission new ticket", "new ticket");
         if(grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED)
