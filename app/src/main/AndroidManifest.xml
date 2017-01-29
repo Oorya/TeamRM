@@ -27,7 +27,6 @@
 
 
     <application
-        android:name=".Utility.App"
         android:allowBackup="true"
         android:icon="@drawable/ic_logo_blue"
         android:label="@string/app_name"
@@ -36,11 +35,12 @@
         tools:replace="android:icon">
         <activity
             android:name=".Activities.SplashScreen"
-            android:theme="@style/myStyleNoTitle" >
+            android:theme="@style/myStyleNoTitle"
+           >
 
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
-
+            <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>

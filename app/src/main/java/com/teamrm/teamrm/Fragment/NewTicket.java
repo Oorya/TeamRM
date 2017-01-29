@@ -200,7 +200,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
                 product = "";
                 selectCompany.setSelection(position);
                 company = selectCompany.getItemAtPosition(position).toString();
-                setSpinnerAdapters();
+                //setSpinnerAdapters();
                 break;
         }
     }

@@ -21,12 +21,17 @@ public class GoogleApiHelper implements GoogleApiClient.ConnectionCallbacks, Goo
     GoogleSignInOptions gso;
 
     public GoogleApiHelper(Context context) {
+
+        Log.d("splash", "GoogleApiHelper: ");
+
         this.context = context;
         buildGoogleApiClient();
         connect();
     }
 
     public GoogleApiClient getGoogleApiClient() {
+        Log.d("splash", "getGoogleApiClient: ");
+
         return this.mGoogleApiClient;
     }
 
@@ -52,6 +57,8 @@ public class GoogleApiHelper implements GoogleApiClient.ConnectionCallbacks, Goo
 
     public GoogleSignInOptions getGso()
     {
+        Log.d("splash", "getGso: ");
+
         return this.gso;
     }
 

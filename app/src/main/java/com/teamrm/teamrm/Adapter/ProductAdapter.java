@@ -33,7 +33,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
 
     public ProductAdapter(Context context) {
         this.prContext = context;
-        this.productList = UtlFirebase.getProducts(UserSingleton.getInstance().getUserCompany());
+        this.productList = UtlFirebase.getProducts(UserSingleton.getInstance().getUserCompanyID());
     }
 
     @Override

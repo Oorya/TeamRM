@@ -16,6 +16,8 @@ import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
+import java.util.UUID;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -43,9 +45,10 @@ public class FirmDetailsFrag extends Fragment {
             @Override
             public void onClick(View view) {
                 String companyName = company.getText().toString();
+                String companyID = UUID.randomUUID().toString();
                 UtlFirebase.changeUserStatus(USER_ID, Users.STATUS_ADMIN, true);
-                UtlFirebase.setCompany(USER_ID, companyName);
-                Company company = new Company(companyName, USER_ID, address.getText().toString(),phone.getText().toString());
+                UtlFirebase.setUserCompanyID(USER_ID, companyID);
+                Company company = new Company(companyID, companyName, USER_ID, address.getText().toString(),phone.getText().toString());
                 UtlFirebase.saveCompany(company);
 
                 Toast.makeText(getContext(), "נדרש אתחול כדי לעדכן את ההגדרות החדשות", Toast.LENGTH_SHORT).show();
