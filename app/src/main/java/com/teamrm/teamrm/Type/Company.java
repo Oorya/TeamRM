@@ -73,4 +73,9 @@ public class Company
     {
         return product;
     }
+
+    public String toString()
+    {
+        return companyName;
+    }
 }

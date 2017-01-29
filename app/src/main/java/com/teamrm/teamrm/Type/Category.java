@@ -23,4 +23,9 @@ public class Category
     public String getCategoryID() {
         return categoryID;
     }
+
+    public String toString()
+    {
+        return categoryName;
+    }
 }
