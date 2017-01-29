@@ -47,7 +47,7 @@ public class UserSingleton extends Users{
         DatabaseReference myRef=FirebaseDatabase.getInstance().getReference("Users");
 
         final Query q = myRef.orderByChild("userEmail").equalTo(account.getEmail());
-        q.addValueEventListener(new ValueEventListener() {
+        q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.w(TAG, dataSnapshot.exists()+" ok ==LY");

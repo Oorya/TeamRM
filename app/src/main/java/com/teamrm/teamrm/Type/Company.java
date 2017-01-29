@@ -3,7 +3,6 @@ package com.teamrm.teamrm.Type;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Created by Oorya on 15/12/2016.
@@ -22,22 +21,13 @@ public class Company
 
     public Company(){}
 
-    public Company(String companyName, String adminId, String address, String phone) {
+    public Company(String companyId, String companyName, String adminId, String address, String phone) {
+        this.companyId = companyId;
         this.companyName = companyName;
-        this.companyId = getUUID();
         this.adminId = adminId;
         this.address = address;
         this.phone = phone;
         this.time = getCurrentTime();
-    }
-
-
-    private String getUUID()
-    {
-        //create a unique UUID
-        UUID idOne = UUID.randomUUID();
-        //returning the UUID
-        return idOne.toString();
     }
 
     private String getCurrentTime()

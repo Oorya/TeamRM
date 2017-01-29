@@ -310,7 +310,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         userStatus=user.getUserStatus();
         if (userStatus.equals("Admin"))
         {
-            UtlFirebase.stateListener(userStatus, userEmail, user.getUserCompany());
+            UtlFirebase.stateListener(userStatus, userEmail, user.getUserCompanyID());
         }
         else if (userStatus.equals("Client"))
         {

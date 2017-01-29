@@ -124,16 +124,16 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         ((TextView) view.findViewById(R.id.dateTimeOpen)).setTypeface(REGULAR);
         ((TextView) view.findViewById(R.id.ticketNum)).setTypeface(SEMI_BOLD);
         UtlFirebase.getTicketByKey(ticketID, this);
-        initUserCard();
+
         return view;
     }
 
     private void initUserCard() {
-        userNameEx.setText(userProfileObj.getUserNameString());
-        mailUserEx.setText(userProfileObj.getUserEmail());
-        regionUserEx.setText(userProfileObj.getUserRegion());
-        addressUserEx.setText(userProfileObj.getUserAddress());
-        phoneUserEx.setText(userProfileObj.getUserPhone());
+        userNameEx.setText(ticket.clientName);
+        mailUserEx.setText(ticket.email);
+        regionUserEx.setText(ticket.area);
+        addressUserEx.setText(ticket.address);
+        phoneUserEx.setText(ticket.phone);
     }
 
     @Override
@@ -337,6 +337,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     public void resultTicket(Ticket ticket) {
         this.ticket = ticket;
         initializeTicket();
+        initUserCard();
     }
 
     private void initializeTicket() {
