@@ -4,6 +4,7 @@ import android.media.Image;
 
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -123,8 +124,13 @@ public class TicketLite {
         this.ticketStateString = ticketStateString;
     }
 
-    public Date getTicketOpenDateTime() {
-        return ticketOpenDateTime;
+    public String getTicketOpenDateTime() {
+
+        SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+        String DateTimeformatted = format1.format(this.ticketOpenDateTime.getTime());
+
+
+        return DateTimeformatted;
     }
 
     public void setTicketOpenDateTime(Date ticketOpenDateTime) {

@@ -19,6 +19,7 @@ import com.teamrm.teamrm.Fragment.TicketView;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
     private Typeface LIGHT;
     private Typeface REGULAR;
     private Typeface SEMI_BOLD;
-    private List<Ticket> mTicketListItem;
+    private List<TicketLite> mTicketListItem;
     private Context mContext;
 
     public TicketListAdapter(Context context) {
@@ -53,25 +54,25 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
         {
             case TicketStateAble.TICKET_LIST_PRESENTATION_URGENT:
             {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_list_status_urgent, null);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_lite_list_status_urgent, null);
                 viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_PRESENTATION_URGENT);
                 break;
             }
             case TicketStateAble.TICKET_LIST_PRESENTATION_PENDING:
             {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_list_status_pending, null);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_lite_list_status_pending, null);
                 viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_PRESENTATION_PENDING);
                 break;
             }
             case TicketStateAble.TICKET_LIST_PRESENTATION_OK:
             {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_list_status_ok, null);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_lite_list_status_ok, null);
                 viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_PRESENTATION_OK);
                 break;
             }
             case TicketStateAble.TICKET_LIST_PRESENTATION_ERROR:
             {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_list_status_error, null);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_lite_list_status_error, null);
                 viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_PRESENTATION_ERROR);
                 break;
             }
@@ -86,7 +87,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
     public int getItemViewType(int position) {
         // super.getItemViewType(position);
         Log.d(":::TICKET ADAPTER:::", mTicketListItem.size()+" size");
-        switch (mTicketListItem.get(position).status)
+        switch (mTicketListItem.get(position).getTicketPresentation())
         {
             case TicketStateAble.TICKET_LIST_PRESENTATION_URGENT:
             {
@@ -110,16 +111,16 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
 
     @Override
     public void onBindViewHolder(TicketListAdapter.CustomViewHolder holder, final int position) {
-        final Ticket item = mTicketListItem.get(position);
-        holder.userName.setText(item.clientNameString);
-        holder.product.setText(item.productName);
-        holder.address.setText(item.ticketAddress);
-        holder.area.setText(item.regionName);
-        holder.classification.setText(item.categoryName);
-        holder.descriptionShort.setText((item.descriptionShort.isEmpty() ? "ל\"ת" : item.descriptionShort));
-        holder.descriptionLong.setText((item.descriptionLong.isEmpty() ? "ל\"ת" : item.descriptionLong));
+        final TicketLite item = mTicketListItem.get(position);
+        holder.userName.setText(item.getClientNameString());
+        holder.product.setText(item.getProductName());
+        holder.address.setText(item.getTicketAddress());
+        holder.area.setText(item.getRegionName());
+        holder.classification.setText(item.getCategoryName());
+        holder.descriptionShort.setText((item.getDescriptionShort().isEmpty() ? "ל\"ת" : item.descriptionShort));
+        holder.descriptionLong.setText((item.getDescriptionLong().isEmpty() ? "ל\"ת" : item.descriptionLong));
         holder.ticketNumber.setText(item.ticketNumber);
-        holder.time.setText(item.ticketOpenDateTime);
+        holder.time.setText(item.getTicketOpenDateTime());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
