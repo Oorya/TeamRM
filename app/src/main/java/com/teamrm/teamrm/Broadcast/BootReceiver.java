@@ -45,7 +45,7 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
          }
          else
          {
-             ticketId = intent.getStringExtra("ticketId");
+             ticketId = intent.getStringExtra("ticketID");
              alamId = intent.getIntExtra("alarmId",5);
              UtlFirebase.getTicketByKey(ticketId,this);
 
@@ -78,17 +78,17 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
 
         for (int i=0;i<= ticket.size() ;i++)
         {
-            if(!(ticket.get(i).endTime==null && ticket.get(i).ttl==null))
+            if(!(ticket.get(i).ticketCloseDateTime ==null && ticket.get(i).ttl==null))
             {
-                if(ticket.get(i).endTime!=null)
+                if(ticket.get(i).ticketCloseDateTime !=null)
                 {
-                    if (ticket.get(i).endTime.getTime() - cal.getTime().getTime() < 0)
+                    if (ticket.get(i).ticketCloseDateTime.getTime() - cal.getTime().getTime() < 0)
                     {
 
                         sendNotification();
                     }else
                     {
-                        ticket.get(i).setAlarm(utlAlarmManager.setAlarm(ticket.get(i).endTime,ticket.get(i).alarmID,ticket.get(i).ticketId));
+                        ticket.get(i).setAlarm(utlAlarmManager.setAlarm(ticket.get(i).ticketCloseDateTime,ticket.get(i).alarmID,ticket.get(i).ticketID));
                     }
                 }
                 if(ticket.get(i).ttl != null)
@@ -98,7 +98,7 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
                         sendNotification();
                     }else
                     {
-                        ticket.get(i).setAlarm(utlAlarmManager.setAlarm(ticket.get(i).ttl,ticket.get(i).alarmID,ticket.get(i).ticketId));
+                        ticket.get(i).setAlarm(utlAlarmManager.setAlarm(ticket.get(i).ttl,ticket.get(i).alarmID,ticket.get(i).ticketID));
                     }
                 }
 
@@ -138,7 +138,7 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
             }
             case TicketStateAble.TTL_END_TICKET_DATE:
             {
-                if(ticket.state!=ProductID.STATE_B03) {
+                if(ticket.ticketStateString !=ProductID.STATE_B03) {
                     if (UserSingleton.getInstance().getUserStatus().equals(Users.STATUS_ADMIN) ) {
                         UtlNotification utlNotification = new UtlNotification("תקלה לא תופלה", "יום נפלא");
                         utlNotification.sendNotification();
@@ -169,7 +169,7 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
     }
     private void sendNotification()
     {
-        //send a notification eventTime/ttl/wait for tech.
+        //send a notification eventTime/ttl/wait for techNameString.
         // pass deadline notification start activities display all pass deadline  event
 
         //CREATE INTENT AND MSG ICON FOR NOTIFICATION

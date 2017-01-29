@@ -1,0 +1,135 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ticketCardCommonLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingEnd="12dp"
+    android:paddingStart="12dp"
+    tools:layoutDirection="rtl"
+    tools:showIn="@layout/ticket_lite_list_status_ok"
+    >
+
+    <RelativeLayout
+        android:id="@+id/clientTechRow"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <ImageView
+            android:id="@+id/clientIcon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/ic_icon_person" />
+
+        <TextView
+            android:id="@+id/clientName"
+            style="@style/TicketCardText"
+            android:layout_toEndOf="@id/clientIcon"
+            android:textSize="14sp"
+            tools:text=" קריבורוז'סקי" />
+
+        <ImageView
+            android:id="@+id/technicianIcon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_icon_person"
+            android:tint="#999" />
+
+        <TextView
+            style="@style/TicketCardText"
+            android:layout_marginEnd="8dp"
+            android:layout_toStartOf="@id/technicianIcon"
+            android:textSize="14sp"
+            tools:text="אין טכנאי מצוות" />
+
+    </RelativeLayout>
+
+    <View
+        style="@style/Separator1px"
+        android:layout_below="@id/clientTechRow"
+        android:layout_marginBottom="4dp"
+        android:id="@+id/horizontalSeparator1"
+        />
+
+    <RelativeLayout
+        android:id="@+id/productCategoryRow"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:layout_below="@id/horizontalSeparator1">
+
+        <TextView
+            android:id="@+id/ticketProduct"
+            style="@style/TicketCardText"
+            tools:text="מחשב תמיכה במישרד"
+            tools:textStyle="bold" />
+
+        <View
+            android:id="@+id/productCategoryRowSeparator1"
+            style="@style/SeparatorVertical"
+            android:layout_height="16dp"
+            android:layout_toEndOf="@id/ticketProduct" />
+
+        <TextView
+            android:id="@+id/ticketCategory"
+            style="@style/TicketCardText"
+            android:layout_toEndOf="@id/productCategoryRowSeparator1"
+            tools:text="תקלת חומרה" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/regionAddressRow"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:layout_below="@id/productCategoryRow">
+
+        <TextView
+            android:id="@+id/ticketRegion"
+            style="@style/TicketCardText"
+            tools:text="גוש דן"
+            tools:textStyle="bold"/>
+
+        <View
+            android:id="@+id/regionAddressRowSeparator1"
+            style="@style/SeparatorVertical"
+            android:layout_height="16dp"
+            android:layout_toEndOf="@id/ticketRegion" />
+
+        <TextView
+            android:id="@+id/ticketAddress"
+            style="@style/TicketCardText"
+            android:layout_toEndOf="@id/regionAddressRowSeparator1"
+            tools:text="שדרות המסתננים 78 תל אביב" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/descriptionRow"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:layout_below="@id/regionAddressRow">
+
+        <TextView
+            android:id="@+id/descriptionShort"
+            style="@style/TicketCardText"
+            tools:text="מחשב נפל מהשולחן"
+            tools:textStyle="bold" />
+
+        <View
+            android:id="@+id/descriptionRowSeparator1"
+            style="@style/SeparatorVertical"
+            android:layout_height="24dp"
+            android:layout_toEndOf="@id/descriptionShort" />
+
+        <TextView
+            android:id="@+id/descriptionLong"
+            style="@style/TicketCardText"
+            android:layout_toEndOf="@id/descriptionRowSeparator1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            tools:text="נפל מחשב נשבר לחלקים קטנים מה עושים עכשיו תעזרו לי" />
+    </RelativeLayout>
+</RelativeLayout>

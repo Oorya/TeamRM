@@ -27,8 +27,8 @@ public class E04Admin extends TicketStateAdmin implements TicketStateAble {
         UtlNotification utlNotification = new UtlNotification("טיפול נדחה ברבע שעה","יום נפלא");
         utlNotification.sendNotification();
         UtlAlarmManager utlAlarmManager = new UtlAlarmManager(HomeScreen.context);
-        ticket.endTime.setTime(ticket.endTime.getTime()+900000);
-        ticket.setAlarm(utlAlarmManager.setAlarm(ticket.endTime,TicketStateAble.TTL_END_TIKCET_TIME_EXTENSION,ticket.ticketId));
+        ticket.ticketCloseDateTime.setTime(ticket.ticketCloseDateTime.getTime()+900000);
+        ticket.setAlarm(utlAlarmManager.setAlarm(ticket.ticketCloseDateTime,TicketStateAble.TTL_END_TIKCET_TIME_EXTENSION,ticket.ticketID));
         ticket.setAlarmID(TicketStateAble.TTL_END_TIKCET_TIME_EXTENSION);
     }
 

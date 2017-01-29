@@ -2,12 +2,9 @@ package com.teamrm.teamrm.Type;
 
 import android.app.PendingIntent;
 
-import com.google.firebase.FirebaseApp;
 import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
-import com.teamrm.teamrm.Interfaces.TicketStatus;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
-import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.text.DateFormat;
@@ -21,70 +18,88 @@ public class Ticket {
 
     public static final TicketFactory TicketFactory = new TicketFactory();
 
-    public String clientName;
-    public String email;
-    public String tech;
-    public String product;
-    public String classification;
-    public String desShort;
-    public String desLong; //Description
-    public String area;
-    public String address;
-    public String ticketImage1;
-    public String ticketImage2;
-    public String phone;
-    public String ticketId;
-    public String state;
-    public String startTime;
-    public TicketStateAble stateObj;
-    public Date endTime;
+    public String clientID;
+    public String clientEmail;
+    public String clientNameString;
+
+    public String ticketPhone;
+    public String ticketAddress;
+
+    public String ticketID;
+    public String ticketNumber;
+    public String companyID;
+    public String companyName;
+
+    public String productID;
+    public String productName;
+    public String categoryID;
+    public String categoryName;
+    public String regionID;
+    public String regionName;
+    public String descriptionShort;
+    public String descriptionLong;
+    public String ticketImage1; //TODO:use Storage
+    public String ticketImage2; //TODO:use Storage
+    public String ticketStateString;
+    public TicketStateAble ticketStateObj;
+
+    public String ticketOpenDateTime;
+    public Date ticketCloseDateTime; //TODO:change to String
+
+    public int alarmID; //TODO:change to String
+    public int alarmTechStartWorkOnTicketID; //TODO:change to String
+
+    public String techID;
+
+    public String techNameString;
+    public long ticketCalendarID;
+
+    public String ticketEventID;
     public Date ttl;
-    public int alarmID;
-    public int techStartWorkOnTicketId;
     public PendingIntent _alarm;
     public PendingIntent _alarmTechStartWorkOnTicket;
     public int repeatSendCounter;
-    public String ticketNumber;
-    public String calenderID;
-    public String eventID;
-    public String company;
     public String statusA;
     public int status;
-    public long calendarTicketId;
     public boolean isTicketDone;
     public boolean isUserApprove;
     public boolean isTechDone;
+    public boolean ticketIsClosed;
 
     public Ticket(){}  //empty constructor, must have
 
-    public Ticket(String company, String product, String classification, String area, String address, String phone, String desShort, String desLong
-                 ,String ticketImage1, String ticketImage2, String ticketId)
+    public Ticket(String clientID,
+                  String ticketPhone, String ticketAddress,
+                  String ticketID, String companyID,
+                  String productID, String categoryID, String regionID, String descriptionShort, String descriptionLong, String ticketImage1, String ticketImage2)
     {
-        this.clientName = UserSingleton.getInstance().getUserNameString();
-        this.email = UserSingleton.getInstance().getUserEmail();
-        this.company = company;
-        this.product = product;
-        this.classification = classification;
-        this.area = area;
-        this.address = address;
-        this.phone = phone;
-        this.desShort = desShort;
-        this.desLong = desLong;
+        this.clientID = clientID;
+
+        this.ticketPhone = ticketPhone;
+        this.ticketAddress = ticketAddress;
+
+        this.ticketID = ticketID;
+        this.ticketNumber = ticketID.substring(0,8);
+        this.companyID = companyID;
+
+        this.productID = productID;
+        this.categoryID = categoryID;
+        this.regionID = regionID;
+        this.descriptionShort = descriptionShort;
+        this.descriptionLong = descriptionLong;
         this.ticketImage1 = ticketImage1;
         this.ticketImage2 = ticketImage2;
-        this.ticketId = ticketId;
-        this.startTime = getCurrentTime();
-        this.state = ProductID.STATE_A00;
-        this.statusA = TicketStatus.waitForApproval;
-        this.tech ="אין טכנאי מצוות" ;
-        this.ticketNumber = ticketId.substring(0,8);
-        this.status = 1;
-        this.calendarTicketId = (new Date()).getTime();
-       // this.stateObj = TicketFactory.getNewState(UserSingleton.getInstance().getStatus(),ProductID.STATE_A00,this);
+        this.ticketStateString = ProductID.STATE_A00;
+        this.ticketOpenDateTime = getCurrentTime(); //TODO: change to Firebase timestamp
+
+        this.status = 1; //TODO:???
+        this.ticketCalendarID = (new Date()).getTime();
+        this.ticketIsClosed = false;
+        // this.ticketStateObj = TicketFactory.getNewState(UserSingleton.getInstance().getStatus(),ProductID.STATE_A00,this);
     }
 
-    public long getCalendarTicketId() {
-        return calendarTicketId;
+    public long getTicketCalendarID() {
+        return ticketCalendarID;
     }
 
     public PendingIntent get_alarm() {
@@ -104,25 +119,25 @@ public class Ticket {
         _alarm = alarm;
     }
 
-    public TicketStateAble getStateObj() {
-        return stateObj;
+    public TicketStateAble getTicketStateObj() {
+        return ticketStateObj;
     }
 
-    public void setStateObj(TicketStateAble stateObj) {
-        this.stateObj = stateObj;
+    public void setTicketStateObj(TicketStateAble ticketStateObj) {
+        this.ticketStateObj = ticketStateObj;
     }
 
     public void changeState(String stateName, Ticket ticket)
     {
-        UtlFirebase.changeState(ticket.ticketId, stateName);
-        /*this.state = stateName;
+        UtlFirebase.changeState(ticket.ticketID, stateName);
+        /*this.ticketStateString = stateName;
 
         //Log.d("FactorystateType = ", UserSingleton.getInstance().getUserStatus()==null?"null":UserSingleton.getInstance().getUserStatus());
         Log.d("FactorstateName = ", stateName);
 
-        this.stateObj = TicketFactory.getNewState("Client",stateName);
-       // UtlFirebase.updateState(ticket.ticketId,"stateObj",this.stateObj);
-        return this.stateObj;*/
+        this.ticketStateObj = TicketFactory.getNewState("Client",stateName);
+       // UtlFirebase.updateState(ticket.ticketID,"ticketStateObj",this.ticketStateObj);
+        return this.ticketStateObj;*/
     }
 
     public int getAlarmID() {
@@ -132,7 +147,7 @@ public class Ticket {
     public void setAlarmID(int alarmID) {
         if(!(this.alarmID<=0))
         {
-            this.techStartWorkOnTicketId = alarmID;
+            this.alarmTechStartWorkOnTicketID = alarmID;
         }else
         this.alarmID = alarmID;
     }
@@ -165,7 +180,7 @@ public class Ticket {
     {
         //Calendar calendar=Calendar.getInstance();
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss - dd/MM/yyyy");
-        //get current date startTime with Date()
+        //get current date ticketOpenDateTime with Date()
         Date date = new Date();
         //return dateFormat.format(cal.getTime()));
         return dateFormat.format(date);
@@ -174,12 +189,12 @@ public class Ticket {
     public String toString()
     {
         String str="";
-        str+="Client email: "+this.email +"\n";
-        str+="Client name: "+this.clientName +"\n";
-        str+="Product:" +this.product+"\n";
-        str+="Ticket name: "+this.desShort+"\n";
-        str+="Ticket description: "+this.desLong+"\n";
-        str+="Phone: "+this.phone+"\n";
+        str+="Client clientEmail: "+this.clientEmail +"\n";
+        str+="Client name: "+this.clientNameString +"\n";
+        str+="Product:" +this.productName +"\n";
+        str+="Ticket name: "+this.descriptionShort +"\n";
+        str+="Ticket description: "+this.descriptionLong +"\n";
+        str+="Phone: "+this.ticketPhone +"\n";
         str+="Status: "+this.status+"\n";
         return str;
     }

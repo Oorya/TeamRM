@@ -408,7 +408,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
            {
                 Events events = mService.events().list(calenders.getId())
                         .setMaxResults(100)
-                        .setOrderBy("startTime")
+                        .setOrderBy("ticketOpenDateTime")
                         .setSingleEvents(true)
                         .execute();
                  items.addAll(events.getItems());
@@ -593,7 +593,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
     public void calendarView() {
         Date NOW = new Date();
         Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
-        builder.appendPath("startTime");
+        builder.appendPath("ticketOpenDateTime");
         ContentUris.appendId(builder, NOW.getTime());
         Intent intent = new Intent(Intent.ACTION_VIEW)
                 .setData(builder.build());

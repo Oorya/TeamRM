@@ -27,7 +27,7 @@ public class A02CNAdmin extends TicketStateAdmin implements TicketStateAble {
     public A02CNAdmin(int ttl)
     {
         Calendar cal = Calendar.getInstance(); // creates calendar
-        cal.setTime(new Date()); // sets calendar startTime/date
+        cal.setTime(new Date()); // sets calendar ticketOpenDateTime/date
         cal.add(Calendar.HOUR_OF_DAY, 5); // adds 5 hours
 
         UtlAlarmManager utlAlarmManager = new UtlAlarmManager(context);

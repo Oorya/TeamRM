@@ -19,6 +19,7 @@ import com.teamrm.teamrm.Fragment.TicketView;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.util.List;
@@ -27,7 +28,7 @@ import java.util.List;
  * Created by shalty on 24/10/2016.
  */
 
-public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.CustomViewHolder> {
+public class TicketLiteListAdapter extends RecyclerView.Adapter<TicketLiteListAdapter.CustomViewHolder> {
 
 
     private Typeface EXTRA_BOLD;
@@ -36,17 +37,17 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
     private Typeface LIGHT;
     private Typeface REGULAR;
     private Typeface SEMI_BOLD;
-    private List<Ticket> mTicketListItem;
+    private List<TicketLite> mTicketListItem;
     private Context mContext;
 
-    public TicketListAdapter(Context context) {
-        this.mTicketListItem = UtlFirebase.getAllTicket();
+    public TicketLiteListAdapter(Context context) {
+        this.mTicketListItem = UtlFirebase.getAllTicketLite();
         this.mContext = context;
         setFont();
     }
 
     @Override
-    public TicketListAdapter.CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TicketLiteListAdapter.CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         CustomViewHolder viewHolder;
         switch (viewType)
@@ -109,7 +110,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
     }
 
     @Override
-    public void onBindViewHolder(TicketListAdapter.CustomViewHolder holder, final int position) {
+    public void onBindViewHolder(TicketLiteListAdapter.CustomViewHolder holder, final int position) {
         final Ticket item = mTicketListItem.get(position);
         holder.userName.setText(item.clientNameString);
         holder.product.setText(item.productName);

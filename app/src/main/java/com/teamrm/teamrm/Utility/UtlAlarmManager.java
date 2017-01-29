@@ -35,9 +35,9 @@ public class UtlAlarmManager extends Activity{
 
         int Id = (int) System.currentTimeMillis();
         myIntent.putExtra("alarmId",alarmId);
-        myIntent.putExtra("ticketId",ticketId);
+        myIntent.putExtra("ticketID",ticketId);
         pendingIntent = PendingIntent.getBroadcast(context,Id , myIntent, PendingIntent.FLAG_ONE_SHOT);
-        this.alarmManager.setExact(AlarmManager.RTC_WAKEUP, date.getTime(), pendingIntent);
+        this.alarmManager.setExact(AlarmManager.RTC_WAKEUP, date.getTime(), this.pendingIntent);
         Log.d("MESSAGE","setAlarm");
 
         //set alarm filed in ticket in firebase
@@ -46,7 +46,7 @@ public class UtlAlarmManager extends Activity{
     public PendingIntent setAlarmFromBrodcast(PendingIntent pendingIntent,Date date ,int alarmId,String ticketId){
 
         myIntent.putExtra("alarmId",alarmId);
-        myIntent.putExtra("ticketId",ticketId);
+        myIntent.putExtra("ticketID",ticketId);
         this.alarmManager.setExact(AlarmManager.RTC_WAKEUP, date.getTime(), pendingIntent);
         Log.d("MESSAGE","setAlarm");
 

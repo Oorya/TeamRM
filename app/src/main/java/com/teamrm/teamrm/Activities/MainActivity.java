@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         Log.d("ON COMPLETE: ", "signInWithCredential:onComplete:" + task.isSuccessful());
 
                         // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
+                        // the auth ticketStateString listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         task.getResult().getUser().getUid();
                         if (!task.isSuccessful()) {

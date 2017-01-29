@@ -44,7 +44,7 @@ public class Company
     {
         //Calendar calendar=Calendar.getInstance();
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss - dd/MM/yyyy");
-        //get current date startTime with Date()
+        //get current date ticketOpenDateTime with Date()
         Date date = new Date();
 
         //return dateFormat.format(cal.getTime()));

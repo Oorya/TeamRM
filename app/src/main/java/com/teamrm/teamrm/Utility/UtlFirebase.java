@@ -8,7 +8,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.teamrm.teamrm.Fragment.AdminSettingsDefineCategory;
@@ -23,6 +22,7 @@ import com.teamrm.teamrm.Type.Chat;
 import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.Product;
 import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.Users;
 
 import java.util.ArrayList;
@@ -37,6 +37,7 @@ public class UtlFirebase { //TODO: make singleton
     private static Ticket returnTicket;
     private static TicketFactory ticketFactory;
     private static List<Ticket> ticketList = new ArrayList<Ticket>();
+    private static List<TicketLite> ticketLiteList = new ArrayList<>();
     private static List<String> companyList = new ArrayList<>();
 
     final static String TAG = ":::UtlFirebase:::";
@@ -44,13 +45,13 @@ public class UtlFirebase { //TODO: make singleton
     public UtlFirebase() {
     }
 
-    //Listener for state changed
+    //Listener for ticketStateString changed
     public static void stateListener(final String statusUser, String email, String company) {
         ticketFactory = new TicketFactory();
         final String STATUS_USER = UserSingleton.getInstance().getUserStatus();
         final String MAIL_USER = UserSingleton.getInstance().getUserEmail();
         final String COMPANY = UserSingleton.getInstance().getUserCompany();
-        Log.w("STATE CHANGED", "state listener");
+        Log.w("STATE CHANGED", "ticketStateString listener");
         //creating a reference to the database
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Ticket");
 
@@ -58,10 +59,10 @@ public class UtlFirebase { //TODO: make singleton
 
         switch (STATUS_USER) {
             case Users.STATUS_ADMIN:
-                query = myRef.orderByChild("company").equalTo(COMPANY);
+                query = myRef.orderByChild("companyName").equalTo(COMPANY);
                 break;
             case Users.STATUS_TECH:
-                query = myRef.orderByChild("tech").equalTo(MAIL_USER);
+                query = myRef.orderByChild("techNameString").equalTo(MAIL_USER);
                 break;
         }
 
@@ -76,13 +77,13 @@ public class UtlFirebase { //TODO: make singleton
                 String arrData[] = dataSnapshot.getValue().toString().split("[{,]");
                 /*for (DataSnapshot item : dataSnapshot.getChildren()) {
                     Ticket retrievedTicket = item.getValue(Ticket.class);
-                    Log.w("STATE FROM LOOP", STATUS_USER + "States." + retrievedTicket.state + STATUS_USER);
-                    ticketFactory.getNewState(STATUS_USER + "States.", retrievedTicket.state + STATUS_USER, retrievedTicket);
+                    Log.w("STATE FROM LOOP", STATUS_USER + "States." + retrievedTicket.ticketStateString + STATUS_USER);
+                    ticketFactory.getNewState(STATUS_USER + "States.", retrievedTicket.ticketStateString + STATUS_USER, retrievedTicket);
                 }*/
                 Log.w("STATE CHANGED", arrData[1]);
-                //{state=A00Admin, userName=oorya, company=yes, status=0, ticketId=11111};
+                //{ticketStateString=A00Admin, userName=oorya, companyName=yes, status=0, ticketID=11111};
                 for (int ctr = 0; ctr <= arrData.length; ctr++) {
-                    if (arrData[ctr].contains("state")) {
+                    if (arrData[ctr].contains("ticketStateString")) {
                         Log.w("STATE FROM LOOP", STATUS_USER + "States." + arrData[ctr].substring(7) + STATUS_USER);
                         ticketFactory.getNewState(STATUS_USER + "States.", arrData[ctr].substring(7) + STATUS_USER, new Ticket());
                         return;
@@ -107,7 +108,7 @@ public class UtlFirebase { //TODO: make singleton
     public static void changeState(String ticketID, String state) {
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Ticket");
 
-        myRef.child(ticketID).child("state").setValue(state);
+        myRef.child(ticketID).child("ticketStateString").setValue(state);
     }
 
     public static void updateTicket(String ticketID, String key, Date value) {
@@ -168,7 +169,7 @@ public class UtlFirebase { //TODO: make singleton
                         //ticketList.add(mockTicket);
 
                     }*/
-                    // retrievedTicket.stateObj = (TicketStateAble) item.child("stateObj").getValue(A01Client.class);
+                    // retrievedTicket.ticketStateObj = (TicketStateAble) item.child("ticketStateObj").getValue(A01Client.class);
                     Ticket retrievedTicket = item.getValue(Ticket.class);
                     ticketList.add(retrievedTicket);
                 }
@@ -187,12 +188,38 @@ public class UtlFirebase { //TODO: make singleton
         return ticketList;
     }
 
+    public static List<TicketLite> getAllTicketLite() {
+        final DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Ticket");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ticketLiteList.clear();
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    TicketLite retrievedTicketLite = item.getValue(TicketLite.class);
+                    ticketLiteList.add(retrievedTicketLite);
+                }
+
+                Log.e(":::UTLFIREBASE:::", "TicketLites: " + ticketLiteList.size() + "");
+                //Need to notify for current list adapter
+                TicketList.ticketListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(":::UTLFIREBASE:::", "could not retrieve ticket");
+            }
+        });
+        Log.e(":::UTLFIREBASE::: ALL", "ALL");
+        return ticketLiteList;
+    }
+
     public static List<Ticket> getTicketByName(String title, String name, String name2) { //TODO:why do we need this?
         //creating a reference to the database
         final DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Ticket");
         //DataSnapshot data = new DataSnapshot(myRef);
         Query query = myRef.orderByChild(title).equalTo(name);
-        //Query query1=myRef.orderByChild("phone").equalTo("3333","4444");
+        //Query query1=myRef.orderByChild("ticketPhone").equalTo("3333","4444");
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -297,7 +324,7 @@ public class UtlFirebase { //TODO: make singleton
 
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Users");
 
-        Query query = myRef.orderByChild("email").equalTo(email);
+        Query query = myRef.orderByChild("clientEmail").equalTo(email);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -379,7 +406,7 @@ public class UtlFirebase { //TODO: make singleton
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot single : dataSnapshot.getChildren()){
-                    clientCompanies.add((HashMap)single.getValue()); //TODO:key = userID, value = companyID
+                    clientCompanies.add((HashMap)single.getValue()); //TODO:key = userID, value = companyName
                 }
             }
             @Override
@@ -409,7 +436,7 @@ public class UtlFirebase { //TODO: make singleton
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Ticket");
 
         //saving the user under the UUID
-        myRef.child(ticket.ticketId).setValue(ticket, new DatabaseReference.CompletionListener() {
+        myRef.child(ticket.ticketID).setValue(ticket, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
@@ -459,7 +486,7 @@ public class UtlFirebase { //TODO: make singleton
 
     public static void saveProduct(String companyName, Product product) {
 
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Company/"+companyName+"/product");
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Company/"+companyName+"/productName");
         myRef.push().setValue(product, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -473,9 +500,9 @@ public class UtlFirebase { //TODO: make singleton
         //creating a reference to Company object
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Company");
 
-        //saving the product under the UUID
+        //saving the productName under the UUID
         for (Product item : productList) {
-            myRef.child(companyName).child("category").child(categoryName).child("product").setValue(item, new DatabaseReference.CompletionListener() {
+            myRef.child(companyName).child("category").child(categoryName).child("productName").setValue(item, new DatabaseReference.CompletionListener() {
                 @Override
                 public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
@@ -485,11 +512,11 @@ public class UtlFirebase { //TODO: make singleton
     }
 
     public static List<Category> getCategories(final String companyName) {
-        Log.d(TAG, "getCategories with company "+ companyName);
+        Log.d(TAG, "getCategories with companyName "+ companyName);
         final List<Category> categoryList = new ArrayList<>();
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Company");
         Log.d(TAG, "in getCategories");
-        myRef.child(companyName).child("category").addListenerForSingleValueEvent(new ValueEventListener() { //TODO: remove dirty hack, initialize firebase skeleton on company creation
+        myRef.child(companyName).child("category").addListenerForSingleValueEvent(new ValueEventListener() { //TODO: remove dirty hack, initialize firebase skeleton on companyName creation
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 /*if (!dataSnapshot.hasChild("category")) {
@@ -533,7 +560,7 @@ public class UtlFirebase { //TODO: make singleton
         final List<Product> productList = new ArrayList<>();
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Company");
 
-        myRef.child(companyName).child("product").addValueEventListener(new ValueEventListener() {
+        myRef.child(companyName).child("productName").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 productList.clear();
@@ -554,11 +581,11 @@ public class UtlFirebase { //TODO: make singleton
     }
 
     public static List<String> getStringCategories(final String companyName) {
-        Log.d(TAG, "getCategories with company "+ companyName);
+        Log.d(TAG, "getCategories with companyName "+ companyName);
         final List<String> categoryList = new ArrayList<>();
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Company");
         Log.d(TAG, "in getCategories");
-        myRef.child(companyName).child("category").addListenerForSingleValueEvent(new ValueEventListener() { //TODO: remove dirty hack, initialize firebase skeleton on company creation
+        myRef.child(companyName).child("category").addListenerForSingleValueEvent(new ValueEventListener() { //TODO: remove dirty hack, initialize firebase skeleton on companyName creation
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 /*if (!dataSnapshot.hasChild("category")) {
@@ -602,7 +629,7 @@ public class UtlFirebase { //TODO: make singleton
         final List<String> productList = new ArrayList<>();
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Company");
 
-        myRef.child(companyName).child("product").addValueEventListener(new ValueEventListener() {
+        myRef.child(companyName).child("productName").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 productList.clear();

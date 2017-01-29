@@ -10,9 +10,6 @@ import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
 import com.teamrm.teamrm.Utility.UtlNotification;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import static com.teamrm.teamrm.Activities.HomeScreen.context;
 
 /**
@@ -33,9 +30,9 @@ public class B02Admin extends TicketStateAdmin implements TicketStateAble {
 
         UtlAlarmManager utlAlarmManager = new UtlAlarmManager(context);
         utlAlarmManager.cancelAlarm(ticket.get_alarm());
-        ticket.setAlarm(utlAlarmManager.setAlarm(ticket.endTime,TicketStateAble.TTL_END_TICKET_DATE,ticket.ticketId));
+        ticket.setAlarm(utlAlarmManager.setAlarm(ticket.ticketCloseDateTime,TicketStateAble.TTL_END_TICKET_DATE,ticket.ticketID));
         ticket.setAlarmID(TicketStateAble.TTL_END_TICKET_DATE);
-        ticket.setAlarm(utlAlarmManager.setAlarm(ticket.endTime,TicketStateAble.TECH_START_WORK_ON_TICkET,ticket.ticketId));
+        ticket.setAlarm(utlAlarmManager.setAlarm(ticket.ticketCloseDateTime,TicketStateAble.TECH_START_WORK_ON_TICkET,ticket.ticketID));
         ticket.setAlarmID(TicketStateAble.TECH_START_WORK_ON_TICkET);
 
     }

@@ -5,7 +5,7 @@ package com.teamrm.teamrm.Type;
  */
 public class Technician extends Users {
 
-    // inherited from Users -> userID, userName, userEmail, phone, address, company
+    // inherited from Users -> userID, userName, userEmail, ticketPhone, ticketAddress, companyName
     private String
             techCalendarID,
             techCalendarName,

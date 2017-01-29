@@ -230,6 +230,8 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     }
 
     private void submitTicket(View view){
+
+        /*TODO: fix method
         Calendar cal = Calendar.getInstance(); // creates calendar
         String uid = getUUID();
         Ticket ticket = new Ticket(company,product,category,region,address.getText().toString(),phone.getText().toString(),
@@ -237,13 +239,14 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
                 img2 != null ? UtlImage.bitmap2string(img2):"error",uid);
         UtlFirebase.saveTicket(ticket);
         ticket.changeState(ProductID.STATE_A01,ticket);
-        //UtlFirebase.changeState(ticket.ticketId, ProductID.STATE_A01);
+        //UtlFirebase.changeState(ticket.ticketID, ProductID.STATE_A01);
         address.setText("");
         phone.setText("");
         desShort.setText("");
         desLong.setText("");
 
         ((HomeScreen) getActivity()).onDrawerItemSelected(view, 0);
+        */
     }
 
     private String getUUID()

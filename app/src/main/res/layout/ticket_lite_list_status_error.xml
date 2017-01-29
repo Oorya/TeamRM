@@ -1,35 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:layout_width="wrap_content"
+<RelativeLayout android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="@layout/test_ticketview">
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 <android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layoutDirection="rtl"
     android:layout_marginBottom="5dp"
     android:layout_marginLeft="4dp"
     android:layout_marginRight="6dp"
+    android:layoutDirection="rtl"
     card_view:cardCornerRadius="4dp"
     card_view:cardElevation="4dp"
-    android:id="@+id/cardContainer"
-
-    >
+    android:id="@+id/cardContainer">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="20dp">
+        android:paddingBottom="20dp"
+        >
 
         <RelativeLayout
             android:id="@+id/userStatus"
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            android:background="@color/status_pending">
+            android:background="@color/status_error">
 
             <ImageView
                 android:id="@+id/userIcon"
@@ -37,7 +33,7 @@
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="12dp"
-                android:src="@drawable/ic_icon_alert2" />
+                android:src="@drawable/ic_icon_error" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -82,6 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="6dp"
+                android:layout_marginEnd="8dp"
                 android:src="@drawable/ic_icon_person" />
 
             <TextView
@@ -90,7 +87,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@id/personIcon"
-                android:paddingStart="8dp"
                 android:text=" קריבורוז'סקי" />
 
             <ImageView
@@ -156,7 +152,7 @@
                 android:id="@+id/Type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@id/hozez"
                 android:text="תקלת חומרה" />
@@ -175,7 +171,7 @@
                 android:id="@+id/Type2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@id/hozez2"
                 android:text="תקלה משביתה" />
@@ -193,7 +189,7 @@
                 android:id="@+id/eriaZon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
                 android:text="גוש דן"
                 android:textAlignment="center" />
@@ -212,7 +208,7 @@
                 android:id="@+id/add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@id/br"
                 android:text="תקלת חומרה" />
@@ -228,7 +224,7 @@
                 android:id="@+id/DescriptionTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
                 android:text="תקלה במחשב"
                 android:textAlignment="center" />
@@ -265,7 +261,7 @@
                 android:id="@+id/openDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
                 android:text="פתיחה"
                 android:textAlignment="center" />
@@ -284,5 +280,4 @@
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>
-</RelativeLayout>
-
+    </RelativeLayout>
