@@ -1,48 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
-<android.support.v7.widget.CardView
-
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="5dp"
-    android:layout_marginLeft="4dp"
-    android:layout_marginRight="6dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginStart="12dp"
     android:layoutDirection="rtl"
     card_view:cardCornerRadius="4dp"
-    card_view:cardElevation="4dp"
-    android:id="@+id/cardContainer">
+    card_view:cardElevation="@dimen/card_elevation_default"
+    tools:showIn="@layout/test_ticketview"
+    >
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="20dp"
-        >
+        android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/userStatus"
+            android:id="@+id/ticketStatusSection"
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            android:background="@color/status_error">
+            android:background="@color/status_error"
+            android:paddingEnd="8dp"
+            android:paddingStart="12dp">
 
             <ImageView
-                android:id="@+id/userIcon"
+                android:id="@+id/statusIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="12dp"
+                android:layout_marginEnd="8dp"
                 android:src="@drawable/ic_icon_error" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="8dp"
-                android:layout_toEndOf="@id/userIcon"
-                android:text="קריאה ממתינה לאישור פתיח"
-                android:textColor="@android:color/white" />
+                android:layout_toEndOf="@id/statusIcon"
+                android:textColor="@android:color/white"
+                android:text="קריאה ממתינה לאישור פתיחה" />
 
             <ImageView
                 android:id="@+id/editIcon"
@@ -50,7 +49,6 @@
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp"
                 android:src="@drawable/ic_edit_24px_white" />
 
             <TextView
@@ -58,226 +56,45 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:alpha=".75"
                 android:layout_marginEnd="8dp"
                 android:layout_toStartOf="@id/editIcon"
                 android:text="A20160811"
                 android:textColor="@android:color/white" />
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/userNameString"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:layout_below="@id/userStatus"
-            android:paddingEnd="8dp"
-            android:paddingStart="12dp">
-
-            <ImageView
-                android:id="@+id/personIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_icon_person" />
-
-            <TextView
-                android:id="@+id/personName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/personIcon"
-                android:text=" קריבורוז'סקי" />
-
-            <ImageView
-                android:id="@+id/tech"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_icon_person"
-                android:tint="#999" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp"
-                android:layout_toStartOf="@id/tech"
-                android:text="אין טכנאי מצוות" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/userNameString"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp">
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dip"
-                android:background="@color/app_bg" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/tipe"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/userNameString"
-            android:paddingEnd="8dp"
-            android:paddingStart="12dp">
-
-            <TextView
-                android:id="@+id/equipment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="מחשב תמיכה במישרד"
-                android:textAlignment="center" />
-
-            <TextView
-                android:id="@+id/hozez"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginTop="10dp"
-                android:layout_toEndOf="@id/equipment"
-                android:text="|" />
-
-            <TextView
-                android:id="@+id/Type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="10dp"
-                android:layout_toEndOf="@id/hozez"
-                android:text="תקלת חומרה" />
-
-            <TextView
-                android:id="@+id/hozez2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginTop="10dp"
-                android:layout_toEndOf="@id/Type"
-                android:text="|" />
-
-            <TextView
-                android:id="@+id/Type2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="10dp"
-                android:layout_toEndOf="@id/hozez2"
-                android:text="תקלה משביתה" />
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/area"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tipe">
-
-            <TextView
-                android:id="@+id/eriaZon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="10dp"
-                android:text="גוש דן"
-                android:textAlignment="center" />
-
-            <TextView
-                android:id="@+id/br"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginTop="10dp"
-                android:layout_toEndOf="@id/eriaZon"
-                android:text="|" />
-
-            <TextView
-                android:id="@+id/add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="10dp"
-                android:layout_toEndOf="@id/br"
-                android:text="תקלת חומרה" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/Description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/area">
-
-            <TextView
-                android:id="@+id/DescriptionTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="10dp"
-                android:text="תקלה במחשב"
-                android:textAlignment="center" />
-
-            <TextView
-                android:id="@+id/br1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginTop="10dp"
-                android:layout_toEndOf="@id/DescriptionTitle"
-                android:text="|" />
-
-            <TextView
-                android:id="@+id/DescriptionTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginTop="10dp"
-                android:layout_toEndOf="@id/br1"
-                android:text="אתמול נפל המחשב מהחלון היום לא נדלק" />
-
-        </RelativeLayout>
+        <include
+            android:id="@+id/ticketCardCommonLayout"
+            layout="@layout/ticket_lite_list_card_common"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <RelativeLayout
             android:id="@+id/date"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/Description">
+            android:layout_height="24dp"
+            android:paddingEnd="12dp"
+            android:paddingStart="12dp"
+            android:layout_marginBottom="4dp">
 
             <TextView
                 android:id="@+id/openDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="10dp"
-                android:text="פתיחה"
-                android:textAlignment="center" />
+                style="@style/TicketCardText"
+                android:textColor="@color/textColor_lighter"
+                android:textSize="12sp"
+                android:layout_alignParentStart="true"
+                tools:text="פתיחה" />
 
             <TextView
                 android:id="@+id/closeDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/TicketCardText"
+                android:textColor="@color/textColor_lighter"
+                android:textSize="12sp"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="10dp"
-                android:text="טיפול"
-                android:textAlignment="center" />
+                tools:text="טיפול" />
 
         </RelativeLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 </android.support.v7.widget.CardView>
-    </RelativeLayout>
+
