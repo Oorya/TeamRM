@@ -30,12 +30,12 @@ public class B01Admin extends TicketStateAdmin implements TicketStateAble {
         UtlNotification utlNotification = new UtlNotification("לקוח אישר מועד","יום נפלא");
         utlNotification.sendNotification();
         Calendar cal = Calendar.getInstance(); // creates calendar
-        cal.setTime(new Date()); // sets calendar startTime/date
+        cal.setTime(new Date()); // sets calendar ticketOpenDateTime/date
         cal.add(Calendar.HOUR_OF_DAY, 6); // adds 5 hours
         UtlAlarmManager utlAlarmManager = new UtlAlarmManager(context);
         utlAlarmManager.cancelAlarm(ticket.get_alarm());
         ticket.setAlarmID(0);
-        ticket.setAlarm(utlAlarmManager.setAlarm(cal.getTime(),TicketStateAble.WAITING_FOR_TECH_APPROVAL,ticket.ticketId));
+        ticket.setAlarm(utlAlarmManager.setAlarm(cal.getTime(),TicketStateAble.WAITING_FOR_TECH_APPROVAL,ticket.ticketID));
         ticket.setAlarmID(TicketStateAble.WAITING_FOR_TECH_APPROVAL);
     }
 

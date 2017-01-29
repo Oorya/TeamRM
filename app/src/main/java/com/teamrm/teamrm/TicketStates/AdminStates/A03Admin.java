@@ -29,12 +29,12 @@ public class A03Admin extends TicketStateAdmin implements TicketStateAble {
     public A03Admin(Ticket ticket)
     {
         Calendar cal = Calendar.getInstance(); // creates calendar
-        cal.setTime(new Date()); // sets calendar startTime/date
+        cal.setTime(new Date()); // sets calendar ticketOpenDateTime/date
         cal.add(Calendar.MINUTE, 1); // adds 5 hours
         UtlAlarmManager utlAlarmManager = new UtlAlarmManager(context);
         utlAlarmManager.cancelAlarm(ticket.get_alarm());
         ticket.setAlarmID(0);
-       ticket.setAlarm(utlAlarmManager.setAlarm(ticket.endTime,TicketStateAble.WAITING_FOR_USER_APPROVAL,ticket.ticketId));
+       ticket.setAlarm(utlAlarmManager.setAlarm(ticket.ticketCloseDateTime,TicketStateAble.WAITING_FOR_USER_APPROVAL,ticket.ticketID));
         ticket.setAlarmID(TicketStateAble.WAITING_FOR_USER_APPROVAL);
 
 

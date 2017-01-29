@@ -256,7 +256,8 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
     private void signOut()
     {
-        mGoogleApiClient=App.getGoogleApiHelper().getGoogleApiClient();
+        App app = new App(this);
+        mGoogleApiClient=app.getGoogleApiHelper().getGoogleApiClient();
 
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {

@@ -93,7 +93,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                     timeFormated = format1.format(endTime.getTime());
                     Log.w(" Bundle_timeFormated:  ", timeFormated);
 
-                    UtlFirebase.updateTicket(ticketID, "endTime", endTime.getTime());
+                    UtlFirebase.updateTicket(ticketID, "ticketCloseDateTime", endTime.getTime());
                 }
             }
 
@@ -129,11 +129,11 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     }
 
     private void initUserCard() {
-        userNameEx.setText(ticket.clientName);
-        mailUserEx.setText(ticket.email);
-        regionUserEx.setText(ticket.area);
-        addressUserEx.setText(ticket.address);
-        phoneUserEx.setText(ticket.phone);
+        userNameEx.setText(ticket.clientNameString);
+        mailUserEx.setText(ticket.clientEmail);
+        regionUserEx.setText(ticket.regionName);
+        addressUserEx.setText(ticket.ticketAddress);
+        phoneUserEx.setText(ticket.ticketPhone);
     }
 
     @Override
@@ -153,7 +153,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             this.getView().findViewById(R.id.ticketDetails).setVisibility(View.VISIBLE);
             this.getView().findViewById(R.id.ticketDetailsOpen).setVisibility(View.GONE);
         } else if (view.getId() == userProfile.getId()) {
-            Toast.makeText(getContext(), "USER PROFILE " + ticket.clientName, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "USER PROFILE " + ticket.clientNameString, Toast.LENGTH_SHORT).show();
 
 
         } else if (view.getId() == btnProfile.getId())
@@ -162,17 +162,17 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         }else if (view.getId() == approval.getId()) {
 
             Toast.makeText(getContext(), "ok", Toast.LENGTH_SHORT).show();
-            switch (ticket.state)
+            switch (ticket.ticketStateString)
             {
                 case ProductID.STATE_A00: {
                     ticket.changeState(ProductID.STATE_A01,ticket);
-                    ticket.getStateObj().setView(this.getView());
+                    ticket.getTicketStateObj().setView(this.getView());
                     break;
                 }
                 case ProductID.STATE_A01:{
                     ticket.changeState(ProductID.STATE_B01,ticket);
-                    UtlFirebase.changeStatus(ticket.ticketId,2);
-                    //ticket.getStateObj().setView(this.getView());
+                    UtlFirebase.changeStatus(ticket.ticketID,2);
+                    //ticket.getTicketStateObj().setView(this.getView());
                     break;
                 }
                 case ProductID.STATE_A02CN:
@@ -182,7 +182,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                         if(!(ticket.repeatSendCounter>3)) {
                             ticket.incCounter();
                             ticket.changeState(ProductID.STATE_A03,ticket);
-                            ticket.getStateObj().setView(this.getView());
+                            ticket.getTicketStateObj().setView(this.getView());
                             break;
                         }else
                         {
@@ -195,32 +195,32 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                 case ProductID.STATE_A03:
                 {
                         ticket.changeState(ProductID.STATE_B01,ticket);
-                        ticket.getStateObj().setView(this.getView());
+                        ticket.getTicketStateObj().setView(this.getView());
                         break;
                 }
                 case ProductID.STATE_B01:
                 {
                     ticket.changeState(ProductID.STATE_B02,ticket);
-                    ticket.getStateObj().setView(this.getView());
+                    ticket.getTicketStateObj().setView(this.getView());
                     break;
                 }
                 case ProductID.STATE_B03:
                 {
                     if(ticket.getTicketDone()) {
                         ticket.changeState(ProductID.STATE_C01,ticket);
-                        ticket.getStateObj().setView(this.getView());
+                        ticket.getTicketStateObj().setView(this.getView());
                         break;
                     }else
                     {
                         ticket.changeState(ProductID.STATE_E06,ticket);
-                        ticket.getStateObj().setView(this.getView());
+                        ticket.getTicketStateObj().setView(this.getView());
                         break;
                     }
                 }
                 case ProductID.STATE_C01:
                 {
                         ticket.changeState(ProductID.STATE_C02,ticket);
-                        ticket.getStateObj().setView(this.getView());
+                        ticket.getTicketStateObj().setView(this.getView());
                         break;
                 }
                 case ProductID.STATE_C02:
@@ -248,37 +248,37 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         }
         else if(view.getId() == cancel.getId())
         {
-            switch (ticket.state)
+            switch (ticket.ticketStateString)
             {
                 case ProductID.STATE_A00: {
                     ticket.changeState(ProductID.STATE_E00,ticket);
-                    ticket.getStateObj().setView(this.getView());
+                    ticket.getTicketStateObj().setView(this.getView());
                     break;
                 }
                 case ProductID.STATE_A01:{
                     ticket.changeState(ProductID.STATE_E01,ticket);
-                    ticket.getStateObj().setView(this.getView());
+                    ticket.getTicketStateObj().setView(this.getView());
                     break;
                 }
                 case ProductID.STATE_A03:
                 {
                     ticket.changeState(ProductID.STATE_E02,ticket);
-                    ticket.getStateObj().setView(this.getView());
+                    ticket.getTicketStateObj().setView(this.getView());
                     break;
                 }
                 case ProductID.STATE_E03:
                 {
                     ticket.changeState(ProductID.STATE_E04,ticket);
-                    ticket.endTime.setTime(ticket.endTime.getTime()+14000);
-                    ticket.setAlarm(utlAlarmManager.setAlarm(ticket.endTime,TicketStateAble.TTL_END_TIKCET_TIME_EXTENSION,ticketID));
+                    ticket.ticketCloseDateTime.setTime(ticket.ticketCloseDateTime.getTime()+14000);
+                    ticket.setAlarm(utlAlarmManager.setAlarm(ticket.ticketCloseDateTime,TicketStateAble.TTL_END_TIKCET_TIME_EXTENSION,ticketID));
 
-                    ticket.getStateObj().setView(this.getView());
+                    ticket.getTicketStateObj().setView(this.getView());
                     break;
                 }
                 case ProductID.STATE_C01:
                 {
                         ticket.changeState(ProductID.STATE_E07,ticket);
-                        ticket.getStateObj().setView(this.getView());
+                        ticket.getTicketStateObj().setView(this.getView());
                         break;
                 }
                 case ProductID.STATE_C02:
@@ -341,17 +341,17 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     }
 
     private void initializeTicket() {
-        userName.setText(ticket.clientName);
-        txtProduct.setText(ticket.product);
-        txtCategory.setText(ticket.classification);
-        txtRegion.setText(ticket.area);
-        txtProductEx.setText(ticket.product);
-        txtCategoryEx.setText(ticket.classification);
-        txtRegionEx.setText(ticket.area);
-        txtAddressEx.setText(ticket.address);
-        txtPhoneEx.setText(ticket.phone);
-        descriptionShort.setText(ticket.desShort);
-        descriptionLong.setText(ticket.desLong);
+        userName.setText(ticket.clientNameString);
+        txtProduct.setText(ticket.productName);
+        txtCategory.setText(ticket.categoryName);
+        txtRegion.setText(ticket.regionName);
+        txtProductEx.setText(ticket.productName);
+        txtCategoryEx.setText(ticket.categoryName);
+        txtRegionEx.setText(ticket.regionName);
+        txtAddressEx.setText(ticket.ticketAddress);
+        txtPhoneEx.setText(ticket.ticketPhone);
+        descriptionShort.setText(ticket.descriptionShort);
+        descriptionLong.setText(ticket.descriptionLong);
 
         if(!ticket.ticketImage1.equals("error"))
         {
@@ -361,8 +361,8 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         {
             img2.setImageBitmap(UtlImage.string2bitmap(ticket.ticketImage2));
         }
-        if(ticket.endTime!=null)
-            endTimeTxt.setText(date2String(ticket.endTime));
+        if(ticket.ticketCloseDateTime !=null)
+            endTimeTxt.setText(date2String(ticket.ticketCloseDateTime));
 
     }
 
