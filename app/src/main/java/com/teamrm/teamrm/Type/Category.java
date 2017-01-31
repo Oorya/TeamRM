@@ -1,10 +1,12 @@
 package com.teamrm.teamrm.Type;
 
+import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
+
 /**
  * Created by Oorya on 13/01/2017.
  */
 
-public class Category
+public class Category implements GenericKeyValueTypeable
 {
     private String categoryID, categoryName;
 
@@ -27,5 +29,15 @@ public class Category
     public String toString()
     {
         return categoryName;
+    }
+
+    @Override
+    public String getItemKey() {
+        return this.categoryID;
+    }
+
+    @Override
+    public String getItemValue() {
+        return this.categoryName;
     }
 }

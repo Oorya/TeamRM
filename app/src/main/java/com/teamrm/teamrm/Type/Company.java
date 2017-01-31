@@ -1,5 +1,7 @@
 package com.teamrm.teamrm.Type;
 
+import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,7 +10,7 @@ import java.util.Date;
  * Created by Oorya on 15/12/2016.
  */
 
-public class Company
+public class Company implements GenericKeyValueTypeable
 {
     private String companyName;
     private String companyId;
@@ -77,5 +79,16 @@ public class Company
     public String toString()
     {
         return companyName;
+    }
+
+
+    @Override
+    public String getItemKey() {
+        return this.companyId;
+    }
+
+    @Override
+    public String getItemValue() {
+        return this.companyName;
     }
 }

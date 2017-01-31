@@ -174,7 +174,7 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
 
         //CREATE INTENT AND MSG ICON FOR NOTIFICATION
         Intent intent = new Intent(HomeScreen.context, HomeScreen.class);
-        UtlNotification notification = new UtlNotification(R.drawable.new_msg_icon, "Status changed", " status", intent);
+        UtlNotification notification = new UtlNotification(R.drawable.new_msg_icon, "Status changed", " Presentation", intent);
         notification.sendNotification();
     }
 

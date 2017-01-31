@@ -1,9 +1,11 @@
 package com.teamrm.teamrm.Type;
 
+import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
+
 /**
  * Created by Oorya on 10/08/2016.
  */
-public class Technician extends Users {
+public class Technician extends Users implements GenericKeyValueTypeable {
 
     // inherited from Users -> userID, userName, userEmail, ticketPhone, ticketAddress, companyName
     private String
@@ -65,5 +67,15 @@ public class Technician extends Users {
 
     public void setTechAssignedRegions(String techAssignedRegions) {
         this.techAssignedRegions = techAssignedRegions;
+    }
+
+    @Override
+    public String getItemKey() {
+        return super.getUserID();
+    }
+
+    @Override
+    public String getItemValue() {
+        return super.getUserNameString();
     }
 }

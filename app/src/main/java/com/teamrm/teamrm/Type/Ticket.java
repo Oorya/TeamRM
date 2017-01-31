@@ -2,9 +2,11 @@ package com.teamrm.teamrm.Type;
 
 import android.app.PendingIntent;
 
+import com.google.firebase.database.Exclude;
 import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
+import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.text.DateFormat;
@@ -38,10 +40,10 @@ public class Ticket {
     public String regionName;
     public String descriptionShort;
     public String descriptionLong;
-    public String ticketImage1; //TODO:use Storage
-    public String ticketImage2; //TODO:use Storage
+    @Exclude public String ticketImage1; //TODO:use Storage
+    @Exclude public String ticketImage2; //TODO:use Storage
     public String ticketStateString;
-    public TicketStateAble ticketStateObj;
+    @Exclude public TicketStateAble ticketStateObj;
 
     public String ticketOpenDateTime;
     public Date ticketCloseDateTime; //TODO:change to String
@@ -56,11 +58,11 @@ public class Ticket {
 
     public String ticketEventID;
     public Date ttl;
-    public PendingIntent _alarm;
-    public PendingIntent _alarmTechStartWorkOnTicket;
+    @Exclude public PendingIntent _alarm;
+    @Exclude public PendingIntent _alarmTechStartWorkOnTicket;
     public int repeatSendCounter;
     public String statusA;
-    public int status;
+    public int Presentation;
     public boolean isTicketDone;
     public boolean isUserApprove;
     public boolean isTechDone;
@@ -74,6 +76,8 @@ public class Ticket {
                   String productID, String categoryID, String regionID, String descriptionShort, String descriptionLong, String ticketImage1, String ticketImage2)
     {
         this.clientID = clientID;
+        this.clientEmail = UserSingleton.getInstance().getUserEmail();
+        this.clientNameString = UserSingleton.getInstance().getUserNameString();
 
         this.ticketPhone = ticketPhone;
         this.ticketAddress = ticketAddress;
@@ -92,7 +96,7 @@ public class Ticket {
         this.ticketStateString = ProductID.STATE_A00;
         this.ticketOpenDateTime = getCurrentTime(); //TODO: change to Firebase timestamp
 
-        this.status = 1; //TODO:???
+        this.Presentation = 1; //TODO:???
         this.ticketCalendarID = (new Date()).getTime();
         this.ticketIsClosed = false;
         // this.ticketStateObj = TicketFactory.getNewState(UserSingleton.getInstance().getStatus(),ProductID.STATE_A00,this);
@@ -195,7 +199,7 @@ public class Ticket {
         str+="Ticket name: "+this.descriptionShort +"\n";
         str+="Ticket description: "+this.descriptionLong +"\n";
         str+="Phone: "+this.ticketPhone +"\n";
-        str+="Status: "+this.status+"\n";
+        str+="Status: "+this.Presentation +"\n";
         return str;
     }
 

@@ -16,7 +16,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
 
 
@@ -83,7 +83,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="12dp"
                     android:layout_toEndOf="@id/productIcon"
-                    android:text="מוצר:" />
+                    android:text="@string/label_product" />
 
                 <ImageView
                     android:id="@+id/selectProductIcon"
@@ -124,7 +124,7 @@
                     android:layout_marginEnd="12dp"
                     android:layout_toEndOf="@id/ClassificationIcon"
                     android:layoutDirection="rtl"
-                    android:text="סיווג:"
+                    android:text="@string/label_category"
                     android:textDirection="rtl" />
 
                 <ImageView
@@ -164,7 +164,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="12dp"
                     android:layout_toEndOf="@id/regionIcon"
-                    android:text="אזור:" />
+                    android:text="@string/label_region" />
 
                 <ImageView
                     android:id="@+id/selectRegionIcon"
@@ -203,7 +203,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="8dp"
                     android:layout_toEndOf="@+id/addressIcon"
-                    android:text="כתובת:" />
+                    android:text="@string/label_address" />
 
                 <EditText
                     android:id="@+id/txtAddress"
@@ -234,7 +234,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="8dp"
                     android:layout_toEndOf="@+id/phoneIcon"
-                    android:text="טלפון:" />
+                    android:text="@string/label_phone_number" />
 
                 <EditText
                     android:id="@+id/txtPhone"
@@ -265,7 +265,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@id/descriptionIcon"
-                    android:text="תוכן הקריאה" />
+                    android:text="@string/label_description_section" />
             </RelativeLayout>
 
             <RelativeLayout

@@ -1,10 +1,12 @@
 package com.teamrm.teamrm.Type;
 
+import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
+
 /**
  * Created by Oorya on 13/01/2017.
  */
 
-public class Region
+public class Region implements GenericKeyValueTypeable
 {
     private String regionID, regionName;
 
@@ -22,5 +24,15 @@ public class Region
 
     public String getRegionID() {
         return regionID;
+    }
+
+    @Override
+    public String getItemKey() {
+        return this.regionID;
+    }
+
+    @Override
+    public String getItemValue() {
+        return this.regionName;
     }
 }

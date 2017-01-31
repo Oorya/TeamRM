@@ -163,6 +163,7 @@
     <string name="label_confirm_text">למחוק את הרשומה</string>
     <string name="label_add_category">הוספת סיווג</string>
     <string name="label_no_content">ל\"ת</string>
+    <string name="label_description_section">תוכן הקריאה</string>
 
     <!--/labels-->
 

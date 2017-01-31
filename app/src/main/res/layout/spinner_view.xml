@@ -9,5 +9,7 @@
         android:ellipsize="marquee"
         android:maxLines="2"
         android:paddingEnd="32dp"
+        tools:text="גכלךחגי"
 
     />
+
