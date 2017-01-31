@@ -1,7 +1,6 @@
 package com.teamrm.teamrm.Adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +57,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
                         .title(R.string.label_edit_prefitem_dialog_title)
                         .input("", productItem.getProductName(), new MaterialDialog.InputCallback() {
                             @Override
-                            public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                            public void onInput(MaterialDialog dialog, CharSequence input) {
 
                             }
                         })
@@ -87,7 +86,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
                         .positiveText(R.string.label_button_confirm)
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            public void onClick( MaterialDialog dialog,  DialogAction which) {
                                 dialog.dismiss();
                                 new MaterialDialog.Builder(prContext)
                                         .title(R.string.label_confirm_remove)
@@ -95,7 +94,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
                                         .positiveText(R.string.label_button_confirm)
                                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                                             @Override
-                                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                            public void onClick( MaterialDialog dialog,  DialogAction which) {
                                                 productList.remove(position);
                                                 ProductAdapter.super.notifyItemRemoved(position);
                                             }
