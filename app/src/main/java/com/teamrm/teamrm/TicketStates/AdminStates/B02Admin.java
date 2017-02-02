@@ -2,7 +2,7 @@ package com.teamrm.teamrm.TicketStates.AdminStates;
 
 import android.view.View;
 
-import com.teamrm.teamrm.Interfaces.ProductID;
+import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.TicketStates.TicketStateAdmin;
@@ -17,7 +17,7 @@ import static com.teamrm.teamrm.Activities.HomeScreen.context;
  */
 public class B02Admin extends TicketStateAdmin implements TicketStateAble {
     static {
-        TicketFactory.registerProduct(ProductID.STATE_ADMIN_B02,new B02Admin());
+        TicketFactory.registerProduct(TicketStateStringable.STATE_ADMIN_B02,new B02Admin());
     }
     public B02Admin() {
         super();
@@ -30,9 +30,9 @@ public class B02Admin extends TicketStateAdmin implements TicketStateAble {
 
         UtlAlarmManager utlAlarmManager = new UtlAlarmManager(context);
         utlAlarmManager.cancelAlarm(ticket.get_alarm());
-        ticket.setAlarm(utlAlarmManager.setAlarm(ticket.ticketCloseDateTime,TicketStateAble.TTL_END_TICKET_DATE,ticket.ticketID));
+        ticket.setAlarm(utlAlarmManager.setAlarm(ticket.getTicketCloseDateTime(),TicketStateAble.TTL_END_TICKET_DATE,ticket.getTicketID()));
         ticket.setAlarmID(TicketStateAble.TTL_END_TICKET_DATE);
-        ticket.setAlarm(utlAlarmManager.setAlarm(ticket.ticketCloseDateTime,TicketStateAble.TECH_START_WORK_ON_TICkET,ticket.ticketID));
+        ticket.setAlarm(utlAlarmManager.setAlarm(ticket.getTicketCloseDateTime(),TicketStateAble.TECH_START_WORK_ON_TICkET,ticket.getTicketID()));
         ticket.setAlarmID(TicketStateAble.TECH_START_WORK_ON_TICkET);
 
     }

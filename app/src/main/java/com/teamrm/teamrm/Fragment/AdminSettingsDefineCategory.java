@@ -73,7 +73,7 @@ public class AdminSettingsDefineCategory extends Fragment {
                             @Override
                             public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                                 Toast.makeText(getContext(),  input.toString(), Toast.LENGTH_SHORT).show();
-                                UtlFirebase.saveCategory(UserSingleton.getInstance().getUserCompanyID(), input.toString());
+                                UtlFirebase.addCategory(UserSingleton.getInstance().getUserCompanyID(), input.toString());
                             }
                         })
 

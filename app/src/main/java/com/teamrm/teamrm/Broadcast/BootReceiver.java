@@ -7,10 +7,15 @@ import android.util.Log;
 
 import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
-import com.teamrm.teamrm.Interfaces.ProductID;
+import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Type.Category;
+import com.teamrm.teamrm.Type.Company;
+import com.teamrm.teamrm.Type.Product;
+import com.teamrm.teamrm.Type.Region;
 import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
@@ -40,7 +45,7 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
          {
                 Log.d("MESSEGE", "BootReceiver is activate after booting");
              utlAlarmManager = new UtlAlarmManager(context);
-             UtlFirebase.getAllTicket();
+             UtlFirebase.getAllTickets(this);
 
          }
          else
@@ -71,34 +76,34 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
 
 
     @Override
-    public void resultList(List<Ticket> ticket) {
+    public void ticketListCallback(List<Ticket> ticket) {
 
 
         Calendar cal = Calendar.getInstance();
 
         for (int i=0;i<= ticket.size() ;i++)
         {
-            if(!(ticket.get(i).ticketCloseDateTime ==null && ticket.get(i).ttl==null))
+            if(!(ticket.get(i).getTicketCloseDateTime() ==null && ticket.get(i).getTtl()==null))
             {
-                if(ticket.get(i).ticketCloseDateTime !=null)
+                if(ticket.get(i).getTicketCloseDateTime() !=null)
                 {
-                    if (ticket.get(i).ticketCloseDateTime.getTime() - cal.getTime().getTime() < 0)
+                    if (ticket.get(i).getTicketCloseDateTime().getTime() - cal.getTime().getTime() < 0)
                     {
 
                         sendNotification();
                     }else
                     {
-                        ticket.get(i).setAlarm(utlAlarmManager.setAlarm(ticket.get(i).ticketCloseDateTime,ticket.get(i).alarmID,ticket.get(i).ticketID));
+                        ticket.get(i).setAlarm(utlAlarmManager.setAlarm(ticket.get(i).getTicketCloseDateTime(),ticket.get(i).getAlarmID(),ticket.get(i).getTicketID()));
                     }
                 }
-                if(ticket.get(i).ttl != null)
+                if(ticket.get(i).getTtl() != null)
                 {
-                    if(ticket.get(i).ttl.getTime() - cal.getTime().getTime() < 0)
+                    if(ticket.get(i).getTtl().getTime() - cal.getTime().getTime() < 0)
                     {
                         sendNotification();
                     }else
                     {
-                        ticket.get(i).setAlarm(utlAlarmManager.setAlarm(ticket.get(i).ttl,ticket.get(i).alarmID,ticket.get(i).ticketID));
+                        ticket.get(i).setAlarm(utlAlarmManager.setAlarm(ticket.get(i).getTtl(),ticket.get(i).getAlarmID(),ticket.get(i).getTicketID()));
                     }
                 }
 
@@ -127,22 +132,22 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
             {
                 if (ticket.getRepeatSendCounter()>=3)
                 {
-                    ticket.changeState(ProductID.STATE_E02,ticket);
+                    ticket.updateTicketStateString(TicketStateStringable.STATE_E02,ticket);
                     ticket.incInitialization();
                 }else
                 {
                     ticket.incCounter();
-                    ticket.changeState(ProductID.STATE_A02CN,ticket);
+                    ticket.updateTicketStateString(TicketStateStringable.STATE_A02CN,ticket);
                 }
                 break;
             }
             case TicketStateAble.TTL_END_TICKET_DATE:
             {
-                if(ticket.ticketStateString !=ProductID.STATE_B03) {
+                if(ticket.getTicketStateString() != TicketStateStringable.STATE_B03) {
                     if (UserSingleton.getInstance().getUserStatus().equals(Users.STATUS_ADMIN) ) {
                         UtlNotification utlNotification = new UtlNotification("תקלה לא תופלה", "יום נפלא");
                         utlNotification.sendNotification();
-                        ticket.changeState(ProductID.STATE_E02,ticket);
+                        ticket.updateTicketStateString(TicketStateStringable.STATE_E02,ticket);
                         ticket.incInitialization();
                     }
                 }else
@@ -153,11 +158,11 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
             }
             case TicketStateAble.TTL_END_TIKCET_TIME_EXTENSION:
             {
-                ticket.changeState(ProductID.STATE_E05,ticket);
+                ticket.updateTicketStateString(TicketStateStringable.STATE_E05,ticket);
             }
             case TicketStateAble.TECH_START_WORK_ON_TICkET:
             {
-                ticket.changeState(ProductID.STATE_E03,ticket);
+                ticket.updateTicketStateString(TicketStateStringable.STATE_E03,ticket);
             }
         }
     }
@@ -174,8 +179,32 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
 
         //CREATE INTENT AND MSG ICON FOR NOTIFICATION
         Intent intent = new Intent(HomeScreen.context, HomeScreen.class);
-        UtlNotification notification = new UtlNotification(R.drawable.new_msg_icon, "Status changed", " Presentation", intent);
+        UtlNotification notification = new UtlNotification(R.drawable.new_msg_icon, "Status changed", " ticketPresentation", intent);
         notification.sendNotification();
     }
 
+    @Override
+    public void ticketLiteListCallback(List<TicketLite> ticketLites) {
+
+    }
+
+    @Override
+    public void companyListCallback(List<Company> companies) {
+
+    }
+
+    @Override
+    public void productListCallback(List<Product> products) {
+
+    }
+
+    @Override
+    public void categoryListCallback(List<Category> categories) {
+
+    }
+
+    @Override
+    public void regionListCallback(List<Region> regions) {
+
+    }
 }

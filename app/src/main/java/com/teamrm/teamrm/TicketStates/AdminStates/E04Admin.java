@@ -3,7 +3,7 @@ package com.teamrm.teamrm.TicketStates.AdminStates;
 import android.view.View;
 
 import com.teamrm.teamrm.Activities.HomeScreen;
-import com.teamrm.teamrm.Interfaces.ProductID;
+import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.TicketStates.TicketStateAdmin;
@@ -16,7 +16,7 @@ import com.teamrm.teamrm.Utility.UtlNotification;
  */
 public class E04Admin extends TicketStateAdmin implements TicketStateAble {
     static {
-        TicketFactory.registerProduct(ProductID.STATE_ADMIN_E04,new E04Admin());
+        TicketFactory.registerProduct(TicketStateStringable.STATE_ADMIN_E04,new E04Admin());
     }
     public E04Admin() {
         super();
@@ -27,8 +27,8 @@ public class E04Admin extends TicketStateAdmin implements TicketStateAble {
         UtlNotification utlNotification = new UtlNotification("טיפול נדחה ברבע שעה","יום נפלא");
         utlNotification.sendNotification();
         UtlAlarmManager utlAlarmManager = new UtlAlarmManager(HomeScreen.context);
-        ticket.ticketCloseDateTime.setTime(ticket.ticketCloseDateTime.getTime()+900000);
-        ticket.setAlarm(utlAlarmManager.setAlarm(ticket.ticketCloseDateTime,TicketStateAble.TTL_END_TIKCET_TIME_EXTENSION,ticket.ticketID));
+        ticket.getTicketCloseDateTime().setTime(ticket.getTicketCloseDateTime().getTime()+900000);
+        ticket.setAlarm(utlAlarmManager.setAlarm(ticket.getTicketCloseDateTime(),TicketStateAble.TTL_END_TIKCET_TIME_EXTENSION,ticket.getTicketID()));
         ticket.setAlarmID(TicketStateAble.TTL_END_TIKCET_TIME_EXTENSION);
     }
 

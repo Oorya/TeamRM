@@ -49,7 +49,7 @@ public class FirmDetailsFrag extends Fragment {
                 UtlFirebase.changeUserStatus(USER_ID, Users.STATUS_ADMIN, true);
                 UtlFirebase.setUserCompanyID(USER_ID, companyID);
                 Company company = new Company(companyID, companyName, USER_ID, address.getText().toString(),phone.getText().toString());
-                UtlFirebase.saveCompany(company);
+                UtlFirebase.addCompany(company);
 
                 Toast.makeText(getContext(), "נדרש אתחול כדי לעדכן את ההגדרות החדשות", Toast.LENGTH_SHORT).show();
             }

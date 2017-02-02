@@ -32,8 +32,7 @@ public class AdminSettingsDefineProducts extends Fragment {
 
     final static String TAG = ":::Settings:Products:::";
     public RecyclerView productView;
-    protected List<Product> productList = new ArrayList<>();
-    public static ProductAdapter productAdapter;
+    ProductAdapter productAdapter;
     FloatingActionButton floatBtn;
     
     
@@ -84,7 +83,7 @@ public class AdminSettingsDefineProducts extends Fragment {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                         Toast.makeText(getContext(),  input.toString(), Toast.LENGTH_SHORT).show();
-                        UtlFirebase.saveProduct(UserSingleton.getInstance().getUserCompanyID(), input.toString());
+                        UtlFirebase.addProduct(UserSingleton.getInstance().getUserCompanyID(), input.toString());
                     }
                 })
                 //.onPositive() //TODO:add method

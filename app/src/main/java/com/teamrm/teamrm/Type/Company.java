@@ -1,5 +1,6 @@
 package com.teamrm.teamrm.Type;
 
+import com.google.firebase.database.Exclude;
 import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
 
 import java.text.DateFormat;
@@ -18,8 +19,6 @@ public class Company implements GenericKeyValueTypeable
     private String phone;
     private String address;
     private String time;
-    private Category category;
-    private Product product;
 
     public Company(){}
 
@@ -30,6 +29,11 @@ public class Company implements GenericKeyValueTypeable
         this.address = address;
         this.phone = phone;
         this.time = getCurrentTime();
+    }
+
+    public Company(String companyId, String companyName){
+        this.companyId = companyId;
+        this.companyName = companyName;
     }
 
     private String getCurrentTime()
@@ -67,15 +71,6 @@ public class Company implements GenericKeyValueTypeable
         return time;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public Product getProduct()
-    {
-        return product;
-    }
-
     public String toString()
     {
         return companyName;
@@ -83,11 +78,13 @@ public class Company implements GenericKeyValueTypeable
 
 
     @Override
+    @Exclude
     public String getItemKey() {
         return this.companyId;
     }
 
     @Override
+    @Exclude
     public String getItemValue() {
         return this.companyName;
     }

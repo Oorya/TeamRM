@@ -5,7 +5,7 @@ import android.view.View;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.TicketStates.TicketStateUser;
-import com.teamrm.teamrm.Interfaces.ProductID;
+import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 import com.teamrm.teamrm.Type.Ticket;
 
 /**
@@ -13,7 +13,7 @@ import com.teamrm.teamrm.Type.Ticket;
  */
 public class E03Client extends TicketStateUser implements TicketStateAble {
     static {
-        TicketFactory.registerProduct(ProductID.STATE_USER_E03,new E03Client());
+        TicketFactory.registerProduct(TicketStateStringable.STATE_USER_E03,new E03Client());
     }
     public E03Client() {
         super();

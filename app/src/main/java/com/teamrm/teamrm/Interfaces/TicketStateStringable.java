@@ -3,7 +3,7 @@ package com.teamrm.teamrm.Interfaces;
 /**
  * Created by shalty on 12/09/2016.
  */
-public interface ProductID {
+public interface TicketStateStringable {
 
     String STATE_ADMIN_A00 = "A00Admin";
     String STATE_ADMIN_A01 = "A01Admin";

@@ -1,7 +1,11 @@
 package com.teamrm.teamrm.Utility;
 
 
+import android.app.Application;
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -10,61 +14,125 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.teamrm.teamrm.Fragment.AdminSettingsDefineCategory;
-import com.teamrm.teamrm.Fragment.AdminSettingsDefineProducts;
-import com.teamrm.teamrm.Fragment.NewTicket;
-import com.teamrm.teamrm.Fragment.TicketList;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
+import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.Type.Category;
 import com.teamrm.teamrm.Type.Chat;
 import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.Product;
+import com.teamrm.teamrm.Type.Region;
 import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.Users;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class UtlFirebase { //TODO: make singleton
     //TODO: make abstract factory above DB util classes
-    private static String status;
+    private static String ticketStateString;
     private static Ticket returnTicket;
     private static TicketFactory ticketFactory;
-    private static List<Ticket> ticketList = new ArrayList<Ticket>();
-    //private static List<String> companyList = new ArrayList<>();
+    private static List<Ticket> ticketList = new ArrayList<>();
+    private static List<TicketLite> ticketLiteList = new ArrayList<>();
+
+
+    //private static List<String> companyListCallback = new ArrayList<>();
+    private static final DatabaseReference GLOBAL_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference();
+    private static final DatabaseReference COMPANY_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("Companies");
+    private static final DatabaseReference TICKET_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("Tickets");
+    private static final DatabaseReference TICKET_LITE_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("TicketLites");
+    private static final DatabaseReference USERS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("Users");
+
+
+    private static final DatabaseReference USER_COMPANIES_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("UserCompanies");
 
     final static String TAG = ":::UtlFirebase:::";
 
     public UtlFirebase() {
     }
 
+
+///////////////////////////// User /////////////////////////////
+
+    public static void addUser(Users user) {
+    USERS_ROOT_REFERENCE.child(user.getUserID()).setValue(user, new
+            DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                }
+            });
+    Log.d("SET USER::", user.toString());
+}
+    public static void getUserByEmail(final String email, Object object) {
+
+        final FireBaseAble fireBaseAble = (FireBaseAble) object;
+
+        Query query = USERS_ROOT_REFERENCE.orderByChild("email").equalTo(email);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    Users user = item.getValue(Users.class);
+                    fireBaseAble.resultUser(user);
+                    Log.e("ON DATA CHANGE ", user == null ? "NULL" : "NOT NULL");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public static void removeUser(String userID) {
+        USERS_ROOT_REFERENCE.child(userID).removeValue();
+    }
+
+    public static void updateClient(String userId, String address, String phone) {
+        USERS_ROOT_REFERENCE.child(userId).child("userAddress").setValue(address);
+        USERS_ROOT_REFERENCE.child(userId).child("userPhone").setValue(phone);
+    }
+
+    public static void changeUserStatus(String userID, String status, boolean isAdmin) {
+        USERS_ROOT_REFERENCE.child(userID).child("userStatus").setValue(status);
+        USERS_ROOT_REFERENCE.child(userID).child("userIsAdmin").setValue(isAdmin);
+    }
+
+    public static void setUserCompanyID(String userID, String companyID) {
+        USERS_ROOT_REFERENCE.child(userID).child("userCompanyID").setValue(companyID);
+    }
+
+///////////////////////////// Ticket /////////////////////////////
+
     //Listener for state changed
-    public static void stateListener(final String statusUser, String email, String company) {
+    public static void stateListener(final String statusUser, String email, String company) { //TODO:rebuild method
         ticketFactory = new TicketFactory();
         final String STATUS_USER = UserSingleton.getInstance().getUserStatus();
         final String MAIL_USER = UserSingleton.getInstance().getUserEmail();
         final String COMPANY = UserSingleton.getInstance().getUserCompanyID();
         Log.w("STATE CHANGED", "state listener");
         //creating a reference to the database
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Ticket");
-
-        Query query = myRef.orderByChild("userEmail").equalTo(MAIL_USER);
+        Query query = TICKET_ROOT_REFERENCE.orderByChild("userEmail").equalTo(MAIL_USER);
 
         switch (STATUS_USER) {
             case Users.STATUS_ADMIN:
-                query = myRef.orderByChild("company").equalTo(COMPANY);// TODO company name by company ID
+                query = TICKET_ROOT_REFERENCE.orderByChild("company").equalTo(COMPANY);
                 break;
             case Users.STATUS_TECH:
-                query = myRef.orderByChild("tech").equalTo(MAIL_USER);
+                query = TICKET_ROOT_REFERENCE.orderByChild("tech").equalTo(MAIL_USER);
                 break;
         }
 
-        myRef.addChildEventListener(new ChildEventListener() {
+        TICKET_ROOT_REFERENCE.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
@@ -79,7 +147,7 @@ public class UtlFirebase { //TODO: make singleton
                     ticketFactory.getNewState(STATUS_USER + "States.", retrievedTicket.state + STATUS_USER, retrievedTicket);
                 }*/
                 Log.w("STATE CHANGED", arrData[1]);
-                //{state=A00Admin, userName=oorya, company=yes, status=0, ticketId=11111};
+                //{state=A00Admin, userName=oorya, company=yes, ticketStateString=0, ticketId=11111};
                 for (int ctr = 0; ctr <= arrData.length; ctr++) {
                     if (arrData[ctr].contains("state")) {
                         Log.w("STATE FROM LOOP", STATUS_USER + "States." + arrData[ctr].substring(7) + STATUS_USER);
@@ -103,155 +171,127 @@ public class UtlFirebase { //TODO: make singleton
         });
     }
 
-    public static void changeState(String ticketID, String state) {
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Ticket");
+    public static void updateTicketStateString(String ticketID, String ticketStateString) {
+        TICKET_ROOT_REFERENCE.child(ticketID).child("ticketStateString").setValue(ticketStateString, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
-        myRef.child(ticketID).child("state").setValue(state);
+            }
+        });
     }
 
     public static void updateTicket(String ticketID, String key, Date value) {
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Ticket");
-        myRef.child(ticketID).child(key).setValue(value);
+        TICKET_ROOT_REFERENCE.child(ticketID).child(key).setValue(value);
+        TICKET_LITE_ROOT_REFERENCE.child(ticketID).child(key).setValue(value);
     }
 
-    public static void updateState(String ticketID, String key, TicketStateAble value) {
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Ticket");
-        myRef.child(ticketID).child(key).setValue(value);
-    }
-
-    public static void getTicketByKey(final String key, Object object) {
-
-        final FireBaseAble fireBaseAble = (FireBaseAble) object;
-
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Ticket");
-
-        Query query = myRef.orderByKey().equalTo(key);
+    public static void getTicketByKey(final String key, final FireBaseAble fbHelper) {
+        Query query = TICKET_ROOT_REFERENCE.orderByKey().equalTo(key);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
-
-
-
                     Ticket ticket = item.getValue(Ticket.class);
-                    returnTicket = ticket;
+                    returnTicket = ticket; //TODO: what for?
                     Log.e("ON DATA CHANGE ", ticket == null ? "NULL" : "NOT NULL");
-                    fireBaseAble.resultTicket(ticket);
+                    fbHelper.resultTicket(ticket);
                     Log.e("RETURN METHOD ", returnTicket == null ? "NULL" : "NOT NULL");
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }
 
-    public static List<Ticket> getAllTicket() {
-        //creating a reference to the database
-        final DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Ticket");
-
-        myRef.addValueEventListener(new ValueEventListener() {
+    public static void getAllTickets(final FireBaseAble fbHelper) { //TODO:unusable except for testing, should get by company or by client
+        TICKET_ROOT_REFERENCE.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ticketList.clear();
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    /*Ticket retrievedTicket = null;
-                    try {
-                        Ticket retrievedTicket = item.getValue(Ticket.class);
-                    } catch (Exception e) {
-                        Log.e(":::UTLFIREBASE:::", "could not retrieve ticket");
-                        //Ticket mockTicket = new Ticket("","","", "", "", "", "אין כרטיסים לתצוגה","","","", UUID.randomUUID().toString());
-                        //Log.e(":::UTLFIREBASE:::", mockTicket.toString());
-                        //ticketList.add(mockTicket);
-
-                    }*/
-                    // retrievedTicket.stateObj = (TicketStateAble) item.child("stateObj").getValue(A01Client.class);
                     Ticket retrievedTicket = item.getValue(Ticket.class);
                     ticketList.add(retrievedTicket);
-                }
 
+                }
                 Log.e(":::UTLFIREBASE:::", "LIST SIZE: " + ticketList.size() + "");
+                fbHelper.ticketListCallback(ticketList);
                 //Need to notify for current list adapter
-                TicketList.ticketListAdapter.notifyDataSetChanged();
+                //TicketList.ticketListAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.e(":::UTLFIREBASE:::", "could not retrieve ticket");
+                Log.e(":::UTLFIREBASE:::", "could not retrieve tickets");
             }
         });
         Log.e(":::UTLFIREBASE::: ALL", "ALL");
-        return ticketList;
     }
 
-    public static List<Ticket> getTicketByName(String title, String name, String name2) { //TODO:why do we need this?
-        //creating a reference to the database
-        final DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Ticket");
-        //DataSnapshot data = new DataSnapshot(myRef);
-        Query query = myRef.orderByChild(title).equalTo(name);
-        //Query query1=myRef.orderByChild("phone").equalTo("3333","4444");
-        query.addValueEventListener(new ValueEventListener() {
+    public static void getAllTicketLites(final FireBaseAble fbHelper) { //TODO:unusable except for testing, should get by company or by client
+        TICKET_LITE_ROOT_REFERENCE.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ticketList.clear();
+                ticketLiteList.clear();
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    Ticket retrieve = item.getValue(Ticket.class);
-                    ticketList.add(retrieve);
-                }
-                Log.e("LIST SIZE: ", ticketList.size() + "");
+                    TicketLite retrievedTicketLite = item.getValue(TicketLite.class);
+                    ticketLiteList.add(retrievedTicketLite);
 
+                }
+                Log.e(":::UTLFIREBASE:::", "LIST SIZE: " + ticketList.size() + "");
+                fbHelper.ticketLiteListCallback(ticketLiteList);
                 //Need to notify for current list adapter
-                //TicketList.listAdapter.notifyDataSetChanged();
+                //TicketList.ticketListAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.e(":::UTLFIREBASE:::", "could not retrieve tickets");
             }
         });
-        return ticketList;
+        Log.e(":::UTLFIREBASE::: ALL", "ALL");
     }
 
-    public static String getStatus(String ticketID) {
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Ticket");
 
-        myRef.child(ticketID).addListenerForSingleValueEvent(new ValueEventListener() {
+    public static void getAllClientTickets(String clientID, final FireBaseAble fbHelper){
+        //TODO:add method
+    }
+
+    public static void getAllCompanyTickets(String companyID, final FireBaseAble fbHelper){
+        //TODO:add method
+    }
+
+    public static String getTicketStateString(String ticketID) {
+        TICKET_ROOT_REFERENCE.child(ticketID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String statusData = dataSnapshot.child("status").getValue() + "";
-                status = statusData;
+                ticketStateString = dataSnapshot.child("ticketStateString").getValue().toString();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
 
-        return status;
+        return ticketStateString;
     }
 
-    public static void changeStatus(String ticketID, int status) {
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Ticket");
-
-        myRef.child(ticketID).child("status").setValue(status);
+    public static void updateTicketPresentation(String ticketID, int status) {
+        TICKET_ROOT_REFERENCE.child(ticketID + "/ticketPresentation").setValue(status);
     }
 
     public static void removeTicket(String ticketID) {
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Ticket");
-
-        myRef.child(ticketID).removeValue();
+        TICKET_ROOT_REFERENCE.child(ticketID).removeValue();
     }
 
-    public static void removeMultipleTickets(List<String> ticketsList) {
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Ticket");
-
-        for (int counter = 0; counter < ticketsList.size(); counter++) {
-            myRef.child(ticketsList.get(counter)).removeValue();
+    public static void removeMultipleTickets(List<String> ticketsIDList) {
+        for (int counter = 0; counter < ticketsIDList.size(); counter++) {
+            TICKET_ROOT_REFERENCE.child(ticketsIDList.get(counter)).removeValue();
         }
     }
+
+///////////////////////////// Chat /////////////////////////////
 
     public static List<Chat> getChatByTicketID(String ticketID) {
         final List<Chat> chatList = new ArrayList<Chat>();
@@ -290,65 +330,13 @@ public class UtlFirebase { //TODO: make singleton
         myRef.child(ticketID).removeValue();
     }
 
-    public static void getUserByEmail(final String email, Object object) {
+///////////////////////////// Company /////////////////////////////
 
-        final FireBaseAble fireBaseAble = (FireBaseAble) object;
-
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Users");
-
-        Query query = myRef.orderByChild("email").equalTo(email);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    Users user = item.getValue(Users.class);
-                    fireBaseAble.resultUser(user);
-                    Log.e("ON DATA CHANGE ", user == null ? "NULL" : "NOT NULL");
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    public static void removeClient(String userID) {
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Users");
-
-        myRef.child("Client").child(userID).removeValue();
-    }
-
-    public static void updateClient(String userId, String address, String phone) {
-        //creating a reference to Users object
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Users");
-
-        //update the user under the UUID
-        myRef.child(userId).child("userAddress").setValue(address);
-        myRef.child(userId).child("userPhone").setValue(phone);
-    }
-
-    public static void changeUserStatus(String userID, String status, boolean isAdmin) {
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Users");
-
-        myRef.child(userID).child("userStatus").setValue(status);
-        myRef.child(userID).child("userIsAdmin").setValue(isAdmin);
-    }
-
-    public static void setUserCompanyID(String userID, String companyID) {
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Users");
-
-        myRef.child(userID).child("userCompanyID").setValue(companyID);
-    }
-
-    public static List<Company> getAllCompanies() {
-        //creating a reference to the database
-        final DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Company");
+    public static List<Company> getAllCompanies(final FireBaseAble fbHelper) {
 
         final List<Company> companyList = new ArrayList<>();
 
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        COMPANY_ROOT_REFERENCE.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 companyList.clear();
@@ -356,10 +344,11 @@ public class UtlFirebase { //TODO: make singleton
                     Company retrieveCompany = item.getValue(Company.class);
                     companyList.add(retrieveCompany);
                 }
+                fbHelper.companyListCallback(companyList);
                 Log.e("LIST SIZE COMPANIES: ", companyList.size() + "");
 
                 //Need to notify for current list adapter
-                NewTicket.listCompanyAdapter.notifyDataSetChanged();
+                //NewTicket.listCompanyAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -371,17 +360,17 @@ public class UtlFirebase { //TODO: make singleton
         return companyList;
     }
 
-    public static List<HashMap> getAllClientCompanies(String userID){
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("UserCompanies");
-        final List<HashMap>clientCompanies = new ArrayList<HashMap>();
-        Query query = myRef.orderByChild(userID);
+    public static List<GenericKeyValueTypeable> getAllClientCompanies(String userID, FireBaseAble fbHelper) {
+        final List<GenericKeyValueTypeable> clientCompanies = new ArrayList<>();
+        Query query = USER_COMPANIES_ROOT_REFERENCE.orderByChild(userID);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot single : dataSnapshot.getChildren()){
-                    clientCompanies.add((HashMap)single.getValue()); //TODO:key = userID, value = companyID
+                for (DataSnapshot clientCompany : dataSnapshot.getChildren()) {
+                    clientCompanies.add((Company)clientCompany.getValue());
                 }
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
@@ -389,233 +378,170 @@ public class UtlFirebase { //TODO: make singleton
         return clientCompanies;
     }
 
-    public static void saveUser(Users user) {
-        //creating a reference to Users object
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Users");
 
-        //saving the user under the UUID
-        myRef.child(user.getUserID()).setValue(user, new
-                DatabaseReference.CompletionListener() {
-                    @Override
-                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
-                    }
-                });
-        Log.d("SET USER::", user.toString());
-    }
-
-    public static void saveTicket(Ticket ticket) {
-        //creating a reference to Ticket object
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Ticket");
-
-        //saving the user under the UUID
-        myRef.child(ticket.ticketId).setValue(ticket, new DatabaseReference.CompletionListener() {
+    public static void addTicket(Ticket ticket) {
+        Map updates = new HashMap();
+        updates.put("Tickets/" + ticket.getTicketID(), ticket);
+        updates.put("TicketLites/" + ticket.getTicketID(), new TicketLite(ticket));
+        GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-
+                //TODO:callback
             }
         });
     }
 
-    public static void saveCompany(Company company) {
-        //creating a reference to Company object
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Company");
-
-        //saving the user under the UUID
-        myRef.child(company.getCompanyId()).setValue(company, new DatabaseReference.CompletionListener() {
+    public static void addCompany(Company company) {
+        COMPANY_ROOT_REFERENCE.child(company.getCompanyId()).setValue(company, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-
+                //TODO:callback
             }
         });
     }
 
-    public static void saveCategoryList(String companyName, List<Category> categoryList) {
-        //creating a reference to Company object
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Company");
+///////////////////////////// Product /////////////////////////////
 
-        //saving the category under the UUID
-        for (Category item : categoryList) {
-            myRef.child(companyName).child("Category").setValue(item, new DatabaseReference.CompletionListener() {
-                @Override
-                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-
-                }
-            });
-        }
-    }
-
-    public static void saveCategory(String companyID, String categoryName) {
-
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Company/"+companyID+"/category");
-        myRef.push().setValue(categoryName, new DatabaseReference.CompletionListener() {
+    public static void addProduct(String companyID, String productName) {
+        COMPANY_ROOT_REFERENCE.child(companyID + "/Products").push().setValue(productName, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                Log.w("Firebase util ", "company key "+databaseReference.getKey());
+                Log.w("Firebase util ", "product key " + databaseReference.getKey());
             }
         });
-
     }
 
-    public static void saveProduct(String companyID, String productName) {
-
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Company/"+companyID+"/product");
-        myRef.push().setValue(productName, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                Log.w("Firebase util ", "product key "+databaseReference.getKey());
-            }
-        });
-
-    }
-
-    public static void saveProductList(String companyName, String categoryName, List<Product> productList) {
-        //creating a reference to Company object
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Company");
-
-        //saving the product under the UUID
-        for (Product item : productList) {
-            myRef.child(companyName).child("category").child(categoryName).child("product").setValue(item, new DatabaseReference.CompletionListener() {
-                @Override
-                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-
-                }
-            });
-        }
-    }
-
-    public static List<Category> getCategories(final String companyName) {
-        Log.d(TAG, "getCategories with company "+ companyName);
-        final List<Category> categoryList = new ArrayList<>();
-        final DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Company");
-        Log.d(TAG, "in getCategories");
-        myRef.child(companyName).child("category").addValueEventListener(new ValueEventListener() { //TODO: remove dirty hack, initialize firebase skeleton on company creation
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                categoryList.clear();
-                /*if (!dataSnapshot.hasChild("category")) {
-                    Log.w(TAG, "getCategories, no child Category");
-                    saveCategory(companyName, "תקלה");
-                }*/
-
-                for(DataSnapshot item:dataSnapshot.getChildren())
-                {
-                    categoryList.add(new Category(item.getKey(), (String)item.getValue()));
-                }
-
-                AdminSettingsDefineCategory.categoryAdapter.notifyDataSetChanged();
-                myRef.removeEventListener(this);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
-        Log.d(TAG, "getCategories: found children");
-        return categoryList;
-    }
-
-    public static List<Product> getProducts(String companyName) {
+    public static List<Product> getProducts(String companyID, final FireBaseAble fbHelper) {
         final List<Product> productList = new ArrayList<>();
-        final DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Company");
-
-        myRef.child(companyName).child("product").addValueEventListener(new ValueEventListener() {
+        COMPANY_ROOT_REFERENCE.child(companyID + "/Products").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 productList.clear();
-                for (DataSnapshot item : dataSnapshot.getChildren())
-                {
-                    productList.add(new Product(item.getKey(), (String)item.getValue()));
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    productList.add(new Product(item.getKey(), (String) item.getValue()));
                 }
-                AdminSettingsDefineProducts.productAdapter.notifyDataSetChanged();
-                myRef.removeEventListener(this);
+                fbHelper.productListCallback(productList);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
-
         return productList;
     }
 
-    public static List<String> getStringCategories(final String companyID) {
-        Log.d(TAG, "getCategories with company "+ companyID);
-        final List<String> categoryList = new ArrayList<>();
-        final DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Company");
-        Log.d(TAG, "in getCategories");
-        myRef.child(companyID).child("category").addListenerForSingleValueEvent(new ValueEventListener() { //TODO: remove dirty hack, initialize firebase skeleton on company creation
+    public static void updateProduct(String companyID, Product product, @NonNull String productUpdatedName) {
+        COMPANY_ROOT_REFERENCE.child(companyID + "/Products/" + product.getItemKey()).setValue(productUpdatedName, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                //TODO:callback
+            }
+        });
+    }
+
+    public static void removeProduct(String companyID, Product product) {
+        COMPANY_ROOT_REFERENCE.child(companyID + "/Products/" + product.getItemKey()).removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                //TODO:callback
+            }
+        });
+    }
+
+///////////////////////////// Category /////////////////////////////
+
+    public static void addCategory(String companyID, String categoryName) {
+        COMPANY_ROOT_REFERENCE.child(companyID + "/Categories").push().setValue(categoryName, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                Log.w("Firebase util ", "category key " + databaseReference.getKey());
+            }
+        });
+    }
+
+    public static List<Category> getCategories(String companyID, final FireBaseAble fbHelper) {
+        final List<Category> categoryList = new ArrayList<>();
+        COMPANY_ROOT_REFERENCE.child(companyID + "/Categories").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                /*if (!dataSnapshot.hasChild("category")) {
-                    Log.w(TAG, "getCategories, no child Category");
-                    saveCategory(companyName, "תקלה");
-                }*/
-                myRef.child(companyID).child("category").addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for(DataSnapshot item:dataSnapshot.getChildren())
-                        {
-                            categoryList.add((String)item.getValue());
-                        }
-
-                        NewTicket.listCategoryAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+                categoryList.clear();
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    categoryList.add(new Category(item.getKey(), (String) item.getValue()));
+                }
+                fbHelper.categoryListCallback(categoryList);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-        Log.d(TAG, "getCategories: found children");
-        /*myRef.child("Category").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "getCategories children: " + dataSnapshot.getChildren());
-                for (DataSnapshot singleCategory : dataSnapshot.getChildren()) {
-                    categoryList.add(new Category((String)singleCategory.getKey(), (String)singleCategory.getValue()));
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });*/
         return categoryList;
     }
 
-    public static List<String> getStringProducts(String companyID) {
-        final List<String> productList = new ArrayList<>();
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Company");
-        Log.w("firebase util c ", companyID);
+    public static void updateCategory(String companyID, Category category, @NonNull String categoryUpdatedName) {
+        COMPANY_ROOT_REFERENCE.child(companyID + "/Categories/" + category.getItemKey()).setValue(categoryUpdatedName, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                //TODO:callback
+            }
+        });
+    }
 
-        myRef.child(companyID).child("product").addListenerForSingleValueEvent(new ValueEventListener() {
+    public static void removeCategory(String companyID, Category category) {
+        COMPANY_ROOT_REFERENCE.child(companyID + "/Categories/" + category.getItemKey()).removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                //TODO:callback
+            }
+        });
+    }
+
+///////////////////////////// Region /////////////////////////////
+
+    public static void addRegion(String companyID, String regionName) {
+        COMPANY_ROOT_REFERENCE.child(companyID + "/Regions").push().setValue(regionName, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                Log.w("Firebase util ", "region key " + databaseReference.getKey());
+            }
+        });
+    }
+
+    public static List<Region> getRegions(String companyID, final FireBaseAble fbHelper) {
+        final List<Region> regionList = new ArrayList<>();
+        COMPANY_ROOT_REFERENCE.child(companyID + "/Regions").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                //productList.clear();
+                regionList.clear();
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    Log.w("firebase util i ", item.toString());
-                    productList.add((String)item.getValue());
+                    regionList.add(new Region(item.getKey(), (String) item.getValue()));
                 }
-
-                NewTicket.listProductAdapter.notifyDataSetChanged();
+                fbHelper.regionListCallback(regionList);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
+        return regionList;
+    }
 
-        return productList;
+    public static void updateRegion(String companyID, Region region, @NonNull String regionUpdatedName) {
+        COMPANY_ROOT_REFERENCE.child(companyID + "/Regions/" + region.getItemKey()).setValue(regionUpdatedName, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                //TODO:callback
+            }
+        });
+    }
+
+    public static void removeRegion(String companyID, Region region) {
+        COMPANY_ROOT_REFERENCE.child(companyID + "/Regions/" + region.getItemKey()).removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                //TODO:callback
+            }
+        });
     }
 }

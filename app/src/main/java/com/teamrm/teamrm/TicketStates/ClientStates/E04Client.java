@@ -2,7 +2,7 @@ package com.teamrm.teamrm.TicketStates.ClientStates;
 
 import android.view.View;
 
-import com.teamrm.teamrm.Interfaces.ProductID;
+import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.TicketStates.TicketStateUser;
@@ -14,7 +14,7 @@ import com.teamrm.teamrm.Utility.UtlNotification;
  */
 public class E04Client extends TicketStateUser implements TicketStateAble {
     static {
-        TicketFactory.registerProduct(ProductID.STATE_USER_E04,new E04Client());
+        TicketFactory.registerProduct(TicketStateStringable.STATE_USER_E04,new E04Client());
     }
     public E04Client() {
         super();

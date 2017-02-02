@@ -2,12 +2,14 @@ package com.teamrm.teamrm.Fragment;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,33 +17,56 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.teamrm.teamrm.Activities.HomeScreen;
+import com.teamrm.teamrm.Adapter.GenericPrefListAdapter;
+import com.teamrm.teamrm.Interfaces.FireBaseAble;
+import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
+import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Type.Category;
 import com.teamrm.teamrm.Type.Company;
+import com.teamrm.teamrm.Type.Product;
+import com.teamrm.teamrm.Type.Region;
+import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Type.TicketLite;
+import com.teamrm.teamrm.Type.Users;
+import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlCamera;
 import com.teamrm.teamrm.Utility.UtlFirebase;
+import com.teamrm.teamrm.Utility.UtlImage;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class NewTicket extends Fragment implements AdapterView.OnItemSelectedListener {
+public class NewTicket extends Fragment implements AdapterView.OnItemSelectedListener, FireBaseAble{
 
-    private Spinner selectProduct, selectCategory, selectRegion, selectCompany;
+    private Spinner selectCompany, selectProduct, selectCategory, selectRegion;
     public static ImageView imageView1, imageView2;
     public static Bitmap img1, img2;
-    private String product, category, region, company;
-    private EditText address, phone, desShort, desLong;
-    public static ArrayAdapter<Company> listCompanyAdapter;
-    public static ArrayAdapter<String> listProductAdapter;
-    public static ArrayAdapter<String> listCategoryAdapter;
-    private List<Company> companiesList;
+    private Company selectedCompany;
+    private Product selectedProduct;
+    private Category selectedCategory;
+    private Region selectedRegion;
+    private EditText ticketAddress, ticketPhone, descriptionShort, descriptionLong;
+    GenericPrefListAdapter listCompanyAdapter;
+    GenericPrefListAdapter listProductAdapter;
+    GenericPrefListAdapter listCategoryAdapter;
+    GenericPrefListAdapter listRegionAdapter;
+    private ArrayList<GenericKeyValueTypeable> companiesList = new ArrayList<>();
+    private ArrayList<GenericKeyValueTypeable> productList = new ArrayList<>();
+    private ArrayList<GenericKeyValueTypeable> categoryList = new ArrayList<>();
+    private ArrayList<GenericKeyValueTypeable> regionList = new ArrayList<>();
+
     private Button btnSubmitTicket;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
@@ -51,47 +76,53 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     private static final int PERMISSION_CALLBACK_CONSTANT = 101;
     private static final int REQUEST_PERMISSION_SETTING = 102;
     private boolean sentToSettings = false;
-
+    Context context;
 
     public NewTicket() {}
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        UtlFirebase.getAllCompanies(this); //TODO:should be getAllClientCompanies, change after redefining client<->company binding
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_new_ticket, container, false);
+        context = this.getContext();
         getActivity().findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
-
 
         imageView1 = (ImageView)view.findViewById(R.id.photoChooser1);
         imageView2 = (ImageView)view.findViewById(R.id.photoChooser2);
-        address = (EditText)view.findViewById(R.id.txtAddress);
-        phone = (EditText)view.findViewById(R.id.txtPhone);
-        desShort = (EditText)view.findViewById(R.id.descriptionShort);
-        desLong = (EditText)view.findViewById(R.id.descriptionLong);
+        ticketAddress = (EditText)view.findViewById(R.id.txtAddress);
+        ticketPhone = (EditText)view.findViewById(R.id.txtPhone);
+        descriptionShort = (EditText)view.findViewById(R.id.descriptionShort);
+        descriptionLong = (EditText)view.findViewById(R.id.descriptionLong);
+
+        selectCompany = (Spinner) view.findViewById(R.id.selectCompanySpinner);
         selectProduct = (Spinner) view.findViewById(R.id.selectProductSpinner);
         selectCategory = (Spinner) view.findViewById(R.id.selectCategoryASpinner);
         selectRegion = (Spinner) view.findViewById(R.id.selectRegionSpinner);
-        selectCompany = (Spinner) view.findViewById(R.id.selectCompanySpinner);
+
         utlCamera=new UtlCamera(getContext(),getActivity());
+
+        selectProduct.setEnabled(false);
+        selectCategory.setEnabled(false);
+        selectRegion.setEnabled(false);
 
         pref = getContext().getSharedPreferences("strImg",MODE_PRIVATE);
         editor=pref.edit();
 
-        selectCategory.setEnabled(false);
-        selectProduct.setEnabled(false);
-        companiesList = UtlFirebase.getAllCompanies();
-        listCompanyAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_view, companiesList);
-        ArrayAdapter<String> listRegionAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_view, getResources().getStringArray(R.array.region_list));
+        listCompanyAdapter = new GenericPrefListAdapter(context, companiesList);
 
-        listRegionAdapter.setDropDownViewResource(R.layout.spinner_row);
-        listCompanyAdapter.setDropDownViewResource(R.layout.spinner_row);
-
-        selectRegion.setAdapter(listRegionAdapter);
-        selectRegion.setOnItemSelectedListener(this);
 
         selectCompany.setAdapter(listCompanyAdapter);
+
+
         selectCompany.setOnItemSelectedListener(this);
+
 
         btnSubmitTicket = (Button)view.findViewById(R.id.btnSubmitTicket);
         btnSubmitTicket.setOnClickListener(new View.OnClickListener() {
@@ -168,42 +199,48 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         parent.getItemAtPosition(position);
         switch (parent.getId()){
+            case R.id.selectCompanySpinner:
+                selectedProduct = null;
+                selectCategory = null;
+                selectedRegion = null;
+
+                selectCompany.setSelection(position);
+                selectedCompany = (Company)selectCompany.getSelectedItem();
+                setSpinnerAdapters(position);
+                break;
             case R.id.selectProductSpinner:
-                selectProduct.setSelection(position);
-                product = selectProduct.getItemAtPosition(position).toString();
+            selectProduct.setSelection(position);
+            selectedProduct = (Product)selectProduct.getSelectedItem();
             break;
 
             case R.id.selectCategoryASpinner:
-                selectCategory.setSelection(position);
-                category = selectCategory.getItemAtPosition(position).toString();
-                break;
+            selectCategory.setSelection(position);
+            selectedCategory = (Category)selectCategory.getSelectedItem();
+            break;
 
             case R.id.selectRegionSpinner:
-                selectRegion.setSelection(position);
-                region = selectRegion.getItemAtPosition(position).toString();
-                break;
-            case R.id.selectCompanySpinner:
-                category = "";
-                product = "";
-                selectCompany.setSelection(position);
-                company = selectCompany.getItemAtPosition(position).toString();
-                setSpinnerAdapters(position);
-                break;
+            selectRegion.setSelection(position);
+            selectedRegion = (Region)selectRegion.getSelectedItem();
+            break;
         }
     }
 
     private void setSpinnerAdapters(int position) {
-        listProductAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_view, UtlFirebase.getStringProducts(companiesList.get(position).getCompanyId()));
-        listCategoryAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_view, UtlFirebase.getStringCategories(companiesList.get(position).getCompanyId()));
+        UtlFirebase.getProducts(selectedCompany.getCompanyId(), this);
+        UtlFirebase.getCategories(selectedCompany.getCompanyId(), this);
+        UtlFirebase.getRegions(selectedCompany.getCompanyId(), this);
         selectProduct.setEnabled(true);
         selectCategory.setEnabled(true);
-        listProductAdapter.setDropDownViewResource(R.layout.spinner_row);
-        listCategoryAdapter.setDropDownViewResource(R.layout.spinner_row);
+        selectRegion.setEnabled(true);
+        listProductAdapter = new GenericPrefListAdapter(context, productList);
+        listCategoryAdapter = new GenericPrefListAdapter(context, categoryList);
+        listRegionAdapter = new GenericPrefListAdapter(context, regionList);
         selectProduct.setAdapter(listProductAdapter);
-        selectProduct.setOnItemSelectedListener(this);
-
         selectCategory.setAdapter(listCategoryAdapter);
+        selectRegion.setAdapter(listRegionAdapter);
+        selectProduct.setOnItemSelectedListener(this);
         selectCategory.setOnItemSelectedListener(this);
+        selectRegion.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -218,22 +255,60 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
 
     private void submitTicket(View view){
 
-        /*TODO: fix method
-        Calendar cal = Calendar.getInstance(); // creates calendar
+        //Calendar cal = Calendar.getInstance(); // creates calendar
         String uid = UUID.randomUUID().toString();
-        Ticket ticket = new Ticket(company,product,category,region,address.getText().toString(),phone.getText().toString(),
-                desShort.getText().toString(),desLong.getText().toString(),img1 != null ? UtlImage.bitmap2string(img1):"error",
-                img2 != null ? UtlImage.bitmap2string(img2):"error",uid);
-        UtlFirebase.saveTicket(ticket);
-        ticket.changeState(ProductID.STATE_A01,ticket);
-        //UtlFirebase.changeState(ticket.ticketID, ProductID.STATE_A01);
-        address.setText("");
-        phone.setText("");
-        desShort.setText("");
-        desLong.setText("");
-
+        Ticket newTicket = new Ticket(UserSingleton.getInstance().getUserID(), this.ticketPhone.getText().toString(), this.ticketAddress.getText().toString(), uid, selectedCompany.getCompanyId(),
+                this.selectedProduct, this.selectedCategory, this.selectedRegion, this.descriptionShort.getText().toString(), this.descriptionLong.getText().toString(),
+                img1 != null ? UtlImage.bitmap2string(img1):"error", img2 != null ? UtlImage.bitmap2string(img2):"error");
+        UtlFirebase.addTicket(newTicket);
+        newTicket.updateTicketStateString(TicketStateStringable.STATE_A01, newTicket);
+        Toast.makeText(getContext(), "Success opening ticket " + newTicket.getTicketNumber(), Toast.LENGTH_LONG).show();
         ((HomeScreen) getActivity()).onDrawerItemSelected(view, 0);
-        */
+    }
+
+    @Override
+    public void companyListCallback(List<Company> companies) {
+        companiesList.addAll(companies);
+    }
+
+    @Override
+    public void productListCallback(List<Product> products) {
+        productList.addAll(products);
+    }
+
+    @Override
+    public void categoryListCallback(List<Category> categories) {
+        categoryList.addAll(categories);
+    }
+
+    @Override
+    public void regionListCallback(List<Region> regions) {
+        regionList.addAll(regions);
+    }
+
+    @Override
+    public void ticketLiteListCallback(List<TicketLite> ticketLites) {
+
+    }
+
+    @Override
+    public void resultTicket(Ticket ticket) {
+
+    }
+
+    @Override
+    public void resultUser(Users user) {
+
+    }
+
+    @Override
+    public void ticketListCallback(List<Ticket> ticket) {
+
+    }
+
+    @Override
+    public void resultBoolean(boolean bool) {
+
     }
 }
 

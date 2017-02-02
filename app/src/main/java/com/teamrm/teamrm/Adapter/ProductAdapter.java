@@ -12,9 +12,16 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.PrefListable;
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Type.Category;
+import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.Product;
+import com.teamrm.teamrm.Type.Region;
+import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Type.TicketLite;
+import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
@@ -24,7 +31,7 @@ import java.util.List;
  * Created by root on 13/01/2017.
  */
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductHolder> implements PrefListable {
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductHolder> implements PrefListable, FireBaseAble {
 
     List<Product> productList ;
     Context prContext;
@@ -32,7 +39,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
 
     public ProductAdapter(Context context) {
         this.prContext = context;
-        this.productList = UtlFirebase.getProducts(UserSingleton.getInstance().getUserCompanyID());
+        UtlFirebase.getProducts(UserSingleton.getInstance().getUserCompanyID(), this);
     }
 
     @Override
@@ -147,6 +154,51 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
             this.iconEdit = (ImageView) view.findViewById(R.id.prefIconEdit);
             this.iconRemove = (ImageView) view.findViewById(R.id.prefIconRemove);
         }
+
+    }
+
+    @Override
+    public void productListCallback(List<Product> products) {
+        productList.addAll(products);
+    }
+
+    @Override
+    public void resultTicket(Ticket ticket) {
+
+    }
+
+    @Override
+    public void resultUser(Users user) {
+
+    }
+
+    @Override
+    public void ticketListCallback(List<Ticket> tickets) {
+
+    }
+
+    @Override
+    public void ticketLiteListCallback(List<TicketLite> ticketLites) {
+
+    }
+
+    @Override
+    public void resultBoolean(boolean bool) {
+
+    }
+
+    @Override
+    public void companyListCallback(List<Company> companies) {
+
+    }
+
+    @Override
+    public void categoryListCallback(List<Category> categories) {
+
+    }
+
+    @Override
+    public void regionListCallback(List<Region> regions) {
 
     }
 }

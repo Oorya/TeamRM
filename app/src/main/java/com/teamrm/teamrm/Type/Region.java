@@ -1,5 +1,6 @@
 package com.teamrm.teamrm.Type;
 
+import com.google.firebase.database.Exclude;
 import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
 
 /**
@@ -27,11 +28,13 @@ public class Region implements GenericKeyValueTypeable
     }
 
     @Override
+    @Exclude
     public String getItemKey() {
         return this.regionID;
     }
 
     @Override
+    @Exclude
     public String getItemValue() {
         return this.regionName;
     }

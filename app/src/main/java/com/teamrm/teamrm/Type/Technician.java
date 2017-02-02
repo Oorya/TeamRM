@@ -1,5 +1,6 @@
 package com.teamrm.teamrm.Type;
 
+import com.google.firebase.database.Exclude;
 import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
 
 /**
@@ -70,11 +71,13 @@ public class Technician extends Users implements GenericKeyValueTypeable {
     }
 
     @Override
+    @Exclude
     public String getItemKey() {
         return super.getUserID();
     }
 
     @Override
+    @Exclude
     public String getItemValue() {
         return super.getUserNameString();
     }

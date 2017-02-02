@@ -25,7 +25,12 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Type.Category;
+import com.teamrm.teamrm.Type.Company;
+import com.teamrm.teamrm.Type.Product;
+import com.teamrm.teamrm.Type.Region;
 import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.App;
 import com.teamrm.teamrm.Utility.UserSingleton;
@@ -240,12 +245,37 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     }
 
     @Override
-    public void resultList(List<Ticket> ticket) {
+    public void ticketListCallback(List<Ticket> ticket) {
 
     }
 
     @Override
     public void resultBoolean(boolean bool) {
+
+    }
+
+    @Override
+    public void ticketLiteListCallback(List<TicketLite> ticketLites) {
+
+    }
+
+    @Override
+    public void companyListCallback(List<Company> companies) {
+
+    }
+
+    @Override
+    public void productListCallback(List<Product> products) {
+
+    }
+
+    @Override
+    public void categoryListCallback(List<Category> categories) {
+
+    }
+
+    @Override
+    public void regionListCallback(List<Region> regions) {
 
     }
 }

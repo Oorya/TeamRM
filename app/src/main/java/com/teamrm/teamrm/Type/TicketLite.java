@@ -1,40 +1,61 @@
 package com.teamrm.teamrm.Type;
 
-import android.media.Image;
-
-import com.teamrm.teamrm.Interfaces.TicketStateAble;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * Created by root on 27/01/2017.
  */
 
 public class TicketLite {
 
-    public String clientNameString;
+    private String clientNameString;
 
-    public String ticketAddress;
+    private String ticketAddress;
 
-    public String ticketID;
-    public String ticketNumber;
-    public String companyName;
+    private String ticketID;
+    private String ticketNumber;
+    private String companyName;
 
-    public String productName;
-    public String categoryName;
-    public String regionName;
-    public String descriptionShort;
-    public String descriptionLong;
-    public String ticketStateString;
+    private String productName;
+    private String categoryName;
+    private String regionName;
+    private String descriptionShort;
+    private String descriptionLong;
+    private String ticketStateString;
 
-    public Date ticketOpenDateTime;
-    public Date ticketCloseDateTime;
+    private String ticketOpenDateTime;
+    private String ticketCloseDateTime;
 
-    public String techNameString;
-    public Image techAvatar;
+    private String techNameString;
+    //private Image techAvatar;
 
-    public int ticketPresentation;
+    private int ticketPresentation;
+
+    public TicketLite() {
+    }
+
+    public TicketLite(Ticket ticket) {
+        this.clientNameString = ticket.getClientNameString();
+
+        this.ticketAddress = ticket.getTicketAddress();
+
+        this.ticketID = ticket.getTicketID();
+        this.ticketNumber = ticket.getTicketNumber();
+        this.companyName = ticket.getCompanyName();
+
+        this.productName = ticket.getProductName();
+        this.categoryName = ticket.getCategoryName();
+        this.regionName = ticket.getRegionName();
+        this.descriptionShort = ticket.getDescriptionShort();
+        this.descriptionLong = ticket.getDescriptionLong();
+        this.ticketStateString = ticket.getTicketStateString();
+
+        this.ticketOpenDateTime = ticket.getTicketOpenDateTime();
+        //this.ticketCloseDateTime = ticket.getTicketCloseDateTime();
+
+        this.techNameString = ticket.getTechNameString();
+        //this.techAvatar=ticket.
+
+        this.ticketPresentation = ticket.getTicketPresentation();
+    }
 
     public String getClientNameString() {
         return clientNameString;
@@ -126,22 +147,18 @@ public class TicketLite {
 
     public String getTicketOpenDateTime() {
 
-        SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
-        String DateTimeformatted = format1.format(this.ticketOpenDateTime.getTime());
-
-
-        return DateTimeformatted;
+        return ticketOpenDateTime;
     }
 
-    public void setTicketOpenDateTime(Date ticketOpenDateTime) {
+    public void setTicketOpenDateTime(String ticketOpenDateTime) {
         this.ticketOpenDateTime = ticketOpenDateTime;
     }
 
-    public Date getTicketCloseDateTime() {
+    public String getTicketCloseDateTime() {
         return ticketCloseDateTime;
     }
 
-    public void setTicketCloseDateTime(Date ticketCloseDateTime) {
+    public void setTicketCloseDateTime(String ticketCloseDateTime) {
         this.ticketCloseDateTime = ticketCloseDateTime;
     }
 
@@ -151,14 +168,6 @@ public class TicketLite {
 
     public void setTechNameString(String techNameString) {
         this.techNameString = techNameString;
-    }
-
-    public Image getTechAvatar() {
-        return techAvatar;
-    }
-
-    public void setTechAvatar(Image techAvatar) {
-        this.techAvatar = techAvatar;
     }
 
     public int getTicketPresentation() {

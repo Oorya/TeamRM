@@ -3,9 +3,9 @@ package com.teamrm.teamrm.TicketStates.TechStates;
 import android.view.View;
 
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
+import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.TicketStates.TicketStateTech;
-import com.teamrm.teamrm.Interfaces.ProductID;
 import com.teamrm.teamrm.Type.Ticket;
 
 /**
@@ -13,7 +13,7 @@ import com.teamrm.teamrm.Type.Ticket;
  */
 public class B03Tech extends TicketStateTech implements TicketStateAble {
     static {
-        TicketFactory.registerProduct(ProductID.STATE_TECH_B03,new B03Tech());
+        TicketFactory.registerProduct(TicketStateStringable.STATE_TECH_B03,new B03Tech());
     }
     public B03Tech() {
         super();

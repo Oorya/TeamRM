@@ -1,5 +1,6 @@
 package com.teamrm.teamrm.Type;
 
+import com.google.firebase.database.Exclude;
 import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
 
 /**
@@ -32,11 +33,13 @@ public class Category implements GenericKeyValueTypeable
     }
 
     @Override
+    @Exclude
     public String getItemKey() {
         return this.categoryID;
     }
 
     @Override
+    @Exclude
     public String getItemValue() {
         return this.categoryName;
     }

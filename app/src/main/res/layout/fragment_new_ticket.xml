@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:layoutDirection="rtl"
     tools:context="com.teamrm.teamrm.Fragment.NewTicket"
     tools:paddingTop="25px">
@@ -32,7 +31,7 @@
                     android:layout_height="24dp"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="12dp"
-                    android:src="@drawable/ic_icon_product2" />
+                    android:src="@drawable/ic_logo_blue" />
 
 
                 <TextView

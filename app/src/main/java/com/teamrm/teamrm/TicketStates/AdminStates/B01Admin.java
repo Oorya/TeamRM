@@ -1,7 +1,7 @@
 package com.teamrm.teamrm.TicketStates.AdminStates;
 import android.view.View;
 
-import com.teamrm.teamrm.Interfaces.ProductID;
+import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.TicketStates.TicketStateAdmin;
@@ -19,7 +19,7 @@ import static com.teamrm.teamrm.Activities.HomeScreen.context;
  */
 public class B01Admin extends TicketStateAdmin implements TicketStateAble {
     static {
-        TicketFactory.registerProduct(ProductID.STATE_ADMIN_B01,new B01Admin());
+        TicketFactory.registerProduct(TicketStateStringable.STATE_ADMIN_B01,new B01Admin());
     }
     public B01Admin() {
         super();
@@ -35,7 +35,7 @@ public class B01Admin extends TicketStateAdmin implements TicketStateAble {
         UtlAlarmManager utlAlarmManager = new UtlAlarmManager(context);
         utlAlarmManager.cancelAlarm(ticket.get_alarm());
         ticket.setAlarmID(0);
-        ticket.setAlarm(utlAlarmManager.setAlarm(cal.getTime(),TicketStateAble.WAITING_FOR_TECH_APPROVAL,ticket.ticketID));
+        ticket.setAlarm(utlAlarmManager.setAlarm(cal.getTime(),TicketStateAble.WAITING_FOR_TECH_APPROVAL,ticket.getTicketID()));
         ticket.setAlarmID(TicketStateAble.WAITING_FOR_TECH_APPROVAL);
     }
 

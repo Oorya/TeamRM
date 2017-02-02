@@ -55,7 +55,7 @@ public class UserSingleton extends Users{
                {
                    instance = new Client(UUID.randomUUID().toString(),account.getDisplayName(),account.getEmail());
                    Log.w(TAG, instance.getUserEmail()+" cons");
-                   UtlFirebase.saveUser(instance);
+                   UtlFirebase.addUser(instance);
                    fireBaseAble.resultUser(instance);
                }
                else

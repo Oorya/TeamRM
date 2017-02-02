@@ -2,7 +2,7 @@ package com.teamrm.teamrm.TicketStates.AdminStates;
 
 import android.view.View;
 
-import com.teamrm.teamrm.Interfaces.ProductID;
+import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.TicketStates.TicketStateAdmin;
@@ -19,7 +19,7 @@ import static com.teamrm.teamrm.Activities.HomeScreen.context;
  */
 public class A02CNAdmin extends TicketStateAdmin implements TicketStateAble {
     static {
-        TicketFactory.registerProduct(ProductID.STATE_ADMIN_A02CN,new A02CNAdmin());
+        TicketFactory.registerProduct(TicketStateStringable.STATE_ADMIN_A02CN,new A02CNAdmin());
     }
     public A02CNAdmin() {
         super();

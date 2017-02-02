@@ -2,7 +2,7 @@ package com.teamrm.teamrm.TicketStates.AdminStates;
 
 import android.view.View;
 
-import com.teamrm.teamrm.Interfaces.ProductID;
+import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.TicketStates.TicketStateAdmin;
@@ -21,7 +21,7 @@ public class A03Admin extends TicketStateAdmin implements TicketStateAble {
 
 
     static {
-        TicketFactory.registerProduct(ProductID.STATE_ADMIN_A03,new A03Admin());
+        TicketFactory.registerProduct(TicketStateStringable.STATE_ADMIN_A03,new A03Admin());
     }
     public A03Admin() {
         super();
@@ -34,7 +34,7 @@ public class A03Admin extends TicketStateAdmin implements TicketStateAble {
         UtlAlarmManager utlAlarmManager = new UtlAlarmManager(context);
         utlAlarmManager.cancelAlarm(ticket.get_alarm());
         ticket.setAlarmID(0);
-       ticket.setAlarm(utlAlarmManager.setAlarm(ticket.ticketCloseDateTime,TicketStateAble.WAITING_FOR_USER_APPROVAL,ticket.ticketID));
+       ticket.setAlarm(utlAlarmManager.setAlarm(ticket.getTicketCloseDateTime(),TicketStateAble.WAITING_FOR_USER_APPROVAL,ticket.getTicketID()));
         ticket.setAlarmID(TicketStateAble.WAITING_FOR_USER_APPROVAL);
 
 

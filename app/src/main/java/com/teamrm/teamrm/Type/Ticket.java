@@ -3,12 +3,13 @@ package com.teamrm.teamrm.Type;
 import android.app.PendingIntent;
 
 import com.google.firebase.database.Exclude;
-import com.teamrm.teamrm.Interfaces.ProductID;
+import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,57 +21,57 @@ public class Ticket {
 
     public static final TicketFactory TicketFactory = new TicketFactory();
 
-    public String clientID;
-    public String clientEmail;
-    public String clientNameString;
+    private String clientID;
+    private String clientEmail;
+    private String clientNameString;
 
-    public String ticketPhone;
-    public String ticketAddress;
+    private String ticketPhone;
+    private String ticketAddress;
 
-    public String ticketID;
-    public String ticketNumber;
-    public String companyID;
-    public String companyName;
+    private String ticketID;
+    private String ticketNumber;
+    private String companyID;
+    private String companyName;
 
-    public String productID;
-    public String productName;
-    public String categoryID;
-    public String categoryName;
-    public String regionID;
-    public String regionName;
-    public String descriptionShort;
-    public String descriptionLong;
-    @Exclude public String ticketImage1; //TODO:use Storage
-    @Exclude public String ticketImage2; //TODO:use Storage
-    public String ticketStateString;
-    @Exclude public TicketStateAble ticketStateObj;
+    private String productID;
+    private String productName;
+    private String categoryID;
+    private String categoryName;
+    private String regionID;
+    private String regionName;
+    private String descriptionShort;
+    private String descriptionLong;
+    @Exclude private String ticketImage1; //TODO:use Storage
+    @Exclude private String ticketImage2; //TODO:use Storage
+    private String ticketStateString;
+    @Exclude private TicketStateAble ticketStateObj;
 
-    public String ticketOpenDateTime;
-    public Date ticketCloseDateTime; //TODO:change to String
+    private String ticketOpenDateTime;
+    private Date ticketCloseDateTime;
 
-    public int alarmID; //TODO:change to String
-    public int alarmTechStartWorkOnTicketID; //TODO:change to String
+    private int alarmID; //TODO:change to String
+    private int alarmTechStartWorkOnTicketID; //TODO:change to String
 
-    public String techID;
+    private String techID;
 
-    public String techNameString;
-    public long ticketCalendarID;
+    private String techNameString;
+    private long ticketCalendarID;
 
-    public String ticketEventID;
-    public Date ttl;
-    @Exclude public PendingIntent _alarm;
-    @Exclude public PendingIntent _alarmTechStartWorkOnTicket;
-    public int repeatSendCounter;
-    public String statusA;
-    public int Presentation;
-    public boolean isTicketDone;
-    public boolean isUserApprove;
-    public boolean isTechDone;
-    public boolean ticketIsClosed;
+    private String ticketEventID;
+    private Date ttl;
+    @Exclude private PendingIntent _alarm;
+    @Exclude private PendingIntent _alarmTechStartWorkOnTicket;
+    private int repeatSendCounter;
+    private String statusA;
+    private int ticketPresentation;
+    private boolean isTicketDone;
+    private boolean isUserApprove;
+    private boolean isTechDone;
+    private boolean ticketIsClosed;
 
     public Ticket(){}  //empty constructor, must have
 
-    public Ticket(String clientID,
+    /*public Ticket(String clientID,
                   String ticketPhone, String ticketAddress,
                   String ticketID, String companyID,
                   String productID, String categoryID, String regionID, String descriptionShort, String descriptionLong, String ticketImage1, String ticketImage2)
@@ -93,13 +94,48 @@ public class Ticket {
         this.descriptionLong = descriptionLong;
         this.ticketImage1 = ticketImage1;
         this.ticketImage2 = ticketImage2;
-        this.ticketStateString = ProductID.STATE_A00;
+        this.ticketStateString = TicketStateStringable.STATE_A00;
         this.ticketOpenDateTime = getCurrentTime(); //TODO: change to Firebase timestamp
 
-        this.Presentation = 1; //TODO:???
+        this.ticketPresentation = TicketStateAble.TICKET_LIST_PRESENTATION_URGENT;
         this.ticketCalendarID = (new Date()).getTime();
         this.ticketIsClosed = false;
-        // this.ticketStateObj = TicketFactory.getNewState(UserSingleton.getInstance().getStatus(),ProductID.STATE_A00,this);
+        // this.ticketStateObj = TicketFactory.getNewState(UserSingleton.getInstance().getStatus(),TicketStateStringable.STATE_A00,this);
+    }*/
+
+    public Ticket(String clientID,
+                  String ticketPhone, String ticketAddress,
+                  String ticketID, String companyID,
+                  Product product, Category category, Region region, String descriptionShort, String descriptionLong, String ticketImage1, String ticketImage2)
+    {
+        this.clientID = clientID;
+        this.clientEmail = UserSingleton.getInstance().getUserEmail();
+        this.clientNameString = UserSingleton.getInstance().getUserNameString();
+
+        this.ticketPhone = ticketPhone;
+        this.ticketAddress = ticketAddress;
+
+        this.ticketID = ticketID;
+        this.ticketNumber = ticketID.substring(0,8);
+        this.companyID = companyID;
+
+        this.productID = product.getProductID();
+        this.productName = product.getProductName();
+        this.categoryID = category.getCategoryID();
+        this.categoryName = category.getCategoryName();
+        this.regionID = region.getRegionID();
+        this.regionName = region.getRegionName();
+        this.descriptionShort = descriptionShort;
+        this.descriptionLong = descriptionLong;
+        this.ticketImage1 = ticketImage1;
+        this.ticketImage2 = ticketImage2;
+        this.ticketStateString = TicketStateStringable.STATE_A00;
+        this.ticketPresentation = TicketStateAble.TICKET_LIST_PRESENTATION_URGENT;
+        this.ticketOpenDateTime = getCurrentTime();
+
+        this.ticketCalendarID = (new Date()).getTime();
+        this.ticketIsClosed = false;
+        // this.ticketStateObj = TicketFactory.getNewState(UserSingleton.getInstance().getStatus(),TicketStateStringable.STATE_A00,this);
     }
 
     public long getTicketCalendarID() {
@@ -131,17 +167,45 @@ public class Ticket {
         this.ticketStateObj = ticketStateObj;
     }
 
-    public void changeState(String stateName, Ticket ticket)
+    public void updateTicketStateString(String stateName, Ticket ticket)
     {
-        UtlFirebase.changeState(ticket.ticketID, stateName);
-        /*this.ticketStateString = stateName;
+        UtlFirebase.updateTicketStateString(ticket.ticketID, stateName);
+        int ticketPresentation = 0;
+        switch (stateName){
+            case TicketStateStringable.STATE_A00:
+            case TicketStateStringable.STATE_A01:
+            case TicketStateStringable.STATE_A02CN:
+                ticketPresentation = TicketStateAble.TICKET_LIST_PRESENTATION_URGENT;
+                break;
 
-        //Log.d("FactorystateType = ", UserSingleton.getInstance().getUserStatus()==null?"null":UserSingleton.getInstance().getUserStatus());
-        Log.d("FactorstateName = ", stateName);
+            case TicketStateStringable.STATE_A03:
+            case TicketStateStringable.STATE_B01:
+                ticketPresentation = TicketStateAble.TICKET_LIST_PRESENTATION_PENDING;
+                break;
 
-        this.ticketStateObj = TicketFactory.getNewState("Client",stateName);
-       // UtlFirebase.updateState(ticket.ticketID,"ticketStateObj",this.ticketStateObj);
-        return this.ticketStateObj;*/
+            case TicketStateStringable.STATE_B02:
+            case TicketStateStringable.STATE_B03:
+            case TicketStateStringable.STATE_C01:
+            case TicketStateStringable.STATE_C02:
+                ticketPresentation = TicketStateAble.TICKET_LIST_PRESENTATION_OK;
+                break;
+
+            case TicketStateStringable.STATE_E01:
+            case TicketStateStringable.STATE_E02:
+            case TicketStateStringable.STATE_E03:
+            case TicketStateStringable.STATE_E04:
+            case TicketStateStringable.STATE_E05:
+            case TicketStateStringable.STATE_E06:
+            case TicketStateStringable.STATE_E07:
+                ticketPresentation = TicketStateAble.TICKET_LIST_PRESENTATION_ERROR;
+                break;
+
+            case TicketStateStringable.STATE_E00:
+            case TicketStateStringable.STATE_Z00:
+                ticketPresentation = TicketStateAble.TICKET_LIST_PRESENTATION_CLOSED;
+                break;
+        }
+        UtlFirebase.updateTicketPresentation(ticket.ticketID, ticketPresentation);
     }
 
     public int getAlarmID() {
@@ -199,7 +263,7 @@ public class Ticket {
         str+="Ticket name: "+this.descriptionShort +"\n";
         str+="Ticket description: "+this.descriptionLong +"\n";
         str+="Phone: "+this.ticketPhone +"\n";
-        str+="Status: "+this.Presentation +"\n";
+        str+="Status: "+this.ticketPresentation +"\n";
         return str;
     }
 
@@ -217,5 +281,133 @@ public class Ticket {
 
         //מתודה שמעדקנת את השדה repeatSendCounter בפיירבייס
         this.repeatSendCounter = 0;
+    }
+
+    public String getTicketNumber() {
+        return ticketNumber;
+    }
+
+    public String getTicketID() {
+        return ticketID;
+    }
+
+    public String getClientID() {
+        return clientID;
+    }
+
+    public String getClientEmail() {
+        return clientEmail;
+    }
+
+    public String getClientNameString() {
+        return clientNameString;
+    }
+
+    public String getTicketPhone() {
+        return ticketPhone;
+    }
+
+    public String getTicketAddress() {
+        return ticketAddress;
+    }
+
+    public String getCompanyID() {
+        return companyID;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public String getProductID() {
+        return productID;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public String getCategoryID() {
+        return categoryID;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public String getRegionID() {
+        return regionID;
+    }
+
+    public String getRegionName() {
+        return regionName;
+    }
+
+    public String getDescriptionShort() {
+        return descriptionShort;
+    }
+
+    public String getDescriptionLong() {
+        return descriptionLong;
+    }
+
+    public String getTicketImage1() {
+        return ticketImage1;
+    }
+
+    public String getTicketImage2() {
+        return ticketImage2;
+    }
+
+    public String getTicketStateString() {
+        return ticketStateString;
+    }
+
+    public String getTicketOpenDateTime() {
+        return ticketOpenDateTime;
+    }
+
+    public Date getTicketCloseDateTime() {
+        return ticketCloseDateTime;
+    }
+
+    public int getAlarmTechStartWorkOnTicketID() {
+        return alarmTechStartWorkOnTicketID;
+    }
+
+    public String getTechID() {
+        return techID;
+    }
+
+    public String getTechNameString() {
+        return techNameString;
+    }
+
+    public String getTicketEventID() {
+        return ticketEventID;
+    }
+
+    public Date getTtl() {
+        return ttl;
+    }
+
+    public String getStatusA() {
+        return statusA;
+    }
+
+    public int getTicketPresentation() {
+        return ticketPresentation;
+    }
+
+    public boolean isTicketDone() {
+        return isTicketDone;
+    }
+
+    public boolean isTechDone() {
+        return isTechDone;
+    }
+
+    public boolean isTicketIsClosed() {
+        return ticketIsClosed;
     }
 }

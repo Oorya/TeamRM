@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -14,12 +15,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.teamrm.teamrm.Fragment.TicketView;
+import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Type.Category;
+import com.teamrm.teamrm.Type.Company;
+import com.teamrm.teamrm.Type.Product;
+import com.teamrm.teamrm.Type.Region;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
+import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.util.List;
@@ -28,7 +36,7 @@ import java.util.List;
  * Created by shalty on 24/10/2016.
  */
 
-public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.CustomViewHolder> {
+public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.CustomViewHolder> implements FireBaseAble {
 
 
     private Typeface EXTRA_BOLD;
@@ -37,11 +45,11 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
     private Typeface LIGHT;
     private Typeface REGULAR;
     private Typeface SEMI_BOLD;
-    private List<TicketLite> mTicketListItem;
+    private List<TicketLite> mTicketLiteList;
     private Context mContext;
 
     public TicketListAdapter(Context context) {
-        this.mTicketListItem = UtlFirebase.getAllTicket();
+        UtlFirebase.getAllTicketLites(this);
         this.mContext = context;
         setFont();
     }
@@ -49,34 +57,35 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
     @Override
     public TicketListAdapter.CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        CustomViewHolder viewHolder;
-        switch (viewType)
-        {
-            case TicketStateAble.TICKET_LIST_PRESENTATION_URGENT:
-            {
+        CustomViewHolder viewHolder = null;
+        switch (viewType) {
+            case 0:
+                Toast.makeText(mContext, "Something fucked up", Toast.LENGTH_LONG).show();
+                //TODO:notify sysadmins
+                break;
+
+            case TicketStateAble.TICKET_LIST_PRESENTATION_URGENT: {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_lite_list_status_urgent, null);
-                viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_PRESENTATION_URGENT);
+                viewHolder = new CustomViewHolder(view, TicketStateAble.TICKET_LIST_PRESENTATION_URGENT);
                 break;
             }
-            case TicketStateAble.TICKET_LIST_PRESENTATION_PENDING:
-            {
+            case TicketStateAble.TICKET_LIST_PRESENTATION_PENDING: {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_lite_list_status_pending, null);
-                viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_PRESENTATION_PENDING);
+                viewHolder = new CustomViewHolder(view, TicketStateAble.TICKET_LIST_PRESENTATION_PENDING);
                 break;
             }
-            case TicketStateAble.TICKET_LIST_PRESENTATION_OK:
-            {
+            case TicketStateAble.TICKET_LIST_PRESENTATION_OK: {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_lite_list_status_ok, null);
-                viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_PRESENTATION_OK);
+                viewHolder = new CustomViewHolder(view, TicketStateAble.TICKET_LIST_PRESENTATION_OK);
                 break;
             }
-            case TicketStateAble.TICKET_LIST_PRESENTATION_ERROR:
-            {
+            case TicketStateAble.TICKET_LIST_PRESENTATION_ERROR: {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_lite_list_status_error, null);
-                viewHolder = new CustomViewHolder(view,TicketStateAble.TICKET_LIST_PRESENTATION_ERROR);
+                viewHolder = new CustomViewHolder(view, TicketStateAble.TICKET_LIST_PRESENTATION_ERROR);
                 break;
             }
-            default:viewHolder=null;
+            default:
+                viewHolder = null;
         }
 
         return viewHolder;
@@ -86,57 +95,53 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
     @Override
     public int getItemViewType(int position) {
         // super.getItemViewType(position);
-        Log.d(":::TICKET ADAPTER:::", mTicketListItem.size()+" size");
-        switch (mTicketListItem.get(position).getTicketPresentation())
-        {
-            case TicketStateAble.TICKET_LIST_PRESENTATION_URGENT:
-            {
+        Log.d(":::TICKET ADAPTER:::", mTicketLiteList.size() + " size");
+        switch (mTicketLiteList.get(position).getTicketPresentation()) {
+            case TicketStateAble.TICKET_LIST_PRESENTATION_URGENT: {
                 return TicketStateAble.TICKET_LIST_PRESENTATION_URGENT;
             }
-            case TicketStateAble.TICKET_LIST_PRESENTATION_PENDING:
-            {
+            case TicketStateAble.TICKET_LIST_PRESENTATION_PENDING: {
                 return TicketStateAble.TICKET_LIST_PRESENTATION_PENDING;
             }
-            case TicketStateAble.TICKET_LIST_PRESENTATION_OK:
-            {
+            case TicketStateAble.TICKET_LIST_PRESENTATION_OK: {
                 return TicketStateAble.TICKET_LIST_PRESENTATION_OK;
             }
-            case TicketStateAble.TICKET_LIST_PRESENTATION_ERROR:
-            {
+            case TicketStateAble.TICKET_LIST_PRESENTATION_ERROR: {
                 return TicketStateAble.TICKET_LIST_PRESENTATION_ERROR;
             }
-            default:return 0;
+            default:
+                return 0;
         }
     }
 
     @Override
     public void onBindViewHolder(TicketListAdapter.CustomViewHolder holder, final int position) {
-        final TicketLite item = mTicketListItem.get(position);
+        final TicketLite item = mTicketLiteList.get(position);
         holder.userName.setText(item.getClientNameString());
         holder.product.setText(item.getProductName());
         holder.address.setText(item.getTicketAddress());
         holder.area.setText(item.getRegionName());
         holder.classification.setText(item.getCategoryName());
-        holder.descriptionShort.setText((item.getDescriptionShort().isEmpty() ? "ל\"ת" : item.descriptionShort));
-        holder.descriptionLong.setText((item.getDescriptionLong().isEmpty() ? "ל\"ת" : item.descriptionLong));
-        holder.ticketNumber.setText(item.ticketNumber);
+        holder.descriptionShort.setText((item.getDescriptionShort().isEmpty() ? "ל\"ת" : item.getDescriptionShort()));
+        holder.descriptionLong.setText((item.getDescriptionLong().isEmpty() ? "ל\"ת" : item.getDescriptionLong()));
+        holder.ticketNumber.setText(item.getTicketNumber());
         holder.time.setText(item.getTicketOpenDateTime());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Bundle bundle = new Bundle();
-                bundle.putString("ticketID",item.ticketID);
+                bundle.putString("ticketID", item.getTicketID());
 
                 FragmentTransaction fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager()
                         .beginTransaction();
                 TicketView ticketView = new TicketView();
                 ticketView.setArguments(bundle);
                 fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-                fragmentManager.replace(R.id.container_body,  ticketView).addToBackStack("NEW_TICKET").commit();
+                fragmentManager.replace(R.id.container_body, ticketView).addToBackStack("NEW_TICKET").commit();
             }
         });
-        /*if (position == mTicketListItem.size()-1){
+        /*if (position == mTicketLiteList.size()-1){
             CardView.MarginLayoutParams mlp = (CardView.MarginLayoutParams)holder.cardContainer.getLayoutParams();
             mlp.setMargins(mlp.leftMargin, mlp.topMargin, mlp.rightMargin, convertDpToPx(120)); //add 120dp margin after last card
         }*/
@@ -144,9 +149,8 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
 
     @Override
     public int getItemCount() {
-        return (null != mTicketListItem ? mTicketListItem.size() : 0);
+        return (null != mTicketLiteList ? mTicketLiteList.size() : 0);
     }
-
 
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
@@ -170,26 +174,21 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
             super(view);
 
             this.view = view;
-            switch (viewNum)
-            {
-                case TicketStateAble.TICKET_LIST_PRESENTATION_URGENT:
-                {
+            switch (viewNum) {
+                case TicketStateAble.TICKET_LIST_PRESENTATION_URGENT: {
                     setView1();
                     break;
                 }
-                case TicketStateAble.TICKET_LIST_PRESENTATION_PENDING:
-                {
+                case TicketStateAble.TICKET_LIST_PRESENTATION_PENDING: {
                     setView1();
                     break;
                 }
-                case TicketStateAble.TICKET_LIST_PRESENTATION_OK:
-                {
+                case TicketStateAble.TICKET_LIST_PRESENTATION_OK: {
                     setView1();
                     setView2();
                     break;
                 }
-                case TicketStateAble.TICKET_LIST_PRESENTATION_ERROR:
-                {
+                case TicketStateAble.TICKET_LIST_PRESENTATION_ERROR: {
                     setView1();
                     setView2();
                     break;
@@ -197,8 +196,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
             }
         }
 
-        private void setView1()
-        {
+        private void setView1() {
             this.product = (TextView) view.findViewById(R.id.equipment);
             this.product.setTypeface(BOLD);
             this.ticketNumber = (TextView) view.findViewById(R.id.ticketNum);
@@ -213,25 +211,24 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
             this.area.setTypeface(BOLD);
             this.address = (TextView) view.findViewById(R.id.add);
             this.address.setTypeface(SEMI_BOLD);
-            this.descriptionShort = (TextView)view.findViewById(R.id.DescriptionTitle);
+            this.descriptionShort = (TextView) view.findViewById(R.id.DescriptionTitle);
             this.descriptionShort.setTypeface(BOLD);
             this.descriptionLong = (TextView) view.findViewById(R.id.DescriptionTxt);
             this.descriptionLong.setTypeface(SEMI_BOLD);
             this.time = (TextView) view.findViewById(R.id.openDate);
             this.time.setTypeface(REGULAR);
-            ((TextView)view.findViewById(R.id.DescriptionTitle)).setTypeface(BOLD);
-            this.cardContainer = (CardView)view.findViewById(R.id.cardContainer);
+            ((TextView) view.findViewById(R.id.DescriptionTitle)).setTypeface(BOLD);
+            this.cardContainer = (CardView) view.findViewById(R.id.cardContainer);
         }
-        private void setView2()
-        {
+
+        private void setView2() {
             this.endTime = (TextView) view.findViewById(R.id.closeDate);
             this.endTime.setTypeface(REGULAR);
         }
 
     }
 
-    private void setFont()
-    {
+    private void setFont() {
         EXTRA_BOLD = Typeface.createFromAsset(mContext.getAssets(), "Assistant-ExtraBold.ttf");
         BOLD = Typeface.createFromAsset(mContext.getAssets(), "Assistant-Bold.ttf");
         EXTRA_LIGHT = Typeface.createFromAsset(mContext.getAssets(), "Assistant-ExtraLight.ttf");
@@ -248,8 +245,55 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
     // Add a list of items
     public void refresh() {
 
-        this.mTicketListItem = UtlFirebase.getAllTicket();
-
+        UtlFirebase.getAllTicketLites(this);
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void resultTicket(Ticket ticket) {
+
+    }
+
+    @Override
+    public void resultUser(Users user) {
+
+    }
+
+    @Override
+    public void ticketListCallback(List<Ticket> tickets) {
+    }
+
+    @Override
+    public void resultBoolean(boolean bool) {
+
+    }
+
+    @Override
+    public void companyListCallback(List<Company> companies) {
+
+    }
+
+    @Override
+    public void productListCallback(List<Product> products) {
+
+    }
+
+    @Override
+    public void categoryListCallback(List<Category> categories) {
+
+    }
+
+    @Override
+    public void regionListCallback(List<Region> regions) {
+
+    }
+
+    @Override
+    public void ticketLiteListCallback(List<TicketLite> ticketLites) {
+        try {
+            mTicketLiteList.addAll(ticketLites);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
