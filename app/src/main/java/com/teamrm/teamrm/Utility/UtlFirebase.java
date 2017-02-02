@@ -63,15 +63,16 @@ public class UtlFirebase { //TODO: make singleton
 ///////////////////////////// User /////////////////////////////
 
     public static void addUser(Users user) {
-    USERS_ROOT_REFERENCE.child(user.getUserID()).setValue(user, new
-            DatabaseReference.CompletionListener() {
-                @Override
-                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+        USERS_ROOT_REFERENCE.child(user.getUserID()).setValue(user, new
+                DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
-                }
-            });
-    Log.d("SET USER::", user.toString());
-}
+                    }
+                });
+        Log.d("SET USER::", user.toString());
+    }
+
     public static void getUserByEmail(final String email, Object object) {
 
         final FireBaseAble fireBaseAble = (FireBaseAble) object;
@@ -267,11 +268,11 @@ public class UtlFirebase { //TODO: make singleton
         Log.e(":::UTLFIREBASE::: ALL", "ALL");
     }
 
-    public static void getAllClientTickets(String clientID, final FireBaseAble fbHelper){
+    public static void getAllClientTickets(String clientID, final FireBaseAble fbHelper) {
         //TODO:add method
     }
 
-    public static void getAllCompanyTickets(String companyID, final FireBaseAble fbHelper){
+    public static void getAllCompanyTickets(String companyID, final FireBaseAble fbHelper) {
         //TODO:add method
     }
 
@@ -374,7 +375,6 @@ public class UtlFirebase { //TODO: make singleton
     }
 
 
-
     public static List<GenericKeyValueTypeable> getAllClientCompanies(String userID, FireBaseAble fbHelper) {
         final List<GenericKeyValueTypeable> clientCompanies = new ArrayList<>();
         Query query = USER_COMPANIES_ROOT_REFERENCE.orderByChild(userID);
@@ -382,7 +382,7 @@ public class UtlFirebase { //TODO: make singleton
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot clientCompany : dataSnapshot.getChildren()) {
-                    clientCompanies.add((Company)clientCompany.getValue());
+                    clientCompanies.add((Company) clientCompany.getValue());
                 }
             }
 
@@ -548,3 +548,4 @@ public class UtlFirebase { //TODO: make singleton
             }
         });
     }
+}
