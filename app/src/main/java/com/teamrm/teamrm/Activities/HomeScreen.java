@@ -53,7 +53,6 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     private final static String[] TAG_FRAGMENT = {"NEW_TICKET", "CALENDER"};
     private GoogleSignInOptions gso;
     private GoogleApiClient mGoogleApiClient;
-    public final static int PERM_REQUEST_CODE_DRAW_OVERLAYS = 1234;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +84,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         fragmentTransaction.commit();
         setTitle(getResources().getStringArray(R.array.nav_list)[0]);
 
-        permissionToDrawOverlays();
+
 
 
         addTicket.setOnClickListener(new View.OnClickListener() {
@@ -110,14 +109,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
     }
 
-    public void permissionToDrawOverlays() {
-        if (android.os.Build.VERSION.SDK_INT >= 23) {   //Android M Or Over
-            if (!Settings.canDrawOverlays(this)) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
-                startActivityForResult(intent, PERM_REQUEST_CODE_DRAW_OVERLAYS);
-            }
-        }
-    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults) {
@@ -142,15 +134,6 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         if(requestCode==FROM_CAMERA || requestCode==SELECT_FILE)
         {
             NewTicket.utlCamera.onActivityResult(requestCode,resultCode,data);
-        }
-
-        else if(requestCode == PERM_REQUEST_CODE_DRAW_OVERLAYS)
-        {
-            if (android.os.Build.VERSION.SDK_INT >= 23) {   //Android M Or Over
-                if (!Settings.canDrawOverlays(this)) {
-                    // ADD UI FOR USER TO KNOW THAT UI for SYSTEM_ALERT_WINDOW permission was not granted earlier...
-                }
-            }
         }
         else
         {

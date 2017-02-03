@@ -4,7 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -56,6 +58,8 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     private SharedPreferences prefUser;
     private SharedPreferences.Editor editorUser;
     private LinearLayout linearLayout;
+    public final static int PERM_REQUEST_CODE_DRAW_OVERLAYS = 1234;
+
 
 
     @Override
@@ -71,6 +75,9 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         Log.d("splash", "onCreate: ");
 
             // everything else that doesn't update UI
+        permissionToDrawOverlays();
+
+
 
         linearLayout = (LinearLayout)findViewById(R.id.load);
 
@@ -134,6 +141,14 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
+        }
+        else if(requestCode == PERM_REQUEST_CODE_DRAW_OVERLAYS)
+        {
+            if (android.os.Build.VERSION.SDK_INT >= 23) {   //Android M Or Over
+                if (!Settings.canDrawOverlays(this)) {
+                    // ADD UI FOR USER TO KNOW THAT UI for SYSTEM_ALERT_WINDOW permission was not granted earlier...
+                }
+            }
         }
     }
 
@@ -277,6 +292,14 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     @Override
     public void regionListCallback(List<Region> regions) {
 
+    }
+    public void permissionToDrawOverlays() {
+        if (android.os.Build.VERSION.SDK_INT >= 23) {   //Android M Or Over
+            if (!Settings.canDrawOverlays(this)) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, PERM_REQUEST_CODE_DRAW_OVERLAYS);
+            }
+        }
     }
 }
 

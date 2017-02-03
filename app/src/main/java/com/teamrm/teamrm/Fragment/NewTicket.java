@@ -115,10 +115,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         pref = getContext().getSharedPreferences("strImg",MODE_PRIVATE);
         editor=pref.edit();
 
-        listCompanyAdapter = new GenericPrefListAdapter(context, companiesList);
 
-
-        selectCompany.setAdapter(listCompanyAdapter);
 
 
         selectCompany.setOnItemSelectedListener(this);
@@ -200,10 +197,6 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         parent.getItemAtPosition(position);
         switch (parent.getId()){
             case R.id.selectCompanySpinner:
-                selectedProduct = null;
-                selectCategory = null;
-                selectedRegion = null;
-
                 selectCompany.setSelection(position);
                 selectedCompany = (Company)selectCompany.getSelectedItem();
                 setSpinnerAdapters(position);
@@ -232,12 +225,6 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         selectProduct.setEnabled(true);
         selectCategory.setEnabled(true);
         selectRegion.setEnabled(true);
-        listProductAdapter = new GenericPrefListAdapter(context, productList);
-        listCategoryAdapter = new GenericPrefListAdapter(context, categoryList);
-        listRegionAdapter = new GenericPrefListAdapter(context, regionList);
-        selectProduct.setAdapter(listProductAdapter);
-        selectCategory.setAdapter(listCategoryAdapter);
-        selectRegion.setAdapter(listRegionAdapter);
         selectProduct.setOnItemSelectedListener(this);
         selectCategory.setOnItemSelectedListener(this);
         selectRegion.setOnItemSelectedListener(this);
@@ -269,21 +256,36 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     @Override
     public void companyListCallback(List<Company> companies) {
         companiesList.addAll(companies);
+        listCompanyAdapter = new GenericPrefListAdapter(context, companiesList);
+        selectCompany.setAdapter(listCompanyAdapter);
+        selectRegion.setAdapter(listRegionAdapter);
+
+
+
     }
 
     @Override
     public void productListCallback(List<Product> products) {
         productList.addAll(products);
+        listProductAdapter = new GenericPrefListAdapter(context, productList);
+        selectProduct.setAdapter(listProductAdapter);
+
+
     }
 
     @Override
     public void categoryListCallback(List<Category> categories) {
         categoryList.addAll(categories);
+        listCategoryAdapter = new GenericPrefListAdapter(context, categoryList);
+        selectCategory.setAdapter(listCategoryAdapter);
+
     }
 
     @Override
     public void regionListCallback(List<Region> regions) {
         regionList.addAll(regions);
+        listRegionAdapter = new GenericPrefListAdapter(context, regionList);
+
     }
 
     @Override

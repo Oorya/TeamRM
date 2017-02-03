@@ -1,10 +1,12 @@
 package com.teamrm.teamrm.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckedTextView;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
@@ -31,12 +33,13 @@ public class GenericPrefListAdapter extends BaseAdapter implements SpinnerAdapte
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder itemHolder = null;
+        ViewHolder itemHolder;
 
         if (convertView == null) {
             itemHolder = new ViewHolder();
-            LayoutInflater vi = LayoutInflater.from(aContext);
-            vi.inflate(R.layout.spinner_view, parent, false);
+           // LayoutInflater vi = LayoutInflater.from(aContext);
+           // vi.inflate(R.layout.spinner_view, parent, false);
+            convertView = View.inflate(aContext,R.layout.spinner_view,null);
             itemHolder.itemName = (TextView) convertView.findViewById(R.id.spinnerItem);
             convertView.setTag(itemHolder);
 
@@ -51,21 +54,19 @@ public class GenericPrefListAdapter extends BaseAdapter implements SpinnerAdapte
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        ViewHolder itemHolder = null;
+        ViewHolder itemHolder = new ViewHolder();
 
-        if (convertView == null) {
-            itemHolder = new ViewHolder();
-            LayoutInflater vi = LayoutInflater.from(aContext);
-            vi.inflate(R.layout.spinner_row, parent, false);
+        if (convertView == null)
+        {
+           // itemHolder = new ViewHolder();
+           // LayoutInflater vi = LayoutInflater.from(aContext);
+           // vi.inflate(R.layout.spinner_row, parent, false);
+            convertView = View.inflate(aContext,R.layout.spinner_row,null);
             try {
                 itemHolder.itemName = (TextView) convertView.findViewById(R.id.text1);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
                 convertView.setTag(itemHolder);
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.d("adpter e1",e.getMessage());
             }
 
         } else {
@@ -95,8 +96,8 @@ public class GenericPrefListAdapter extends BaseAdapter implements SpinnerAdapte
 
 
     static class ViewHolder {
-        private TextView itemName;
-        private String itemID;
+        public TextView itemName;
+        public String itemID;
     }
 
 
