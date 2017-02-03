@@ -19,8 +19,15 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.teamrm.teamrm.Adapter.ProductAdapter;
+import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Type.Category;
+import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.Product;
+import com.teamrm.teamrm.Type.Region;
+import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Type.TicketLite;
+import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
@@ -30,7 +37,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AdminSettingsDefineProducts extends Fragment{
+public class AdminSettingsDefineProducts extends Fragment implements FireBaseAble{
 
     final static String TAG = ":::Settings:Products:::";
     static List<Product> productList = new ArrayList<>();
@@ -46,7 +53,7 @@ public class AdminSettingsDefineProducts extends Fragment{
     @Override
     public void onStart() {
         super.onStart();
-        UtlFirebase.getProductsForEdit(UserSingleton.getInstance().getUserCompanyID(), productList);
+        UtlFirebase.getProductsForEdit(UserSingleton.getInstance().getUserCompanyID(), this);
     }
 
     @Override
@@ -60,8 +67,8 @@ public class AdminSettingsDefineProducts extends Fragment{
 
         productView = (RecyclerView) view.findViewById(R.id.prefRecyclerView);
         productView.setLayoutManager(new LinearLayoutManager(getContext()));
-        productAdapter = new ProductAdapter(getContext(), productList);
-        productView.setAdapter(productAdapter);
+
+
         productView.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -112,4 +119,52 @@ public class AdminSettingsDefineProducts extends Fragment{
                 .show();
     }
 
+    @Override
+    public void resultTicket(Ticket ticket) {
+
+    }
+
+    @Override
+    public void resultUser(Users user) {
+
+    }
+
+    @Override
+    public void ticketListCallback(List<Ticket> tickets) {
+
+    }
+
+    @Override
+    public void ticketLiteListCallback(List<TicketLite> ticketLites) {
+
+    }
+
+    @Override
+    public void resultBoolean(boolean bool) {
+
+    }
+
+    @Override
+    public void companyListCallback(List<Company> companies) {
+
+    }
+
+    @Override
+    public void productListCallback(List<Product> products) {
+
+        Log.d("product", "productListCallback: " +products.size());
+        productList.addAll(products);
+        productAdapter = new ProductAdapter(getContext(), productList);
+        productView.setAdapter(productAdapter);
+    }
+
+    @Override
+    public void categoryListCallback(List<Category> categories) {
+
+    }
+
+    @Override
+    public void regionListCallback(List<Region> regions) {
+
+    }
 }

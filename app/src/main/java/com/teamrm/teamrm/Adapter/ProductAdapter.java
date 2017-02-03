@@ -43,6 +43,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
     public ProductAdapter(Context context, List<Product> productList) {
         this.prContext = context;
         Log.d("ProductAdapter:::", "called constructor");
+        this.productList = productList;
         //UtlFirebase.getProducts(UserSingleton.getInstance().getUserCompanyID(), this);
     }
 
@@ -108,6 +109,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
                                             public void onClick( MaterialDialog dialog,  DialogAction which) {
                                                 productList.remove(position);
                                                 ProductAdapter.super.notifyItemRemoved(position);
+                                                UtlFirebase.removeProduct(UserSingleton.getInstance().getUserCompanyID(),productList.get(position));
                                             }
                                         })
                                         .contentColorRes(R.color.textColor_primary)

@@ -432,22 +432,23 @@ public class UtlFirebase { //TODO: make singleton
         });
     }
 
-    public static List<Product> getProductsForEdit(String companyID, final List<Product> productList) {
-        if (!productList.isEmpty()){
-            productList.clear();
-        }
+    public static void getProductsForEdit(String companyID, final FireBaseAble halper) {
+
+        final List<Product> productList=new ArrayList<>();
         COMPANY_PRODUCTS_ROOT_REFERENCE.child(companyID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     productList.add(new Product(item.getKey(), (String) item.getValue()));
                 }
+                halper.productListCallback(productList);
+
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-        return productList;
+
     }
 
     public static void updateProduct(String companyID, Product product, @NonNull String productUpdatedName) {
