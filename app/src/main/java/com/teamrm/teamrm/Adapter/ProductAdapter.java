@@ -1,6 +1,7 @@
 package com.teamrm.teamrm.Adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,25 +35,23 @@ import java.util.List;
  * Created by root on 13/01/2017.
  */
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductHolder> implements PrefListable{
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductHolder> implements PrefListable {
 
     List<Product> productList = new ArrayList<>();
     Context prContext;
+    private static final String TAG = "ProductAdapter:::";
 
 
     public ProductAdapter(Context context, List<Product> productList) {
         this.prContext = context;
-        Log.d("ProductAdapter:::", "called constructor");
+        Log.d(TAG, "called constructor");
         this.productList = productList;
-        //UtlFirebase.getProducts(UserSingleton.getInstance().getUserCompanyID(), this);
     }
 
     @Override
     public ProductHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pref_adapter_row_6, null);
-        ProductHolder productHolder = new ProductHolder(view);
-        return productHolder;
+        return new ProductHolder(view);
     }
 
     @Override
@@ -70,10 +69,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
                         .input("", productItem.getProductName(), new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
-
+                                Log.d(TAG, "updating product " + productItem.getProductName());
+                                UtlFirebase.updateProduct(UserSingleton.getInstance().getUserCompanyID(), productItem, input.toString());
                             }
                         })
-                        //.onPositive() //TODO:add method
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            }
+                        })
                         .positiveText(R.string.label_button_save)
                         .contentColorRes(R.color.textColor_primary)
                         .contentGravity(GravityEnum.CENTER)
@@ -98,7 +102,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
                         .positiveText(R.string.label_button_confirm)
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
-                            public void onClick( MaterialDialog dialog,  DialogAction which) {
+                            public void onClick(MaterialDialog dialog, DialogAction which) {
                                 dialog.dismiss();
                                 new MaterialDialog.Builder(prContext)
                                         .title(R.string.label_confirm_remove)
@@ -106,8 +110,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
                                         .positiveText(R.string.label_button_confirm)
                                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                                             @Override
-                                            public void onClick( MaterialDialog dialog,  DialogAction which) {
-                                                UtlFirebase.removeProduct(UserSingleton.getInstance().getUserCompanyID(),productList.get(position));
+                                            public void onClick(MaterialDialog dialog, DialogAction which) {
+                                                UtlFirebase.removeProduct(UserSingleton.getInstance().getUserCompanyID(), productItem);
                                             }
                                         })
                                         .contentColorRes(R.color.textColor_primary)
@@ -146,13 +150,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
 
     public class ProductHolder extends RecyclerView.ViewHolder {
         protected View view;
-        protected String productID;
         protected TextView productName;
         protected ImageView iconEdit, iconRemove;
 
         public ProductHolder(View view) {
             super(view);
-
             this.view = view;
             this.productName = (TextView) view.findViewById(R.id.prefText);
             this.iconEdit = (ImageView) view.findViewById(R.id.prefIconEdit);
@@ -161,53 +163,5 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
 
     }
 
-    /*@Override
-    public void productListCallback(List<Product> products) {
-        try {
-            productList.addAll(products);
-        } catch (NullPointerException e) {
-            Toast.makeText(prContext, "אין מוצרים לתצוגה", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }}
-
-    @Override
-    public void resultTicket(Ticket ticket) {
-
-    }
-
-    @Override
-    public void resultUser(Users user) {
-
-    }
-
-    @Override
-    public void ticketListCallback(List<Ticket> tickets) {
-
-    }
-
-    @Override
-    public void ticketLiteListCallback(List<TicketLite> ticketLites) {
-
-    }
-
-    @Override
-    public void resultBoolean(boolean bool) {
-
-    }
-
-    @Override
-    public void companyListCallback(List<Company> companies) {
-
-    }
-
-    @Override
-    public void categoryListCallback(List<Category> categories) {
-
-    }
-
-    @Override
-    public void regionListCallback(List<Region> regions) {
-
-    }*/
 }
 

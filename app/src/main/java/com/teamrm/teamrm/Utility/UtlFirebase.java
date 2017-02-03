@@ -432,7 +432,7 @@ public class UtlFirebase { //TODO: make singleton
         });
     }
 
-    public static void getProductsForEdit(String companyID, final FireBaseAble halper) {
+    public static void getProductsForEdit(String companyID, final FireBaseAble fbHelper) {
 
         final List<Product> productList=new ArrayList<>();
         COMPANY_PRODUCTS_ROOT_REFERENCE.child(companyID).addValueEventListener(new ValueEventListener() {
@@ -444,8 +444,7 @@ public class UtlFirebase { //TODO: make singleton
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     productList.add(new Product(item.getKey(), (String) item.getValue()));
                 }
-                halper.productListCallback(productList);
-
+                fbHelper.productListCallback(productList);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -454,11 +453,12 @@ public class UtlFirebase { //TODO: make singleton
 
     }
 
-    public static void updateProduct(String companyID, Product product, @NonNull String productUpdatedName) {
+    public static void updateProduct(String companyID, Product product, @NonNull final String productUpdatedName) {
         COMPANY_PRODUCTS_ROOT_REFERENCE.child(companyID).child(product.getItemKey()).setValue(productUpdatedName, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 //TODO:callback
+                Log.d(TAG, "Updated product "+productUpdatedName);
             }
         });
     }

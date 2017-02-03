@@ -64,7 +64,6 @@ public class AdminSettingsDefineProducts extends Fragment implements FireBaseAbl
         Log.d(TAG, productList.toString(), new NullPointerException());
         floatBtn = (FloatingActionButton) view.findViewById(R.id.floatBtn);
         floatBtn.hide();
-
         productView = (RecyclerView) view.findViewById(R.id.prefRecyclerView);
         productView.setLayoutManager(new LinearLayoutManager(getContext()));
 
