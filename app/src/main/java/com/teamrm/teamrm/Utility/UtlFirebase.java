@@ -43,14 +43,15 @@ public class UtlFirebase { //TODO: make singleton
     private static List<TicketLite> ticketLiteList = new ArrayList<>();
 
 
-    //private static List<String> companyListCallback = new ArrayList<>();
     private static final DatabaseReference GLOBAL_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference();
     private static final DatabaseReference COMPANY_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("Companies");
+    private static final DatabaseReference COMPANY_PRODUCTS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("CompanyProducts");
+    private static final DatabaseReference COMPANY_CATEGORIES_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("CompanyCategories");
+    private static final DatabaseReference COMPANY_REGIONS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("CompanyRegions");
+    private static final DatabaseReference COMPANY_TECHNICIANS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("CompanyTechnicians");
     private static final DatabaseReference TICKET_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("Tickets");
     private static final DatabaseReference TICKET_LITE_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("TicketLites");
     private static final DatabaseReference USERS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("Users");
-
-
     private static final DatabaseReference USER_COMPANIES_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("UserCompanies");
 
     final static String TAG = ":::UtlFirebase:::";
@@ -62,15 +63,16 @@ public class UtlFirebase { //TODO: make singleton
 ///////////////////////////// User /////////////////////////////
 
     public static void addUser(Users user) {
-    USERS_ROOT_REFERENCE.child(user.getUserID()).setValue(user, new
-            DatabaseReference.CompletionListener() {
-                @Override
-                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+        USERS_ROOT_REFERENCE.child(user.getUserID()).setValue(user, new
+                DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
-                }
-            });
-    Log.d("SET USER::", user.toString());
-}
+                    }
+                });
+        Log.d("SET USER::", user.toString());
+    }
+
     public static void getUserByEmail(final String email, Object object) {
 
         final FireBaseAble fireBaseAble = (FireBaseAble) object;
@@ -171,6 +173,18 @@ public class UtlFirebase { //TODO: make singleton
         });
     }
 
+    public static void addTicket(Ticket ticket) {
+        Map updates = new HashMap();
+        updates.put("Tickets/" + ticket.getTicketID(), ticket);
+        updates.put("TicketLites/" + ticket.getTicketID(), new TicketLite(ticket));
+        GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                //TODO:callback
+            }
+        });
+    }
+
     public static void updateTicketStateString(String ticketID, String ticketStateString) {
         TICKET_ROOT_REFERENCE.child(ticketID).child("ticketStateString").setValue(ticketStateString, new DatabaseReference.CompletionListener() {
             @Override
@@ -229,6 +243,7 @@ public class UtlFirebase { //TODO: make singleton
         Log.e(":::UTLFIREBASE::: ALL", "ALL");
     }
 
+
     public static void getAllTicketLites(final FireBaseAble fbHelper) { //TODO:unusable except for testing, should get by company or by client
         TICKET_LITE_ROOT_REFERENCE.addValueEventListener(new ValueEventListener() {
             @Override
@@ -253,12 +268,11 @@ public class UtlFirebase { //TODO: make singleton
         Log.e(":::UTLFIREBASE::: ALL", "ALL");
     }
 
-
-    public static void getAllClientTickets(String clientID, final FireBaseAble fbHelper){
+    public static void getAllClientTickets(String clientID, final FireBaseAble fbHelper) {
         //TODO:add method
     }
 
-    public static void getAllCompanyTickets(String companyID, final FireBaseAble fbHelper){
+    public static void getAllCompanyTickets(String companyID, final FireBaseAble fbHelper) {
         //TODO:add method
     }
 
@@ -360,6 +374,7 @@ public class UtlFirebase { //TODO: make singleton
         return companyList;
     }
 
+
     public static List<GenericKeyValueTypeable> getAllClientCompanies(String userID, FireBaseAble fbHelper) {
         final List<GenericKeyValueTypeable> clientCompanies = new ArrayList<>();
         Query query = USER_COMPANIES_ROOT_REFERENCE.orderByChild(userID);
@@ -367,7 +382,7 @@ public class UtlFirebase { //TODO: make singleton
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot clientCompany : dataSnapshot.getChildren()) {
-                    clientCompanies.add((Company)clientCompany.getValue());
+                    clientCompanies.add((Company) clientCompany.getValue());
                 }
             }
 
@@ -376,20 +391,6 @@ public class UtlFirebase { //TODO: make singleton
             }
         });
         return clientCompanies;
-    }
-
-
-
-    public static void addTicket(Ticket ticket) {
-        Map updates = new HashMap();
-        updates.put("Tickets/" + ticket.getTicketID(), ticket);
-        updates.put("TicketLites/" + ticket.getTicketID(), new TicketLite(ticket));
-        GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                //TODO:callback
-            }
-        });
     }
 
     public static void addCompany(Company company) {
@@ -404,17 +405,18 @@ public class UtlFirebase { //TODO: make singleton
 ///////////////////////////// Product /////////////////////////////
 
     public static void addProduct(String companyID, String productName) {
-        COMPANY_ROOT_REFERENCE.child(companyID + "/Products").push().setValue(productName, new DatabaseReference.CompletionListener() {
+        COMPANY_PRODUCTS_ROOT_REFERENCE.child(companyID).push().setValue(productName, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 Log.w("Firebase util ", "product key " + databaseReference.getKey());
+                //TODO:get key callback
             }
         });
     }
 
     public static List<Product> getProducts(String companyID, final FireBaseAble fbHelper) {
         final List<Product> productList = new ArrayList<>();
-        COMPANY_ROOT_REFERENCE.child(companyID + "/Products").addListenerForSingleValueEvent(new ValueEventListener() {
+        COMPANY_PRODUCTS_ROOT_REFERENCE.child(companyID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 productList.clear();
@@ -432,7 +434,7 @@ public class UtlFirebase { //TODO: make singleton
     }
 
     public static void updateProduct(String companyID, Product product, @NonNull String productUpdatedName) {
-        COMPANY_ROOT_REFERENCE.child(companyID + "/Products/" + product.getItemKey()).setValue(productUpdatedName, new DatabaseReference.CompletionListener() {
+        COMPANY_PRODUCTS_ROOT_REFERENCE.child(companyID).child(product.getItemKey()).setValue(productUpdatedName, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 //TODO:callback
@@ -441,7 +443,7 @@ public class UtlFirebase { //TODO: make singleton
     }
 
     public static void removeProduct(String companyID, Product product) {
-        COMPANY_ROOT_REFERENCE.child(companyID + "/Products/" + product.getItemKey()).removeValue(new DatabaseReference.CompletionListener() {
+        COMPANY_PRODUCTS_ROOT_REFERENCE.child(companyID).child(product.getItemKey()).removeValue(new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 //TODO:callback
@@ -452,17 +454,18 @@ public class UtlFirebase { //TODO: make singleton
 ///////////////////////////// Category /////////////////////////////
 
     public static void addCategory(String companyID, String categoryName) {
-        COMPANY_ROOT_REFERENCE.child(companyID + "/Categories").push().setValue(categoryName, new DatabaseReference.CompletionListener() {
+        COMPANY_CATEGORIES_ROOT_REFERENCE.child(companyID).push().setValue(categoryName, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 Log.w("Firebase util ", "category key " + databaseReference.getKey());
+                //TODO:get key callback
             }
         });
     }
 
     public static List<Category> getCategories(String companyID, final FireBaseAble fbHelper) {
         final List<Category> categoryList = new ArrayList<>();
-        COMPANY_ROOT_REFERENCE.child(companyID + "/Categories").addListenerForSingleValueEvent(new ValueEventListener() {
+        COMPANY_CATEGORIES_ROOT_REFERENCE.child(companyID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 categoryList.clear();
@@ -480,7 +483,7 @@ public class UtlFirebase { //TODO: make singleton
     }
 
     public static void updateCategory(String companyID, Category category, @NonNull String categoryUpdatedName) {
-        COMPANY_ROOT_REFERENCE.child(companyID + "/Categories/" + category.getItemKey()).setValue(categoryUpdatedName, new DatabaseReference.CompletionListener() {
+        COMPANY_CATEGORIES_ROOT_REFERENCE.child(companyID).child(category.getItemKey()).setValue(categoryUpdatedName, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 //TODO:callback
@@ -489,7 +492,7 @@ public class UtlFirebase { //TODO: make singleton
     }
 
     public static void removeCategory(String companyID, Category category) {
-        COMPANY_ROOT_REFERENCE.child(companyID + "/Categories/" + category.getItemKey()).removeValue(new DatabaseReference.CompletionListener() {
+        COMPANY_CATEGORIES_ROOT_REFERENCE.child(companyID).child(category.getItemKey()).removeValue(new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 //TODO:callback
@@ -500,17 +503,18 @@ public class UtlFirebase { //TODO: make singleton
 ///////////////////////////// Region /////////////////////////////
 
     public static void addRegion(String companyID, String regionName) {
-        COMPANY_ROOT_REFERENCE.child(companyID + "/Regions").push().setValue(regionName, new DatabaseReference.CompletionListener() {
+        COMPANY_REGIONS_ROOT_REFERENCE.child(companyID).push().setValue(regionName, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 Log.w("Firebase util ", "region key " + databaseReference.getKey());
+                //TODO:get key callback
             }
         });
     }
 
     public static List<Region> getRegions(String companyID, final FireBaseAble fbHelper) {
         final List<Region> regionList = new ArrayList<>();
-        COMPANY_ROOT_REFERENCE.child(companyID + "/Regions").addListenerForSingleValueEvent(new ValueEventListener() {
+        COMPANY_REGIONS_ROOT_REFERENCE.child(companyID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 regionList.clear();
@@ -528,7 +532,7 @@ public class UtlFirebase { //TODO: make singleton
     }
 
     public static void updateRegion(String companyID, Region region, @NonNull String regionUpdatedName) {
-        COMPANY_ROOT_REFERENCE.child(companyID + "/Regions/" + region.getItemKey()).setValue(regionUpdatedName, new DatabaseReference.CompletionListener() {
+        COMPANY_REGIONS_ROOT_REFERENCE.child(companyID).child(region.getItemKey()).setValue(regionUpdatedName, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 //TODO:callback
@@ -537,7 +541,7 @@ public class UtlFirebase { //TODO: make singleton
     }
 
     public static void removeRegion(String companyID, Region region) {
-        COMPANY_ROOT_REFERENCE.child(companyID + "/Regions/" + region.getItemKey()).removeValue(new DatabaseReference.CompletionListener() {
+        COMPANY_REGIONS_ROOT_REFERENCE.child(companyID).child(region.getItemKey()).removeValue(new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 //TODO:callback
