@@ -3,10 +3,12 @@ package com.teamrm.teamrm.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +30,10 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AdminSettingsDefineProducts extends Fragment {
+public class AdminSettingsDefineProducts extends Fragment{
 
     final static String TAG = ":::Settings:Products:::";
+    static List<Product> productList = new ArrayList<>();
     public RecyclerView productView;
     ProductAdapter productAdapter;
     FloatingActionButton floatBtn;
@@ -40,21 +43,24 @@ public class AdminSettingsDefineProducts extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        UtlFirebase.getProductsForEdit(UserSingleton.getInstance().getUserCompanyID(), productList);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_admin_settings_define_generic, container, false);
+        Log.d(TAG, productList.toString(), new NullPointerException());
         floatBtn = (FloatingActionButton) view.findViewById(R.id.floatBtn);
         floatBtn.hide();
 
-        /*productList = UtlFirebase.getProducts(UserSingleton.getInstance().getUserCompany()); //TODO:fix this
-        Log.d(TAG, "initDone true, list="+productList.toString());*/
-
         productView = (RecyclerView) view.findViewById(R.id.prefRecyclerView);
         productView.setLayoutManager(new LinearLayoutManager(getContext()));
-        productAdapter = new ProductAdapter(getContext());
+        productAdapter = new ProductAdapter(getContext(), productList);
         productView.setAdapter(productAdapter);
         productView.postDelayed(new Runnable() {
             @Override
@@ -86,8 +92,6 @@ public class AdminSettingsDefineProducts extends Fragment {
                         UtlFirebase.addProduct(UserSingleton.getInstance().getUserCompanyID(), input.toString());
                     }
                 })
-                //.onPositive() //TODO:add method
-
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {

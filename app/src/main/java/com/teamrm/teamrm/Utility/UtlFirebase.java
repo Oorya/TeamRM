@@ -414,7 +414,7 @@ public class UtlFirebase { //TODO: make singleton
         });
     }
 
-    public static List<Product> getProducts(String companyID, final FireBaseAble fbHelper) {
+    public static void getProducts(String companyID, final FireBaseAble fbHelper) {
         final List<Product> productList = new ArrayList<>();
         COMPANY_PRODUCTS_ROOT_REFERENCE.child(companyID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -422,10 +422,27 @@ public class UtlFirebase { //TODO: make singleton
                 productList.clear();
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     productList.add(new Product(item.getKey(), (String) item.getValue()));
+
                 }
                 fbHelper.productListCallback(productList);
             }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
 
+    public static List<Product> getProductsForEdit(String companyID, final List<Product> productList) {
+        if (!productList.isEmpty()){
+            productList.clear();
+        }
+        COMPANY_PRODUCTS_ROOT_REFERENCE.child(companyID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    productList.add(new Product(item.getKey(), (String) item.getValue()));
+                }
+            }
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }

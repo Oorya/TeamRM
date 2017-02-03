@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/itemName"
+        android:id="@+id/text1"
         style="?android:attr/spinnerDropDownItemStyle"
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -16,10 +16,4 @@
         android:textColor="@color/textColor_primary"
         />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/itemID"
-        android:visibility="invisible"
-        />
 </LinearLayout>
