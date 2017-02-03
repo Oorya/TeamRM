@@ -107,8 +107,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
                                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                                             @Override
                                             public void onClick( MaterialDialog dialog,  DialogAction which) {
-                                                productList.remove(position);
-                                                ProductAdapter.super.notifyItemRemoved(position);
                                                 UtlFirebase.removeProduct(UserSingleton.getInstance().getUserCompanyID(),productList.get(position));
                                             }
                                         })

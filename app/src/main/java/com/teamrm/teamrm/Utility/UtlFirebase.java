@@ -438,6 +438,9 @@ public class UtlFirebase { //TODO: make singleton
         COMPANY_PRODUCTS_ROOT_REFERENCE.child(companyID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                if (!productList.isEmpty()){
+                productList.clear();
+            }
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     productList.add(new Product(item.getKey(), (String) item.getValue()));
                 }

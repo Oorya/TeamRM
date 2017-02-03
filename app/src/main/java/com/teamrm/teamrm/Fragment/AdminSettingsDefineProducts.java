@@ -40,7 +40,7 @@ import java.util.List;
 public class AdminSettingsDefineProducts extends Fragment implements FireBaseAble{
 
     final static String TAG = ":::Settings:Products:::";
-    static List<Product> productList = new ArrayList<>();
+    List<Product> productList = new ArrayList<>();
     public RecyclerView productView;
     ProductAdapter productAdapter;
     FloatingActionButton floatBtn;
@@ -151,9 +151,7 @@ public class AdminSettingsDefineProducts extends Fragment implements FireBaseAbl
 
     @Override
     public void productListCallback(List<Product> products) {
-
-        Log.d("product", "productListCallback: " +products.size());
-        productList.addAll(products);
+        productList=products;
         productAdapter = new ProductAdapter(getContext(), productList);
         productView.setAdapter(productAdapter);
     }
