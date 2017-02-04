@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -25,6 +27,12 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Category;
@@ -47,13 +55,14 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
     private GoogleSignInOptions gso;
     private GoogleApiClient mGoogleApiClient;
+    private FirebaseAuth firebaseAuth;
     private static final int RC_SIGN_IN = 9001;
     private static final String TAG = "MainActivity";
     private ProgressDialog mProgressDialog;
     public static Context context;
+    public static String userImage;
     private SignInButton signInButton;
     public static GoogleSignInAccount acct;
-    public static String userName, userEmail, userImage,userId;
     public static boolean resume = false;
     private SharedPreferences prefUser;
     private SharedPreferences.Editor editorUser;
@@ -65,8 +74,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // getSupportActionBar().hide();
-
+        // getSupportActionBar().hide();
         setContentView(R.layout.activity_splashscreen);
         Log.d("splash", "onCreate rotateWaitingIcon: ");
 
@@ -74,16 +82,13 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         updateLoadingStatus("מכין אפליקציה לשימוש...");
         Log.d("splash", "onCreate: ");
 
-            // everything else that doesn't update UI
+        // everything else that doesn't update UI
         permissionToDrawOverlays();
 
-
-
         linearLayout = (LinearLayout)findViewById(R.id.load);
-
-        App app = new App(this);
-        mGoogleApiClient= app.getGoogleApiHelper().getGoogleApiClient();
-        gso = app.getGoogleApiHelper().getGso();
+        mGoogleApiClient= App.getGoogleApiHelper().getGoogleApiClient();
+        gso = App.getGoogleApiHelper().getGso();
+        firebaseAuth = FirebaseAuth.getInstance();
         signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_WIDE);
         signInButton.setScopes(gso.getScopeArray());
@@ -202,50 +207,50 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             acct = result.getSignInAccount();
-            //firebaseAuthWithGoogle(acct);
+            firebaseAuthWithGoogle(acct);
             SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = settings.edit();
             editor.putString(PREF_ACCOUNT_NAME, acct.getEmail());
             editor.apply();
 
-            prefUser = getApplicationContext().getSharedPreferences("users", MODE_PRIVATE);
-            if(!prefUser.contains(acct.getId()))
-            {
-
-            }
-
-            editorUser = prefUser.edit();
-            editorUser.putString(acct.getId(), acct.getDisplayName()).commit();
-
-
-            userId=acct.getId();
-            userName=acct.getDisplayName();
-            userEmail =acct.getEmail();
-            //userStatus="User";
-            //UtlFirebase.stateListener(userStatus,userEmail,"NULL");
-
-
-
-            //UtlFirebase.getUserByKey(userId,this); //fix AsyncTask racing
-            Log.w("user id main ", userId);
-            Log.w("EMAIL", UserSingleton.getInstance().getUserEmail()+" == ");
-
             userImage = acct.getPhotoUrl()==null?"":acct.getPhotoUrl().toString();
             Log.w("IMAGE GOOGLE ACCOUNT", acct.getPhotoUrl()==null?"NULL":acct.getPhotoUrl().toString());
 
-            UserSingleton.init(acct, this);
             Log.d("splash", "handleSignInResult: ");
 
 
         } else {
             signInButton.setVisibility(View.VISIBLE);
             linearLayout.setVisibility(View.GONE);
-
-
-            // Toast.makeText(this,"Incorrect Username or Password ",Toast.LENGTH_LONG).show();
         }
     }
 
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        Log.d("FIREBASE AUTH GOOGLE: ", "firebaseAuthWithGoogle:" + acct.getId());
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull final Task<AuthResult> task) {
+                        Log.d("ON COMPLETE: ", "signInWithCredential:onComplete:" + task.isSuccessful());
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+
+                        UserSingleton.init(task.getResult().getUser() , SplashScreen.this);
+                        Log.w("EMAIL", UserSingleton.getInstance().getUserEmail()+" == ");
+
+                        if (!task.isSuccessful()) {
+                            Log.w("TASK FAILED: ", "signInWithCredential", task.getException());
+                            Toast.makeText(SplashScreen.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        // ...
+                    }
+                });
+    }
 
     @Override
     public void resultTicket(Ticket ticket) {

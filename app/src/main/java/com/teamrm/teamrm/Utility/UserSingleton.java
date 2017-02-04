@@ -2,7 +2,7 @@ package com.teamrm.teamrm.Utility;
 
 import android.util.Log;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -12,8 +12,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Type.Client;
 import com.teamrm.teamrm.Type.Users;
-
-import java.util.UUID;
 
 
 /**
@@ -40,20 +38,20 @@ public class UserSingleton extends Users{
         return instance;
     }
 
-    public static void init(final GoogleSignInAccount account, Object object)
+    public static void init(final FirebaseUser firebaseUser, Object object)
     {
         final FireBaseAble fireBaseAble = (FireBaseAble) object;
         //creating a reference to Users object
         DatabaseReference myRef=FirebaseDatabase.getInstance().getReference("Users");
 
-        final Query q = myRef.orderByChild("userEmail").equalTo(account.getEmail());
+        final Query q = myRef.orderByChild("userEmail").equalTo(firebaseUser.getEmail());
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.w(TAG, dataSnapshot.exists()+" ok ==LY");
                if(!dataSnapshot.exists())
                {
-                   instance = new Client(UUID.randomUUID().toString(),account.getDisplayName(),account.getEmail());
+                   instance = new Client(firebaseUser.getUid(),firebaseUser.getDisplayName(),firebaseUser.getEmail());
                    Log.w(TAG, instance.getUserEmail()+" cons");
                    UtlFirebase.addUser(instance);
                    fireBaseAble.resultUser(instance);
