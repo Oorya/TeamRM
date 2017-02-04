@@ -150,7 +150,7 @@ public class UtlFirebase { //TODO: make singleton
                     ticketFactory.getNewState(STATUS_USER + "States.", retrievedTicket.state + STATUS_USER, retrievedTicket);
                 }*//*
                 Log.w("STATE CHANGED", arrData[1]);
-                //{state=A00Admin, userName=oorya, company=yes, ticketStateString=0, ticketId=11111};
+                //{state=A00Admin, clientNameString=oorya, company=yes, ticketStateString=0, ticketId=11111};
                 for (int ctr = 0; ctr <= arrData.length; ctr++) {
                     if (arrData[ctr].contains("state")) {
                         Log.w("STATE FROM LOOP", userStatus + "States." + arrData[ctr].substring(7) + userStatus);
@@ -253,7 +253,6 @@ public class UtlFirebase { //TODO: make singleton
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     TicketLite retrievedTicketLite = item.getValue(TicketLite.class);
                     ticketLiteList.add(retrievedTicketLite);
-
                 }
                 Log.e(":::UTLFIREBASE:::", "LIST SIZE: " + ticketList.size() + "");
                 fbHelper.ticketLiteListCallback(ticketLiteList);
@@ -413,7 +412,7 @@ public class UtlFirebase { //TODO: make singleton
         COMPANY_PRODUCTS_ROOT_REFERENCE.child(companyID).push().setValue(productName, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                Log.w("Firebase util ", "product key " + databaseReference.getKey());
+                Log.w("Firebase util ", "productName key " + databaseReference.getKey());
                 //TODO:get key callback
             }
         });
@@ -463,7 +462,7 @@ public class UtlFirebase { //TODO: make singleton
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 //TODO:callback
-                Log.d(TAG, "Updated product "+productUpdatedName);
+                Log.d(TAG, "Updated productName "+productUpdatedName);
             }
         });
     }

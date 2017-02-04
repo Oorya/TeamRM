@@ -8,7 +8,7 @@ import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
  */
 public class Technician extends Users implements GenericKeyValueTypeable {
 
-    // inherited from Users -> userID, userName, userEmail, ticketPhone, ticketAddress, companyName
+    // inherited from Users -> userID, clientNameString, userEmail, ticketPhone, ticketAddress, companyName
     private String
             techCalendarID,
             techCalendarName,

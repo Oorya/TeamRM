@@ -69,7 +69,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
                         .input("", productItem.getProductName(), new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                                Log.d(TAG, "updating product " + productItem.getProductName());
+                                Log.d(TAG, "updating productName " + productItem.getProductName());
                                 UtlFirebase.updateProduct(UserSingleton.getInstance().getUserCompanyID(), productItem, input.toString());
                             }
                         })

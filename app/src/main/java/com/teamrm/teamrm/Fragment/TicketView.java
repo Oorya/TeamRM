@@ -84,10 +84,10 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                 ticketID = ticketId;
 
 
-                if (bundle.getLong("time", 0) != 0) {
-                    Log.w("TICKET_ID Bundle:  ", bundle.getLong("time", 0)+"");
+                if (bundle.getLong("ticketOpenDateTime", 0) != 0) {
+                    Log.w("TICKET_ID Bundle:  ", bundle.getLong("ticketOpenDateTime", 0)+"");
 
-                    bundleEndTime = bundle.getLong("time", 0);
+                    bundleEndTime = bundle.getLong("ticketOpenDateTime", 0);
                     endTime = Calendar.getInstance();
                     endTime.setTime(new Date(bundleEndTime));
                     SimpleDateFormat format1;

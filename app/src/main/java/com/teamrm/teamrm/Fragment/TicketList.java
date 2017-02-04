@@ -13,19 +13,37 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.teamrm.teamrm.Adapter.TicketListAdapter;
+import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Type.Category;
+import com.teamrm.teamrm.Type.Company;
+import com.teamrm.teamrm.Type.Product;
+import com.teamrm.teamrm.Type.Region;
+import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Type.TicketLite;
+import com.teamrm.teamrm.Type.Users;
+import com.teamrm.teamrm.Utility.UtlFirebase;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TicketList extends Fragment {
+public class TicketList extends Fragment implements FireBaseAble{
 
     public RecyclerView mRecyclerView;
-    public static TicketListAdapter ticketListAdapter;
+    private List<TicketLite> ticketLiteList;
+    private TicketListAdapter ticketListAdapter;
     private TextView title, filter, search, order;
     private SwipeRefreshLayout swipeContainer;
 
     public TicketList() {
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        UtlFirebase.getAllTicketLites(this);
     }
 
     @Override
@@ -52,8 +70,6 @@ public class TicketList extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView);
         mRecyclerView.setLayoutManager(recyclerViewManager);
 
-        ticketListAdapter = new TicketListAdapter(getContext());
-
         mRecyclerView.setAdapter(ticketListAdapter);
 
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefresh);
@@ -63,7 +79,7 @@ public class TicketList extends Fragment {
                 mRecyclerView.post(new Runnable() {
                     @Override
                     public void run() {
-                        ticketListAdapter.refresh();
+                        UtlFirebase.getAllTicketLites(TicketList.this);
                         swipeContainer.setRefreshing(false);
                     }
                 });
@@ -72,4 +88,50 @@ public class TicketList extends Fragment {
         return view;
     }
 
+    @Override
+    public void resultTicket(Ticket ticket) {
+
+    }
+
+    @Override
+    public void resultUser(Users user) {
+
+    }
+
+    @Override
+    public void ticketListCallback(List<Ticket> tickets) {
+
+    }
+
+    @Override
+    public void ticketLiteListCallback(List<TicketLite> ticketLites) {
+        ticketLiteList=ticketLites;
+        ticketListAdapter = new TicketListAdapter(getContext(), ticketLiteList);
+        mRecyclerView.setAdapter(ticketListAdapter);
+    }
+
+    @Override
+    public void resultBoolean(boolean bool) {
+
+    }
+
+    @Override
+    public void companyListCallback(List<Company> companies) {
+
+    }
+
+    @Override
+    public void productListCallback(List<Product> products) {
+
+    }
+
+    @Override
+    public void categoryListCallback(List<Category> categories) {
+
+    }
+
+    @Override
+    public void regionListCallback(List<Region> regions) {
+
+    }
 }

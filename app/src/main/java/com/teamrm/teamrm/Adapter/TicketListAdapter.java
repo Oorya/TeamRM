@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -18,17 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.teamrm.teamrm.Fragment.TicketView;
-import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.R;
-import com.teamrm.teamrm.Type.Category;
-import com.teamrm.teamrm.Type.Company;
-import com.teamrm.teamrm.Type.Product;
-import com.teamrm.teamrm.Type.Region;
-import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
-import com.teamrm.teamrm.Type.Users;
-import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.util.List;
 
@@ -36,7 +27,7 @@ import java.util.List;
  * Created by shalty on 24/10/2016.
  */
 
-public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.CustomViewHolder> implements FireBaseAble {
+public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.CustomViewHolder> {
 
 
     private Typeface EXTRA_BOLD;
@@ -48,8 +39,8 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
     private List<TicketLite> mTicketLiteList;
     private Context mContext;
 
-    public TicketListAdapter(Context context) {
-        UtlFirebase.getAllTicketLites(this);
+    public TicketListAdapter(Context context, List<TicketLite> ticketLiteList) {
+        this.mTicketLiteList = ticketLiteList;
         this.mContext = context;
         setFont();
     }
@@ -117,15 +108,15 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
     @Override
     public void onBindViewHolder(TicketListAdapter.CustomViewHolder holder, final int position) {
         final TicketLite item = mTicketLiteList.get(position);
-        holder.userName.setText(item.getClientNameString());
-        holder.product.setText(item.getProductName());
-        holder.address.setText(item.getTicketAddress());
-        holder.area.setText(item.getRegionName());
-        holder.classification.setText(item.getCategoryName());
+        holder.clientNameString.setText(item.getClientNameString());
+        holder.productName.setText(item.getProductName());
+        holder.ticketAddress.setText(item.getTicketAddress());
+        holder.regionName.setText(item.getRegionName());
+        holder.categoryName.setText(item.getCategoryName());
         holder.descriptionShort.setText((item.getDescriptionShort().isEmpty() ? "ל\"ת" : item.getDescriptionShort()));
         holder.descriptionLong.setText((item.getDescriptionLong().isEmpty() ? "ל\"ת" : item.getDescriptionLong()));
         holder.ticketNumber.setText(item.getTicketNumber());
-        holder.time.setText(item.getTicketOpenDateTime());
+        holder.ticketOpenDateTime.setText(item.getTicketOpenDateTime());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -156,16 +147,18 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
         protected View view;
-        protected TextView userName;
-        protected TextView product;
-        protected TextView classification;
-        protected TextView subClassification;
-        protected TextView area;
-        protected TextView address;
+        protected TextView ticketStatusString;
+        protected TextView companyNameString;
+        protected TextView clientNameString;
+        protected TextView technicianNameString;
+        protected TextView productName;
+        protected TextView categoryName;
+        protected TextView regionName;
+        protected TextView ticketAddress;
         protected TextView ticketNumber;
         protected TextView descriptionShort;
         protected TextView descriptionLong;
-        protected TextView time;
+        protected TextView ticketOpenDateTime;
         protected TextView endTime;
         protected CardView cardContainer;
 
@@ -197,27 +190,29 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
         }
 
         private void setView1() {
-            this.product = (TextView) view.findViewById(R.id.equipment);
-            this.product.setTypeface(BOLD);
             this.ticketNumber = (TextView) view.findViewById(R.id.ticketNum);
-            this.ticketNumber.setTypeface(SEMI_BOLD);
-            this.userName = (TextView) view.findViewById(R.id.personName);
-            this.userName.setTypeface(BOLD);
-            this.classification = (TextView) view.findViewById(R.id.Type);
-            this.classification.setTypeface(BOLD);
-            this.subClassification = (TextView) view.findViewById(R.id.Type2);
+            this.ticketStatusString = (TextView)view.findViewById(R.id.ticketStatusString);
+            this.clientNameString = (TextView) view.findViewById(R.id.clientName);
+            this.companyNameString = (TextView) view.findViewById(R.id.companyName);
+            this.technicianNameString = (TextView) view.findViewById(R.id.technicianName);
+            this.productName = (TextView) view.findViewById(R.id.ticketProduct);
+            this.categoryName = (TextView) view.findViewById(R.id.ticketCategory);
+            this.regionName = (TextView) view.findViewById(R.id.ticketRegion);
+            this.ticketAddress = (TextView) view.findViewById(R.id.ticketAddress);
+            this.descriptionShort = (TextView) view.findViewById(R.id.descriptionShort);
+            this.descriptionLong = (TextView) view.findViewById(R.id.descriptionLong);
+            this.ticketOpenDateTime = (TextView) view.findViewById(R.id.openDate);
+            /*this.descriptionShort.setTypeface(BOLD);
+            this.ticketAddress.setTypeface(SEMI_BOLD);
+            this.regionName.setTypeface(BOLD);
             this.subClassification.setTypeface(SEMI_BOLD);
-            this.area = (TextView) view.findViewById(R.id.eriaZon);
-            this.area.setTypeface(BOLD);
-            this.address = (TextView) view.findViewById(R.id.add);
-            this.address.setTypeface(SEMI_BOLD);
-            this.descriptionShort = (TextView) view.findViewById(R.id.DescriptionTitle);
-            this.descriptionShort.setTypeface(BOLD);
-            this.descriptionLong = (TextView) view.findViewById(R.id.DescriptionTxt);
+            this.categoryName.setTypeface(BOLD);
+            this.clientNameString.setTypeface(BOLD);
+            this.ticketNumber.setTypeface(SEMI_BOLD);
+            this.productName.setTypeface(BOLD);
             this.descriptionLong.setTypeface(SEMI_BOLD);
-            this.time = (TextView) view.findViewById(R.id.openDate);
-            this.time.setTypeface(REGULAR);
-            ((TextView) view.findViewById(R.id.DescriptionTitle)).setTypeface(BOLD);
+            this.ticketOpenDateTime.setTypeface(REGULAR);
+            ((TextView) view.findViewById(R.id.DescriptionTitle)).setTypeface(BOLD);*/
             this.cardContainer = (CardView) view.findViewById(R.id.cardContainer);
         }
 
@@ -242,58 +237,4 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
         return Math.round(pixels);
     }
 
-    // Add a list of items
-    public void refresh() {
-
-        UtlFirebase.getAllTicketLites(this);
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public void resultTicket(Ticket ticket) {
-
-    }
-
-    @Override
-    public void resultUser(Users user) {
-
-    }
-
-    @Override
-    public void ticketListCallback(List<Ticket> tickets) {
-    }
-
-    @Override
-    public void resultBoolean(boolean bool) {
-
-    }
-
-    @Override
-    public void companyListCallback(List<Company> companies) {
-
-    }
-
-    @Override
-    public void productListCallback(List<Product> products) {
-
-    }
-
-    @Override
-    public void categoryListCallback(List<Category> categories) {
-
-    }
-
-    @Override
-    public void regionListCallback(List<Region> regions) {
-
-    }
-
-    @Override
-    public void ticketLiteListCallback(List<TicketLite> ticketLites) {
-        try {
-            mTicketLiteList.addAll(ticketLites);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

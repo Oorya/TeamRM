@@ -9,7 +9,7 @@ public abstract class Users
     public static final String STATUS_TECH = "Tech";
     public static final String STATUS_CLIENT = "Client";
     private String userID; //hold userID
-    private String userNameString;  //hold userNameString
+    private String userNameString;  //hold clientNameString
     private String userEmail;
     private boolean userIsAdmin;
     private String userStatus;

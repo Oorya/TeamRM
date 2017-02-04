@@ -305,7 +305,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
             public void onClick(View v) {
                 if(timeRange.isChecked())
                 {
-                    bundel.putLong("time",time.getTime().getTime());
+                    bundel.putLong("ticketOpenDateTime",time.getTime().getTime());
                     bundel.putString("ticketID",ticketID);
 
                     FragmentTransaction fragmentManager = (getActivity().getSupportFragmentManager())
@@ -322,7 +322,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
                     time.set(Calendar.MINUTE, 0);
                     time.set(Calendar.SECOND, 0);
                     time.set(Calendar.MILLISECOND, 0);
-                    bundel.putLong("time",time.getTime().getTime());
+                    bundel.putLong("ticketOpenDateTime",time.getTime().getTime());
                     bundel.putString("ticketID",ticketID);
 
                     FragmentTransaction fragmentManager = (getActivity().getSupportFragmentManager())
