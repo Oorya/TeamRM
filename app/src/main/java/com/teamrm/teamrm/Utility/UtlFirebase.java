@@ -118,23 +118,23 @@ public class UtlFirebase { //TODO: make singleton
     //Listener for state changed
     public static void stateListener(final String statusUser, String email, String company) { //TODO:rebuild method
         ticketFactory = new TicketFactory();
-        final String STATUS_USER = UserSingleton.getInstance().getUserStatus();
-        final String MAIL_USER = UserSingleton.getInstance().getUserEmail();
-        final String COMPANY = UserSingleton.getInstance().getUserCompanyID();
+        final String userStatus = UserSingleton.getInstance().getUserStatus();
+        final String userEmail = UserSingleton.getInstance().getUserEmail();
+        final String userCompanyID = UserSingleton.getInstance().getUserCompanyID();
         Log.w("STATE CHANGED", "state listener");
-        //creating a reference to the database
-        Query query = TICKET_ROOT_REFERENCE.orderByChild("userEmail").equalTo(MAIL_USER);
 
-        switch (STATUS_USER) {
+        Query query = TICKET_ROOT_REFERENCE.orderByChild("userEmail").equalTo(userEmail);
+
+        switch (userStatus) {
             case Users.STATUS_ADMIN:
-                query = TICKET_ROOT_REFERENCE.orderByChild("company").equalTo(COMPANY);
+                query = TICKET_ROOT_REFERENCE.orderByChild("companyID").equalTo(userCompanyID);
                 break;
             case Users.STATUS_TECH:
-                query = TICKET_ROOT_REFERENCE.orderByChild("tech").equalTo(MAIL_USER);
+                query = TICKET_ROOT_REFERENCE.orderByChild("techID").equalTo(userEmail);
                 break;
         }
 
-        TICKET_ROOT_REFERENCE.addChildEventListener(new ChildEventListener() {
+        query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
@@ -152,8 +152,8 @@ public class UtlFirebase { //TODO: make singleton
                 //{state=A00Admin, userName=oorya, company=yes, ticketStateString=0, ticketId=11111};
                 for (int ctr = 0; ctr <= arrData.length; ctr++) {
                     if (arrData[ctr].contains("state")) {
-                        Log.w("STATE FROM LOOP", STATUS_USER + "States." + arrData[ctr].substring(7) + STATUS_USER);
-                        ticketFactory.getNewState(STATUS_USER + "States.", arrData[ctr].substring(7) + STATUS_USER, new Ticket());
+                        Log.w("STATE FROM LOOP", userStatus + "States." + arrData[ctr].substring(7) + userStatus);
+                        ticketFactory.getNewState(userStatus + "States.", arrData[ctr].substring(7) + userStatus, new Ticket());
                         return;
                     }
                 }
@@ -273,6 +273,10 @@ public class UtlFirebase { //TODO: make singleton
     }
 
     public static void getAllCompanyTickets(String companyID, final FireBaseAble fbHelper) {
+        //TODO:add method
+    }
+
+    public static void getAllTechTickets(String companyID, final FireBaseAble fbHelper) {
         //TODO:add method
     }
 

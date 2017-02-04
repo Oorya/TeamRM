@@ -71,38 +71,6 @@ public class Ticket {
 
     public Ticket(){}  //empty constructor, must have
 
-    /*public Ticket(String clientID,
-                  String ticketPhone, String ticketAddress,
-                  String ticketID, String companyID,
-                  String productID, String categoryID, String regionID, String descriptionShort, String descriptionLong, String ticketImage1, String ticketImage2)
-    {
-        this.clientID = clientID;
-        this.clientEmail = UserSingleton.getInstance().getUserEmail();
-        this.clientNameString = UserSingleton.getInstance().getUserNameString();
-
-        this.ticketPhone = ticketPhone;
-        this.ticketAddress = ticketAddress;
-
-        this.ticketID = ticketID;
-        this.ticketNumber = ticketID.substring(0,8);
-        this.companyID = companyID;
-
-        this.productID = productID;
-        this.categoryID = categoryID;
-        this.regionID = regionID;
-        this.descriptionShort = descriptionShort;
-        this.descriptionLong = descriptionLong;
-        this.ticketImage1 = ticketImage1;
-        this.ticketImage2 = ticketImage2;
-        this.ticketStateString = TicketStateStringable.STATE_A00;
-        this.ticketOpenDateTime = getCurrentTime(); //TODO: change to Firebase timestamp
-
-        this.ticketPresentation = TicketStateAble.TICKET_LIST_PRESENTATION_URGENT;
-        this.ticketCalendarID = (new Date()).getTime();
-        this.ticketIsClosed = false;
-        // this.ticketStateObj = TicketFactory.getNewState(UserSingleton.getInstance().getStatus(),TicketStateStringable.STATE_A00,this);
-    }*/
-
     public Ticket(String clientID,
                   String ticketPhone, String ticketAddress,
                   String ticketID, String companyID,
@@ -397,14 +365,6 @@ public class Ticket {
 
     public int getTicketPresentation() {
         return ticketPresentation;
-    }
-
-    public boolean isTicketDone() {
-        return isTicketDone;
-    }
-
-    public boolean isTechDone() {
-        return isTechDone;
     }
 
     public boolean isTicketIsClosed() {

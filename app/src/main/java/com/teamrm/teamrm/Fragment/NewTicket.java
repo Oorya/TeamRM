@@ -285,7 +285,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     public void regionListCallback(List<Region> regions) {
         regionList.addAll(regions);
         listRegionAdapter = new GenericPrefListAdapter(context, regionList);
-
+        selectRegion.setAdapter(listRegionAdapter);
     }
 
     @Override
