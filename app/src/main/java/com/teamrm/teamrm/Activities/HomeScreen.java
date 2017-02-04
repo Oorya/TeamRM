@@ -4,9 +4,7 @@ package com.teamrm.teamrm.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -239,8 +237,8 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
     private void signOut()
     {
-        App app = new App(this);
-        mGoogleApiClient=app.getGoogleApiHelper().getGoogleApiClient();
+        //App app = new App(this);
+        mGoogleApiClient=App.getGoogleApiHelper().getGoogleApiClient();
 
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
