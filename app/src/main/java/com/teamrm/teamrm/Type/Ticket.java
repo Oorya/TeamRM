@@ -53,8 +53,9 @@ public class Ticket {
     private int alarmTechStartWorkOnTicketID; //TODO:change to String
 
     private String techID;
-
     private String techNameString;
+    private String techColor;
+
     private long ticketCalendarID;
 
     private String ticketEventID;

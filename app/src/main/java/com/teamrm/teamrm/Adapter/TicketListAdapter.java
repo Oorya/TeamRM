@@ -2,9 +2,11 @@ package com.teamrm.teamrm.Adapter;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -38,6 +40,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
     private Typeface SEMI_BOLD;
     private List<TicketLite> mTicketLiteList;
     private Context mContext;
+    private static final String TAG = ":::TicketListAdapter:::";
 
     public TicketListAdapter(Context context, List<TicketLite> ticketLiteList) {
         this.mTicketLiteList = ticketLiteList;
@@ -109,6 +112,19 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
     public void onBindViewHolder(TicketListAdapter.CustomViewHolder holder, final int position) {
         final TicketLite item = mTicketLiteList.get(position);
         holder.clientNameString.setText(item.getClientNameString());
+        if (item.getTechNameString() == null) {
+            holder.technicianNameString.setText(R.string.label_no_assigned_tech);
+            holder.techFirstLetter.setText("?");
+        } else {
+            String assignedTechNameString = item.getTechNameString();
+            String assignedTechColor =  item.getTechColor();
+            Log.d(TAG, "tech name = "+assignedTechNameString);
+            Log.d(TAG, "tech colorString = "+assignedTechColor);
+            holder.technicianNameString.setText(assignedTechNameString);
+            holder.techFirstLetter.setText(assignedTechNameString.substring(0,1));
+            holder.technicianColorView.setCardBackgroundColor(Color.parseColor(item.getTechColor()));
+            holder.technicianNameString.setTextColor(ContextCompat.getColor(mContext, R.color.textColor_lighter));
+        }
         holder.productName.setText(item.getProductName());
         holder.ticketAddress.setText(item.getTicketAddress());
         holder.regionName.setText(item.getRegionName());
@@ -160,6 +176,8 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
         protected TextView descriptionLong;
         protected TextView ticketOpenDateTime;
         protected TextView endTime;
+        protected CardView technicianColorView;
+        protected TextView techFirstLetter;
         protected CardView cardContainer;
 
 
@@ -194,7 +212,10 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
             this.ticketStatusString = (TextView)view.findViewById(R.id.ticketStatusString);
             this.clientNameString = (TextView) view.findViewById(R.id.clientName);
             this.companyNameString = (TextView) view.findViewById(R.id.companyName);
+
             this.technicianNameString = (TextView) view.findViewById(R.id.technicianName);
+            this.technicianColorView = (CardView)view.findViewById(R.id.technicianColorView);
+
             this.productName = (TextView) view.findViewById(R.id.ticketProduct);
             this.categoryName = (TextView) view.findViewById(R.id.ticketCategory);
             this.regionName = (TextView) view.findViewById(R.id.ticketRegion);
@@ -202,18 +223,24 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
             this.descriptionShort = (TextView) view.findViewById(R.id.descriptionShort);
             this.descriptionLong = (TextView) view.findViewById(R.id.descriptionLong);
             this.ticketOpenDateTime = (TextView) view.findViewById(R.id.openDate);
-            /*this.descriptionShort.setTypeface(BOLD);
-            this.ticketAddress.setTypeface(SEMI_BOLD);
+            this.descriptionShort.setTypeface(BOLD);
+            if (this.ticketAddress.length() > 0){
+                ticketAddress.setTypeface(SEMI_BOLD);
+            }
+            this.cardContainer = (CardView) view.findViewById(R.id.cardContainer);
+            this.techFirstLetter = (TextView) view.findViewById(R.id.techFirstLetter);
+
             this.regionName.setTypeface(BOLD);
-            this.subClassification.setTypeface(SEMI_BOLD);
+            this.categoryName.setTypeface(SEMI_BOLD);
             this.categoryName.setTypeface(BOLD);
             this.clientNameString.setTypeface(BOLD);
             this.ticketNumber.setTypeface(SEMI_BOLD);
             this.productName.setTypeface(BOLD);
+            this.descriptionShort.setTypeface(BOLD);
             this.descriptionLong.setTypeface(SEMI_BOLD);
             this.ticketOpenDateTime.setTypeface(REGULAR);
-            ((TextView) view.findViewById(R.id.DescriptionTitle)).setTypeface(BOLD);*/
-            this.cardContainer = (CardView) view.findViewById(R.id.cardContainer);
+            this.techFirstLetter.setTypeface(BOLD);
+            this.technicianNameString.setTypeface(BOLD);
         }
 
         private void setView2() {

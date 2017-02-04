@@ -166,6 +166,7 @@
     <string name="label_add_region">הוספת אזור</string>
     <string name="label_no_content">ל\"ת</string>
     <string name="label_description_section">תוכן הקריאה</string>
+    <string name="label_no_assigned_tech">אין טכנאי מצוות</string>
 
     <!--/labels-->
 

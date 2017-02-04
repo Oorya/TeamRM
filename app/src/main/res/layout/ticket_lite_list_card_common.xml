@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ticketCardCommonLayout"
     android:layout_width="match_parent"
@@ -6,8 +7,7 @@
     android:paddingEnd="12dp"
     android:paddingStart="12dp"
     tools:layoutDirection="rtl"
-    tools:showIn="@layout/ticket_lite_list_status_ok"
-    >
+    tools:showIn="@layout/ticket_lite_list_status_ok">
 
     <RelativeLayout
         android:id="@+id/clientTechRow"
@@ -15,11 +15,10 @@
         android:layout_height="40dp">
 
         <RelativeLayout
+            android:id="@+id/clientNameSpan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:id="@+id/clientNameSpan"
-            android:visibility="gone">
+            android:layout_centerVertical="true">
 
             <ImageView
                 android:id="@+id/clientIcon"
@@ -33,15 +32,16 @@
                 android:id="@+id/clientName"
                 style="@style/TicketCardText"
                 android:layout_toEndOf="@id/clientIcon"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 tools:text=" קריבורוז'סקי" />
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/companyNameSpan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:id="@+id/companyNameSpan">
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/companyIcon"
@@ -55,38 +55,53 @@
                 android:id="@+id/companyName"
                 style="@style/TicketCardText"
                 android:layout_toEndOf="@id/companyIcon"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 tools:text="המחרבש בעמ"
-                tools:textStyle="bold"
-                />
+                tools:textStyle="bold" />
         </RelativeLayout>
 
-
-        <ImageView
-            android:id="@+id/technicianIcon"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+        <TextView
+            android:id="@+id/techFirstLetter"
+            android:layout_width="24dp"
+            android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_icon_person"
-            android:tint="#999" />
+            android:elevation="10dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:textColor="#fff"
+            android:textSize="19sp"
+            android:paddingBottom="2dp"
+            tools:text="\?"
+            tools:textStyle="bold" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/technicianColorView"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            app:cardBackgroundColor="@color/material_bluegray_200"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="@dimen/item_elevation_default"
+            app:cardUseCompatPadding="false" />
+
 
         <TextView
             android:id="@+id/technicianName"
             style="@style/TicketCardText"
             android:layout_marginEnd="8dp"
-            android:layout_toStartOf="@id/technicianIcon"
-            android:textSize="14sp"
+            android:layout_toStartOf="@id/technicianColorView"
+            android:textColor="@color/material_bluegray_200"
+            android:textSize="16sp"
             tools:text="אין טכנאי מצוות" />
 
     </RelativeLayout>
 
     <View
+        android:id="@+id/horizontalSeparator1"
         style="@style/Separator1px"
         android:layout_below="@id/clientTechRow"
-        android:layout_marginBottom="4dp"
-        android:id="@+id/horizontalSeparator1"
-        />
+        android:layout_marginBottom="4dp" />
 
     <RelativeLayout
         android:id="@+id/productCategoryRow"
@@ -124,7 +139,7 @@
             android:id="@+id/ticketRegion"
             style="@style/TicketCardText"
             tools:text="גוש דן"
-            tools:textStyle="bold"/>
+            tools:textStyle="bold" />
 
         <View
             android:id="@+id/regionAddressRowSeparator1"
