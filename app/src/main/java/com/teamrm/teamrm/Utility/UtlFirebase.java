@@ -142,12 +142,13 @@ public class UtlFirebase { //TODO: make singleton
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+               /*
                 String arrData[] = dataSnapshot.getValue().toString().split("[{,]");
-                /*for (DataSnapshot item : dataSnapshot.getChildren()) {
+                *//*for (DataSnapshot item : dataSnapshot.getChildren()) {
                     Ticket retrievedTicket = item.getValue(Ticket.class);
                     Log.w("STATE FROM LOOP", STATUS_USER + "States." + retrievedTicket.state + STATUS_USER);
                     ticketFactory.getNewState(STATUS_USER + "States.", retrievedTicket.state + STATUS_USER, retrievedTicket);
-                }*/
+                }*//*
                 Log.w("STATE CHANGED", arrData[1]);
                 //{state=A00Admin, userName=oorya, company=yes, ticketStateString=0, ticketId=11111};
                 for (int ctr = 0; ctr <= arrData.length; ctr++) {
@@ -156,7 +157,7 @@ public class UtlFirebase { //TODO: make singleton
                         ticketFactory.getNewState(userStatus + "States.", arrData[ctr].substring(7) + userStatus, new Ticket());
                         return;
                     }
-                }
+                }*/
             }
 
             @Override
