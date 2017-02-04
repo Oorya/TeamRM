@@ -121,7 +121,8 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
             Log.d(TAG, "tech name = "+assignedTechNameString);
             Log.d(TAG, "tech colorString = "+assignedTechColor);
             holder.technicianNameString.setText(assignedTechNameString);
-            holder.techFirstLetter.setText(assignedTechNameString.substring(0,1));
+            holder.techFirstLetter.setText("T");
+            //holder.techFirstLetter.setText(assignedTechNameString.substring(0,1));
             holder.technicianColorView.setCardBackgroundColor(Color.parseColor(item.getTechColor()));
             holder.technicianNameString.setTextColor(ContextCompat.getColor(mContext, R.color.textColor_lighter));
         }
@@ -251,7 +252,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
     }
 
     private void setFont() {
-        EXTRA_BOLD = Typeface.createFromAsset(mContext.getAssets(), "Assistant-ExtraBold.ttf");
+        //EXTRA_BOLD = Typeface.createFromAsset(mContext.getAssets(), "Assistant-ExtraBold.ttf");
         BOLD = Typeface.createFromAsset(mContext.getAssets(), "Assistant-Bold.ttf");
         EXTRA_LIGHT = Typeface.createFromAsset(mContext.getAssets(), "Assistant-ExtraLight.ttf");
         LIGHT = Typeface.createFromAsset(mContext.getAssets(), "Assistant-Light.ttf");

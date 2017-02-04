@@ -5,14 +5,11 @@
     android:id="@+id/cardContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
-    android:layout_marginEnd="12dp"
-    android:layout_marginStart="12dp"
+    android:clipToPadding="false"
     android:layoutDirection="rtl"
     card_view:cardCornerRadius="4dp"
     card_view:cardElevation="@dimen/card_elevation_default"
-    tools:showIn="@layout/test_ticketview"
-    >
+    card_view:cardUseCompatPadding="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,8 +38,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@id/statusIcon"
-                android:textColor="@android:color/white"
-                android:text="PENDING" />
+                android:text="PENDING"
+                android:textColor="@android:color/white" />
 
             <ImageView
                 android:id="@+id/editIcon"
@@ -57,9 +54,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:alpha=".75"
                 android:layout_marginEnd="8dp"
                 android:layout_toStartOf="@id/editIcon"
+                android:alpha=".75"
                 android:text="A20160811"
                 android:textColor="@android:color/white" />
         </RelativeLayout>
@@ -74,24 +71,24 @@
             android:id="@+id/date"
             android:layout_width="match_parent"
             android:layout_height="24dp"
+            android:layout_marginBottom="4dp"
             android:paddingEnd="12dp"
-            android:paddingStart="12dp"
-            android:layout_marginBottom="4dp">
+            android:paddingStart="12dp">
 
             <TextView
                 android:id="@+id/openDate"
                 style="@style/TicketCardText"
+                android:layout_alignParentStart="true"
                 android:textColor="@color/textColor_lighter"
                 android:textSize="12sp"
-                android:layout_alignParentStart="true"
                 tools:text="פתיחה" />
 
             <TextView
                 android:id="@+id/closeDate"
                 style="@style/TicketCardText"
+                android:layout_alignParentEnd="true"
                 android:textColor="@color/textColor_lighter"
                 android:textSize="12sp"
-                android:layout_alignParentEnd="true"
                 tools:text="טיפול" />
 
         </RelativeLayout>

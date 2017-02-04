@@ -3,7 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
-    <dimen name="card_elevation_default">3dp</dimen>
+    <dimen name="card_elevation_default">4dp</dimen>
     <dimen name="card_button_radius_default">5dp</dimen>
     <dimen name="item_elevation_default">1dp</dimen>
 </resources>

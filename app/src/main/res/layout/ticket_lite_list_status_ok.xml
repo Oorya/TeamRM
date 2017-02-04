@@ -5,13 +5,11 @@
     android:id="@+id/cardContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
-    android:layout_marginEnd="12dp"
-    android:layout_marginStart="12dp"
+    android:clipToPadding="false"
     android:layoutDirection="rtl"
     card_view:cardCornerRadius="4dp"
     card_view:cardElevation="@dimen/card_elevation_default"
-    tools:showIn="@layout/test_ticketview"
+    card_view:cardUseCompatPadding="true"
     >
 
     <LinearLayout

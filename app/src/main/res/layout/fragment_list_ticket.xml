@@ -24,7 +24,7 @@
 
             android:id="@+id/actionBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="42dp"
             android:layout_below="@id/title"
             android:background="@color/title"
             android:orientation="horizontal"
@@ -125,17 +125,17 @@
         <android.support.v4.widget.SwipeRefreshLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/actionBar"
             android:id="@+id/swipeRefresh"
+            android:layout_below="@id/actionBar"
             >
         <android.support.v7.widget.RecyclerView
             android:id="@+id/RecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-
+            android:clipToPadding="false"
+            android:clipChildren="false"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             >
 
         </android.support.v7.widget.RecyclerView>
@@ -143,6 +143,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_below="@id/RecyclerView"
+            android:background="#f00"
             />
         </android.support.v4.widget.SwipeRefreshLayout>
     </RelativeLayout>
