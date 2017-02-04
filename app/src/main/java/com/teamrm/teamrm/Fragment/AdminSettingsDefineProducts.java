@@ -61,7 +61,6 @@ public class AdminSettingsDefineProducts extends Fragment implements FireBaseAbl
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_admin_settings_define_generic, container, false);
-        Log.d(TAG, productList.toString(), new NullPointerException());
         floatBtn = (FloatingActionButton) view.findViewById(R.id.floatBtn);
         floatBtn.hide();
         productView = (RecyclerView) view.findViewById(R.id.prefRecyclerView);
@@ -90,7 +89,7 @@ public class AdminSettingsDefineProducts extends Fragment implements FireBaseAbl
 
     private void addProduct() {
         new MaterialDialog.Builder(getContext())
-                .title("הוספת מוצר")
+                .title(R.string.label_add_product)
                 .input("", "", new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {

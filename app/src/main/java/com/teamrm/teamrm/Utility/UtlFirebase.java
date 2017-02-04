@@ -416,7 +416,7 @@ public class UtlFirebase { //TODO: make singleton
 
     public static void getProducts(String companyID, final FireBaseAble fbHelper) {
         final List<Product> productList = new ArrayList<>();
-        COMPANY_PRODUCTS_ROOT_REFERENCE.child(companyID).addListenerForSingleValueEvent(new ValueEventListener() {
+        COMPANY_PRODUCTS_ROOT_REFERENCE.child(companyID).orderByValue().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 productList.clear();
@@ -435,7 +435,7 @@ public class UtlFirebase { //TODO: make singleton
     public static void getProductsForEdit(String companyID, final FireBaseAble fbHelper) {
 
         final List<Product> productList=new ArrayList<>();
-        COMPANY_PRODUCTS_ROOT_REFERENCE.child(companyID).addValueEventListener(new ValueEventListener() {
+        COMPANY_PRODUCTS_ROOT_REFERENCE.child(companyID).orderByValue().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (!productList.isEmpty()){
@@ -486,7 +486,7 @@ public class UtlFirebase { //TODO: make singleton
 
     public static List<Category> getCategories(String companyID, final FireBaseAble fbHelper) {
         final List<Category> categoryList = new ArrayList<>();
-        COMPANY_CATEGORIES_ROOT_REFERENCE.child(companyID).addListenerForSingleValueEvent(new ValueEventListener() {
+        COMPANY_CATEGORIES_ROOT_REFERENCE.child(companyID).orderByValue().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 categoryList.clear();
@@ -501,6 +501,27 @@ public class UtlFirebase { //TODO: make singleton
             }
         });
         return categoryList;
+    }
+
+    public static void getCategoriesForEdit(String companyID, final FireBaseAble fbHelper) {
+
+        final List<Category> categoryList=new ArrayList<>();
+        COMPANY_CATEGORIES_ROOT_REFERENCE.child(companyID).orderByValue().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (!categoryList.isEmpty()){
+                    categoryList.clear();
+                }
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    categoryList.add(new Category(item.getKey(), (String) item.getValue()));
+                }
+                fbHelper.categoryListCallback(categoryList);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
     }
 
     public static void updateCategory(String companyID, Category category, @NonNull String categoryUpdatedName) {
@@ -535,7 +556,7 @@ public class UtlFirebase { //TODO: make singleton
 
     public static List<Region> getRegions(String companyID, final FireBaseAble fbHelper) {
         final List<Region> regionList = new ArrayList<>();
-        COMPANY_REGIONS_ROOT_REFERENCE.child(companyID).addListenerForSingleValueEvent(new ValueEventListener() {
+        COMPANY_REGIONS_ROOT_REFERENCE.child(companyID).orderByValue().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 regionList.clear();
@@ -550,6 +571,27 @@ public class UtlFirebase { //TODO: make singleton
             }
         });
         return regionList;
+    }
+
+    public static void getRegionsForEdit(String companyID, final FireBaseAble fbHelper) {
+
+        final List<Region> regionList=new ArrayList<>();
+        COMPANY_REGIONS_ROOT_REFERENCE.child(companyID).orderByValue().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (!regionList.isEmpty()){
+                    regionList.clear();
+                }
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    regionList.add(new Region(item.getKey(), (String) item.getValue()));
+                }
+                fbHelper.regionListCallback(regionList);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
     }
 
     public static void updateRegion(String companyID, Region region, @NonNull String regionUpdatedName) {

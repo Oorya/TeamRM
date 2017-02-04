@@ -159,9 +159,11 @@
     <string name="label_button_cancel">ביטול</string>
     <string name="label_button_confirm">אישור</string>
     <string name="label_category_empty_list">אין סיווגים מוגדרים</string>
-    <string name="label_confirm_remove">אישור מחיקה</string>
-    <string name="label_confirm_text">למחוק את הרשומה</string>
+    <string name="label_confirm_remove">באמת למחוק?</string>
+    <string name="label_remove_text">למחוק את הרשומה?</string>
+    <string name="label_add_product">הוספת מוצר</string>
     <string name="label_add_category">הוספת סיווג</string>
+    <string name="label_add_region">הוספת אזור</string>
     <string name="label_no_content">ל\"ת</string>
     <string name="label_description_section">תוכן הקריאה</string>
 

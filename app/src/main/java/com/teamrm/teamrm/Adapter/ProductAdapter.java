@@ -37,8 +37,8 @@ import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductHolder> implements PrefListable {
 
-    List<Product> productList = new ArrayList<>();
-    Context prContext;
+    private List<Product> productList = new ArrayList<>();
+    private Context prContext;
     private static final String TAG = "ProductAdapter:::";
 
 
@@ -55,7 +55,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
     }
 
     @Override
-    public void onBindViewHolder(final ProductHolder holder, final int position) {
+    public void onBindViewHolder(final ProductHolder holder, int position) {
 
         final Product productItem = productList.get(position);
         holder.productName.setText(productItem.getProductName());
@@ -68,14 +68,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
                         .title(R.string.label_edit_prefitem_dialog_title)
                         .input("", productItem.getProductName(), new MaterialDialog.InputCallback() {
                             @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
+                            public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                                 Log.d(TAG, "updating product " + productItem.getProductName());
                                 UtlFirebase.updateProduct(UserSingleton.getInstance().getUserCompanyID(), productItem, input.toString());
-                            }
-                        })
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                             }
                         })
                         .positiveText(R.string.label_button_save)
@@ -97,20 +92,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
             @Override
             public void onClick(View view) {
                 new MaterialDialog.Builder(prContext)
-                        .title(R.string.label_remove_prefitem_dialog_title)
-                        .content(productList.get(position).getProductName())
+                        .title(R.string.label_remove_text)
+                        .content(productList.get(holder.getAdapterPosition()).getProductName())
                         .positiveText(R.string.label_button_confirm)
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
-                            public void onClick(MaterialDialog dialog, DialogAction which) {
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 dialog.dismiss();
                                 new MaterialDialog.Builder(prContext)
                                         .title(R.string.label_confirm_remove)
-                                        .content(productList.get(position).getProductName())
+                                        .content(productList.get(holder.getAdapterPosition()).getProductName())
                                         .positiveText(R.string.label_button_confirm)
                                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                                             @Override
-                                            public void onClick(MaterialDialog dialog, DialogAction which) {
+                                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                                 UtlFirebase.removeProduct(UserSingleton.getInstance().getUserCompanyID(), productItem);
                                             }
                                         })
@@ -119,7 +114,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
                                         .negativeText(R.string.label_button_cancel)
                                         .titleGravity(GravityEnum.END)
                                         .buttonsGravity(GravityEnum.END)
-                                        .backgroundColorRes(R.color.app_bg)
+                                        .backgroundColorRes(R.color.meterial_red_100)
                                         .titleColorRes(R.color.textColor_lighter)
                                         .positiveColorRes(R.color.colorPrimary)
                                         .negativeColorRes(R.color.colorPrimaryDark)
