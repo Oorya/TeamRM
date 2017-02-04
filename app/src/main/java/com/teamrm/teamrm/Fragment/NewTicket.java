@@ -42,7 +42,6 @@ import com.teamrm.teamrm.Utility.UtlFirebase;
 import com.teamrm.teamrm.Utility.UtlImage;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -266,6 +265,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
 
     @Override
     public void productListCallback(List<Product> products) {
+        productList.clear();
         productList.addAll(products);
         listProductAdapter = new GenericPrefListAdapter(context, productList);
         selectProduct.setAdapter(listProductAdapter);
@@ -275,6 +275,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
 
     @Override
     public void categoryListCallback(List<Category> categories) {
+        categoryList.clear();
         categoryList.addAll(categories);
         listCategoryAdapter = new GenericPrefListAdapter(context, categoryList);
         selectCategory.setAdapter(listCategoryAdapter);
