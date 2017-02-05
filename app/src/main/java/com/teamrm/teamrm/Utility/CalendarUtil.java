@@ -408,7 +408,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
            {
                 Events events = mService.events().list(calenders.getId())
                         .setMaxResults(100)
-                        .setOrderBy("ticketOpenDateTime")
+                        .setOrderBy("startTime")
                         .setSingleEvents(true)
                         .execute();
                  items.addAll(events.getItems());
@@ -424,11 +424,11 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             if (output == null || output.size() == 0)
             {
                 Toast.makeText(_context, "no resolt", Toast.LENGTH_LONG).show();
-                Log.d("list  mWeeViewEvent = ","");
-            }
+                Log.d("list  calendarUtil = ",output.size()+"");            }
             else
             {
                // Toast.makeText(_context, "resolt ok ", Toast.LENGTH_LONG).show();
+                Log.d("list  calendarUtil = ",output.size()+"");
 
                 calendarHelper.getEventList(output);
             }

@@ -365,12 +365,12 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
     public void getEventList(List<Event> eventUtil)
     {
 
-        Log.d("list","getEventList");
+
 
         mEvent.clear();
 
         mEvent = eventUtil;
-        Log.d("list = ",mEvent.size()+"");
+        Log.d("list getEventList",mEvent.size()+"");
         mWeekView.notifyDatasetChanged();
     }
 
