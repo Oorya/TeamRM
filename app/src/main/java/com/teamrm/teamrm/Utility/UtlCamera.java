@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import com.teamrm.teamrm.Fragment.NewTicket;
+import com.teamrm.teamrm.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -40,7 +41,7 @@ public class UtlCamera extends Activity
     }
 
     public void selectImage() {
-        final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
+        final CharSequence[] items = {"Take Photo", "Choose from Library", "Remove", "Cancel"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Add Photo!");
@@ -72,7 +73,20 @@ public class UtlCamera extends Activity
                     activity.startActivityForResult(
                             Intent.createChooser(intent, "Select File"),
                             SELECT_FILE);
-                } else if (items[item].equals("Cancel")) {
+                }
+                else if(items[item].equals("Remove"))
+                {
+                    switch (NewTicket.imgClick)
+                    {
+                        case 1:
+                            NewTicket.imageView1.setImageResource(R.drawable.ic_image_black_24dp);
+                            break;
+                        case 2:
+                            NewTicket.imageView2.setImageResource(R.drawable.ic_image_black_24dp);
+                            break;
+                    }
+                }
+                else if (items[item].equals("Cancel")) {
                     dialog.dismiss();
                 }
             }
