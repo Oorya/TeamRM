@@ -36,7 +36,7 @@
         tools:replace="android:icon">
         <activity
             android:name=".Activities.SplashScreen"
-            android:theme="@style/myStyleNoTitle"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
            >
 
         <intent-filter>
