@@ -1,10 +1,12 @@
 package com.teamrm.teamrm.Adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
@@ -37,8 +39,8 @@ public class GenericPrefListAdapter extends BaseAdapter implements SpinnerAdapte
             itemHolder = new ViewHolder();
            // LayoutInflater vi = LayoutInflater.from(aContext);
            // vi.inflate(R.layout.spinner_view, parent, false);
-            convertView = View.inflate(aContext,R.layout.spinner_view,null);
-            itemHolder.itemName = (TextView) convertView.findViewById(R.id.spinnerItem);
+            convertView = View.inflate(aContext,R.layout.spinner_row_pref_static,null);
+            itemHolder.itemName = (TextView) convertView.findViewById(R.id.text1);
             convertView.setTag(itemHolder);
 
         } else {
@@ -56,10 +58,7 @@ public class GenericPrefListAdapter extends BaseAdapter implements SpinnerAdapte
 
         if (convertView == null)
         {
-           // itemHolder = new ViewHolder();
-           // LayoutInflater vi = LayoutInflater.from(aContext);
-           // vi.inflate(R.layout.spinner_row, parent, false);
-            convertView = View.inflate(aContext,R.layout.spinner_row,null);
+            convertView = View.inflate(aContext,R.layout.spinner_row_pref_dropdown,null);
             try {
                 itemHolder.itemName = (TextView) convertView.findViewById(R.id.text1);
                 convertView.setTag(itemHolder);
@@ -70,9 +69,11 @@ public class GenericPrefListAdapter extends BaseAdapter implements SpinnerAdapte
         } else {
             itemHolder = (ViewHolder) convertView.getTag();
         }
-
         itemHolder.itemName.setText(itemList.get(position).getItemValue());
         itemHolder.itemID = itemList.get(position).getItemKey();
+        if (position%2 == 0){
+            convertView.setBackgroundColor(ContextCompat.getColor(aContext, R.color.listRow_alt_lighter));
+        }
         return convertView;
     }
 
@@ -94,6 +95,7 @@ public class GenericPrefListAdapter extends BaseAdapter implements SpinnerAdapte
 
 
     static class ViewHolder {
+
         public TextView itemName;
         public String itemID;
     }

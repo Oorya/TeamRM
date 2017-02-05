@@ -170,8 +170,7 @@
 
     <!--/labels-->
 
-
-    <string name="productlist_hint">בחר מוצר...</string>
+    <string name="productlist_hint">בחר מוצר&#8230;</string>
 
 
     <string name="action_settings">Settings</string>

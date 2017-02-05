@@ -2,15 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/app_bg"
     tools:context="com.teamrm.teamrm.Fragment.TicketList"
-    tools:paddingTop="25dp"
-    android:background="@color/app_bg">
+    tools:paddingTop="25dp">
 
     <RelativeLayout
         android:id="@+id/had"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:id="@+id/title"
@@ -87,7 +86,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="סדר מחדש לישן"
-
                     android:textColor="@android:color/white" />
 
             </LinearLayout>
@@ -123,28 +121,27 @@
         </LinearLayout>
 
         <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/swipeRefresh"
-            android:layout_below="@id/actionBar"
-            >
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/RecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:clipChildren="false"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            >
+            android:layout_below="@id/actionBar">
 
-        </android.support.v7.widget.RecyclerView>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_below="@id/RecyclerView"
-            android:background="#f00"
-            />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/RecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@id/RecyclerView"
+                android:background="#f00" />
         </android.support.v4.widget.SwipeRefreshLayout>
     </RelativeLayout>
     <!--RelativeLayout
@@ -161,4 +158,5 @@
             android:visibility="invisible"
             android:elevation="10dp"/>
     </RelativeLayout-->
+    <include layout="@layout/floating_action_button" />
 </FrameLayout>

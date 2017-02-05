@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.teamrm.teamrm.Interfaces.FragmentHelper;
 import com.teamrm.teamrm.R;
 
 
@@ -19,13 +20,12 @@ import com.teamrm.teamrm.R;
 public class AdminSettingsBasic extends Fragment implements View.OnClickListener {
 
     private RelativeLayout
-                    defineFirm,
-                    defineTechnicians,
-                    defineProducts,
-                    defineCategoryA,
-                    defineCategoryB,
-                    defineRegions,
-                    appPrefs;
+            defineFirm,
+            defineTechnicians,
+            defineProducts,
+            defineCategory,
+            defineRegions,
+            appPrefs;
 
     public AdminSettingsBasic() {
         // Required empty public constructor
@@ -38,14 +38,12 @@ public class AdminSettingsBasic extends Fragment implements View.OnClickListener
         View view = inflater.inflate(R.layout.fragment_admin_settings_basic, container, false);
 
 
-
-        defineFirm = (RelativeLayout)view.findViewById(R.id.defineFirm);
-        defineTechnicians = (RelativeLayout)view.findViewById(R.id.defineTechnicians);
-        defineProducts = (RelativeLayout)view.findViewById(R.id.defineProducts);
-        defineCategoryA = (RelativeLayout)view.findViewById(R.id.defineCategoryA);
-        defineCategoryB = (RelativeLayout)view.findViewById(R.id.defineCategoryB);
-        defineRegions = (RelativeLayout)view.findViewById(R.id.defineRegion);
-        appPrefs = (RelativeLayout)view.findViewById(R.id.appPrefs);
+        defineFirm = (RelativeLayout) view.findViewById(R.id.defineFirm);
+        defineTechnicians = (RelativeLayout) view.findViewById(R.id.defineTechnicians);
+        defineProducts = (RelativeLayout) view.findViewById(R.id.defineProducts);
+        defineCategory = (RelativeLayout) view.findViewById(R.id.defineCategoryA);
+        defineRegions = (RelativeLayout) view.findViewById(R.id.defineRegion);
+        appPrefs = (RelativeLayout) view.findViewById(R.id.appPrefs);
 
         defineFirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +51,7 @@ public class AdminSettingsBasic extends Fragment implements View.OnClickListener
                 /*FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
                 ft.replace(R.id.container_body, new FirmDetailsFrag(), null);
-                ft.addToBackStack(null);
+                ft.addToBackStack("stackSettingsBasic");
                 ft.commit();*/
                 Toast.makeText(getContext(), "הגדרות חברה", Toast.LENGTH_SHORT).show();
             }
@@ -64,7 +62,7 @@ public class AdminSettingsBasic extends Fragment implements View.OnClickListener
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
                 ft.replace(R.id.container_body, new AdminSettingsDefineTechs(), null);
-                ft.addToBackStack(null);
+                ft.addToBackStack(FragmentHelper.STACK_FOR_BASIC_SETTINGS_NAVIGATION);
                 ft.commit();
             }
         });
@@ -75,32 +73,21 @@ public class AdminSettingsBasic extends Fragment implements View.OnClickListener
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
                 ft.replace(R.id.container_body, new AdminSettingsDefineProducts(), null);
-                ft.addToBackStack(null);
+                ft.addToBackStack(FragmentHelper.STACK_FOR_BASIC_SETTINGS_NAVIGATION);
                 ft.commit();
             }
         });
 
-        defineCategoryA.setOnClickListener(new View.OnClickListener() {
+        defineCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
                 ft.replace(R.id.container_body, new AdminSettingsDefineCategory(), null);
-                ft.addToBackStack(null);
+                ft.addToBackStack(FragmentHelper.STACK_FOR_BASIC_SETTINGS_NAVIGATION);
                 ft.commit();
             }
         });
-
-        /*defineCategoryB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
-                ft.replace(R.id.container_body, new AdminSettingsDefineCategory(), null);
-                ft.addToBackStack(null);
-                ft.commit();
-            }
-        });*/
 
         defineRegions.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +95,7 @@ public class AdminSettingsBasic extends Fragment implements View.OnClickListener
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
                 ft.replace(R.id.container_body, new AdminSettingsDefineRegions(), null);
-                ft.addToBackStack(null);
+                ft.addToBackStack(FragmentHelper.STACK_FOR_BASIC_SETTINGS_NAVIGATION);
                 ft.commit();
             }
         });
@@ -119,13 +106,13 @@ public class AdminSettingsBasic extends Fragment implements View.OnClickListener
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
                 ft.replace(R.id.container_body, new AdminSettingsAppPrefs(), null);
-                ft.addToBackStack(null);
+                ft.addToBackStack(FragmentHelper.STACK_FOR_BASIC_SETTINGS_NAVIGATION);
                 ft.commit();
             }
         });
 
 
-    return view;
+        return view;
     }
 
     @Override

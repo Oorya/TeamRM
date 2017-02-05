@@ -55,7 +55,7 @@
     <style name="RegularRow">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">60dp</item>
-        <item name="android:paddingEnd">24dp</item>
+        <item name="android:paddingEnd">16dp</item>
         <item name="android:paddingStart">24dp</item>
     </style>
 
@@ -100,6 +100,8 @@
         <item name="android:spinnerMode">dropdown</item>
         <item name="android:background">#00000000</item>
         <item name="android:textColor">@color/textColor_primary</item>
+        <item name="android:paddingEnd">28dp</item>
+        android:paddingEnd="24dp"
     </style>
 
     <style name="CardRow">

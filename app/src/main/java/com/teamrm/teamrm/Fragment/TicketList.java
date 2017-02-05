@@ -3,17 +3,21 @@ package com.teamrm.teamrm.Fragment;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.BounceInterpolator;
 import android.widget.TextView;
 
 import com.teamrm.teamrm.Adapter.TicketListAdapter;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
+import com.teamrm.teamrm.Interfaces.FragmentHelper;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Category;
 import com.teamrm.teamrm.Type.Company;
@@ -29,13 +33,14 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TicketList extends Fragment implements FireBaseAble{
+public class TicketList extends Fragment implements FireBaseAble {
 
     public RecyclerView mRecyclerView;
     private List<TicketLite> ticketLiteList;
     private TicketListAdapter ticketListAdapter;
     private TextView title, filter, search, order;
     private SwipeRefreshLayout swipeContainer;
+    FloatingActionButton floatBtn;
 
     public TicketList() {
     }
@@ -85,10 +90,34 @@ public class TicketList extends Fragment implements FireBaseAble{
                 });
             }
         });
+
+        floatBtn = (FloatingActionButton) view.findViewById(R.id.floatBtn);
+        floatBtn.hide();
+
+        mRecyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                floatBtn.show();
+                floatBtn.setScaleX(.25f);
+                floatBtn.setScaleY(.25f);
+                floatBtn.animate().scaleX(1).scaleY(1).setInterpolator(new BounceInterpolator()).start();
+            }
+        }, 500);
+
+        floatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
+                ft.replace(R.id.container_body, new NewTicket(), null);
+                ft.addToBackStack(FragmentHelper.STACK_FOR_GENERAL_NAVIGATION);
+                ft.commit();
+            }
+        });
         return view;
     }
 
-    @Override
+       @Override
     public void resultTicket(Ticket ticket) {
 
     }
@@ -105,7 +134,7 @@ public class TicketList extends Fragment implements FireBaseAble{
 
     @Override
     public void ticketLiteListCallback(List<TicketLite> ticketLites) {
-        ticketLiteList=ticketLites;
+        ticketLiteList = ticketLites;
         ticketListAdapter = new TicketListAdapter(getContext(), ticketLiteList);
         mRecyclerView.setAdapter(ticketListAdapter);
     }

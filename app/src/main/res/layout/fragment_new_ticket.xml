@@ -97,6 +97,7 @@
                     style="@style/RegularRowItem.Spinner"
                     android:layout_toEndOf="@id/selectProductLabel"
                     android:dropDownWidth="match_parent"
+
                     />
 
 
@@ -154,7 +155,7 @@
                     android:layout_height="24dp"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="12dp"
-                    android:src="@drawable/ic_icon_location" />
+                    android:src="@drawable/ic_region_new" />
 
                 <TextView
                     android:id="@+id/regionLabel"
@@ -202,7 +203,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="8dp"
                     android:layout_toEndOf="@+id/addressIcon"
-                    android:text="@string/label_address" />
+                    android:text="@string/label_address"
+                    android:nextFocusDown="@id/txtPhone"/>
 
                 <EditText
                     android:id="@+id/txtAddress"
@@ -241,7 +243,6 @@
                     android:layout_toEndOf="@id/phoneLabel"
                     android:inputType="phone"
                     >
-                    <requestFocus></requestFocus>
                 </EditText>
             </RelativeLayout>
 
@@ -289,9 +290,9 @@
                     android:paddingStart="16dp"
                     android:textColor="@color/textColor_primary"
                     android:textColorHint="@color/textColor_lighter"
-                    android:textSize="16sp">
+                    android:textSize="16sp"
+                    >
 
-                    <requestFocus></requestFocus>
                 </EditText>
 
                 <EditText
@@ -312,7 +313,6 @@
                     android:textColorHint="@color/textColor_lighter"
                     android:textSize="14sp">
 
-                    <requestFocus></requestFocus>
                 </EditText>
             </RelativeLayout>
 

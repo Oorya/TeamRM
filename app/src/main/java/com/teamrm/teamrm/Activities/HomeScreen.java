@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -44,7 +43,6 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     public static Context context;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-    FloatingActionButton addTicket;
     private static final int SELECT_FILE = 105;
     private static final int FROM_CAMERA = 205;
     private static final int ACTION_OVERLAY = 300;
@@ -61,7 +59,6 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         context = this;
         frameLayout = (FrameLayout) findViewById(R.id.container_body);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        addTicket = (FloatingActionButton) findViewById(R.id.fab);
 
         TextView appIcon = (TextView) findViewById(R.id.appIcon);
         appIcon.setTypeface(Typeface.createFromAsset(this.getAssets(), "Assistant-Bold.ttf"));
@@ -83,9 +80,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         setTitle(getResources().getStringArray(R.array.nav_list)[0]);
 
 
-
-
-        addTicket.setOnClickListener(new View.OnClickListener() {
+        /*addTicket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Click action
@@ -98,15 +93,15 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
             }
         });
 
-
+*/
 
     }
-    public void btnaddTicketGon()
+  /*  public void btnaddTicketGon()
     {
         addTicket.hide();
 
     }
-
+*/
 
 
     @Override
@@ -168,7 +163,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 setTitle(getResources().getStringArray(R.array.nav_list)[0]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
 
-                addTicket.show();
+                //addTicket.show();
                 break;
             case 1:
                 NewTicket ticket = new NewTicket();
@@ -176,7 +171,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 setTitle(getResources().getStringArray(R.array.nav_list)[1]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
 
-                addTicket.hide();
+                //addTicket.hide();
                 break;
             case 2:
                 Log.d("droeswech","case2");
@@ -185,7 +180,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 fragmentTransaction.replace(R.id.container_body, calendarView).addToBackStack(TAG_FRAGMENT[1]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[2]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.GONE);
-                addTicket.hide();
+                //addTicket.hide();
                 break;
             case 3:
                 AdminSettingsBasic adminSettingsBasic = new AdminSettingsBasic();
@@ -193,7 +188,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 setTitle(getResources().getStringArray(R.array.nav_list)[3]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
 
-                addTicket.hide();
+                //addTicket.hide();
 
                 break;
             case 4:
@@ -202,7 +197,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 setTitle(getResources().getStringArray(R.array.nav_list)[4]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
 
-                addTicket.hide();
+                //addTicket.hide();
                 break;
             case 5:
                 signOut();

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/text1"
+        style="?android:attr/spinnerDropDownItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/textColor_primary"
+        tools:text="kdfjgh" />
+
+    <View style="@style/Separator1px"
+        android:layout_height="2px"/>
+
+
+</LinearLayout>

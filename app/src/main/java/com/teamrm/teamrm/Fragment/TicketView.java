@@ -62,7 +62,6 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     private Users userProfileObj ;
     Fragment stateActionButtons;
     UtlAlarmManager utlAlarmManager;
-    Button btnRight;
 
     public TicketView() {
         // Required empty public constructor
@@ -103,11 +102,6 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             }
 
         }
-
-        /*FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.btnFragment, new StateActionButtons(), null);
-        ft.disallowAddToBackStack();
-        ft.commit();*/
     }
 
     @Override
@@ -121,7 +115,6 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
         getActivity().setTitle(getContext().getResources().getString(R.string.ticket_new));
         getActivity().findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
-        ((HomeScreen) getActivity()).btnaddTicketGon();
 
 
         ((TextView) view.findViewById(R.id.statusTxt)).setTypeface(REGULAR);
@@ -323,7 +316,6 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         regionUserEx = (TextView)view.findViewById(R.id.locationAdd);
         addressUserEx = (TextView)view.findViewById(R.id.locationText);
         phoneUserEx = (TextView)view.findViewById(R.id.phoneText);
-        //btnRight = (Button)view.findViewById(R.id.btnRight);
 
         endTimeTxt.setOnClickListener(this);
         userDetailCard.setOnClickListener(this);
@@ -334,7 +326,6 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         btnProfile.setOnClickListener(this);
         approval.setOnClickListener(this);
         cancel.setOnClickListener(this);
-        //btnRight.setOnClickListener(this);
     }
 
     @Override
