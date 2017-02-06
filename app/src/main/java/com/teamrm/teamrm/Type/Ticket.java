@@ -77,7 +77,7 @@ public class Ticket {
     {
         ticketList = tickets;
     }
-    private static ArrayList<Ticket> getTicketList()
+    public static ArrayList<Ticket> getTicketList()
     {
         return ticketList;
     }

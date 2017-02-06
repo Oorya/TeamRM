@@ -54,6 +54,9 @@ public class TicketList extends Fragment implements FireBaseAble {
         ticketLiteList.clear();
         ticketLiteList.addAll(TicketLite.getTicketLiteList());
         Log.d("tiket", "onStart: "+TicketLite.getTicketLiteList().size());
+        if(Ticket.getTicketList()!=null)
+        Log.d("tiket", "onStart: "+Ticket.getTicketList().size());
+
 
     }
 
