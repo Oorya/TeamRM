@@ -1,5 +1,7 @@
 package com.teamrm.teamrm.Type;
 
+import java.util.ArrayList;
+
 /**
  * Created by root on 27/01/2017.
  */
@@ -30,6 +32,17 @@ public class TicketLite {
     //private Image techAvatar;
 
     private int ticketPresentation;
+    private static ArrayList<TicketLite> ticketLiteList = new ArrayList<>();
+
+
+    public static ArrayList<TicketLite> getTicketLiteList() {
+        return ticketLiteList;
+    }
+
+    public static void setTicketLiteList(ArrayList<TicketLite> ticketLiteList) {
+        TicketLite.ticketLiteList = ticketLiteList;
+    }
+
 
     public TicketLite() {
     }

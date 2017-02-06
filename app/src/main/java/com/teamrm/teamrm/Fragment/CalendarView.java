@@ -98,7 +98,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
         mWeeViewEvent = new ArrayList<>();
         mEvent = new ArrayList<>();
         cal = new CalendarUtil(getActivity(),this);
-        cal.getResultsFromApi();
+        cal.getEventList();
         timePicker = (TimePicker) view.findViewById(R.id.timePicker);
 
         mWeekView.setMonthChangeListener(this);
@@ -400,5 +400,8 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
             }
         });
     }
+    @Override
+    public void getCalendar(com.google.api.services.calendar.model.Calendar calendar) {
 
-}
+    }
+ }

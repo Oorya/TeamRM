@@ -72,7 +72,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         super.onCreate(savedInstanceState);
 
 
-        Toast.makeText(getContext(), UserSingleton.getInstance().getUserEmail(), Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getContext(), UserSingleton.getInstance().getUserEmail(), Toast.LENGTH_SHORT).show();
         userProfileObj = UserSingleton.getInstance();
         Bundle bundle = this.getArguments();
         utlAlarmManager = new UtlAlarmManager(getContext());

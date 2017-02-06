@@ -12,6 +12,7 @@ import com.teamrm.teamrm.Utility.UtlFirebase;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -69,6 +70,17 @@ public class Ticket {
     private boolean isUserApprove;
     private boolean isTechDone;
     private boolean ticketIsClosed;
+    private static ArrayList<Ticket> ticketList = new ArrayList<>();
+
+
+    public static  void setTicketList(ArrayList<Ticket> tickets)
+    {
+        ticketList = tickets;
+    }
+    private static ArrayList<Ticket> getTicketList()
+    {
+        return ticketList;
+    }
 
     public Ticket(){}  //empty constructor, must have
 

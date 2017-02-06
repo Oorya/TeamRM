@@ -44,7 +44,9 @@ import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.App;
 import com.teamrm.teamrm.Utility.UserSingleton;
+import com.teamrm.teamrm.Utility.UtlFirebase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SplashScreen extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, FireBaseAble {
@@ -54,6 +56,9 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     private static final String PREF_ACCOUNT_NAME = "accountName";
 
     private GoogleSignInOptions gso;
+    private static ArrayList<Ticket> tickets = new ArrayList<>();
+    private static ArrayList<TicketLite> ticketsLite = new ArrayList<>();
+
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth firebaseAuth;
     private static final int RC_SIGN_IN = 9001;
@@ -82,9 +87,9 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         updateLoadingStatus("מכין אפליקציה לשימוש...");
         Log.d("splash", "onCreate: ");
 
+
         // everything else that doesn't update UI
         permissionToDrawOverlays();
-
         linearLayout = (LinearLayout)findViewById(R.id.load);
         mGoogleApiClient= App.getGoogleApiHelper().getGoogleApiClient();
         gso = App.getGoogleApiHelper().getGso();
@@ -109,7 +114,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         if (opr.isDone()) {
             // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
             // and the GoogleSignInResult will be available instantly.
-            Log.d(TAG, "Got cached sign-in");
+            Log.d("splash", "Got cached sign-in");
             GoogleSignInResult result = opr.get();
             handleSignInResult(result);
             linearLayout.setVisibility(View.VISIBLE);
@@ -118,7 +123,9 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
             // this asynchronous branch will attempt to sign in the user silently.  Cross-device
             // single sign-on will occur in this branch.
              // showProgressDialog();
-              opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+            Log.d("splash", "else Got cached sign-in");
+
+            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                   @Override
                  public void onResult(GoogleSignInResult googleSignInResult) {
                      // hideProgressDialog();
@@ -259,14 +266,14 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
     @Override
     public void resultUser(Users user) {
-        linearLayout.setVisibility(View.GONE);
-        startActivity(new Intent(this,HomeScreen.class));
-        finish();
+        UtlFirebase.getAllTicketLites(this);
     }
 
     @Override
     public void ticketListCallback(List<Ticket> ticket) {
-
+        tickets.clear();
+        tickets.addAll(ticket);
+        Ticket.setTicketList(tickets);
     }
 
     @Override
@@ -276,7 +283,11 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
     @Override
     public void ticketLiteListCallback(List<TicketLite> ticketLites) {
-
+        ticketsLite.clear();
+        ticketsLite.addAll(ticketLites);
+        TicketLite.setTicketLiteList(ticketsLite);
+        startActivity(new Intent(this,HomeScreen.class));
+        finish();
     }
 
     @Override

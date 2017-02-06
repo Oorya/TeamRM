@@ -35,6 +35,7 @@ import com.google.api.client.util.DateTime;
 import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.AclRule;
+import com.google.api.services.calendar.model.Calendar;
 import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
@@ -92,6 +93,7 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
                 context, Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
         calendarHelper=(CalendarHelper) result;
+        getResultsFromApi();
     }
     /**
      * Attempt to call the API, after verifying that all the preconditions are
@@ -119,8 +121,12 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             Log.d("REQUEST", mService.toString());
 
 
-            calList.addAll(getCalList());
+
         }
+    }
+    public void getEventList()
+    {
+        getCalList();
     }
 
 
@@ -429,7 +435,6 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
             {
                // Toast.makeText(_context, "resolt ok ", Toast.LENGTH_LONG).show();
                 Log.d("list  calendarUtil = ",output.size()+"");
-
                 calendarHelper.getEventList(output);
             }
         }
@@ -602,42 +607,57 @@ public class CalendarUtil extends Activity implements EasyPermissions.Permission
 
     }
 
-    public String createdCalendar()
+    public void createdCalendar(final String summary, final String calendarId)
+    {
+        new AsyncTask<Void,Void,Void>()
+        {
+            Calendar createdCalendar;
+            @Override
+            protected Void doInBackground(Void... params)
+            {
+                try {
+                    Calendar calendar = new Calendar();
+                    calendar.setSummary(summary);
+                    calendar.setTimeZone(calendar.getTimeZone());
+                    createdCalendar = mService.calendars().insert(calendar).execute();
+                } catch (IOException e) {
+                    Log.d("cal", e.toString());
+                }
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                calendarHelper.getCalendar(createdCalendar);
+
+            }
+        }.execute();
+
+    }
+    public void delitCalender(final String calId)
     {
 
-        final Uri CAL_URI = CalendarContract.Calendars.CONTENT_URI;
+        new AsyncTask<Void,Void,Void>()
+        {
+            @Override
+            protected Void doInBackground(Void... params)
+            {
+                try {
+                    mService.calendars().delete(calId).execute();
+                } catch (IOException e) {
+                    Log.d("cal", e.toString());
+                }
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
 
-        final ContentValues cv = new ContentValues();
-        cv.put(CalendarContract.Calendars.ACCOUNT_NAME, "shealtiel84@gmail.com");
-        cv.put(CalendarContract.Calendars.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL);
-        cv.put(CalendarContract.Calendars.NAME, "shaltyTest");
-        cv.put(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME, "shaltyTest");
-        cv.put(CalendarContract.Calendars.CALENDAR_COLOR, 0xEA8561);
-        //user can only read the calendar
-        cv.put(CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL, CalendarContract.Calendars.CAL_ACCESS_OWNER);
-        cv.put(CalendarContract.Calendars.OWNER_ACCOUNT, "shealtiel84@gmail.com");
-        cv.put(CalendarContract.Calendars.VISIBLE, 1);
-        cv.put(CalendarContract.Calendars.SYNC_EVENTS, 1);
+            }
+        }.execute();
 
 
-        ContentResolver cr = _context.getContentResolver();
 
-
-        //insert the calendar into the database
-        if (ActivityCompat.checkSelfPermission(_context, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            Toast.makeText(_context,"NO permission ",Toast.LENGTH_LONG).show();
-        }
-        Uri newUri = cr.insert(CAL_URI, cv);
-
-        final Long calId = Long.parseLong(newUri.getLastPathSegment());
-        return null;
     }
     public void sherCalendar(String scopeValue)
     {

@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,7 +38,7 @@ import java.util.List;
 public class TicketList extends Fragment implements FireBaseAble {
 
     public RecyclerView mRecyclerView;
-    private List<TicketLite> ticketLiteList;
+    private List<TicketLite> ticketLiteList = new ArrayList<>();
     private TicketListAdapter ticketListAdapter;
     private TextView title, filter, search, order;
     private SwipeRefreshLayout swipeContainer;
@@ -48,7 +50,11 @@ public class TicketList extends Fragment implements FireBaseAble {
     @Override
     public void onStart() {
         super.onStart();
-        UtlFirebase.getAllTicketLites(this);
+        if(ticketLiteList!=null)
+        ticketLiteList.clear();
+        ticketLiteList.addAll(TicketLite.getTicketLiteList());
+        Log.d("tiket", "onStart: "+TicketLite.getTicketLiteList().size());
+
     }
 
     @Override
@@ -75,7 +81,11 @@ public class TicketList extends Fragment implements FireBaseAble {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView);
         mRecyclerView.setLayoutManager(recyclerViewManager);
 
+        ticketListAdapter = new TicketListAdapter(getContext(), ticketLiteList);
         mRecyclerView.setAdapter(ticketListAdapter);
+
+
+        //mRecyclerView.setAdapter(ticketListAdapter);
 
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefresh);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -135,8 +145,7 @@ public class TicketList extends Fragment implements FireBaseAble {
     @Override
     public void ticketLiteListCallback(List<TicketLite> ticketLites) {
         ticketLiteList = ticketLites;
-        ticketListAdapter = new TicketListAdapter(getContext(), ticketLiteList);
-        mRecyclerView.setAdapter(ticketListAdapter);
+
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.teamrm.teamrm.Interfaces;
 
+import com.google.api.services.calendar.model.Calendar;
 import com.google.api.services.calendar.model.Event;
 
 import java.util.List;
@@ -11,4 +12,5 @@ public interface CalendarHelper {
 
     void getResult(Event  event);
     void getEventList(List<Event> eventUtil);
+    void getCalendar(Calendar calendar);
 }
