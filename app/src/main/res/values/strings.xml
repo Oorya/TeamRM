@@ -138,6 +138,7 @@
     <string name="ticket_new">פרטי קריאה</string>
 
     <!--labels-->
+    <string name="label_ticket_filter">סינון רשימת קריאות:</string>
     <string name="label_address">כתובת:</string>
     <string name="label_post_address">כתובת דאר:</string>
     <string name="label_region">אזור:</string>
