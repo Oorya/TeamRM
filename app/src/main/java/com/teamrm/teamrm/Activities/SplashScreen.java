@@ -274,7 +274,6 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         tickets.clear();
         tickets.addAll(ticket);
         Ticket.setTicketList(tickets);
-        startActivity(new Intent(this,HomeScreen.class));
         finish();
 
     }
@@ -289,6 +288,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         ticketsLite.clear();
         ticketsLite.addAll(ticketLites);
         TicketLite.setTicketLiteList(ticketsLite);
+        startActivity(new Intent(this,HomeScreen.class));
         UtlFirebase.getAllTickets(this);
 
     }

@@ -6,7 +6,7 @@ package com.teamrm.teamrm.Interfaces;
 
 public interface TicketStatus {
 
-    String waitForApproval = "ממתין לאישור מנהל";
+    String waitForApproval = "ממתין לאישור פתיחה";
     String ticketClosed = "התקלה נסגרה";
     String ticketApproval = "התקלה אושרה";
     String ticketCanceled = "התקלה בוטלה";
