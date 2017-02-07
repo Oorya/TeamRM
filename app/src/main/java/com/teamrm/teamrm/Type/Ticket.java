@@ -42,10 +42,13 @@ public class Ticket {
     private String regionName;
     private String descriptionShort;
     private String descriptionLong;
-    @Exclude private String ticketImage1; //TODO:use Storage
-    @Exclude private String ticketImage2; //TODO:use Storage
+    @Exclude
+    private String ticketImage1; //TODO:use Storage
+    @Exclude
+    private String ticketImage2; //TODO:use Storage
     private String ticketStateString;
-    @Exclude private TicketStateAble ticketStateObj;
+    @Exclude
+    private TicketStateAble ticketStateObj;
 
     private String ticketOpenDateTime;
     private Date ticketCloseDateTime;
@@ -61,8 +64,10 @@ public class Ticket {
 
     private String ticketEventID;
     private Date ttl;
-    @Exclude private PendingIntent _alarm;
-    @Exclude private PendingIntent _alarmTechStartWorkOnTicket;
+    @Exclude
+    private PendingIntent _alarm;
+    @Exclude
+    private PendingIntent _alarmTechStartWorkOnTicket;
     private int repeatSendCounter;
     private String statusA;
     private int ticketPresentation;
@@ -73,22 +78,21 @@ public class Ticket {
     private static ArrayList<Ticket> ticketList = new ArrayList<>();
 
 
-    public static  void setTicketList(ArrayList<Ticket> tickets)
-    {
+    public static void setTicketList(ArrayList<Ticket> tickets) {
         ticketList = tickets;
     }
-    public static ArrayList<Ticket> getTicketList()
-    {
+
+    public static ArrayList<Ticket> getTicketList() {
         return ticketList;
     }
 
-    public Ticket(){}  //empty constructor, must have
+    public Ticket() {
+    }  //empty constructor, must have
 
     public Ticket(String clientID,
                   String ticketPhone, String ticketAddress,
                   String ticketID, String companyID,
-                  Product product, Category category, Region region, String descriptionShort, String descriptionLong, String ticketImage1, String ticketImage2)
-    {
+                  Product product, Category category, Region region, String descriptionShort, String descriptionLong, String ticketImage1, String ticketImage2) {
         this.clientID = clientID;
         this.clientEmail = UserSingleton.getInstance().getUserEmail();
         this.clientNameString = UserSingleton.getInstance().getUserNameString();
@@ -97,7 +101,7 @@ public class Ticket {
         this.ticketAddress = ticketAddress;
 
         this.ticketID = ticketID;
-        this.ticketNumber = ticketID.substring(0,8);
+        this.ticketNumber = ticketID.substring(0, 8);
         this.companyID = companyID;
 
         this.productID = product.getProductID();
@@ -133,11 +137,10 @@ public class Ticket {
 
     public void setAlarm(PendingIntent alarm) {
 
-        if(_alarm!=null)
-        {
+        if (_alarm != null) {
             _alarmTechStartWorkOnTicket = alarm;
-        }else
-        _alarm = alarm;
+        } else
+            _alarm = alarm;
     }
 
     public TicketStateAble getTicketStateObj() {
@@ -148,11 +151,10 @@ public class Ticket {
         this.ticketStateObj = ticketStateObj;
     }
 
-    public void updateTicketStateString(String stateName, Ticket ticket)
-    {
+    public void updateTicketStateString(String stateName, Ticket ticket) {
         UtlFirebase.updateTicketStateString(ticket.ticketID, stateName);
         int ticketPresentation = 0;
-        switch (stateName){
+        switch (stateName) {
             case TicketStateStringable.STATE_A00:
             case TicketStateStringable.STATE_A01:
             case TicketStateStringable.STATE_A02CN:
@@ -189,16 +191,61 @@ public class Ticket {
         UtlFirebase.updateTicketPresentation(ticket.ticketID, ticketPresentation);
     }
 
+    public Integer getUrgency() {
+        Integer urgency;
+
+        switch (this.ticketStateString) {
+            case TicketStateStringable.STATE_A00:
+            case TicketStateStringable.STATE_A01:
+            case TicketStateStringable.STATE_E03:
+            case TicketStateStringable.STATE_E05:
+            case TicketStateStringable.STATE_E07:
+                urgency = 0;
+                break;
+
+            case TicketStateStringable.STATE_E06:
+            case TicketStateStringable.STATE_E02:
+            case TicketStateStringable.STATE_A02CN:
+                urgency = 1;
+                break;
+
+            case TicketStateStringable.STATE_E04:
+                urgency = 2;
+                break;
+
+            case TicketStateStringable.STATE_B01:
+            case TicketStateStringable.STATE_A03:
+            case TicketStateStringable.STATE_B02:
+            case TicketStateStringable.STATE_B03:
+            case TicketStateStringable.STATE_C01:
+            case TicketStateStringable.STATE_C02:
+                urgency = 3;
+                break;
+
+            case TicketStateStringable.STATE_E00:
+                urgency = 4;
+                break;
+
+            case TicketStateStringable.STATE_E01:
+            case TicketStateStringable.STATE_Z00:
+                urgency = 99;
+                break;
+
+            default:
+                urgency = 0;
+        }
+        return urgency;
+    }
+
     public int getAlarmID() {
         return alarmID;
     }
 
     public void setAlarmID(int alarmID) {
-        if(!(this.alarmID<=0))
-        {
+        if (!(this.alarmID <= 0)) {
             this.alarmTechStartWorkOnTicketID = alarmID;
-        }else
-        this.alarmID = alarmID;
+        } else
+            this.alarmID = alarmID;
     }
 
     public boolean getTicketDone() {
@@ -225,8 +272,7 @@ public class Ticket {
         isTechDone = techDone;
     }
 
-    private String getCurrentTime()
-    {
+    private String getCurrentTime() {
         //Calendar calendar=Calendar.getInstance();
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss - dd/MM/yyyy");
         //get current date ticketOpenDateTime with Date()
@@ -235,16 +281,15 @@ public class Ticket {
         return dateFormat.format(date);
     }
 
-    public String toString()
-    {
-        String str="";
-        str+="Client clientEmail: "+this.clientEmail +"\n";
-        str+="Client name: "+this.clientNameString +"\n";
-        str+="Product:" +this.productName +"\n";
-        str+="Ticket name: "+this.descriptionShort +"\n";
-        str+="Ticket description: "+this.descriptionLong +"\n";
-        str+="Phone: "+this.ticketPhone +"\n";
-        str+="Status: "+this.ticketPresentation +"\n";
+    public String toString() {
+        String str = "";
+        str += "Client clientEmail: " + this.clientEmail + "\n";
+        str += "Client name: " + this.clientNameString + "\n";
+        str += "Product:" + this.productName + "\n";
+        str += "Ticket name: " + this.descriptionShort + "\n";
+        str += "Ticket description: " + this.descriptionLong + "\n";
+        str += "Phone: " + this.ticketPhone + "\n";
+        str += "Status: " + this.ticketPresentation + "\n";
         return str;
     }
 

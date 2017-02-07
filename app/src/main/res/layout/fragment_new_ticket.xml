@@ -39,7 +39,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="12dp"
                     android:layout_toEndOf="@id/companyIcon"
                     android:text="שם חברה: " />
 
@@ -80,7 +79,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="12dp"
                     android:layout_toEndOf="@id/productIcon"
                     android:text="@string/label_product" />
 
@@ -121,7 +119,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="12dp"
                     android:layout_toEndOf="@id/ClassificationIcon"
                     android:layoutDirection="rtl"
                     android:text="@string/label_category"
@@ -162,7 +159,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="12dp"
                     android:layout_toEndOf="@id/regionIcon"
                     android:text="@string/label_region" />
 

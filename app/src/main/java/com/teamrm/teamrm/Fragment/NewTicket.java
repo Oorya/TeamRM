@@ -9,6 +9,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.GravityEnum;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Adapter.GenericPrefListAdapter;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
@@ -236,12 +240,65 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
 
     private boolean checkEntries(){
         //add method
+        //TODO: add check if not exist user address, phone -> ask if to save?
         return true;
     }
 
     private void submitTicket(View view){
 
         //Calendar cal = Calendar.getInstance(); // creates calendar
+        if (UserSingleton.getInstance().getUserAddress().isEmpty()){
+            new MaterialDialog.Builder(getContext())
+                    .title(R.string.label_dialog_save_user_detail)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            UserSingleton.getInstance().setUserAddress(ticketAddress.getText().toString());
+                        }
+                    })
+                    .positiveText(R.string.label_button_save)
+                    .contentColorRes(R.color.textColor_primary)
+                    .contentGravity(GravityEnum.CENTER)
+                    .negativeText(R.string.label_button_cancel)
+                    .titleGravity(GravityEnum.END)
+                    .buttonsGravity(GravityEnum.END)
+                    .backgroundColorRes(R.color.app_bg)
+                    .titleColorRes(R.color.textColor_lighter)
+                    .positiveColorRes(R.color.colorPrimary)
+                    .negativeColorRes(R.color.colorPrimaryDark)
+                    .dividerColorRes(R.color.textColor_lighter)
+                    .show();
+        } else {
+            if (UserSingleton.getInstance().getUserPhone().isEmpty()){
+                new MaterialDialog.Builder(getContext())
+                        .title(R.string.label_add_category)
+                        .input("", "", new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                                Toast.makeText(getContext(),  input.toString(), Toast.LENGTH_SHORT).show();
+                                UtlFirebase.addCategory(UserSingleton.getInstance().getUserCompanyID(), input.toString());
+                            }
+                        })
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                //Toast.makeText(getContext(), "positive", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .positiveText(R.string.label_button_save)
+                        .contentColorRes(R.color.textColor_primary)
+                        .contentGravity(GravityEnum.CENTER)
+                        .negativeText(R.string.label_button_cancel)
+                        .titleGravity(GravityEnum.END)
+                        .buttonsGravity(GravityEnum.END)
+                        .backgroundColorRes(R.color.app_bg)
+                        .titleColorRes(R.color.textColor_lighter)
+                        .positiveColorRes(R.color.colorPrimary)
+                        .negativeColorRes(R.color.colorPrimaryDark)
+                        .dividerColorRes(R.color.textColor_lighter)
+                        .show();
+            } else {
+
         String uid = UUID.randomUUID().toString();
         Ticket newTicket = new Ticket(UserSingleton.getInstance().getUserID(), this.ticketPhone.getText().toString(), this.ticketAddress.getText().toString(), uid, selectedCompany.getCompanyId(),
                 this.selectedProduct, this.selectedCategory, this.selectedRegion, this.descriptionShort.getText().toString(), this.descriptionLong.getText().toString(),
@@ -250,7 +307,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         newTicket.updateTicketStateString(TicketStateStringable.STATE_A01, newTicket);
         Toast.makeText(getContext(), "Success opening ticket " + newTicket.getTicketNumber(), Toast.LENGTH_LONG).show();
         ((HomeScreen) getActivity()).onDrawerItemSelected(view, 0);
-    }
+    }}}
 
     @Override
     public void companyListCallback(List<Company> companies) {

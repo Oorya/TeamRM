@@ -12,4 +12,6 @@ public interface TicketStatus {
     String ticketCanceled = "התקלה בוטלה";
     String timeIsOver = "עבר זמן טיפול";
     String pendingOrderedTech = "ממתין לציוות טכנאי";
+
 }
+

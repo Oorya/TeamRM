@@ -1,5 +1,7 @@
 package com.teamrm.teamrm.Type;
 
+import com.teamrm.teamrm.Interfaces.TicketStateStringable;
+
 import java.util.ArrayList;
 
 /**
@@ -70,6 +72,52 @@ public class TicketLite {
         //this.techAvatar=ticket.
 
         this.ticketPresentation = ticket.getTicketPresentation();
+    }
+
+    public Integer getUrgency() {
+        Integer urgency;
+
+        switch (this.ticketStateString) {
+            case TicketStateStringable.STATE_A00:
+            case TicketStateStringable.STATE_A01:
+            case TicketStateStringable.STATE_E03:
+            case TicketStateStringable.STATE_E05:
+            case TicketStateStringable.STATE_E07:
+                urgency = 0;
+                break;
+
+            case TicketStateStringable.STATE_E06:
+            case TicketStateStringable.STATE_E02:
+            case TicketStateStringable.STATE_A02CN:
+                urgency = 1;
+                break;
+
+            case TicketStateStringable.STATE_E04:
+                urgency = 2;
+                break;
+
+            case TicketStateStringable.STATE_B01:
+            case TicketStateStringable.STATE_A03:
+            case TicketStateStringable.STATE_B02:
+            case TicketStateStringable.STATE_B03:
+            case TicketStateStringable.STATE_C01:
+            case TicketStateStringable.STATE_C02:
+                urgency = 3;
+                break;
+
+            case TicketStateStringable.STATE_E00:
+                urgency = 4;
+                break;
+
+            case TicketStateStringable.STATE_E01:
+            case TicketStateStringable.STATE_Z00:
+                urgency = 99;
+                break;
+
+            default:
+                urgency = 0;
+        }
+        return urgency;
     }
 
     public String getClientNameString() {

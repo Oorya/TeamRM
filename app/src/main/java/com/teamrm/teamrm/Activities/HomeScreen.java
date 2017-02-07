@@ -80,29 +80,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         setTitle(getResources().getStringArray(R.array.nav_list)[0]);
 
 
-        /*addTicket.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Click action
-                fragmentTransaction = fragmentManager.beginTransaction();
-                NewTicket newTicket = new NewTicket();
-                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-                fragmentTransaction.replace(R.id.container_body,  newTicket).addToBackStack(TAG_FRAGMENT[0]).commit();
-                setTitle(getResources().getStringArray(R.array.nav_list)[1]);
-                addTicket.hide();
-            }
-        });
-
-*/
-
     }
-  /*  public void btnaddTicketGon()
-    {
-        addTicket.hide();
-
-    }
-*/
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults) {
@@ -162,43 +140,37 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 fragmentTransaction.replace(R.id.container_body, ticketList).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[0]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
-
-                //addTicket.show();
                 break;
+
             case 1:
                 NewTicket ticket = new NewTicket();
                 fragmentTransaction.replace(R.id.container_body, ticket).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[1]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
-
-                //addTicket.hide();
                 break;
+
             case 2:
                 Log.d("droeswech","case2");
-
                 CalendarView calendarView = new CalendarView();
                 fragmentTransaction.replace(R.id.container_body, calendarView).addToBackStack(TAG_FRAGMENT[1]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[2]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.GONE);
-                //addTicket.hide();
                 break;
+
             case 3:
                 AdminSettingsBasic adminSettingsBasic = new AdminSettingsBasic();
                 fragmentTransaction.replace(R.id.container_body, adminSettingsBasic).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[3]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
-
-                //addTicket.hide();
-
                 break;
+
             case 4:
                 AdminSettingsAdvanced adminSettingsAdvanced = new AdminSettingsAdvanced();
                 fragmentTransaction.replace(R.id.container_body, adminSettingsAdvanced).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[4]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
-
-                //addTicket.hide();
                 break;
+
             case 5:
                 signOut();
                 break;
@@ -251,5 +223,9 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     @Override
     public void onConnectionFailed( ConnectionResult connectionResult) {
 
+    }
+
+    public Context getContext(){
+        return this.context;
     }
 }

@@ -141,7 +141,7 @@
     <string name="label_address">כתובת:</string>
     <string name="label_post_address">כתובת דאר:</string>
     <string name="label_region">אזור:</string>
-    <string name="label_mail">כתובת דוא"ל:</string>
+    <string name="label_mail">כתובת דוא\"ל:</string>
     <string name="label_calendar">לוח שנה משוייך:</string>
     <string name="label_phone_number">מס\' טלפון:</string>
     <string name="label_tech_regions">אזורי שירות:</string>
@@ -167,6 +167,13 @@
     <string name="label_no_content">ל\"ת</string>
     <string name="label_description_section">תוכן הקריאה</string>
     <string name="label_no_assigned_tech">אין טכנאי מצוות</string>
+    <string name="label_button_copy_from_contact">העתק פרטים מאיש קשר קיים</string>
+    <string name="label_tech_name">שם הטכנאי:</string>
+    <string name="label_tech_nickname">כינוי במערכת:</string>
+    <string name="label_enter_google_mail_only">ניתן להשתמש בכתובת Gmail או דומיין Google Suit בלבד</string>
+    <string name="label_dialog_save_user_detail">עדכון פרטי משתמש</string>
+    <string name="label_save_user_address">לשמור את הכתובת הרשומה בפרטי המשתמש?</string>
+    <string name="label_save_user_phone">לשמור את הטלפון הרשום בפרטי המשתמש?</string>
 
     <!--/labels-->
 

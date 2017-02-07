@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/btnEditTechnician"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:layoutDirection="rtl"
+            app:cardBackgroundColor="@color/listRow_alt"
+            app:cardCornerRadius="@dimen/card_button_radius_default"
+            app:cardUseCompatPadding="false">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="4dp"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp">
+
+                <ImageView
+                    android:id="@+id/userIconBtn"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_icon_person" />
+
+                <TextView
+                    android:id="@+id/userProfileLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/userIconBtn"
+                    android:text="@string/label_button_copy_from_contact"
+                    android:textColor="@color/textColor_primary" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/technicianMail"
+        style="@style/CardRow">
+
+        <ImageView
+            android:id="@+id/technicianMailIcon"
+            style="@style/CardRowImageStart"
+            android:src="@drawable/ic_icon_mail" />
+
+        <TextView
+            android:id="@+id/technicianMailLabel"
+            style="@style/CardRowLabel"
+            android:layout_toEndOf="@id/technicianMailIcon"
+            android:text="@string/label_mail" />
+
+        <EditText
+            android:id="@+id/technicianMailText"
+            style="@style/CardRowEditText"
+            android:layout_toEndOf="@id/technicianMailLabel"
+            android:hint="write email"
+            android:minEms="20"
+            android:text=""
+            android:inputType="textEmailAddress"
+            android:gravity="center_horizontal"
+            android:textAlignment="center"
+            android:textSize="18dp"
+            />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/alertIcon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_icon_alert2"
+            android:tint="@color/icon_gray" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/alertIcon"
+            android:textColor="@color/icon_gray"
+            android:textSize="13sp"
+            android:text="@string/label_enter_google_mail_only" />
+    </RelativeLayout>
+
+    <View
+        style="@style/Separator1px"
+        android:layout_height="1dp" />
+
+    <RelativeLayout
+        android:id="@+id/tecAvatarNameSection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
+        android:background="@color/listRow_alt">
+
+        <ImageView
+            android:id="@+id/techAvatar"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_alignParentStart="true"
+            android:alpha="0.12"
+            android:src="@drawable/ic_icon_tech" />
+
+        <RelativeLayout
+            android:id="@+id/technicianName"
+            style="@style/CardRow"
+            android:layout_height="45dp"
+            android:layout_toEndOf="@id/techAvatar"
+            android:paddingStart="4dp">
+
+            <ImageView
+                android:id="@+id/technicianNameIcon"
+                style="@style/CardRowImageStart"
+                android:src="@drawable/ic_icon_person" />
+
+            <TextView
+                android:id="@+id/technicianNameLabel"
+                style="@style/CardRowLabel"
+                android:layout_toEndOf="@id/technicianNameIcon"
+                android:text="@string/label_tech_name" />
+
+            <EditText
+                android:id="@+id/technicianNameText"
+                style="@style/CardRowEditText"
+                android:layout_toEndOf="@id/technicianNameLabel"
+                android:ems="20"
+                android:paddingStart="4dp"
+                android:text=""
+                tools:text="שם הטכנאי" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/technicianNick"
+            style="@style/CardRow"
+            android:layout_height="45dp"
+            android:layout_below="@id/technicianName"
+            android:layout_toEndOf="@id/techAvatar"
+            android:paddingStart="4dp">
+
+            <ImageView
+                android:id="@+id/technicianNickIcon"
+                style="@style/CardRowImageStart"
+                android:src="@drawable/ic_icon_tech" />
+
+            <TextView
+                android:id="@+id/technicianNickLabel"
+                style="@style/CardRowLabel"
+                android:layout_toEndOf="@id/technicianNickIcon"
+                android:text="@string/label_tech_nickname" />
+
+            <EditText
+                android:id="@+id/technicianNickText"
+                style="@style/CardRowEditText"
+                android:layout_toEndOf="@id/technicianNickLabel"
+                android:ems="20"
+                android:paddingStart="4dp"
+                android:text=""
+                tools:text="שם הטכנאי" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <View
+        style="@style/Separator1px"
+        android:layout_height="1dp" />
+
+
+    <!--<RelativeLayout
+        android:id="@+id/technicianNameButton"
+        style="@style/CardRowImageEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/technicianNameButtonImg"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_copy" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/technicianNameButtonImg"
+            android:textColor="@color/icon_gray"
+            android:textSize="14sp"
+            tools:text="העתק מחשבון גוגל" />
+    </RelativeLayout>-->
+
+    <RelativeLayout
+        android:id="@+id/technicianPhone"
+        style="@style/CardRow">
+
+        <ImageView
+            android:id="@+id/technicianPhoneIcon"
+            style="@style/CardRowImageStart"
+            android:src="@drawable/ic_icon_phone" />
+
+        <TextView
+            android:id="@+id/technicianPhoneLabel"
+            style="@style/CardRowLabel"
+            android:layout_toEndOf="@id/technicianPhoneIcon"
+            android:text="@string/label_phone_number" />
+
+        <TextView
+            android:id="@+id/technicianPhoneText"
+            style="@style/CardRowText"
+            android:layout_toEndOf="@id/technicianPhoneLabel"
+            android:text=""
+            tools:text="0545-123-456" />
+
+        <ImageView
+            android:id="@+id/technicianPhoneButton"
+            style="@style/CardRowImageEnd"
+            android:src="@drawable/ic_call_24px" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/technicianCalendar"
+        style="@style/CardRow">
+
+        <ImageView
+            android:id="@+id/technicianCalendarIcon"
+            style="@style/CardRowImageStart"
+            android:src="@drawable/ic_perm_contact_calendar" />
+
+        <TextView
+            android:id="@+id/technicianCalendarLabel"
+            style="@style/CardRowLabel"
+            android:layout_toEndOf="@id/technicianCalendarIcon"
+            android:text="@string/label_calendar" />
+
+        <TextView
+            android:id="@+id/technicianCalendarText"
+            style="@style/CardRowText"
+            android:layout_toEndOf="@id/technicianCalendarLabel"
+            android:text=""
+            tools:text="לוח שנה 1" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/technicianColor"
+        style="@style/CardRow">
+
+        <ImageView
+            android:id="@+id/technicianColorIcon"
+            style="@style/CardRowImageStart"
+            android:src="@drawable/ic_palette" />
+
+        <TextView
+            android:id="@+id/technicianColorLabel"
+            style="@style/CardRowLabel"
+            android:layout_marginEnd="8dp"
+            android:layout_toEndOf="@id/technicianColorIcon"
+            android:text="@string/label_calendar_color" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/technicianColorView"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/technicianColorLabel"
+            app:cardBackgroundColor="#0f0"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="@dimen/item_elevation_default"
+            app:cardUseCompatPadding="false">
+
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/technicianShifts"
+        style="@style/CardRow">
+
+        <ImageView
+            android:id="@+id/technicianShiftsIcon"
+            style="@style/CardRowImageStart"
+            android:src="@drawable/ic_shifts" />
+
+        <TextView
+            android:id="@+id/technicianShiftsLabel"
+            style="@style/CardRowLabel"
+            android:layout_toEndOf="@id/technicianShiftsIcon"
+            android:text="@string/label_tech_shifts" />
+
+        <TextView
+            android:id="@+id/technicianShiftsText"
+            style="@style/CardRowText"
+            android:layout_toEndOf="@id/technicianShiftsLabel"
+            android:text=""
+            tools:text="כל היום" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/technicianAssignedRegions"
+        style="@style/CardRow">
+
+        <ImageView
+            android:id="@+id/technicianAssignedRegionsIcon"
+            style="@style/CardRowImageStart"
+            android:src="@drawable/ic_region_new" />
+
+        <TextView
+            android:id="@+id/technicianAssignedRegionsLabel"
+            style="@style/CardRowLabel"
+            android:layout_toEndOf="@id/technicianAssignedRegionsIcon"
+            android:text="@string/label_tech_regions" />
+
+        <TextView
+            android:id="@+id/technicianAssignedRegionsText"
+            style="@style/CardRowText"
+            android:layout_toEndOf="@id/technicianAssignedRegionsLabel"
+            android:text=""
+            tools:text="כל האזורים" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/technicianAddress"
+        style="@style/CardRow">
+
+        <ImageView
+            android:id="@+id/technicianAddressIcon"
+            style="@style/CardRowImageStart"
+            android:src="@drawable/ic_icon_location" />
+
+        <TextView
+            android:id="@+id/technicianAddressLabel"
+            style="@style/CardRowLabel"
+            android:layout_toEndOf="@id/technicianAddressIcon"
+            android:text="@string/label_post_address" />
+
+        <TextView
+            android:id="@+id/technicianAddressText"
+            style="@style/CardRowText"
+            android:layout_toEndOf="@id/technicianAddressLabel"
+            android:text=""
+            tools:text="רחוב שומשום 666" />
+
+
+        <ImageView
+            android:id="@+id/technicianAddressButton"
+            style="@style/CardRowImageEnd"
+            android:src="@drawable/ic_icon_nav" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>
+
+

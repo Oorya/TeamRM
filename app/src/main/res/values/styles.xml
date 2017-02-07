@@ -92,6 +92,9 @@
         <item name="android:textColor">@color/textColor_primary</item>
         <item name="android:textColorHint">@color/textColor_lighter</item>
         <item name="android:textDirection">firstStrong</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:background">@drawable/edittext_bg</item>
     </style>
 
     <style name="RegularRowItem.Spinner">
@@ -114,7 +117,7 @@
     <style name="CardRowImageStart">
         <item name="android:layout_height">24dp</item>
         <item name="android:layout_width">24dp</item>
-        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
         <item name="android:layout_centerVertical">true</item>
     </style>
 
@@ -132,7 +135,7 @@
         <item name="android:layout_centerVertical">true</item>
         <item name="android:textSize">14sp</item>
         <item name="android:paddingEnd">8dp</item>
-        <item name="android:textColor">@color/textColor_primary</item>
+        <item name="android:textColor">@color/textColor_lighter</item>
     </style>
 
     <style name="CardRowText">
@@ -141,6 +144,17 @@
         <item name="android:layout_centerVertical">true</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/textColor_primary</item>
+    </style>
+
+    <style name="CardRowEditText">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/textColor_primary</item>
+        <item name="android:background">@drawable/edittext_bg</item>
     </style>
 
     <style name="PrefRowBig">
