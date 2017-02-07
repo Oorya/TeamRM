@@ -111,7 +111,7 @@ public class TicketLite {
 
             case TicketStateStringable.STATE_E01:
             case TicketStateStringable.STATE_Z00:
-                urgency = 99;
+                urgency = 5;
                 break;
 
             default:

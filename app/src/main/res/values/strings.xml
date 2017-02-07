@@ -103,6 +103,13 @@
         <item>הגדרות</item>
         <item>התנתק/החלף משתמש</item>
     </string-array>
+    <string-array name="dialog_filter_list">
+        <item>סינון1</item>
+        <item>סינון2</item>
+        <item>סינון3</item>
+        <item>סינון4</item>
+        <item>סינון5</item>
+    </string-array>
 
 
     <string name="userEmail">Email</string>

@@ -65,6 +65,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
         if(ticketLiteList!=null)
         ticketLiteList.clear();
         ticketLiteList.addAll(TicketLite.getTicketLiteList());
+        orderList(ticketLiteList);
         Log.d("tiket", "onStart: "+TicketLite.getTicketLiteList().size());
         if(Ticket.getTicketList()!=null)
         Log.d("tiket", "onStart: "+Ticket.getTicketList().size());
@@ -72,7 +73,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
@@ -97,9 +98,11 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
         mRecyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView);
         mRecyclerView.setLayoutManager(recyclerViewManager);
 
-        orderList();
+
         ticketListAdapter = new TicketListAdapter(getContext(), ticketLiteList);
         mRecyclerView.setAdapter(ticketListAdapter);
+
+
 
 
         //mRecyclerView.setAdapter(ticketListAdapter);
@@ -151,31 +154,22 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
             case R.id.filter:
             {
 
-                final CharSequence[] items = {TicketStatus.pendingOrderedTech,
-                        TicketStatus.ticketApproval,
-                        TicketStatus.ticketCanceled,
-                        TicketStatus.ticketClosed,
-                        TicketStatus.timeIsOver,
-                        TicketStatus.waitForApproval};
-                final ArrayList<String> selectedItems=new ArrayList();
-
                 new MaterialDialog.Builder(getContext())
                         .title(R.string.label_ticket_filter)
-                        .items(items)
+                        .items(R.array.dialog_filter_list)
                         .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
                             @Override
                             public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
 
+                                ArrayList<TicketLite> temp = new ArrayList<>();
                                 for (Integer item : which)
                                 {
-                                    selectedItems.add((String)items[item]);
-                                    Log.d("item", items[item]+"");
-                                    Log.d("item", selectedItems.get(selectedItems.size()-1)+"");
-                                    orderList();
-                                  ticketListAdapter.notifyDataSetChanged();
+                                    temp.addAll(filterList(item));
 
 
                                 }
+                                ticketListAdapter = new TicketListAdapter(getContext(), orderList(temp));
+                                mRecyclerView.setAdapter(ticketListAdapter);
                                 return true;
                             }
                         })
@@ -203,9 +197,21 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
             }
         }
     }
-    private void orderList()
+    private List<TicketLite> filterList(Integer which)
     {
-        Collections.sort(ticketLiteList, new Comparator<TicketLite>() {
+        ArrayList<TicketLite> temp = new ArrayList<>();
+        for (TicketLite item:ticketLiteList)
+        {
+            if (item.getUrgency()==which){
+                temp.add(item);
+            }
+        }
+        return temp;
+
+    }
+    private List<TicketLite> orderList(List<TicketLite> temp)
+    {
+        Collections.sort(temp, new Comparator<TicketLite>() {
             @Override
             public int compare(TicketLite o1, TicketLite o2) {
                 Integer iInteger1 = new Integer(o1.getTicketPresentation());
@@ -215,8 +221,9 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
                 return iInteger1.compareTo(iInteger2);
             }
         });
+        Log.d("orderList", "orderList: ");
 
-
+        return temp;
     }
 
     @Override
