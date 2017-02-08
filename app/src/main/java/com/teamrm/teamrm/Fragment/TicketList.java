@@ -41,9 +41,14 @@ import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -94,6 +99,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
         searchView = (SearchView)view.findViewById(R.id.searchView);
         filter.setOnClickListener(this);
         search.setOnClickListener(this);
+        order.setOnClickListener(this);
 
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -241,6 +247,10 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
             }
             case R.id.sort:
             {
+                Toast.makeText(getContext(),"sort",Toast.LENGTH_LONG).show();
+                ticketListAdapter = new TicketListAdapter(getContext(), sortList(ticketLiteList));
+                mRecyclerView.setAdapter(ticketListAdapter);
+
                 break;
             }
         }
@@ -257,6 +267,34 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
         return temp;
 
     }
+    private List<TicketLite> sortList(List<TicketLite> temp)
+    {
+        Collections.sort(temp, new Comparator<TicketLite>() {
+            @Override
+            public int compare(TicketLite o1, TicketLite o2) {
+                Date date1= Calendar.getInstance().getTime();
+                Date date2 = Calendar.getInstance().getTime();
+                String pattern = "HH:mm:ss dd/MM/yyyy";
+
+                DateFormat format = new SimpleDateFormat(pattern);
+                try {
+                     date1 = format.parse(o1.getTicketOpenDateTime().replace("-",""));
+                     date2 = format.parse(o2.getTicketOpenDateTime().replace("-",""));
+                } catch (ParseException e) {
+                    Log.d("orderList", e.toString());
+                }
+                Log.d("orderList", (date1.getTime()>date2.getTime()?1:-1)+"");
+                return date1.getTime()>date2.getTime()?1:-1;
+                //return date2.getTime()<date1.getTime()?1:-1;
+            }
+        });
+        Log.d("orderList", "orderList: ");
+
+        return temp;
+    }
+
+
+
     private List<TicketLite> orderList(List<TicketLite> temp)
     {
         Collections.sort(temp, new Comparator<TicketLite>() {
@@ -324,48 +362,55 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
         List<TicketLite> tempticketLiteList = new ArrayList<>();
         for (TicketLite ticketLiteItem : ticketLiteList)
         {
-            if (ticketLiteItem.getCategoryName().equals(Query))
+            if (ticketLiteItem.getCategoryName()!=null&&ticketLiteItem.getCategoryName().equals(Query))
             {
                 tempticketLiteList.add(ticketLiteItem);
-           // }else if (ticketLiteItem.getTechNameString().equals(Query))
-           // {
-           //     tempticketLiteList.add(ticketLiteItem);
-            }else if (ticketLiteItem.getDescriptionLong().equals(Query))
+            }else if (ticketLiteItem.getTechNameString()!=null&&ticketLiteItem.getTechNameString().equals(Query))
             {
                 tempticketLiteList.add(ticketLiteItem);
-            }else if (ticketLiteItem.getDescriptionShort().equals(Query))
+            }else if (ticketLiteItem.getDescriptionLong()!=null&&ticketLiteItem.getDescriptionLong().equals(Query))
             {
                 tempticketLiteList.add(ticketLiteItem);
-            }else if (ticketLiteItem.getCategoryName().equals(Query))
+            }else if (ticketLiteItem.getDescriptionShort()!=null&&ticketLiteItem.getDescriptionShort().equals(Query))
             {
                 tempticketLiteList.add(ticketLiteItem);
-            }else if (ticketLiteItem.getClientNameString().equals(Query))
+            }else if (ticketLiteItem.getCategoryName()!=null&&ticketLiteItem.getCategoryName().equals(Query))
             {
                 tempticketLiteList.add(ticketLiteItem);
-            }else if (ticketLiteItem.getProductName().equals(Query))
+            }else if (ticketLiteItem.getClientNameString()!=null&&ticketLiteItem.getClientNameString().equals(Query))
             {
                 tempticketLiteList.add(ticketLiteItem);
-            }else if (ticketLiteItem.getRegionName().equals(Query))
+            }else if (ticketLiteItem.getProductName()!=null&&ticketLiteItem.getProductName().equals(Query))
             {
                 tempticketLiteList.add(ticketLiteItem);
-            }else if (ticketLiteItem.getTicketAddress().equals(Query))
+            }else if (ticketLiteItem.getRegionName()!=null&&ticketLiteItem.getRegionName().equals(Query))
             {
                 tempticketLiteList.add(ticketLiteItem);
-            }else if (ticketLiteItem.getTicketID().equals(Query))
+            }else if (ticketLiteItem.getTicketAddress()!=null&&ticketLiteItem.getTicketAddress().equals(Query))
             {
                 tempticketLiteList.add(ticketLiteItem);
-            //}
-            //else if (ticketLiteItem.getTicketCloseDateTime().equals(Query))
-            //{
-            //    tempticketLiteList.add(ticketLiteItem);
-            }else if (ticketLiteItem.getTicketNumber().equals(Query))
+            }else if (ticketLiteItem.getTicketID()!=null&&ticketLiteItem.getTicketID().equals(Query))
             {
                 tempticketLiteList.add(ticketLiteItem);
             }
-            //else if (ticketLiteItem.getTicketOpenDateTime().equals(Query))
-           // {
-            //    tempticketLiteList.add(ticketLiteItem);
-           // }
+            else if (ticketLiteItem.getTicketCloseDateTime()!=null&&ticketLiteItem.getTicketCloseDateTime().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getTicketNumber()!=null&&ticketLiteItem.getTicketNumber().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }
+            else if (ticketLiteItem.getTicketOpenDateTime()!=null&&ticketLiteItem.getTicketOpenDateTime().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }
+            else if (ticketLiteItem.getCompanyName()!=null&&ticketLiteItem.getCompanyName().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getTicketStateString()!=null&&ticketLiteItem.getTicketStateString().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }
         }
         ticketListAdapter = new TicketListAdapter(getContext(), tempticketLiteList);
         mRecyclerView.setAdapter(ticketListAdapter);
