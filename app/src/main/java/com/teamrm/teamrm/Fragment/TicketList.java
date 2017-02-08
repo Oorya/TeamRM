@@ -2,6 +2,7 @@ package com.teamrm.teamrm.Fragment;
 
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,11 +14,13 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,12 +52,16 @@ import java.util.List;
 public class TicketList extends Fragment implements FireBaseAble,View.OnClickListener{
 
     public RecyclerView mRecyclerView;
+    private SearchView searchView;
+    private String searchViewQuery;
     private List<TicketLite> ticketLiteList = new ArrayList<>();
     private TicketListAdapter ticketListAdapter;
-    private TextView title, filter, search, order;
+    private LinearLayout title, filter, search, order;
     private SwipeRefreshLayout swipeContainer;
     FloatingActionButton floatBtn;
     private AlertDialog chekDialog;
+
+
 
     public TicketList() {
     }
@@ -81,10 +88,45 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
 
         Typeface SEMI_BOLD = Typeface.createFromAsset(this.getContext().getAssets(), "Assistant-SemiBold.ttf");
 
-        LinearLayout filter = (LinearLayout) view.findViewById(R.id.filter);
-        search = (TextView) view.findViewById(R.id.searchTxt);
-        order = (TextView) view.findViewById(R.id.sortimgTxt);
+        filter = (LinearLayout) view.findViewById(R.id.filter);
+        search = (LinearLayout) view.findViewById(R.id.search);
+        order = (LinearLayout) view.findViewById(R.id.sort);
+        searchView = (SearchView)view.findViewById(R.id.searchView);
         filter.setOnClickListener(this);
+        search.setOnClickListener(this);
+
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+
+                Toast.makeText(getContext(),query,Toast.LENGTH_LONG).show();
+                searchView.setVisibility(View.GONE);
+                filter.setVisibility(View.VISIBLE);
+                order.setVisibility(View.VISIBLE);
+                search.setVisibility(View.VISIBLE);
+                sortByQuery(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+
+        });
+        ImageView closeButton = (ImageView)searchView.findViewById(R.id.search_close_btn);
+
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.setVisibility(View.GONE);
+                filter.setVisibility(View.VISIBLE);
+                order.setVisibility(View.VISIBLE);
+                search.setVisibility(View.VISIBLE);
+
+            }
+        });
 
         //((TextView)view.findViewById(R.id.titleText)).setTypeface(BOLD);
         ((TextView) view.findViewById(R.id.filtertxt)).setTypeface(SEMI_BOLD);
@@ -147,6 +189,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
         return view;
     }
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId())
@@ -189,6 +232,11 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
             }
             case R.id.search:
             {
+                searchView.setVisibility(View.VISIBLE);
+                filter.setVisibility(View.GONE);
+                order.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
+
                 break;
             }
             case R.id.sort:
@@ -270,5 +318,56 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
     @Override
     public void regionListCallback(List<Region> regions) {
 
+    }
+    private void sortByQuery(String Query)
+    {
+        List<TicketLite> tempticketLiteList = new ArrayList<>();
+        for (TicketLite ticketLiteItem : ticketLiteList)
+        {
+            if (ticketLiteItem.getCategoryName().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+           // }else if (ticketLiteItem.getTechNameString().equals(Query))
+           // {
+           //     tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getDescriptionLong().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getDescriptionShort().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getCategoryName().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getClientNameString().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getProductName().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getRegionName().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getTicketAddress().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getTicketID().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            //}
+            //else if (ticketLiteItem.getTicketCloseDateTime().equals(Query))
+            //{
+            //    tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getTicketNumber().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }
+            //else if (ticketLiteItem.getTicketOpenDateTime().equals(Query))
+           // {
+            //    tempticketLiteList.add(ticketLiteItem);
+           // }
+        }
+        ticketListAdapter = new TicketListAdapter(getContext(), tempticketLiteList);
+        mRecyclerView.setAdapter(ticketListAdapter);
     }
 }
