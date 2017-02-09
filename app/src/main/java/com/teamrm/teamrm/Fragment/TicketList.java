@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -56,6 +57,7 @@ import java.util.List;
  */
 public class TicketList extends Fragment implements FireBaseAble,View.OnClickListener{
 
+    private static boolean isSort;
     public RecyclerView mRecyclerView;
     private SearchView searchView;
     private String searchViewQuery;
@@ -65,7 +67,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
     private SwipeRefreshLayout swipeContainer;
     FloatingActionButton floatBtn;
     private AlertDialog chekDialog;
-
+    private TextView ordertext;
 
 
     public TicketList() {
@@ -96,7 +98,11 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
         filter = (LinearLayout) view.findViewById(R.id.filter);
         search = (LinearLayout) view.findViewById(R.id.search);
         order = (LinearLayout) view.findViewById(R.id.sort);
+        ordertext = (TextView)view.findViewById(R.id.sortimgTxt);
         searchView = (SearchView)view.findViewById(R.id.searchView);
+        EditText searchEditText = (EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchEditText.setTextColor(getResources().getColor(R.color.textColor_primary));
+
         filter.setOnClickListener(this);
         search.setOnClickListener(this);
         order.setOnClickListener(this);
@@ -247,9 +253,11 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
             }
             case R.id.sort:
             {
+
                 Toast.makeText(getContext(),"sort",Toast.LENGTH_LONG).show();
                 ticketListAdapter = new TicketListAdapter(getContext(), sortList(ticketLiteList));
                 mRecyclerView.setAdapter(ticketListAdapter);
+
 
                 break;
             }
@@ -267,7 +275,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
         return temp;
 
     }
-    private List<TicketLite> sortList(List<TicketLite> temp)
+    private List<TicketLite> sortList(final List<TicketLite> temp)
     {
         Collections.sort(temp, new Comparator<TicketLite>() {
             @Override
@@ -283,13 +291,24 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
                 } catch (ParseException e) {
                     Log.d("orderList", e.toString());
                 }
-                Log.d("orderList", (date1.getTime()>date2.getTime()?1:-1)+"");
-                return date1.getTime()>date2.getTime()?1:-1;
-                //return date2.getTime()<date1.getTime()?1:-1;
+                if(TicketList.isSort) {
+                    return date1.getTime() > date2.getTime() ? 1 : -1;
+                }else
+                {
+                    return date1.getTime() < date2.getTime() ? 1 : -1;
+                }
             }
         });
         Log.d("orderList", "orderList: ");
 
+        if(TicketList.isSort) {
+            ordertext.setText("סדר מחדש לישן");
+            TicketList.isSort = false;
+        }
+        else {
+            ordertext.setText("סדר מישן לחדש");
+            TicketList.isSort = true;
+        }
         return temp;
     }
 
@@ -302,13 +321,9 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
             public int compare(TicketLite o1, TicketLite o2) {
                 Integer iInteger1 = new Integer(o1.getTicketPresentation());
                 Integer iInteger2 = new Integer(o2.getTicketPresentation());
-
-
                 return iInteger1.compareTo(iInteger2);
             }
         });
-        Log.d("orderList", "orderList: ");
-
         return temp;
     }
 
