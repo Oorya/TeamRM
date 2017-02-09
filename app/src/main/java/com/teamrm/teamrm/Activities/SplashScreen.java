@@ -251,11 +251,12 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
 
-                        new NiceToast(context, "Signed in as:\n" + task.getResult().getUser().getDisplayName() + "\n" + task.getResult().getUser().getEmail(), NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
+                        new NiceToast(context, "FireBase\nSigned in as:\n" + task.getResult().getUser().getDisplayName() + "\n" + task.getResult().getUser().getEmail(), NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
                         UserSingleton.init(task.getResult().getUser()); //LOGIN STAGE 4 -> init the UserSingleton with FireBase-authenticated user
 
                         Log.w("EMAIL", UserSingleton.getInstance().getUserEmail() + " == ");
-                        startActivity(new Intent(context, HomeScreen.class));
+                            startActivity(new Intent(context, HomeScreen.class));
+
                         //getTicketList();
 
                         if (!task.isSuccessful()) {

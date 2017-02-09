@@ -22,7 +22,7 @@ public class Client extends Users implements GenericKeyValueTypeable,FireBaseAbl
 
     public Client(String clientID, String userNameString, String userEmail, @Nullable String userPhone, @Nullable String userAddress) {
         super(clientID, userNameString, userEmail);
-        UtlFirebase.getAllClientCompanies(this);
+        //UtlFirebase.getAllClientCompanies(this);
     }
 
     @Override

@@ -31,6 +31,7 @@ public class UserSingleton extends Users{
     public static final String LOGINTAG = ":::LOGIN_SEQUENCE:::";
     private static Users instance = null;
     private static final String TAG = "USER_SINGLETON";
+    public static boolean initDone = false;
 
     private UserSingleton() {}
 
@@ -59,6 +60,7 @@ public class UserSingleton extends Users{
             @Override
             public void resultUser(Users user) {
                 instance = user;
+                Log.d(LOGINTAG, "Final stage, instance initialized as "+user.getUserEmail()+", "+user.getUserStatus());
                 UtlFirebase.getAllTicketLites(this);
             }
 
