@@ -27,6 +27,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.teamrm.teamrm.Adapter.TicketListAdapter;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.FragmentHelper;
+import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
 import com.teamrm.teamrm.Interfaces.TicketStatus;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Category;
@@ -253,7 +254,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
     }
 
     @Override
-    public void companyListCallback(List<Company> companies) {
+    public void companyListCallback(List<GenericKeyValueTypeable> companies) {
 
     }
 

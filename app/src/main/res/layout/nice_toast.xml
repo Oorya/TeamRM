@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/toastCard"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layoutDirection="rtl"
+    app:cardBackgroundColor="@color/status_ok"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="10dp"
+android:clipToPadding="false"
+    app:cardUseCompatPadding="true"
+    app:contentPadding="16dp"
+    android:alpha="0.75">
+
+    <RelativeLayout
+        android:id="@+id/toastBG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:id="@+id/toastIcon"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_info_outline"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="8dp"
+            />
+
+        <TextView
+            android:id="@+id/toastMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_toEndOf="@+id/toastIcon"
+            android:minHeight="35dp"
+            android:minWidth="120dp"
+            android:textSize="16sp"
+            android:textColor="#fff"
+            android:maxEms="16"
+            tools:text="kjhfkjf" />
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

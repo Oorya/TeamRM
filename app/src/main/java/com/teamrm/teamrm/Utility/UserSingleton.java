@@ -10,8 +10,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
+import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
+import com.teamrm.teamrm.Type.Category;
 import com.teamrm.teamrm.Type.Client;
+import com.teamrm.teamrm.Type.Product;
+import com.teamrm.teamrm.Type.Region;
+import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.Users;
+
+import java.util.List;
 
 
 /**
@@ -20,6 +28,7 @@ import com.teamrm.teamrm.Type.Users;
 
 public class UserSingleton extends Users{
 
+    public static final String LOGINTAG = ":::LOGIN_SEQUENCE:::";
     private static Users instance = null;
     private static final String TAG = "USER_SINGLETON";
 
@@ -38,41 +47,60 @@ public class UserSingleton extends Users{
         return instance;
     }
 
-    public static void init(final FirebaseUser firebaseUser, Object object)
+    public static void init(final FirebaseUser firebaseUser)
     {
-        final FireBaseAble fireBaseAble = (FireBaseAble) object;
-        //creating a reference to Users object
-        DatabaseReference myRef=FirebaseDatabase.getInstance().getReference("Users");
-
-        final Query q = myRef.orderByChild("userEmail").equalTo(firebaseUser.getEmail());
-        q.addListenerForSingleValueEvent(new ValueEventListener() {
+        Log.d(LOGINTAG, "Stage 4, init singleton with user from credentials "+firebaseUser.toString());
+        FireBaseAble fbHelper = new FireBaseAble() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.w(TAG, dataSnapshot.exists()+" ok ==LY");
-               if(!dataSnapshot.exists())
-               {
-                   instance = new Client(firebaseUser.getUid(),firebaseUser.getDisplayName(),firebaseUser.getEmail());
-                   Log.w(TAG, instance.getUserEmail()+" cons");
-                   UtlFirebase.addUser(instance);
-                   fireBaseAble.resultUser(instance);
-               }
-               else
-               {
-                   for(DataSnapshot item : dataSnapshot.getChildren())
-                   {
-                       instance = item.getValue(Client.class);
-                       fireBaseAble.resultUser(instance);
-                       Log.w(TAG, instance.getUserID()+"  FOR");
-                   }
-               }
-                UtlFirebase.stateListener("l","l","l");
-                q.removeEventListener(this);
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG," cancel==LY");
+            public void resultTicket(Ticket ticket) {
 
             }
-        });
+
+            @Override
+            public void resultUser(Users user) {
+                instance = user;
+                UtlFirebase.getAllTicketLites(this);
+            }
+
+            @Override
+            public void ticketListCallback(List<Ticket> tickets) {
+
+            }
+
+            @Override
+            public void ticketLiteListCallback(List<TicketLite> ticketLites) {
+                TicketLite.setTicketLiteList(ticketLites);
+            }
+
+            @Override
+            public void resultBoolean(boolean bool) {
+
+            }
+
+            @Override
+            public void companyListCallback(List<GenericKeyValueTypeable> companies) {
+
+            }
+
+            @Override
+            public void productListCallback(List<Product> products) {
+
+            }
+
+            @Override
+            public void categoryListCallback(List<Category> categories) {
+
+            }
+
+            @Override
+            public void regionListCallback(List<Region> regions) {
+
+            }
+        };
+        UtlFirebase.loginUser(firebaseUser, fbHelper);
+        //UtlFirebase.stateListener("l","l","l");//TODO:make it work
+            }
+
     }
-}
+
+

@@ -33,6 +33,7 @@ import com.teamrm.teamrm.Fragment.NewTicket;
 import com.teamrm.teamrm.Fragment.TicketList;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Utility.App;
+import com.teamrm.teamrm.Utility.UtlFirebase;
 
 
 public class HomeScreen extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener, GoogleApiClient.OnConnectionFailedListener {
@@ -54,6 +55,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+        UtlFirebase.setCurrentContext(this);
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
         context = this;

@@ -34,46 +34,50 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
+import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Category;
-import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.Product;
 import com.teamrm.teamrm.Type.Region;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.App;
+import com.teamrm.teamrm.Utility.NiceToast;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.teamrm.teamrm.Utility.UserSingleton.LOGINTAG;
+
 public class SplashScreen extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, FireBaseAble {
 
     ImageView iconWait;
     TextView loadingStatus;
+    private static final String TAG = "SplashScreen";
+    public static Context context;
+
     private static final String PREF_ACCOUNT_NAME = "accountName";
 
-    private GoogleSignInOptions gso;
     private static ArrayList<Ticket> tickets = new ArrayList<>();
-    private static ArrayList<TicketLite> ticketsLite = new ArrayList<>();
 
-    private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth firebaseAuth;
+
+    private GoogleSignInOptions gso;
+    public static GoogleSignInAccount acct;
+    private GoogleApiClient mGoogleApiClient;
+
     private static final int RC_SIGN_IN = 9001;
-    private static final String TAG = "MainActivity";
-    private ProgressDialog mProgressDialog;
-    public static Context context;
     public static String userImage;
     private SignInButton signInButton;
-    public static GoogleSignInAccount acct;
     public static boolean resume = false;
     private SharedPreferences prefUser;
     private SharedPreferences.Editor editorUser;
     private LinearLayout linearLayout;
     public final static int PERM_REQUEST_CODE_DRAW_OVERLAYS = 1234;
-
+    //private ProgressDialog mProgressDialog;
 
 
     @Override
@@ -81,26 +85,28 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         super.onCreate(savedInstanceState);
         // getSupportActionBar().hide();
         setContentView(R.layout.activity_splashscreen);
-        Log.d("splash", "onCreate rotateWaitingIcon: ");
+        UtlFirebase.setCurrentContext(this);
+        //Log.d("splash", "onCreate rotateWaitingIcon: ");
 
         rotateWaitingIcon();
         updateLoadingStatus("מכין אפליקציה לשימוש...");
-        Log.d("splash", "onCreate: ");
+        //Log.d("splash", "onCreate: ");
 
 
         // everything else that doesn't update UI
         permissionToDrawOverlays();
-        linearLayout = (LinearLayout)findViewById(R.id.load);
-        mGoogleApiClient= App.getGoogleApiHelper().getGoogleApiClient();
+        linearLayout = (LinearLayout) findViewById(R.id.load);
+
+        mGoogleApiClient = App.getGoogleApiHelper().getGoogleApiClient();
         gso = App.getGoogleApiHelper().getGso();
         firebaseAuth = FirebaseAuth.getInstance();
         signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_WIDE);
-        signInButton.setScopes(gso.getScopeArray());
+        //signInButton.setScopes(gso.getScopeArray()); //deprecated - not needed
         signInButton.setOnClickListener(this);
         signInButton.setVisibility(View.GONE);
 
-        context=this;
+        context = this;
 
 
     }
@@ -110,40 +116,42 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         super.onStart();
         Log.d("splash", "onStart: ");
 
-        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient); //LOGIN STAGE 1
+        Log.d(LOGINTAG, "Stage 1, checking Google login");
         if (opr.isDone()) {
             // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
             // and the GoogleSignInResult will be available instantly.
-            Log.d("splash", "Got cached sign-in");
+            Log.d(LOGINTAG, "Stage 1a, logging in with cached Google");
             GoogleSignInResult result = opr.get();
-            handleSignInResult(result);
+            handleSignInResult(result); //LOGIN STAGE 2 ->
             linearLayout.setVisibility(View.VISIBLE);
         } else {
             // If the user has not previously signed in on this device or the sign-in has expired,
             // this asynchronous branch will attempt to sign in the user silently.  Cross-device
             // single sign-on will occur in this branch.
-             // showProgressDialog();
+            // showProgressDialog();
             Log.d("splash", "else Got cached sign-in");
 
             opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                  @Override
-                 public void onResult(GoogleSignInResult googleSignInResult) {
-                     // hideProgressDialog();
-                      handleSignInResult(googleSignInResult);
-                  }
-               });
+                @Override
+                public void onResult(GoogleSignInResult googleSignInResult) {
+                    // hideProgressDialog();
+                    handleSignInResult(googleSignInResult); //LOGIN STAGE 2 ->
+                }
+            });
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
-        if (resume)
-        {
+        if (resume) {
             signInButton.setVisibility(View.VISIBLE);
             //linearLayout.setVisibility(View.GONE);
-            resume=false;
+            resume = false;
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -153,9 +161,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
-        }
-        else if(requestCode == PERM_REQUEST_CODE_DRAW_OVERLAYS)
-        {
+        } else if (requestCode == PERM_REQUEST_CODE_DRAW_OVERLAYS) {
             if (android.os.Build.VERSION.SDK_INT >= 23) {   //Android M Or Over
                 if (!Settings.canDrawOverlays(this)) {
                     // ADD UI FOR USER TO KNOW THAT UI for SYSTEM_ALERT_WINDOW permission was not granted earlier...
@@ -176,20 +182,18 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         loadingStatus.setText(newStatus);
     }
 
-    private void UpdateRecords()
-    {
+    private void UpdateRecords() {
     }
 
-    private int UserType()
-    {
+    private int UserType() {
         return 1;
     }
-    private boolean Connected()
-    {
+
+    private boolean Connected() {
         return true;
     }
-    private void stTicketList()
-    {
+
+    private void stTicketList() {
     }
 
     @Override
@@ -203,25 +207,26 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     }
 
     @Override
-    public void onConnectionFailed( ConnectionResult connectionResult) {
+    public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
+
     private void handleSignInResult(GoogleSignInResult result) {
 
         Log.d("splash", "handleSignInResult: ");
 
-
         if (result.isSuccess()) {
+            Log.d(LOGINTAG, "Stage 2, Google login OK");
             // Signed in successfully, show authenticated UI.
             acct = result.getSignInAccount();
-            firebaseAuthWithGoogle(acct);
+            firebaseAuthWithGoogle(acct); //LOGIN STAGE 3 ->
             SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = settings.edit();
             editor.putString(PREF_ACCOUNT_NAME, acct.getEmail());
             editor.apply();
 
-            userImage = acct.getPhotoUrl()==null?"":acct.getPhotoUrl().toString();
-            Log.w("IMAGE GOOGLE ACCOUNT", acct.getPhotoUrl()==null?"NULL":acct.getPhotoUrl().toString());
+            userImage = acct.getPhotoUrl() == null ? "" : acct.getPhotoUrl().toString();
+            Log.w("IMAGE GOOGLE ACCOUNT", acct.getPhotoUrl() == null ? "NULL" : acct.getPhotoUrl().toString());
 
             Log.d("splash", "handleSignInResult: ");
 
@@ -233,9 +238,9 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d("FIREBASE AUTH GOOGLE: ", "firebaseAuthWithGoogle:" + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        Log.d(LOGINTAG, "Stage 3, signing in to Firebase with user " + acct.getEmail());
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -246,17 +251,24 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
 
-                        UserSingleton.init(task.getResult().getUser() , SplashScreen.this);
-                        Log.w("EMAIL", UserSingleton.getInstance().getUserEmail()+" == ");
+                        new NiceToast(context, "Signed in as:\n" + task.getResult().getUser().getDisplayName() + "\n" + task.getResult().getUser().getEmail(), NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
+                        UserSingleton.init(task.getResult().getUser()); //LOGIN STAGE 4 -> init the UserSingleton with FireBase-authenticated user
+
+                        Log.w("EMAIL", UserSingleton.getInstance().getUserEmail() + " == ");
+                        startActivity(new Intent(context, HomeScreen.class));
+                        //getTicketList();
 
                         if (!task.isSuccessful()) {
                             Log.w("TASK FAILED: ", "signInWithCredential", task.getException());
-                            Toast.makeText(SplashScreen.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            new NiceToast(context, "Authentication failed", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG);
                         }
                         // ...
                     }
                 });
+    }
+
+    public void getTicketList() {
+        UtlFirebase.getAllTickets(this);
     }
 
     @Override
@@ -266,7 +278,6 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
     @Override
     public void resultUser(Users user) {
-        UtlFirebase.getAllTicketLites(this);
     }
 
     @Override
@@ -275,7 +286,6 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         tickets.addAll(ticket);
         Ticket.setTicketList(tickets);
         finish();
-
     }
 
     @Override
@@ -285,16 +295,12 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
     @Override
     public void ticketLiteListCallback(List<TicketLite> ticketLites) {
-        ticketsLite.clear();
-        ticketsLite.addAll(ticketLites);
-        TicketLite.setTicketLiteList(ticketsLite);
-        startActivity(new Intent(this,HomeScreen.class));
-        UtlFirebase.getAllTickets(this);
+
 
     }
 
     @Override
-    public void companyListCallback(List<Company> companies) {
+    public void companyListCallback(List<GenericKeyValueTypeable> companies) {
 
     }
 
@@ -312,6 +318,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     public void regionListCallback(List<Region> regions) {
 
     }
+
     public void permissionToDrawOverlays() {
         if (android.os.Build.VERSION.SDK_INT >= 23) {   //Android M Or Over
             if (!Settings.canDrawOverlays(this)) {

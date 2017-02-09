@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +18,10 @@ import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.teamrm.teamrm.Adapter.RegionAdapter;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
+import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Category;
-import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.Product;
-import com.teamrm.teamrm.Type.Region;
 import com.teamrm.teamrm.Type.Region;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
@@ -53,7 +51,7 @@ public class AdminSettingsDefineRegions extends Fragment implements FireBaseAble
     @Override
     public void onStart() {
         super.onStart();
-        UtlFirebase.getRegionsForEdit(UserSingleton.getInstance().getUserCompanyID(), this);
+        UtlFirebase.getRegionsForEdit(UserSingleton.getInstance().getAssignedCompanyID(), this);
     }
 
     @Override
@@ -94,7 +92,7 @@ public class AdminSettingsDefineRegions extends Fragment implements FireBaseAble
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                         Toast.makeText(getContext(),  input.toString(), Toast.LENGTH_SHORT).show();
-                        UtlFirebase.addRegion(UserSingleton.getInstance().getUserCompanyID(), input.toString());
+                        UtlFirebase.addRegion(UserSingleton.getInstance().getAssignedCompanyID(), input.toString());
                     }
                 })
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -143,7 +141,7 @@ public class AdminSettingsDefineRegions extends Fragment implements FireBaseAble
     }
 
     @Override
-    public void companyListCallback(List<Company> companies) {
+    public void companyListCallback(List<GenericKeyValueTypeable> companies) {
 
     }
 

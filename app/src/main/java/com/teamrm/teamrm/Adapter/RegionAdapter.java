@@ -62,7 +62,7 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.RegionHold
                             @Override
                             public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                                 Log.d(TAG, "updating region " + regionItem.getRegionName());
-                                UtlFirebase.updateRegion(UserSingleton.getInstance().getUserCompanyID(), regionItem, input.toString());
+                                UtlFirebase.updateRegion(UserSingleton.getInstance().getAssignedCompanyID(), regionItem, input.toString());
                             }
                         })
                         .positiveText(R.string.label_button_save)
@@ -98,7 +98,7 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionAdapter.RegionHold
                                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                                             @Override
                                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                                UtlFirebase.removeRegion(UserSingleton.getInstance().getUserCompanyID(), regionItem);
+                                                UtlFirebase.removeRegion(UserSingleton.getInstance().getAssignedCompanyID(), regionItem);
                                             }
                                         })
                                         .contentColorRes(R.color.textColor_primary)

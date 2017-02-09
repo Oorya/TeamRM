@@ -65,10 +65,10 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     GenericPrefListAdapter listProductAdapter;
     GenericPrefListAdapter listCategoryAdapter;
     GenericPrefListAdapter listRegionAdapter;
-    private ArrayList<GenericKeyValueTypeable> companiesList = new ArrayList<>();
-    private ArrayList<GenericKeyValueTypeable> productList = new ArrayList<>();
-    private ArrayList<GenericKeyValueTypeable> categoryList = new ArrayList<>();
-    private ArrayList<GenericKeyValueTypeable> regionList = new ArrayList<>();
+    private List<GenericKeyValueTypeable> companiesList = new ArrayList<>();
+    private List<GenericKeyValueTypeable> productList = new ArrayList<>();
+    private List<GenericKeyValueTypeable> categoryList = new ArrayList<>();
+    private List<GenericKeyValueTypeable> regionList = new ArrayList<>();
 
     private Button btnSubmitTicket;
     private SharedPreferences pref;
@@ -86,7 +86,16 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UtlFirebase.getAllCompanies(this); //TODO:should be getAllClientCompanies, change after redefining client<->company binding
+        switch (UserSingleton.getInstance().getUserStatus()){
+            case UserSingleton.STATUS_CLIENT:
+                UtlFirebase.getAllClientCompanies(this);
+                break;
+
+            case UserSingleton.STATUS_ADMIN:
+            case UserSingleton.STATUS_TECH:
+                UtlFirebase.getCurrentCompany(this);
+        }
+
 
     }
 
@@ -202,7 +211,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
             case R.id.selectCompanySpinner:
                 selectCompany.setSelection(position);
                 selectedCompany = (Company)selectCompany.getSelectedItem();
-                setSpinnerAdapters(position);
+                setSpinnerAdapters();
                 break;
             case R.id.selectProductSpinner:
             selectProduct.setSelection(position);
@@ -221,7 +230,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         }
     }
 
-    private void setSpinnerAdapters(int position) {
+    private void setSpinnerAdapters() {
         UtlFirebase.getProducts(selectedCompany.getCompanyId(), this);
         UtlFirebase.getCategories(selectedCompany.getCompanyId(), this);
         UtlFirebase.getRegions(selectedCompany.getCompanyId(), this);
@@ -276,7 +285,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
                             @Override
                             public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                                 Toast.makeText(getContext(),  input.toString(), Toast.LENGTH_SHORT).show();
-                                UtlFirebase.addCategory(UserSingleton.getInstance().getUserCompanyID(), input.toString());
+                                UtlFirebase.addCategory(UserSingleton.getInstance().getAssignedCompanyID(), input.toString());
                             }
                         })
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -310,14 +319,11 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     }}}
 
     @Override
-    public void companyListCallback(List<Company> companies) {
-        companiesList.addAll(companies);
+    public void companyListCallback(List<GenericKeyValueTypeable> companies) {
+        companiesList = companies;
         listCompanyAdapter = new GenericPrefListAdapter(context, companiesList);
         selectCompany.setAdapter(listCompanyAdapter);
-        selectRegion.setAdapter(listRegionAdapter);
-
-
-
+        setSpinnerAdapters();
     }
 
     @Override

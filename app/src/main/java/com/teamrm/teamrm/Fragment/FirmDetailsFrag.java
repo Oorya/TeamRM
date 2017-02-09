@@ -46,7 +46,7 @@ public class FirmDetailsFrag extends Fragment {
             public void onClick(View view) {
                 String companyName = company.getText().toString();
                 String companyID = UUID.randomUUID().toString();
-                UtlFirebase.changeUserStatus(USER_ID, Users.STATUS_ADMIN, true);
+                UtlFirebase.changeUserStatus(USER_ID, Users.STATUS_ADMIN);
                 UtlFirebase.setUserCompanyID(USER_ID, companyID);
                 Company company = new Company(companyID, companyName, USER_ID, address.getText().toString(),phone.getText().toString());
                 UtlFirebase.addCompany(company);

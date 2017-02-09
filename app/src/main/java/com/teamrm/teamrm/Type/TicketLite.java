@@ -1,8 +1,10 @@
 package com.teamrm.teamrm.Type;
 
+import com.google.firebase.database.Exclude;
 import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by root on 27/01/2017.
@@ -34,14 +36,14 @@ public class TicketLite {
     //private Image techAvatar;
 
     private int ticketPresentation;
-    private static ArrayList<TicketLite> ticketLiteList = new ArrayList<>();
+    private static List<TicketLite> ticketLiteList = new ArrayList<>();
 
 
-    public static ArrayList<TicketLite> getTicketLiteList() {
+    public static List<TicketLite> getTicketLiteList() {
         return ticketLiteList;
     }
 
-    public static void setTicketLiteList(ArrayList<TicketLite> ticketLiteList) {
+    public static void setTicketLiteList(List<TicketLite> ticketLiteList) {
         TicketLite.ticketLiteList = ticketLiteList;
     }
 
@@ -74,6 +76,7 @@ public class TicketLite {
         this.ticketPresentation = ticket.getTicketPresentation();
     }
 
+    @Exclude
     public Integer getUrgency() {
         Integer urgency;
 

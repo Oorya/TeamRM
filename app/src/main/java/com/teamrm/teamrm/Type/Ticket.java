@@ -14,6 +14,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by אוריה on 18/07/2016.
@@ -75,14 +76,14 @@ public class Ticket {
     private boolean isUserApprove;
     private boolean isTechDone;
     private boolean ticketIsClosed;
-    private static ArrayList<Ticket> ticketList = new ArrayList<>();
+    private static List<Ticket> ticketList = new ArrayList<>();
 
 
     public static void setTicketList(ArrayList<Ticket> tickets) {
         ticketList = tickets;
     }
 
-    public static ArrayList<Ticket> getTicketList() {
+    public static List<Ticket> getTicketList() {
         return ticketList;
     }
 

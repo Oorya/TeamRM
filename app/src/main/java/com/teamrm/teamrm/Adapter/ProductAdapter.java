@@ -10,21 +10,13 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.PrefListable;
 import com.teamrm.teamrm.R;
-import com.teamrm.teamrm.Type.Category;
-import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.Product;
-import com.teamrm.teamrm.Type.Region;
-import com.teamrm.teamrm.Type.Ticket;
-import com.teamrm.teamrm.Type.TicketLite;
-import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
@@ -70,7 +62,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
                             @Override
                             public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                                 Log.d(TAG, "updating productName " + productItem.getProductName());
-                                UtlFirebase.updateProduct(UserSingleton.getInstance().getUserCompanyID(), productItem, input.toString());
+                                UtlFirebase.updateProduct(UserSingleton.getInstance().getAssignedCompanyID(), productItem, input.toString());
                             }
                         })
                         .positiveText(R.string.label_button_save)
@@ -106,7 +98,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
                                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                                             @Override
                                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                                UtlFirebase.removeProduct(UserSingleton.getInstance().getUserCompanyID(), productItem);
+                                                UtlFirebase.removeProduct(UserSingleton.getInstance().getAssignedCompanyID(), productItem);
                                             }
                                         })
                                         .contentColorRes(R.color.textColor_primary)

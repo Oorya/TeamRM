@@ -1,10 +1,13 @@
 package com.teamrm.teamrm.Utility;
 
 
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -16,11 +19,14 @@ import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
+import com.teamrm.teamrm.Type.Admin;
 import com.teamrm.teamrm.Type.Category;
 import com.teamrm.teamrm.Type.Chat;
+import com.teamrm.teamrm.Type.Client;
 import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.Product;
 import com.teamrm.teamrm.Type.Region;
+import com.teamrm.teamrm.Type.Technician;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.Users;
@@ -31,14 +37,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.teamrm.teamrm.Type.Users.STATUS_ADMIN;
+import static com.teamrm.teamrm.Type.Users.STATUS_TECH;
+import static com.teamrm.teamrm.Utility.UserSingleton.LOGINTAG;
+
 
 public class UtlFirebase { //TODO: make singleton
     //TODO: make abstract factory above DB util classes
+    private static Context currentContext;
     private static String ticketStateString;
     private static Ticket returnTicket;
     private static TicketFactory ticketFactory;
     private static List<Ticket> ticketList = new ArrayList<>();
     private static List<TicketLite> ticketLiteList = new ArrayList<>();
+    private static Technician techFromFirebase;
 
 
     private static final DatabaseReference GLOBAL_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference();
@@ -50,7 +62,7 @@ public class UtlFirebase { //TODO: make singleton
     private static final DatabaseReference TICKET_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("Tickets");
     private static final DatabaseReference TICKET_LITE_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("TicketLites");
     private static final DatabaseReference USERS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("Users");
-    private static final DatabaseReference USER_COMPANIES_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("UserCompanies");
+    private static final DatabaseReference CLIENT_COMPANIES_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("ClientCompanies");
 
     final static String TAG = ":::UtlFirebase:::";
 
@@ -60,8 +72,83 @@ public class UtlFirebase { //TODO: make singleton
 
 ///////////////////////////// User /////////////////////////////
 
-    public static void addUser(final Users user) {
-        USERS_ROOT_REFERENCE.child(user.getUserID()).setValue(user, new
+    public static void loginUser(final FirebaseUser firebaseUser, final FireBaseAble fbHelper) {
+        toastSuccessOrError("called loginUser", null);
+        Log.d(LOGINTAG, "Stage 5, check if in firebase exists "+firebaseUser.getEmail());
+        final Query queryUserExists = USERS_ROOT_REFERENCE.orderByChild("userEmail").equalTo(firebaseUser.getEmail());
+        queryUserExists.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    Log.d(LOGINTAG, "Stage 6, no such user "+firebaseUser.getEmail()+" exists, creating one");
+                    Client clientToAdd = new Client(firebaseUser.getUid(), firebaseUser.getDisplayName(), firebaseUser.getEmail(), "", "");
+                    UtlFirebase.addClient(clientToAdd);
+                    fbHelper.resultUser(clientToAdd);
+                } else {
+                    for (final DataSnapshot item : dataSnapshot.getChildren()) {
+                        if (dataSnapshot.child("userStatus").exists()) {
+                            switch (dataSnapshot.child("userStatus").getValue().toString()) {
+                                case Users.STATUS_CLIENT:
+                                    fbHelper.resultUser(item.getValue(Client.class));                              // push current dataSnapshot as Client to the UserSingleton
+                                    new NiceToast(currentContext, "You are logged in as Client", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_SHORT);
+                                    break;
+
+                                case Users.STATUS_TECH:
+                                    Query techRef = COMPANY_TECHNICIANS_ROOT_REFERENCE                              //
+                                            .child(dataSnapshot.child("assignedCompanyID").getValue().toString())   // get Technician from the corresponding path
+                                            .child(dataSnapshot.child("userID").getValue().toString());             //
+                                    techRef.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            if (dataSnapshot.exists()) {
+                                                techFromFirebase = item.getValue(Technician.class);                 // acquire Technician from the new dataSnapshot
+                                            } else {
+                                                fbHelper.resultUser(item.getValue(Client.class));
+                                                new NiceToast(currentContext, "Could not log you in as Tech, you are logged as Client", NiceToast.NICETOAST_WARNING, Toast.LENGTH_LONG);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                            toastTheError(databaseError);
+                                        }
+                                    });
+                                    fbHelper.resultUser(techFromFirebase);                                          // push acquired Technician to the UserSingleton
+                                    new NiceToast(currentContext, "You are logged in as Technician", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_SHORT);
+                                    break;
+                                case Users.STATUS_ADMIN:
+                                    if (item.child("isUserAdmin").getValue().equals(true)) {                             // check flag isAdmin
+                                        fbHelper.resultUser(item.getValue(Admin.class));
+                                    } else {
+                                        fbHelper.resultUser(item.getValue(Client.class));
+                                        new NiceToast(currentContext, "Could not log you in as Admin, you are logged as Client", NiceToast.NICETOAST_WARNING, Toast.LENGTH_LONG);
+                                    }
+                                    break;
+                                default:
+                                    fbHelper.resultUser(item.getValue(Client.class));                       // push current dataSnapshot as Client to the UserSingleton
+                                    new NiceToast(currentContext, "You are logged in as Client", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_SHORT);
+                                    break;
+                            }
+                        } else {
+                            fbHelper.resultUser(item.getValue(Client.class));                       // push current dataSnapshot as Client to the UserSingleton
+                            new NiceToast(currentContext, "You are logged in as Client", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_SHORT);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                toastTheError(databaseError);
+            }
+        });
+    }
+
+
+    public static void addClient(final Users user) {
+                Log.d(LOGINTAG, "Stage 7, adding user "+user.getUserEmail());
+                DatabaseReference ref = USERS_ROOT_REFERENCE.child(user.getUserID());
+                ref.setValue(user, new
                 DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -70,9 +157,24 @@ public class UtlFirebase { //TODO: make singleton
                         addedUser += user.getUserNameString();
                         toastSuccessOrError(addedUser, databaseError);
                     }
+
                 });
         Log.d("SET USER::", user.toString());
     }
+
+    public static void addTechnician(String companyID, final Technician technician) {
+        COMPANY_TECHNICIANS_ROOT_REFERENCE.child(companyID).child(technician.getUserID()).setValue(technician, new
+                DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                        String addedUser = "Added tech:\n";
+                        addedUser += technician.getUserEmail() + "\n";
+                        addedUser += technician.getUserNameString();
+                        toastSuccessOrError(addedUser, databaseError);
+                    }
+                });
+    }
+
 
     public static void getUserByEmail(final String email, Object object) {
 
@@ -109,13 +211,34 @@ public class UtlFirebase { //TODO: make singleton
         });
     }
 
-    public static void changeUserStatus(String userID, String status, boolean isAdmin) {
-        USERS_ROOT_REFERENCE.child(userID).child("userStatus").setValue(status);
-        USERS_ROOT_REFERENCE.child(userID).child("userIsAdmin").setValue(isAdmin);
+    public static void changeUserStatus(final String userID, String userStatus) {
+        Map updates = new HashMap();
+        switch (userStatus) {
+            case STATUS_ADMIN:
+                updates.clear();
+                updates.put("userStatus", STATUS_ADMIN);
+                updates.put("isUserAdmin", true);
+                USERS_ROOT_REFERENCE.child(userID).updateChildren(updates, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                        toastSuccessOrError("User set as admin", databaseError);
+                    }
+                });
+                break;
+            case STATUS_TECH:
+                updates.clear();
+                updates.put("userStatus", STATUS_TECH);
+                USERS_ROOT_REFERENCE.child(userID).updateChildren(updates, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                        toastSuccessOrError("User set as tech", databaseError);
+                    }
+                });
+        }
     }
 
     public static void setUserCompanyID(String userID, String companyID) {
-        USERS_ROOT_REFERENCE.child(userID).child("userCompanyID").setValue(companyID);
+        USERS_ROOT_REFERENCE.child(userID).child("assignedCompanyID").setValue(companyID);
     }
 
 ///////////////////////////// Ticket /////////////////////////////
@@ -125,7 +248,7 @@ public class UtlFirebase { //TODO: make singleton
         ticketFactory = new TicketFactory();
         final String userStatus = UserSingleton.getInstance().getUserStatus();
         final String userEmail = UserSingleton.getInstance().getUserEmail();
-        final String userCompanyID = UserSingleton.getInstance().getUserCompanyID();
+        final String userCompanyID = UserSingleton.getInstance().getAssignedCompanyID();
         Log.w("STATE CHANGED", "state listener");
 
         Query query = TICKET_ROOT_REFERENCE.orderByChild("userEmail").equalTo(userEmail);
@@ -179,14 +302,14 @@ public class UtlFirebase { //TODO: make singleton
         });
     }
 
-    public static void addTicket(Ticket ticket) {
+    public static void addTicket(final Ticket ticket) {
         Map updates = new HashMap();
         updates.put("Tickets/" + ticket.getTicketID(), ticket);
         updates.put("TicketLites/" + ticket.getTicketID(), new TicketLite(ticket));
         GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                //TODO:callback
+                toastSuccessOrError("Added ticket " + ticket.getTicketNumber(), databaseError);
             }
         });
     }
@@ -225,55 +348,35 @@ public class UtlFirebase { //TODO: make singleton
         });
     }
 
-    public static void getAllTickets(final FireBaseAble fbHelper) { //TODO:unusable except for testing, should get by company or by client
-        TICKET_ROOT_REFERENCE.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ticketList.clear();
-                for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    Ticket retrievedTicket = item.getValue(Ticket.class);
-                    ticketList.add(retrievedTicket);
+    public static void getAllTickets(final FireBaseAble fbHelper) {
+        switch (UserSingleton.getInstance().getUserStatus()) {
+            case UserSingleton.STATUS_CLIENT:
+                getAllClientTickets(UserSingleton.getInstance().getUserID(), fbHelper);
+                break;
 
-                }
-                Log.e(":::UTLFIREBASE:::", "LIST SIZE: " + ticketList.size() + "");
-                fbHelper.ticketListCallback(ticketList);
-                //Need to notify for current list adapter
-                //TicketList.ticketListAdapter.notifyDataSetChanged();
-            }
+            case UserSingleton.STATUS_ADMIN:
+                getAllCompanyTickets(UserSingleton.getInstance().getAssignedCompanyID(), fbHelper);
+        }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e(":::UTLFIREBASE:::", "could not retrieve tickets");
-            }
-        });
-        Log.e(":::UTLFIREBASE::: ALL", "ALL");
+
     }
 
 
-    public static void getAllTicketLites(final FireBaseAble fbHelper) { //TODO:unusable except for testing, should get by company or by client
-        TICKET_LITE_ROOT_REFERENCE.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ticketLiteList.clear();
-                for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    TicketLite retrievedTicketLite = item.getValue(TicketLite.class);
-                    ticketLiteList.add(retrievedTicketLite);
-                }
-                Log.e(":::UTLFIREBASE:::", "LIST SIZE: " + ticketList.size() + "");
-                fbHelper.ticketLiteListCallback(ticketLiteList);
-                //Need to notify for current list adapter
-                //TicketList.ticketListAdapter.notifyDataSetChanged();
-            }
+    public static void getAllTicketLites(final FireBaseAble fbHelper) {
+        switch (UserSingleton.getInstance().getUserStatus()) {
+            case UserSingleton.STATUS_CLIENT:
+                getAllClientTicketLites(UserSingleton.getInstance().getUserID(), fbHelper);
+                break;
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                toastTheError(databaseError);
-            }
-        });
-        Log.e(":::UTLFIREBASE::: ALL", "ALL");
+            case UserSingleton.STATUS_ADMIN:
+                getAllCompanyTicketLites(UserSingleton.getInstance().getAssignedCompanyID(), fbHelper);
+        }
+
+
     }
 
     public static void getAllClientTickets(String clientID, final FireBaseAble fbHelper) {
+        Log.d("getAllClientTickets", ":::called:::");
         Query query = TICKET_ROOT_REFERENCE.orderByChild("clientID").equalTo(clientID);
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -464,7 +567,7 @@ public class UtlFirebase { //TODO: make singleton
 
 ///////////////////////////// Company /////////////////////////////
 
-    public static List<Company> getAllCompanies(final FireBaseAble fbHelper) {
+   /* public static List<Company> getAllCompanies(final FireBaseAble fbHelper) {
 
         final List<Company> companyList = new ArrayList<>();
 
@@ -491,31 +594,45 @@ public class UtlFirebase { //TODO: make singleton
         Log.e("ALL", "COMPANIES LIST");
         return companyList;
     }
+*/
 
-
-    public static List<GenericKeyValueTypeable> getAllClientCompanies(String userID, FireBaseAble fbHelper) {
+    public static void getCurrentCompany(FireBaseAble fbHelper) {
         final List<GenericKeyValueTypeable> clientCompanies = new ArrayList<>();
-        Query query = USER_COMPANIES_ROOT_REFERENCE.orderByChild(userID);
+        Query query = COMPANY_ROOT_REFERENCE.child(UserSingleton.getInstance().getAssignedCompanyID());
+    }
+
+    public static void getAllClientCompanies(final FireBaseAble fbHelper) {
+        final List<GenericKeyValueTypeable> clientCompanies = new ArrayList<>();
+        Query query = CLIENT_COMPANIES_ROOT_REFERENCE.orderByChild(UserSingleton.getInstance().getUserID());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot clientCompany : dataSnapshot.getChildren()) {
-                    clientCompanies.add((Company) clientCompany.getValue());
+                    clientCompanies.add((GenericKeyValueTypeable) clientCompany.getValue());
                 }
+                fbHelper.companyListCallback(clientCompanies);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                toastTheError(databaseError);
             }
         });
-        return clientCompanies;
     }
 
-    public static void addCompany(Company company) {
+    public static void addCompany(final Company company) {
         COMPANY_ROOT_REFERENCE.child(company.getCompanyId()).setValue(company, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                //TODO:callback
+                DatabaseReference userRef = USERS_ROOT_REFERENCE.child(UserSingleton.getInstance().getUserID());
+                Map update = new HashMap();
+                update.put("assignedCompany", company.getCompanyId());
+                userRef.updateChildren(update, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                        new NiceToast(currentContext, "Created company " + company.getCompanyName() + "for Admin" + UserSingleton.getInstance().getUserEmail(), NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG);
+                    }
+                });
             }
         });
     }
@@ -735,14 +852,19 @@ public class UtlFirebase { //TODO: make singleton
     }
 
     public static void toastTheError(DatabaseError dbError) {
-        Toast.makeText(HomeScreen.context, "Update failed with error \n" + dbError.getCode() + "\n" + dbError.getDetails(), Toast.LENGTH_LONG).show();
+        new NiceToast(currentContext, "Update failed with error \n" + dbError.getCode() + "\n" + dbError.getDetails(), NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
     }
 
-    public static void toastSuccessOrError(String positiveMessage, DatabaseError dbError) {
+    public static void toastSuccessOrError(String positiveMessage, @Nullable DatabaseError dbError) {
         if (dbError == null) {
-            Toast.makeText(HomeScreen.context, positiveMessage, Toast.LENGTH_SHORT).show();
+            new NiceToast(currentContext, positiveMessage, NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(HomeScreen.context, "Update failed with error \n" + dbError.getCode() + "\n" + dbError.getDetails(), Toast.LENGTH_LONG).show();
+            new NiceToast(currentContext, "Update failed with error \n" + dbError.getCode() + "\n" + dbError.getDetails(), NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
         }
+    }
+
+    public static void setCurrentContext(Context currentContext) {
+        UtlFirebase.currentContext = currentContext;
+        Log.d("setCurrentContext", currentContext.toString());
     }
 }

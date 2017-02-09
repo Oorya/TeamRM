@@ -40,27 +40,6 @@ public class AdminSettingsAppPrefs extends Fragment implements CalendarHelper{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View V = inflater.inflate(R.layout.fragment_admin_settings_app_prefs, container, false);
-        button = (Button)V.findViewById(R.id.newCal);
-        delitCal = (Button)V.findViewById(R.id.delit);
-        calendarUtil =  new CalendarUtil(getActivity(),this);
-
-        delitCal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-                startActivityForResult(intent, 1);
-            }
-        });
-
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calendarUtil.createdCalendar("shalty2","shalty2");
-
-            }
-        });
 
         return V;
 

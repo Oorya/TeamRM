@@ -8,14 +8,14 @@ public abstract class Users
     public static final String STATUS_ADMIN = "Admin";
     public static final String STATUS_TECH = "Tech";
     public static final String STATUS_CLIENT = "Client";
-    private String userID; //hold userID
-    private String userNameString;  //hold clientNameString
+    private String userID;
+    private String userNameString;
     private String userEmail;
-    private boolean userIsAdmin;
+    private boolean isUserAdmin;
     private String userStatus;
     private String userPhone;
     private String userAddress;
-    private String userCompanyID;
+    private String assignedCompanyID;
 
 
     public Users(){}  //empty constructor, must have
@@ -25,17 +25,7 @@ public abstract class Users
         this.userNameString = userNameString;
         this.userEmail = userEmail;
         this.userStatus = STATUS_CLIENT;
-        this.userIsAdmin = false;
-    }
-
-    public Users(String userID, String userNameString, String userEmail, String userPhone, String userAddress) {
-        this.userID = userID;
-        this.userNameString = userNameString;
-        this.userEmail = userEmail;
-        this.userPhone = userPhone;
-        this.userAddress = userAddress;
-        this.userStatus = STATUS_TECH;
-        this.userIsAdmin = false;
+        this.isUserAdmin = false;
     }
 
     public String getUserNameString() {
@@ -62,12 +52,12 @@ public abstract class Users
         this.userID = userID;
     }
 
-    public boolean isUserIsAdmin() {
-        return userIsAdmin;
+    public boolean isUserAdmin() {
+        return isUserAdmin;
     }
 
-    public void setUserIsAdmin(boolean userIsAdmin) {
-        this.userIsAdmin = userIsAdmin;
+    public void setUserAdmin(boolean userAdmin) {
+        this.isUserAdmin = userAdmin;
     }
 
     public String getUserStatus() {
@@ -78,12 +68,12 @@ public abstract class Users
         this.userStatus = userStatus;
     }
 
-    public String getUserCompanyID() {
-        return userCompanyID;
+    public String getAssignedCompanyID() {
+        return assignedCompanyID;
     }
 
     public void setUserCompany(String userCompany) {
-        this.userCompanyID = userCompany;
+        this.assignedCompanyID = userCompany;
     }
 
     public String getUserPhone() {
@@ -102,5 +92,4 @@ public abstract class Users
         this.userAddress = userAddress;
     }
 
-
-}
+   }

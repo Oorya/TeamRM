@@ -1,5 +1,7 @@
 package com.teamrm.teamrm.Type;
 
+import android.support.annotation.Nullable;
+
 import com.google.firebase.database.Exclude;
 import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
 
@@ -19,9 +21,9 @@ public class Technician extends Users implements GenericKeyValueTypeable {
     public Technician() {
     }
 
-    public Technician(String userID, String userNameString, String userEmail, String userPhone, String userAddress,
+    public Technician(String userID, String userNameString, String userEmail, @Nullable String userPhone, @Nullable String userAddress,
                       String techCalendarID, String techCalendarName, String techColor, String techShifts, String techAssignedRegions) {
-        super(userID, userNameString, userEmail, userPhone, userAddress);
+        super(userID, userNameString, userEmail);
         this.techCalendarID = techCalendarID;
         this.techCalendarName = techCalendarName; //TODO: get calendar name by ID? *MARK
         this.techColor = techColor;

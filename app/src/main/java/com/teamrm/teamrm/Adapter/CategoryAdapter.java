@@ -62,7 +62,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
                                 Log.d(TAG, "updating category " + categoryItem.getCategoryName());
-                                UtlFirebase.updateCategory(UserSingleton.getInstance().getUserCompanyID(), categoryItem, input.toString());
+                                UtlFirebase.updateCategory(UserSingleton.getInstance().getAssignedCompanyID(), categoryItem, input.toString());
                             }
                         })
                         .positiveText(R.string.label_button_save)
@@ -98,7 +98,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                                             @Override
                                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                                UtlFirebase.removeCategory(UserSingleton.getInstance().getUserCompanyID(), categoryItem);
+                                                UtlFirebase.removeCategory(UserSingleton.getInstance().getAssignedCompanyID(), categoryItem);
                                             }
                                         })
                                         .contentColorRes(R.color.textColor_primary)
