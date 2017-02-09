@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:background="@color/app_bg"
     tools:context="com.teamrm.teamrm.Fragment.TicketList"
-    tools:paddingTop="25dp">
+    tools:paddingTop="25dp"
+    android:id="@+id/ticket_list_fragment">
 
     <RelativeLayout
         android:id="@+id/had"
@@ -117,6 +118,24 @@
                     android:textColor="@android:color/white" />
 
             </LinearLayout>
+
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.SearchView
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="4dp"
+                android:background="@color/listRow_alt_lighter"
+                android:visibility="gone"
+                >
+            </android.support.v7.widget.SearchView>
 
         </LinearLayout>
 

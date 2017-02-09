@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -47,7 +48,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     private static final int SELECT_FILE = 105;
     private static final int FROM_CAMERA = 205;
     private static final int ACTION_OVERLAY = 300;
-    private final static String[] TAG_FRAGMENT = {"NEW_TICKET", "CALENDER"};
+    private final static String[] TAG_FRAGMENT = {"NEW_TICKET", "CALENDER","TICKET_LIST"};
     private GoogleSignInOptions gso;
     private GoogleApiClient mGoogleApiClient;
 
@@ -77,7 +78,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.container_body, new TicketList());
+        fragmentTransaction.add(R.id.container_body, new TicketList()).addToBackStack(TAG_FRAGMENT[2]);
         fragmentTransaction.commit();
         setTitle(getResources().getStringArray(R.array.nav_list)[0]);
 
@@ -230,4 +231,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     public Context getContext(){
         return this.context;
     }
+
+
+
 }

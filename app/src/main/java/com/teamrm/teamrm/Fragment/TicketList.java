@@ -2,6 +2,7 @@ package com.teamrm.teamrm.Fragment;
 
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,11 +14,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,9 +43,14 @@ import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -49,13 +58,18 @@ import java.util.List;
  */
 public class TicketList extends Fragment implements FireBaseAble,View.OnClickListener{
 
+    private static boolean isSort;
     public RecyclerView mRecyclerView;
+    private SearchView searchView;
+    private String searchViewQuery;
     private List<TicketLite> ticketLiteList = new ArrayList<>();
     private TicketListAdapter ticketListAdapter;
-    private TextView title, filter, search, order;
+    private LinearLayout title, filter, search, order;
     private SwipeRefreshLayout swipeContainer;
     FloatingActionButton floatBtn;
     private AlertDialog chekDialog;
+    private TextView ordertext;
+
 
     public TicketList() {
     }
@@ -82,10 +96,50 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
 
         Typeface SEMI_BOLD = Typeface.createFromAsset(this.getContext().getAssets(), "Assistant-SemiBold.ttf");
 
-        LinearLayout filter = (LinearLayout) view.findViewById(R.id.filter);
-        search = (TextView) view.findViewById(R.id.searchTxt);
-        order = (TextView) view.findViewById(R.id.sortimgTxt);
+        filter = (LinearLayout) view.findViewById(R.id.filter);
+        search = (LinearLayout) view.findViewById(R.id.search);
+        order = (LinearLayout) view.findViewById(R.id.sort);
+        ordertext = (TextView)view.findViewById(R.id.sortimgTxt);
+        searchView = (SearchView)view.findViewById(R.id.searchView);
+        EditText searchEditText = (EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchEditText.setTextColor(getResources().getColor(R.color.textColor_primary));
+
         filter.setOnClickListener(this);
+        search.setOnClickListener(this);
+        order.setOnClickListener(this);
+
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+
+                Toast.makeText(getContext(),query,Toast.LENGTH_LONG).show();
+                searchView.setVisibility(View.GONE);
+                filter.setVisibility(View.VISIBLE);
+                order.setVisibility(View.VISIBLE);
+                search.setVisibility(View.VISIBLE);
+                sortByQuery(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+
+        });
+        ImageView closeButton = (ImageView)searchView.findViewById(R.id.search_close_btn);
+
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.setVisibility(View.GONE);
+                filter.setVisibility(View.VISIBLE);
+                order.setVisibility(View.VISIBLE);
+                search.setVisibility(View.VISIBLE);
+
+            }
+        });
 
         //((TextView)view.findViewById(R.id.titleText)).setTypeface(BOLD);
         ((TextView) view.findViewById(R.id.filtertxt)).setTypeface(SEMI_BOLD);
@@ -148,6 +202,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
         return view;
     }
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId())
@@ -190,10 +245,21 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
             }
             case R.id.search:
             {
+                searchView.setVisibility(View.VISIBLE);
+                filter.setVisibility(View.GONE);
+                order.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
+
                 break;
             }
             case R.id.sort:
             {
+
+                Toast.makeText(getContext(),"sort",Toast.LENGTH_LONG).show();
+                ticketListAdapter = new TicketListAdapter(getContext(), sortList(ticketLiteList));
+                mRecyclerView.setAdapter(ticketListAdapter);
+
+
                 break;
             }
         }
@@ -210,6 +276,45 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
         return temp;
 
     }
+    private List<TicketLite> sortList(final List<TicketLite> temp)
+    {
+        Collections.sort(temp, new Comparator<TicketLite>() {
+            @Override
+            public int compare(TicketLite o1, TicketLite o2) {
+                Date date1= Calendar.getInstance().getTime();
+                Date date2 = Calendar.getInstance().getTime();
+                String pattern = "HH:mm:ss dd/MM/yyyy";
+
+                DateFormat format = new SimpleDateFormat(pattern);
+                try {
+                     date1 = format.parse(o1.getTicketOpenDateTime().replace("-",""));
+                     date2 = format.parse(o2.getTicketOpenDateTime().replace("-",""));
+                } catch (ParseException e) {
+                    Log.d("orderList", e.toString());
+                }
+                if(TicketList.isSort) {
+                    return date1.getTime() > date2.getTime() ? 1 : -1;
+                }else
+                {
+                    return date1.getTime() < date2.getTime() ? 1 : -1;
+                }
+            }
+        });
+        Log.d("orderList", "orderList: ");
+
+        if(TicketList.isSort) {
+            ordertext.setText("סדר מחדש לישן");
+            TicketList.isSort = false;
+        }
+        else {
+            ordertext.setText("סדר מישן לחדש");
+            TicketList.isSort = true;
+        }
+        return temp;
+    }
+
+
+
     private List<TicketLite> orderList(List<TicketLite> temp)
     {
         Collections.sort(temp, new Comparator<TicketLite>() {
@@ -217,13 +322,9 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
             public int compare(TicketLite o1, TicketLite o2) {
                 Integer iInteger1 = new Integer(o1.getTicketPresentation());
                 Integer iInteger2 = new Integer(o2.getTicketPresentation());
-
-
                 return iInteger1.compareTo(iInteger2);
             }
         });
-        Log.d("orderList", "orderList: ");
-
         return temp;
     }
 
@@ -271,5 +372,63 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
     @Override
     public void regionListCallback(List<Region> regions) {
 
+    }
+    private void sortByQuery(String Query)
+    {
+        List<TicketLite> tempticketLiteList = new ArrayList<>();
+        for (TicketLite ticketLiteItem : ticketLiteList)
+        {
+            if (ticketLiteItem.getCategoryName()!=null&&ticketLiteItem.getCategoryName().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getTechNameString()!=null&&ticketLiteItem.getTechNameString().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getDescriptionLong()!=null&&ticketLiteItem.getDescriptionLong().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getDescriptionShort()!=null&&ticketLiteItem.getDescriptionShort().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getCategoryName()!=null&&ticketLiteItem.getCategoryName().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getClientNameString()!=null&&ticketLiteItem.getClientNameString().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getProductName()!=null&&ticketLiteItem.getProductName().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getRegionName()!=null&&ticketLiteItem.getRegionName().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getTicketAddress()!=null&&ticketLiteItem.getTicketAddress().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getTicketID()!=null&&ticketLiteItem.getTicketID().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }
+            else if (ticketLiteItem.getTicketCloseDateTime()!=null&&ticketLiteItem.getTicketCloseDateTime().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getTicketNumber()!=null&&ticketLiteItem.getTicketNumber().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }
+            else if (ticketLiteItem.getTicketOpenDateTime()!=null&&ticketLiteItem.getTicketOpenDateTime().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }
+            else if (ticketLiteItem.getCompanyName()!=null&&ticketLiteItem.getCompanyName().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getTicketStateString()!=null&&ticketLiteItem.getTicketStateString().equals(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }
+        }
+        ticketListAdapter = new TicketListAdapter(getContext(), tempticketLiteList);
+        mRecyclerView.setAdapter(ticketListAdapter);
     }
 }
