@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -34,6 +35,8 @@ import com.teamrm.teamrm.Fragment.NewTicket;
 import com.teamrm.teamrm.Fragment.TicketList;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Utility.App;
+import com.teamrm.teamrm.Utility.NiceToast;
+import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
 
@@ -56,6 +59,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+        new NiceToast(this, "User "+UserSingleton.getInstance().getUserEmail() + "\n" + "logged in as " + UserSingleton.getInstance().getClass().getSimpleName(), NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
         UtlFirebase.setCurrentContext(this);
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
@@ -78,7 +82,8 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.container_body, new TicketList()).addToBackStack(TAG_FRAGMENT[2]);
+        //fragmentTransaction.add(R.id.container_body, new TicketList()).addToBackStack(TAG_FRAGMENT[2]);
+        fragmentTransaction.add(R.id.container_body, new TicketList()).disallowAddToBackStack();
         fragmentTransaction.commit();
         setTitle(getResources().getStringArray(R.array.nav_list)[0]);
 

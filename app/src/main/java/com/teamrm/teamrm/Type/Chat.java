@@ -41,7 +41,7 @@ public class Chat
         //get current date ticketOpenDateTime with Date()
         Date date = new Date();
 
-        //return dateFormat.format(cal.getTime()));
+        //return dateFormat.format(cal.getCompanyCreationTime()));
         return dateFormat.format(date);
     }
 

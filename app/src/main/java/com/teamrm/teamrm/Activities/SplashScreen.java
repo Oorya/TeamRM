@@ -1,11 +1,11 @@
 package com.teamrm.teamrm.Activities;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -32,11 +32,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
-import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Category;
+import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.Product;
 import com.teamrm.teamrm.Type.Region;
 import com.teamrm.teamrm.Type.Ticket;
@@ -52,7 +53,7 @@ import java.util.List;
 
 import static com.teamrm.teamrm.Utility.UserSingleton.LOGINTAG;
 
-public class SplashScreen extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, FireBaseAble {
+public class SplashScreen extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
     ImageView iconWait;
     TextView loadingStatus;
@@ -121,7 +122,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         if (opr.isDone()) {
             // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
             // and the GoogleSignInResult will be available instantly.
-            Log.d(LOGINTAG, "Stage 1a, logging in with cached Google");
+            Log.d(LOGINTAG, "Stage 1a, logging in with cached Google login");
             GoogleSignInResult result = opr.get();
             handleSignInResult(result); //LOGIN STAGE 2 ->
             linearLayout.setVisibility(View.VISIBLE);
@@ -251,73 +252,75 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
 
-                        new NiceToast(context, "FireBase\nSigned in as:\n" + task.getResult().getUser().getDisplayName() + "\n" + task.getResult().getUser().getEmail(), NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
-                        UserSingleton.init(task.getResult().getUser()); //LOGIN STAGE 4 -> init the UserSingleton with FireBase-authenticated user
 
-                        Log.w("EMAIL", UserSingleton.getInstance().getUserEmail() + " == ");
-                            startActivity(new Intent(context, HomeScreen.class));
-
-                        //getTicketList();
+                        logOnToApp(task.getResult().getUser());
+                        startApp();
 
                         if (!task.isSuccessful()) {
-                            Log.w("TASK FAILED: ", "signInWithCredential", task.getException());
-                            new NiceToast(context, "Authentication failed", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG);
+                            Log.w(LOGINTAG, "Stage 3 failed with error " + task.getException());
+                            new NiceToast(context, "Authentication to app failed!", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
                         }
                         // ...
                     }
                 });
     }
 
-    public void getTicketList() {
-        UtlFirebase.getAllTickets(this);
+    private void logOnToApp(FirebaseUser firebaseUser){
+        UtlFirebase.loginUser(firebaseUser, new FireBaseAble() {
+            @Override
+            public void resultTicket(Ticket ticket) {
+
+            }
+
+            @Override
+            public void resultUser(Users user) {
+                UserSingleton.init(user);       //LOGIN STAGE 4 -> init the UserSingleton with FireBase-authenticated user
+            }
+
+            @Override
+            public void ticketListCallback(List<Ticket> tickets) {
+
+            }
+
+            @Override
+            public void ticketLiteListCallback(List<TicketLite> ticketLites) {
+
+            }
+
+            @Override
+            public void resultBoolean(boolean bool) {
+
+            }
+
+            @Override
+            public void companyListCallback(List<Company> companies) {
+
+            }
+
+            @Override
+            public void productListCallback(List<Product> products) {
+
+            }
+
+            @Override
+            public void categoryListCallback(List<Category> categories) {
+
+            }
+
+            @Override
+            public void regionListCallback(List<Region> regions) {
+
+            }
+        });
     }
 
-    @Override
-    public void resultTicket(Ticket ticket) {
-
-    }
-
-    @Override
-    public void resultUser(Users user) {
-    }
-
-    @Override
-    public void ticketListCallback(List<Ticket> ticket) {
-        tickets.clear();
-        tickets.addAll(ticket);
-        Ticket.setTicketList(tickets);
-        finish();
-    }
-
-    @Override
-    public void resultBoolean(boolean bool) {
-
-    }
-
-    @Override
-    public void ticketLiteListCallback(List<TicketLite> ticketLites) {
-
-
-    }
-
-    @Override
-    public void companyListCallback(List<GenericKeyValueTypeable> companies) {
-
-    }
-
-    @Override
-    public void productListCallback(List<Product> products) {
-
-    }
-
-    @Override
-    public void categoryListCallback(List<Category> categories) {
-
-    }
-
-    @Override
-    public void regionListCallback(List<Region> regions) {
-
+    void startApp(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(context, HomeScreen.class));
+            }
+        }, 3000);
     }
 
     public void permissionToDrawOverlays() {

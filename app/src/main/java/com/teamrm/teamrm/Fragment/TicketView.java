@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,7 +18,6 @@ import android.widget.Toast;
 
 import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
-import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
 import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.R;
@@ -390,7 +388,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     }
 
     @Override
-    public void companyListCallback(List<GenericKeyValueTypeable> companies) {
+    public void companyListCallback(List<Company> companies) {
 
     }
 

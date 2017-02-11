@@ -154,7 +154,8 @@
     <string name="label_phone_number">מס\' טלפון:</string>
     <string name="label_tech_regions">אזורי שירות:</string>
     <string name="label_tech_shifts">משמרות:</string>
-
+    <string name="label_description_short">כותרת:</string>
+    <string name="label_description_long">תוכן:</string>
     <string name="label_product">מוצר:</string>
     <string name="label_category">סיווג:</string>
     <string name="label_category_a">סיווג ראשוני:</string>

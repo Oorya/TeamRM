@@ -1,18 +1,11 @@
 package com.teamrm.teamrm.Utility;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
-import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
 import com.teamrm.teamrm.Type.Category;
-import com.teamrm.teamrm.Type.Client;
+import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.Product;
 import com.teamrm.teamrm.Type.Region;
 import com.teamrm.teamrm.Type.Ticket;
@@ -31,7 +24,6 @@ public class UserSingleton extends Users{
     public static final String LOGINTAG = ":::LOGIN_SEQUENCE:::";
     private static Users instance = null;
     private static final String TAG = "USER_SINGLETON";
-    public static boolean initDone = false;
 
     private UserSingleton() {}
 
@@ -48,61 +40,76 @@ public class UserSingleton extends Users{
         return instance;
     }
 
-    public static void init(final FirebaseUser firebaseUser)
+    public static void init(final Users user)
     {
-        Log.d(LOGINTAG, "Stage 4, init singleton with user from credentials "+firebaseUser.toString());
-        FireBaseAble fbHelper = new FireBaseAble() {
+        instance = user;
+        new AsyncTask<Void, Void, Void>(){
             @Override
-            public void resultTicket(Ticket ticket) {
+            protected Void doInBackground(Void... voids) {
+                Log.d(LOGINTAG, "::AsyncTask");
+                Log.d(LOGINTAG, "Calling getAllTicketLites");
+                UtlFirebase.getAllTicketLites(fbHelper);
+                Log.d(LOGINTAG, "Calling getAllCompanies");
+                UtlFirebase.getAllCompanies(fbHelper);
+                Log.d(LOGINTAG, "Calling getAllTickets");
+                UtlFirebase.getAllTickets(fbHelper);
 
+                return null;
+            }
+        }.execute();
+                //UtlFirebase.stateListener("l","l","l");//TODO:make it work
             }
 
-            @Override
-            public void resultUser(Users user) {
-                instance = user;
-                Log.d(LOGINTAG, "Final stage, instance initialized as "+user.getUserEmail()+", "+user.getUserStatus());
-                UtlFirebase.getAllTicketLites(this);
-            }
+    public static void refreshTicketLites(){
+        UtlFirebase.getAllTicketLites(fbHelper);
+    }
 
-            @Override
-            public void ticketListCallback(List<Ticket> tickets) {
+    private static FireBaseAble fbHelper = new FireBaseAble() {
+        @Override
+        public void resultTicket(Ticket ticket) {
 
-            }
+        }
 
-            @Override
-            public void ticketLiteListCallback(List<TicketLite> ticketLites) {
-                TicketLite.setTicketLiteList(ticketLites);
-            }
+        @Override
+        public void resultUser(Users user) {
 
-            @Override
-            public void resultBoolean(boolean bool) {
+        }
 
-            }
+        @Override
+        public void ticketListCallback(List<Ticket> tickets) {
+            Ticket.setTicketList(tickets);
+        }
 
-            @Override
-            public void companyListCallback(List<GenericKeyValueTypeable> companies) {
+        @Override
+        public void ticketLiteListCallback(List<TicketLite> ticketLites) {
+            TicketLite.setTicketLiteList(ticketLites);
+        }
 
-            }
+        @Override
+        public void resultBoolean(boolean bool) {
 
-            @Override
-            public void productListCallback(List<Product> products) {
+        }
 
-            }
+        @Override
+        public void companyListCallback(List<Company> companies) {
+            Company.setCompanyList(companies);
+        }
 
-            @Override
-            public void categoryListCallback(List<Category> categories) {
+        @Override
+        public void productListCallback(List<Product> products) {
 
-            }
+        }
 
-            @Override
-            public void regionListCallback(List<Region> regions) {
+        @Override
+        public void categoryListCallback(List<Category> categories) {
 
-            }
-        };
-        UtlFirebase.loginUser(firebaseUser, fbHelper);
-        //UtlFirebase.stateListener("l","l","l");//TODO:make it work
-            }
+        }
 
+        @Override
+        public void regionListCallback(List<Region> regions) {
+
+        }
+    };
     }
 
 

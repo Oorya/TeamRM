@@ -24,7 +24,7 @@ android:clipToPadding="false"
             android:id="@+id/toastIcon"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:src="@drawable/ic_info_outline"
+            tools:src="@drawable/ic_info_outline"
             android:layout_centerVertical="true"
             android:layout_marginEnd="8dp"
             />

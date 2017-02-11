@@ -18,9 +18,9 @@ import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.teamrm.teamrm.Adapter.RegionAdapter;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
-import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Category;
+import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.Product;
 import com.teamrm.teamrm.Type.Region;
 import com.teamrm.teamrm.Type.Ticket;
@@ -141,7 +141,7 @@ public class AdminSettingsDefineRegions extends Fragment implements FireBaseAble
     }
 
     @Override
-    public void companyListCallback(List<GenericKeyValueTypeable> companies) {
+    public void companyListCallback(List<Company> companies) {
 
     }
 

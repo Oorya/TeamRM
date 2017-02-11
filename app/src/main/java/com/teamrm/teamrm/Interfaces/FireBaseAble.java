@@ -21,7 +21,7 @@ public interface FireBaseAble
     void ticketListCallback(List<Ticket> tickets);
     void ticketLiteListCallback(List<TicketLite> ticketLites);
     void resultBoolean(boolean bool);
-    void companyListCallback(List<GenericKeyValueTypeable> companies);
+    void companyListCallback(List<Company> companies);
     void productListCallback(List<Product> products);
     void categoryListCallback(List<Category> categories);
     void regionListCallback(List<Region> regions);

@@ -5,9 +5,7 @@ import android.support.annotation.Nullable;
 import com.google.firebase.database.Exclude;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
-import com.teamrm.teamrm.Utility.UtlFirebase;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -18,11 +16,12 @@ public class Client extends Users implements GenericKeyValueTypeable,FireBaseAbl
     public Client(){}
 
     @Exclude
-    private List<GenericKeyValueTypeable> clientCompanies;
+    private List<Company> clientCompanies;
 
     public Client(String clientID, String userNameString, String userEmail, @Nullable String userPhone, @Nullable String userAddress) {
         super(clientID, userNameString, userEmail);
         //UtlFirebase.getAllClientCompanies(this);
+
     }
 
     @Override
@@ -63,7 +62,7 @@ public class Client extends Users implements GenericKeyValueTypeable,FireBaseAbl
     }
 
     @Override
-    public void companyListCallback(List<GenericKeyValueTypeable> companies) {
+    public void companyListCallback(List<Company> companies) {
         clientCompanies = companies;
     }
 

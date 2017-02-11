@@ -1,12 +1,9 @@
 package com.teamrm.teamrm.Fragment;
 
 
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -31,8 +28,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.teamrm.teamrm.Adapter.TicketListAdapter;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.FragmentHelper;
-import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
-import com.teamrm.teamrm.Interfaces.TicketStatus;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Category;
 import com.teamrm.teamrm.Type.Company;
@@ -41,6 +36,7 @@ import com.teamrm.teamrm.Type.Region;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.Users;
+import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.text.DateFormat;
@@ -62,7 +58,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
     public RecyclerView mRecyclerView;
     private SearchView searchView;
     private String searchViewQuery;
-    private List<TicketLite> ticketLiteList = new ArrayList<>();
+    private static List<TicketLite> ticketLiteList = TicketLite.getTicketLiteList();
     private TicketListAdapter ticketListAdapter;
     private LinearLayout title, filter, search, order;
     private SwipeRefreshLayout swipeContainer;
@@ -77,9 +73,9 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
     @Override
     public void onStart() {
         super.onStart();
-        if(ticketLiteList!=null)
-        ticketLiteList.clear();
-        ticketLiteList.addAll(TicketLite.getTicketLiteList());
+        //if(ticketLiteList!=null)
+        //ticketLiteList.clear();
+        //ticketLiteList.addAll(TicketLite.getTicketLiteList());
         orderList(ticketLiteList);
         Log.d("tiket", "onStart: "+TicketLite.getTicketLiteList().size());
         if(Ticket.getTicketList()!=null)
@@ -169,7 +165,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
                 mRecyclerView.post(new Runnable() {
                     @Override
                     public void run() {
-                        UtlFirebase.getAllTicketLites(TicketList.this);
+                        UserSingleton.refreshTicketLites();
                         swipeContainer.setRefreshing(false);
                     }
                 });
@@ -355,7 +351,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
     }
 
     @Override
-    public void companyListCallback(List<GenericKeyValueTypeable> companies) {
+    public void companyListCallback(List<Company> companies) {
 
     }
 

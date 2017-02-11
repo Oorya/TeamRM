@@ -15,13 +15,18 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.teamrm.teamrm.Fragment.TicketView;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Type.Admin;
+import com.teamrm.teamrm.Type.Client;
+import com.teamrm.teamrm.Type.Technician;
 import com.teamrm.teamrm.Type.TicketLite;
+import com.teamrm.teamrm.Utility.UserSingleton;
 
 import java.util.List;
 
@@ -38,12 +43,12 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
     private Typeface LIGHT;
     private Typeface REGULAR;
     private Typeface SEMI_BOLD;
-    private List<TicketLite> mTicketLiteList;
+    private static List<TicketLite> mTicketLiteList;
     private Context mContext;
     private static final String TAG = ":::TicketListAdapter:::";
 
     public TicketListAdapter(Context context, List<TicketLite> ticketLiteList) {
-        this.mTicketLiteList = ticketLiteList;
+        mTicketLiteList = ticketLiteList;
         this.mContext = context;
         setFont();
     }
@@ -112,6 +117,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
     public void onBindViewHolder(TicketListAdapter.CustomViewHolder holder, final int position) {
         final TicketLite item = mTicketLiteList.get(position);
         holder.clientNameString.setText(item.getClientNameString());
+        holder.companyNameString.setText(item.getCompanyName());
         if (item.getTechNameString() == null) {
             holder.technicianNameString.setText(R.string.label_no_assigned_tech);
             holder.techFirstLetter.setText("?");
@@ -180,6 +186,8 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
         protected CardView technicianColorView;
         protected TextView techFirstLetter;
         protected CardView cardContainer;
+        protected RelativeLayout clientNameSpan;
+        protected RelativeLayout companyNameSpan;
 
 
         public CustomViewHolder(View view, int viewNum) {
@@ -209,6 +217,9 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
         }
 
         private void setView1() {
+
+            this.clientNameSpan = (RelativeLayout)view.findViewById(R.id.clientNameSpan);
+            this.companyNameSpan = (RelativeLayout)view.findViewById(R.id.companyNameSpan);
             this.ticketNumber = (TextView) view.findViewById(R.id.ticketNum);
             this.ticketStatusString = (TextView)view.findViewById(R.id.ticketStatusString);
             this.clientNameString = (TextView) view.findViewById(R.id.clientName);
@@ -230,6 +241,17 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
             }
             this.cardContainer = (CardView) view.findViewById(R.id.cardContainer);
             this.techFirstLetter = (TextView) view.findViewById(R.id.techFirstLetter);
+
+            if (UserSingleton.getInstance() instanceof Client) {
+                this.clientNameSpan.setVisibility(View.GONE);
+                this.companyNameSpan.setVisibility(View.VISIBLE);
+            } else if (UserSingleton.getInstance() instanceof Technician) {
+                //do nothing
+            } else if ((UserSingleton.getInstance() instanceof Admin)) {
+                //do nothing
+            } else {
+                Log.e(TAG, "Undefined singleton");
+            }
 
             this.regionName.setTypeface(BOLD);
             this.categoryName.setTypeface(SEMI_BOLD);

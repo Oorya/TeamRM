@@ -78,21 +78,22 @@ public class Ticket {
     private boolean ticketIsClosed;
     private static List<Ticket> ticketList = new ArrayList<>();
 
+    public static final String CLIENT_ID = "clientID";
+    public static final String CLIENT_EMAIL = "clientEmail";
+    public static final String CLIENT_NAME_STRING = "clientNameString";
+    public static final String COMPANY_ID = "companyID";
+    public static final String COMPANY_NAME = "companyName";
+    public static final String TICKET_STATE_STRING = "ticketStateString";
+    public static final String TECH_ID = "techID";
+    public static final String TICKET_PRESENTATION = "ticketPresentation";
 
-    public static void setTicketList(ArrayList<Ticket> tickets) {
-        ticketList = tickets;
-    }
-
-    public static List<Ticket> getTicketList() {
-        return ticketList;
-    }
 
     public Ticket() {
     }  //empty constructor, must have
 
     public Ticket(String clientID,
                   String ticketPhone, String ticketAddress,
-                  String ticketID, String companyID,
+                  String ticketID, String companyID, String companyName,
                   Product product, Category category, Region region, String descriptionShort, String descriptionLong, String ticketImage1, String ticketImage2) {
         this.clientID = clientID;
         this.clientEmail = UserSingleton.getInstance().getUserEmail();
@@ -104,6 +105,7 @@ public class Ticket {
         this.ticketID = ticketID;
         this.ticketNumber = ticketID.substring(0, 8);
         this.companyID = companyID;
+        this.companyName = companyName;
 
         this.productID = product.getProductID();
         this.productName = product.getProductName();
@@ -278,7 +280,7 @@ public class Ticket {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss - dd/MM/yyyy");
         //get current date ticketOpenDateTime with Date()
         Date date = new Date();
-        //return dateFormat.format(cal.getTime()));
+        //return dateFormat.format(cal.getCompanyCreationTime()));
         return dateFormat.format(date);
     }
 
@@ -429,4 +431,13 @@ public class Ticket {
     public boolean isTicketIsClosed() {
         return ticketIsClosed;
     }
+
+    public static List<Ticket> getTicketList() {
+        return ticketList;
+    }
+
+    public static void setTicketList(List<Ticket> ticketList) {
+        Ticket.ticketList = ticketList;
+    }
 }
+

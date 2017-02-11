@@ -12,12 +12,14 @@ import java.util.List;
 
 public class TicketLite {
 
+    private String clientID;
     private String clientNameString;
 
     private String ticketAddress;
 
     private String ticketID;
     private String ticketNumber;
+    private String companyID;
     private String companyName;
 
     private String productName;
@@ -52,12 +54,14 @@ public class TicketLite {
     }
 
     public TicketLite(Ticket ticket) {
+        this.clientID = ticket.getClientID();
         this.clientNameString = ticket.getClientNameString();
 
         this.ticketAddress = ticket.getTicketAddress();
 
         this.ticketID = ticket.getTicketID();
         this.ticketNumber = ticket.getTicketNumber();
+        this.companyID=ticket.getCompanyID();
         this.companyName = ticket.getCompanyName();
 
         this.productName = ticket.getProductName();
@@ -250,5 +254,21 @@ public class TicketLite {
 
     public void setTechColor(String techColor) {
         this.techColor = techColor;
+    }
+
+    public String getClientID() {
+        return clientID;
+    }
+
+    public void setClientID(String clientID) {
+        this.clientID = clientID;
+    }
+
+    public String getCompanyID() {
+        return companyID;
+    }
+
+    public void setCompanyID(String companyID) {
+        this.companyID = companyID;
     }
 }

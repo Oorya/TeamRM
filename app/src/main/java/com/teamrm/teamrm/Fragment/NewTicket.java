@@ -51,7 +51,7 @@ import java.util.UUID;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class NewTicket extends Fragment implements AdapterView.OnItemSelectedListener, FireBaseAble{
+public class NewTicket extends Fragment implements AdapterView.OnItemSelectedListener, FireBaseAble {
 
     private Spinner selectCompany, selectProduct, selectCategory, selectRegion;
     public static ImageView imageView1, imageView2;
@@ -81,22 +81,13 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     private boolean sentToSettings = false;
     Context context;
 
-    public NewTicket() {}
+    public NewTicket() {
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        switch (UserSingleton.getInstance().getUserStatus()){
-            case UserSingleton.STATUS_CLIENT:
-                UtlFirebase.getAllClientCompanies(this);
-                break;
-
-            case UserSingleton.STATUS_ADMIN:
-            case UserSingleton.STATUS_TECH:
-                UtlFirebase.getCurrentCompany(this);
-        }
-
-
+        companiesList.addAll(Company.getCompanyList());
     }
 
     @Override
@@ -106,38 +97,40 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         context = this.getContext();
         getActivity().findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
 
-        imageView1 = (ImageView)view.findViewById(R.id.photoChooser1);
-        imageView2 = (ImageView)view.findViewById(R.id.photoChooser2);
-        ticketAddress = (EditText)view.findViewById(R.id.txtAddress);
-        ticketPhone = (EditText)view.findViewById(R.id.txtPhone);
-        descriptionShort = (EditText)view.findViewById(R.id.descriptionShort);
-        descriptionLong = (EditText)view.findViewById(R.id.descriptionLong);
+        imageView1 = (ImageView) view.findViewById(R.id.photoChooser1);
+        imageView2 = (ImageView) view.findViewById(R.id.photoChooser2);
+        ticketAddress = (EditText) view.findViewById(R.id.txtAddress);
+        ticketPhone = (EditText) view.findViewById(R.id.txtPhone);
+        descriptionShort = (EditText) view.findViewById(R.id.descriptionShort);
+        descriptionLong = (EditText) view.findViewById(R.id.descriptionLong);
 
         selectCompany = (Spinner) view.findViewById(R.id.selectCompanySpinner);
         selectProduct = (Spinner) view.findViewById(R.id.selectProductSpinner);
         selectCategory = (Spinner) view.findViewById(R.id.selectCategoryASpinner);
         selectRegion = (Spinner) view.findViewById(R.id.selectRegionSpinner);
 
-        utlCamera=new UtlCamera(getContext(),getActivity());
+        utlCamera = new UtlCamera(getContext(), getActivity());
+
+        listCompanyAdapter = new GenericPrefListAdapter(context, companiesList);
+        selectCompany.setAdapter(listCompanyAdapter);
+        setSpinnerAdapters();
 
         selectProduct.setEnabled(false);
         selectCategory.setEnabled(false);
         selectRegion.setEnabled(false);
 
-        pref = getContext().getSharedPreferences("strImg",MODE_PRIVATE);
-        editor=pref.edit();
-
-
+        pref = getContext().getSharedPreferences("strImg", MODE_PRIVATE);
+        editor = pref.edit();
 
 
         selectCompany.setOnItemSelectedListener(this);
 
 
-        btnSubmitTicket = (Button)view.findViewById(R.id.btnSubmitTicket);
+        btnSubmitTicket = (Button) view.findViewById(R.id.btnSubmitTicket);
         btnSubmitTicket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkEntries()){
+                if (checkEntries()) {
                     submitTicket(view);
                 }
             }
@@ -162,39 +155,37 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
 
     private void getPermission() {
         String[] permissionList = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        ActivityCompat.requestPermissions(getActivity(),permissionList,108);
+        ActivityCompat.requestPermissions(getActivity(), permissionList, 108);
     }
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions,  int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Log.w("Permission new ticket", "new ticket");
-        if(grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED)
-        {
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
             Log.w("Permission new ticket", "INSIDE IF");
             utlCamera.selectImage();
-        }
-        else
-        {
+        } else {
 
         }
-        Log.d("REQUEST  ",requestCode+"");
+        Log.d("REQUEST  ", requestCode + "");
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser) {
+        if (isVisibleToUser) {
             Activity a = getActivity();
-            if(a != null) a.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            if (a != null) a.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //super.onActivityResult(requestCode, resultCode, data);
 
-        Log.e("RESULT","RESULT");
+        Log.e("RESULT", "RESULT");
         Toast.makeText(getContext(), "ON ACTIVITY RESULT", Toast.LENGTH_SHORT).show();
         /*if (requestCode == REQUEST_PERMISSION_SETTING) {
             if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
@@ -207,30 +198,33 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         parent.getItemAtPosition(position);
-        switch (parent.getId()){
+        switch (parent.getId()) {
             case R.id.selectCompanySpinner:
                 selectCompany.setSelection(position);
-                selectedCompany = (Company)selectCompany.getSelectedItem();
+                selectedCompany = (Company) selectCompany.getSelectedItem();
                 setSpinnerAdapters();
                 break;
             case R.id.selectProductSpinner:
-            selectProduct.setSelection(position);
-            selectedProduct = (Product)selectProduct.getSelectedItem();
-            break;
+                selectProduct.setSelection(position);
+                selectedProduct = (Product) selectProduct.getSelectedItem();
+                break;
 
             case R.id.selectCategoryASpinner:
-            selectCategory.setSelection(position);
-            selectedCategory = (Category)selectCategory.getSelectedItem();
-            break;
+                selectCategory.setSelection(position);
+                selectedCategory = (Category) selectCategory.getSelectedItem();
+                break;
 
             case R.id.selectRegionSpinner:
-            selectRegion.setSelection(position);
-            selectedRegion = (Region)selectRegion.getSelectedItem();
-            break;
+                selectRegion.setSelection(position);
+                selectedRegion = (Region) selectRegion.getSelectedItem();
+                break;
         }
     }
 
     private void setSpinnerAdapters() {
+        if (selectedCompany == null) {
+            selectedCompany = (Company) companiesList.get(0);
+        }
         UtlFirebase.getProducts(selectedCompany.getCompanyId(), this);
         UtlFirebase.getCategories(selectedCompany.getCompanyId(), this);
         UtlFirebase.getRegions(selectedCompany.getCompanyId(), this);
@@ -247,16 +241,16 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
 
     }
 
-    private boolean checkEntries(){
+    private boolean checkEntries() {
         //add method
         //TODO: add check if not exist user address, phone -> ask if to save?
         return true;
     }
 
-    private void submitTicket(View view){
+    private void submitTicket(View view) {
 
         //Calendar cal = Calendar.getInstance(); // creates calendar
-        if (UserSingleton.getInstance().getUserAddress().isEmpty()){
+        /*if (UserSingleton.getInstance().getUserAddress() == null) {
             new MaterialDialog.Builder(getContext())
                     .title(R.string.label_dialog_save_user_detail)
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -278,13 +272,13 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
                     .dividerColorRes(R.color.textColor_lighter)
                     .show();
         } else {
-            if (UserSingleton.getInstance().getUserPhone().isEmpty()){
+            if (UserSingleton.getInstance().getUserPhone() == null) {
                 new MaterialDialog.Builder(getContext())
                         .title(R.string.label_add_category)
                         .input("", "", new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                                Toast.makeText(getContext(),  input.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), input.toString(), Toast.LENGTH_SHORT).show();
                                 UtlFirebase.addCategory(UserSingleton.getInstance().getAssignedCompanyID(), input.toString());
                             }
                         })
@@ -306,24 +300,27 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
                         .negativeColorRes(R.color.colorPrimaryDark)
                         .dividerColorRes(R.color.textColor_lighter)
                         .show();
-            } else {
+            } else {*/
 
-        String uid = UUID.randomUUID().toString();
-        Ticket newTicket = new Ticket(UserSingleton.getInstance().getUserID(), this.ticketPhone.getText().toString(), this.ticketAddress.getText().toString(), uid, selectedCompany.getCompanyId(),
-                this.selectedProduct, this.selectedCategory, this.selectedRegion, this.descriptionShort.getText().toString(), this.descriptionLong.getText().toString(),
-                img1 != null ? UtlImage.bitmap2string(img1):"error", img2 != null ? UtlImage.bitmap2string(img2):"error");
-        UtlFirebase.addTicket(newTicket);
-        newTicket.updateTicketStateString(TicketStateStringable.STATE_A01, newTicket);
-        Toast.makeText(getContext(), "Success opening ticket " + newTicket.getTicketNumber(), Toast.LENGTH_LONG).show();
-        ((HomeScreen) getActivity()).onDrawerItemSelected(view, 0);
-    }}}
+                String uid = UUID.randomUUID().toString();
+                Ticket newTicket = new Ticket(UserSingleton.getInstance().getUserID(), this.ticketPhone.getText().toString(), this.ticketAddress.getText().toString(), uid,
+                        selectedCompany.getCompanyId(), selectedCompany.getCompanyName(),
+                        this.selectedProduct, this.selectedCategory, this.selectedRegion, this.descriptionShort.getText().toString(), this.descriptionLong.getText().toString(),
+                        img1 != null ? UtlImage.bitmap2string(img1) : "error", img2 != null ? UtlImage.bitmap2string(img2) : "error");
+                UtlFirebase.addTicket(newTicket);
+                newTicket.updateTicketStateString(TicketStateStringable.STATE_A01, newTicket);
+                //Toast.makeText(getContext(), "Success opening ticket " + newTicket.getTicketNumber(), Toast.LENGTH_LONG).show();
+                ((HomeScreen) getActivity()).onDrawerItemSelected(view, 0);
+            }
+        //}
+    //}
 
     @Override
-    public void companyListCallback(List<GenericKeyValueTypeable> companies) {
-        companiesList = companies;
+    public void companyListCallback(List<Company> companies) {
+        /*companiesList = companies;
         listCompanyAdapter = new GenericPrefListAdapter(context, companiesList);
         selectCompany.setAdapter(listCompanyAdapter);
-        setSpinnerAdapters();
+        setSpinnerAdapters();*/
     }
 
     @Override

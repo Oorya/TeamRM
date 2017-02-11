@@ -3,29 +3,49 @@ package com.teamrm.teamrm.Type;
 /**
  * Created byאOorya on 07/07/2016.
  */
-public abstract class Users
-{
+public abstract class Users {
     public static final String STATUS_ADMIN = "Admin";
     public static final String STATUS_TECH = "Tech";
     public static final String STATUS_CLIENT = "Client";
+
     private String userID;
     private String userNameString;
     private String userEmail;
-    private boolean isUserAdmin;
+    private boolean userIsAdmin;
     private String userStatus;
     private String userPhone;
     private String userAddress;
     private String assignedCompanyID;
 
+    public static final String USER_ID = "userID";
+    public static final String USER_NAMESTRING = "userNameString";
+    public static final String USER_EMAIL = "userEmail";
+    public static final String USER_IS_ADMIN = "userIsAdmin";
+    public static final String USER_STATUS = "userStatus";
+    public static final String USER_PHONE = "userPhone";
+    public static final String USER_ADDRESS = "userAddress";
+    public static final String ASSIGNED_COMPANY_ID = "assignedCompanyID";
 
-    public Users(){}  //empty constructor, must have
+
+
+    public Users() {
+    }  //empty constructor, must have
 
     public Users(String userID, String userNameString, String userEmail) {
         this.userID = userID;
         this.userNameString = userNameString;
         this.userEmail = userEmail;
         this.userStatus = STATUS_CLIENT;
-        this.isUserAdmin = false;
+        this.userIsAdmin = false;
+
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public String getUserNameString() {
@@ -44,20 +64,12 @@ public abstract class Users
         this.userEmail = userEmail;
     }
 
-    public String getUserID() {
-        return userID;
+    public boolean isUserIsAdmin() {
+        return userIsAdmin;
     }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
-    }
-
-    public boolean isUserAdmin() {
-        return isUserAdmin;
-    }
-
-    public void setUserAdmin(boolean userAdmin) {
-        this.isUserAdmin = userAdmin;
+    public void setUserIsAdmin(boolean userIsAdmin) {
+        this.userIsAdmin = userIsAdmin;
     }
 
     public String getUserStatus() {
@@ -66,14 +78,6 @@ public abstract class Users
 
     public void setUserStatus(String userStatus) {
         this.userStatus = userStatus;
-    }
-
-    public String getAssignedCompanyID() {
-        return assignedCompanyID;
-    }
-
-    public void setUserCompany(String userCompany) {
-        this.assignedCompanyID = userCompany;
     }
 
     public String getUserPhone() {
@@ -92,4 +96,11 @@ public abstract class Users
         this.userAddress = userAddress;
     }
 
-   }
+    public String getAssignedCompanyID() {
+        return assignedCompanyID;
+    }
+
+    public void setAssignedCompanyID(String assignedCompanyID) {
+        this.assignedCompanyID = assignedCompanyID;
+    }
+}

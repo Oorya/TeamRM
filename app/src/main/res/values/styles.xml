@@ -188,7 +188,15 @@
         <item name="android:textColor">@color/textColor_primary</item>
         <item name="android:textSize">14sp</item>
     </style>
-
+    <style name="TicketCardLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:textColor">@color/textColor_lighter</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:spacing">-0.2sp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+    </style>
     <style name="Separator4dp">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">4dp</item>

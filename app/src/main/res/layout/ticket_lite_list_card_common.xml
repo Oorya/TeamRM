@@ -68,9 +68,9 @@
             android:layout_centerVertical="true"
             android:elevation="10dp"
             android:gravity="center_horizontal|center_vertical"
+            android:paddingBottom="2dp"
             android:textColor="#fff"
             android:textSize="19sp"
-            android:paddingBottom="2dp"
             tools:text="\?"
             tools:textStyle="bold" />
 
@@ -110,8 +110,15 @@
         android:layout_below="@id/horizontalSeparator1">
 
         <TextView
+            android:id="@+id/ticketProductLabel"
+            style="@style/TicketCardLabel"
+            android:text="@string/label_product"
+            tools:textStyle="bold" />
+
+        <TextView
             android:id="@+id/ticketProduct"
             style="@style/TicketCardText"
+            android:layout_toEndOf="@id/ticketProductLabel"
             tools:text="מחשב תמיכה במישרד"
             tools:textStyle="bold" />
 
@@ -122,9 +129,15 @@
             android:layout_toEndOf="@id/ticketProduct" />
 
         <TextView
+            android:id="@+id/ticketCategoryLabel"
+            style="@style/TicketCardLabel"
+            android:layout_toEndOf="@id/productCategoryRowSeparator1"
+            android:text="@string/label_category" />
+
+        <TextView
             android:id="@+id/ticketCategory"
             style="@style/TicketCardText"
-            android:layout_toEndOf="@id/productCategoryRowSeparator1"
+            android:layout_toEndOf="@id/ticketCategoryLabel"
             tools:text="תקלת חומרה" />
 
     </RelativeLayout>
@@ -136,8 +149,15 @@
         android:layout_below="@id/productCategoryRow">
 
         <TextView
+            android:id="@+id/ticketRegionLabel"
+            style="@style/TicketCardLabel"
+            android:text="@string/label_region"
+            tools:textStyle="bold" />
+
+        <TextView
             android:id="@+id/ticketRegion"
             style="@style/TicketCardText"
+            android:layout_toEndOf="@id/ticketRegionLabel"
             tools:text="גוש דן"
             tools:textStyle="bold" />
 
@@ -148,9 +168,15 @@
             android:layout_toEndOf="@id/ticketRegion" />
 
         <TextView
+            android:id="@+id/ticketAddressLabel"
+            style="@style/TicketCardLabel"
+            android:layout_toEndOf="@id/regionAddressRowSeparator1"
+            android:text="@string/label_address" />
+
+        <TextView
             android:id="@+id/ticketAddress"
             style="@style/TicketCardText"
-            android:layout_toEndOf="@id/regionAddressRowSeparator1"
+            android:layout_toEndOf="@id/ticketAddressLabel"
             tools:text="שדרות המסתננים 78 תל אביב" />
 
     </RelativeLayout>
@@ -162,7 +188,14 @@
         android:layout_below="@id/regionAddressRow">
 
         <TextView
+            android:id="@+id/descriptionShortLabel"
+            style="@style/TicketCardLabel"
+            android:text="@string/label_description_short"
+            tools:textStyle="bold" />
+
+        <TextView
             android:id="@+id/descriptionShort"
+            android:layout_toEndOf="@id/descriptionShortLabel"
             style="@style/TicketCardText"
             tools:text="מחשב נפל מהשולחן"
             tools:textStyle="bold" />
@@ -172,11 +205,16 @@
             style="@style/SeparatorVertical"
             android:layout_height="16dp"
             android:layout_toEndOf="@id/descriptionShort" />
+        <TextView
+            android:id="@+id/descriptionLongLabel"
+            style="@style/TicketCardLabel"
+            android:layout_toEndOf="@id/descriptionRowSeparator1"
+            android:text="@string/label_description_long" />
 
         <TextView
             android:id="@+id/descriptionLong"
             style="@style/TicketCardText"
-            android:layout_toEndOf="@id/descriptionRowSeparator1"
+            android:layout_toEndOf="@id/descriptionLongLabel"
             android:ellipsize="end"
             android:maxLines="1"
             tools:text="נפל מחשב נשבר לחלקים קטנים מה עושים עכשיו תעזרו לי" />
