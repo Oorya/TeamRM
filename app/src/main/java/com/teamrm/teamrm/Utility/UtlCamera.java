@@ -157,7 +157,7 @@ public class UtlCamera extends Activity
                 {
                     case 1:
                         NewTicket.imageView1.setImageBitmap(bm);
-                        NewTicket.imgUri2 = selectedImageUri;
+                        NewTicket.imgUri1 = selectedImageUri;
                         break;
                     case 2:
                         NewTicket.imageView2.setImageBitmap(bm);
