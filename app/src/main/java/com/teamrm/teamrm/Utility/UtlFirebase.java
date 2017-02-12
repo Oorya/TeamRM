@@ -312,7 +312,9 @@ public class UtlFirebase { //TODO: make singleton
         TICKET_ROOT_REFERENCE.child(ticketID).child(Ticket.TICKET_STATE_STRING).setValue(ticketStateString, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                toastSuccessOrError("", databaseError);
+                if (databaseError != null){
+                    toastTheError(databaseError);
+                }
             }
         });
     }
