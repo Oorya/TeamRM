@@ -39,12 +39,12 @@ public class NiceToast extends Toast {
                 break;
 
             case NICETOAST_WARNING:
-                toastCard.setBackgroundResource(R.color.status_pending);
+                toastBG.setBackgroundResource(R.color.status_pending);
                 icon.setBackgroundResource(R.drawable.ic_icon_alert2);
                 break;
 
             case NICETOAST_ERROR:
-                toastCard.setBackgroundResource(R.color.status_error);
+                toastBG.setBackgroundResource(R.color.status_error);
                 icon.setBackgroundResource(R.drawable.ic_icon_error);
         }
         setView(layout);
