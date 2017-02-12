@@ -27,11 +27,12 @@ import java.util.Date;
 
 public class UtlCamera extends Activity
 {
-    Context context;
+    private static Context context;
     Activity activity;
     private String picturePath = "";
     private static final int SELECT_FILE = 105;
     private static final int FROM_CAMERA = 205;
+    private static Uri selectedImageUri;
     ByteArrayOutputStream baos=new ByteArrayOutputStream();
 
     public UtlCamera(Context context, Activity activity)
@@ -80,9 +81,11 @@ public class UtlCamera extends Activity
                     {
                         case 1:
                             NewTicket.imageView1.setImageResource(R.drawable.ic_image_black_24dp);
+                            NewTicket.imgUri1 = null;
                             break;
                         case 2:
                             NewTicket.imageView2.setImageResource(R.drawable.ic_image_black_24dp);
+                            NewTicket.imgUri2 = null;
                             break;
                     }
                 }
@@ -105,48 +108,60 @@ public class UtlCamera extends Activity
             if (requestCode == FROM_CAMERA)
             {
                 File imgFile = new  File(picturePath);
-
+                //selectedImageUri = Uri.fromFile(imgFile);
                 if(imgFile.exists()){
                     Log.w("FILE EXIST : ",imgFile.exists()+"");
 
                     Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
 
                     myBitmap.compress(Bitmap.CompressFormat.JPEG,80,baos);
-                    //savePicSP("img1",UtlImage.bitmap2string(myBitmap));
+
+                    String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), myBitmap,null, null);
+                    selectedImageUri = Uri.parse(path);
+
+                    Log.w("image uri 1 C", selectedImageUri == null?"null 1":"not null 1");
+
                     Log.w("image click", NewTicket.imgClick+" ==");
                     switch (NewTicket.imgClick)
                     {
                         case 1:
                             NewTicket.imageView1.setImageBitmap(myBitmap);
-                            NewTicket.img1 = myBitmap;
+                            NewTicket.imgUri1 = selectedImageUri;
+
                             break;
                         case 2:
                             NewTicket.imageView2.setImageBitmap(myBitmap);
-                            NewTicket.img2 = myBitmap;
+                            NewTicket.imgUri2 = selectedImageUri;
                             break;
                     }
                 }
             }
             else if (requestCode == SELECT_FILE)
             {
-                Log.w("Select file: ","Select file");
-                Uri selectedImageUri = data.getData();
 
-                String tempPath = getPath(selectedImageUri, activity);
+                Log.w("Select file: ","Select file");
+
+                Uri uriTemp = data.getData();
+                //selectedImageUri = data.getData();
+                String tempPath = getPath(uriTemp, activity);
                 Bitmap bm;
                 BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
                 bm = BitmapFactory.decodeFile(tempPath, btmapOptions);
                 bm.compress(Bitmap.CompressFormat.JPEG,80,baos);
-                //savePicSP("img1",UtlImage.bitmap2string(bm));
+
+                String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), bm,null, null);
+                selectedImageUri = Uri.parse(path);
+
+                Log.w("image uri 1 L", selectedImageUri == null?"null 1":"not null 1");
                 switch (NewTicket.imgClick)
                 {
                     case 1:
                         NewTicket.imageView1.setImageBitmap(bm);
-                        NewTicket.img1 = bm;
+                        NewTicket.imgUri2 = selectedImageUri;
                         break;
                     case 2:
                         NewTicket.imageView2.setImageBitmap(bm);
-                        NewTicket.img2 = bm;
+                        NewTicket.imgUri2 = selectedImageUri;
                         break;
                 }
             }

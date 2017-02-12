@@ -18,8 +18,8 @@ import android.widget.Toast;
 
 import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
-import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
+import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Category;
 import com.teamrm.teamrm.Type.Company;
@@ -31,7 +31,6 @@ import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
 import com.teamrm.teamrm.Utility.UtlFirebase;
-import com.teamrm.teamrm.Utility.UtlImage;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -53,7 +52,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     TextView userName, userProfile, txtCancel, endTimeTxt, txtProduct, txtCategory, txtRegion,
         txtProductEx, txtCategoryEx, txtRegionEx, txtAddressEx, txtPhoneEx, descriptionShort, descriptionLong,
         userNameEx, mailUserEx, regionUserEx, addressUserEx, phoneUserEx;
-    ImageView img1, img2;
+    public static ImageView img1, img2;
     private Ticket ticket;
     static  String ticketID, timeFormated;
     static Long bundleEndTime;
@@ -349,11 +348,11 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
         if(!ticket.getTicketImage1().equals("error"))
         {
-            img1.setImageBitmap(UtlImage.string2bitmap(ticket.getTicketImage1()));
+            UtlFirebase.downloadFile(ticket.getTicketID()+"/pic1.jpg",1);
         }
         if(!ticket.getTicketImage2().equals("error"))
         {
-            img2.setImageBitmap(UtlImage.string2bitmap(ticket.getTicketImage2()));
+            UtlFirebase.downloadFile(ticket.getTicketID()+"/pic2.jpg",2);
         }
         if(ticket.getTicketCloseDateTime() !=null)
             endTimeTxt.setText(date2String(ticket.getTicketCloseDateTime()));

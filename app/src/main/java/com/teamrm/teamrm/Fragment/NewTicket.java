@@ -8,8 +8,8 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -24,9 +24,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.GravityEnum;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Adapter.GenericPrefListAdapter;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
@@ -43,7 +40,6 @@ import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlCamera;
 import com.teamrm.teamrm.Utility.UtlFirebase;
-import com.teamrm.teamrm.Utility.UtlImage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +52,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     private Spinner selectCompany, selectProduct, selectCategory, selectRegion;
     public static ImageView imageView1, imageView2;
     public static Bitmap img1, img2;
+    public static Uri imgUri1, imgUri2;
     private Company selectedCompany;
     private Product selectedProduct;
     private Category selectedCategory;
@@ -97,6 +94,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         context = this.getContext();
         getActivity().findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
 
+        UtlFirebase.setCurrentContext(getContext());
         imageView1 = (ImageView) view.findViewById(R.id.photoChooser1);
         imageView2 = (ImageView) view.findViewById(R.id.photoChooser2);
         ticketAddress = (EditText) view.findViewById(R.id.txtAddress);
@@ -303,17 +301,28 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
             } else {*/
 
                 String uid = UUID.randomUUID().toString();
+                uploadPicture(uid);
+
                 Ticket newTicket = new Ticket(UserSingleton.getInstance().getUserID(), this.ticketPhone.getText().toString(), this.ticketAddress.getText().toString(), uid,
                         selectedCompany.getCompanyId(), selectedCompany.getCompanyName(),
                         this.selectedProduct, this.selectedCategory, this.selectedRegion, this.descriptionShort.getText().toString(), this.descriptionLong.getText().toString(),
-                        img1 != null ? UtlImage.bitmap2string(img1) : "error", img2 != null ? UtlImage.bitmap2string(img2) : "error");
+                        imgUri1 != null ? uid+"/pic1.jpg" : "error", imgUri2 != null ? uid+"/pic2.jpg" : "error");
                 UtlFirebase.addTicket(newTicket);
                 newTicket.updateTicketStateString(TicketStateStringable.STATE_A01, newTicket);
                 //Toast.makeText(getContext(), "Success opening ticket " + newTicket.getTicketNumber(), Toast.LENGTH_LONG).show();
                 ((HomeScreen) getActivity()).onDrawerItemSelected(view, 0);
-            }
-        //}
-    //}
+    }
+
+    private void uploadPicture(String uid) {
+        if(imgUri1 != null)
+        {
+            UtlFirebase.uploadFile(uid+"/pic1.jpg", imgUri1);
+        }
+        if(imgUri2 != null)
+        {
+            UtlFirebase.uploadFile(uid+"/pic2.jpg", imgUri2);
+        }
+    }
 
     @Override
     public void companyListCallback(List<Company> companies) {

@@ -27,6 +27,7 @@ import com.teamrm.teamrm.Type.Client;
 import com.teamrm.teamrm.Type.Technician;
 import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Utility.UserSingleton;
+import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.util.List;
 
@@ -153,6 +154,14 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
                 ticketView.setArguments(bundle);
                 fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
                 fragmentManager.replace(R.id.container_body, ticketView).addToBackStack("NEW_TICKET").commit();
+            }
+        });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                UtlFirebase.removeTicket(item.getTicketID());
+                return false;
             }
         });
         /*if (position == mTicketLiteList.size()-1){

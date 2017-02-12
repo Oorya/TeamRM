@@ -1,12 +1,18 @@
 package com.teamrm.teamrm.Utility;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -15,6 +21,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.teamrm.teamrm.Fragment.TicketView;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.Type.Admin;
@@ -59,6 +70,7 @@ public class UtlFirebase { //TODO: make singleton
     private static final DatabaseReference TICKET_LITE_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("TicketLites");
     private static final DatabaseReference USERS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("Users");
     private static final DatabaseReference CLIENT_COMPANIES_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("ClientCompanies");
+    private static final StorageReference STORAGE_REFERENCE = FirebaseStorage.getInstance().getReferenceFromUrl("gs://teamrm-b1c06.appspot.com");
 
     final static String TAG = ":::UtlFirebase:::";
 
@@ -238,7 +250,7 @@ public class UtlFirebase { //TODO: make singleton
 ///////////////////////////// Ticket /////////////////////////////
 
     //Listener for state changed
-    public static void stateListener(final String statusUser, String email, String company) { //TODO:rebuild method
+    public static void stateListener(final String statusUser, String email, String company) { //TODO:rebuild method --> need service
         ticketFactory = new TicketFactory();
         final String userStatus = UserSingleton.getInstance().getUserStatus();
         final String userEmail = UserSingleton.getInstance().getUserEmail();
@@ -498,6 +510,7 @@ public class UtlFirebase { //TODO: make singleton
 
     public static void removeTicket(String ticketID) {
         TICKET_ROOT_REFERENCE.child(ticketID).removeValue();
+        TICKET_LITE_ROOT_REFERENCE.child(ticketID).removeValue();
     }
 
     public static void removeMultipleTickets(List<String> ticketsIDList) {
@@ -867,5 +880,86 @@ public class UtlFirebase { //TODO: make singleton
     public static void setCurrentContext(Context currentContext) {
         UtlFirebase.currentContext = currentContext;
         Log.d("setCurrentContext", currentContext.toString());
+    }
+
+///////////////////////////////// Storage /////////////////////////////
+
+    //this method will upload the file
+    public static void uploadFile(String path, Uri uriPic) {
+
+        //if there is a file to upload
+        if (uriPic != null) {
+            //displaying a progress dialog while upload is going on
+            final ProgressDialog progressDialog = new ProgressDialog(currentContext);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+
+            STORAGE_REFERENCE.child(path).putFile(uriPic)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            //if the upload is successful
+                            //hiding the progress dialog
+                            progressDialog.dismiss();
+
+                            //and displaying a success toast
+                            Toast.makeText(currentContext, "File Uploaded ", Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            //if the upload is not successful
+                            //hiding the progress dialog
+                            progressDialog.dismiss();
+
+                            //and displaying error message
+                            Toast.makeText(currentContext, exception.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            //calculating progress percentage
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+
+                            //displaying percentage in progress dialog
+                            progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
+                        }
+                    });
+        }
+
+        //if there is not any file
+        else {
+            //you can display an error toast
+        }
+    }
+
+    public static void downloadFile(String path, final int imgNum)
+    {
+        final long ONE_MEGABYTE = 1024 * 1024;
+        STORAGE_REFERENCE.child(path).getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                switch (imgNum)
+                {
+                    case 1:
+                        TicketView.img1.setImageBitmap(bitmap);
+                        break;
+                    case 2:
+                        TicketView.img2.setImageBitmap(bitmap);
+                        break;
+                    default:
+                        TicketView.img1.setImageBitmap(bitmap);
+                }
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
     }
 }
