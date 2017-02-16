@@ -254,7 +254,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
 
                         logOnToApp(task.getResult().getUser());
-                        startApp();
+
 
                         if (!task.isSuccessful()) {
                             Log.w(LOGINTAG, "Stage 3 failed with error " + task.getException());
@@ -274,7 +274,8 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
             @Override
             public void resultUser(Users user) {
-                UserSingleton.init(user);       //LOGIN STAGE 4 -> init the UserSingleton with FireBase-authenticated user
+                UserSingleton.init(user);       //LOGIN STAGE 7 -> init the UserSingleton with  user fetched from FireBase
+                startApp();
             }
 
             @Override

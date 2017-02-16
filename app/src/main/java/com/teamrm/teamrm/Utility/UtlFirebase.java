@@ -87,7 +87,7 @@ public class UtlFirebase { //TODO: make singleton
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()) {
-                    Log.d(LOGINTAG, "Stage 6, no such user " + firebaseUser.getEmail() + " exists, creating one");
+                    Log.d(LOGINTAG, "Stage 6a, no such user " + firebaseUser.getEmail() + " exists, creating one");
                     Client clientToAdd = new Client(firebaseUser.getUid(), firebaseUser.getDisplayName(), firebaseUser.getEmail(), "", "");
                     UtlFirebase.addClient(clientToAdd);
                     fbHelper.resultUser(clientToAdd);
@@ -96,12 +96,13 @@ public class UtlFirebase { //TODO: make singleton
                         if (item.child(Users.USER_STATUS).exists()) {
                             switch (item.child(Users.USER_STATUS).getValue().toString()) {
                                 case Users.STATUS_CLIENT:
-                                    Log.d(LOGINTAG, "found Client");
+                                    Log.d(LOGINTAG, "Stage 6b, found Client");
                                     fbHelper.resultUser(item.getValue(Client.class));                              // push current dataSnapshot as Client to the UserSingleton
                                     new NiceToast(currentContext, "You are logged in as Client", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_SHORT);
                                     break;
 
                                 case Users.STATUS_TECH:
+                                    Log.d(LOGINTAG, "Stage 6b, found Tech");
                                     Query techRef = COMPANY_TECHNICIANS_ROOT_REFERENCE                              //
                                             .child(dataSnapshot.child(Users.ASSIGNED_COMPANY_ID).getValue().toString())   // get Technician from the corresponding path
                                             .child(dataSnapshot.child(Users.USER_ID).getValue().toString());             //
@@ -125,6 +126,7 @@ public class UtlFirebase { //TODO: make singleton
                                     new NiceToast(currentContext, "You are logged in as Technician", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_SHORT);
                                     break;
                                 case Users.STATUS_ADMIN:
+                                    Log.d(LOGINTAG, "Stage 6b, found Admin");
                                     if (item.child(Users.USER_IS_ADMIN).getValue().equals(true)) {                             // check flag isAdmin
                                         fbHelper.resultUser(item.getValue(Admin.class));
                                     } else {
@@ -138,6 +140,7 @@ public class UtlFirebase { //TODO: make singleton
                                     break;
                             }
                         } else {
+                            Log.d(LOGINTAG, "Stage 6: Singleton undefined! fallback, logging in as Client!");
                             fbHelper.resultUser(item.getValue(Client.class));                       // push current dataSnapshot as Client to the UserSingleton
                             new NiceToast(currentContext, "You are logged in as Client", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_SHORT);
                         }
@@ -154,7 +157,7 @@ public class UtlFirebase { //TODO: make singleton
 
 
     public static void addClient(final Users user) {
-        Log.d(LOGINTAG, "Stage 7, adding user " + user.getUserEmail());
+        Log.d(LOGINTAG, "Stage 6a, adding user " + user.getUserEmail());
         USERS_ROOT_REFERENCE.child(user.getUserID()).setValue(user, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {

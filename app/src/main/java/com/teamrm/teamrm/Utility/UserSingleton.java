@@ -43,6 +43,7 @@ public class UserSingleton extends Users{
     public static void init(final Users user)
     {
         instance = user;
+        Log.d(LOGINTAG, "Stage 7, init the UserSingleton with user fetched from FireBase");
         new AsyncTask<Void, Void, Void>(){
             @Override
             protected Void doInBackground(Void... voids) {
