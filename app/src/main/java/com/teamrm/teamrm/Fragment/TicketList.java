@@ -85,6 +85,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
     }
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
@@ -198,6 +199,11 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
 
     @Override
     public void onClick(View v) {
