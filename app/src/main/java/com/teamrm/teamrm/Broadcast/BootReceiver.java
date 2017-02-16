@@ -5,10 +5,15 @@ import android.content.Intent;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
-import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
+import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Category;
 import com.teamrm.teamrm.Type.Company;
@@ -19,7 +24,6 @@ import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
-import com.teamrm.teamrm.Utility.UtlFirebase;
 import com.teamrm.teamrm.Utility.UtlNotification;
 
 import java.util.Calendar;
@@ -41,7 +45,8 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
     @Override
     public void onReceive(final Context context, Intent intent)
     {
-         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED"))
+        Log.w(" start receiver ","start receiver");
+         /*if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED"))
          {
                 Log.d("MESSEGE", "BootReceiver is activate after booting");
              utlAlarmManager = new UtlAlarmManager(context);
@@ -57,9 +62,22 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
 
              Log.d("MESSEGE", "BootReceiver is activate wen alarm start ");
 
-         }
+         }*/
 
+        DatabaseReference TICKET_LITE_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("TicketLites");
+        TICKET_LITE_ROOT_REFERENCE.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                UtlNotification notification = new UtlNotification("ערב טוב","התקבלה הודעה חדשה");
+                notification.sendNotification();
+                Log.w("receiver ","boot receiver");
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 

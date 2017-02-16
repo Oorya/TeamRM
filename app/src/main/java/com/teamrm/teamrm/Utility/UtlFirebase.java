@@ -709,7 +709,7 @@ public class UtlFirebase { //TODO: make singleton
 
     }
 
-    public static void updateProduct(String companyID, Product product, @NonNull final String productUpdatedName) {
+    public static void updateProduct(String companyID, Product product,  final String productUpdatedName) {
         COMPANY_PRODUCTS_ROOT_REFERENCE.child(companyID).child(product.getItemKey()).setValue(productUpdatedName, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -781,7 +781,7 @@ public class UtlFirebase { //TODO: make singleton
 
     }
 
-    public static void updateCategory(String companyID, Category category, @NonNull String categoryUpdatedName) {
+    public static void updateCategory(String companyID, Category category,  String categoryUpdatedName) {
         COMPANY_CATEGORIES_ROOT_REFERENCE.child(companyID).child(category.getItemKey()).setValue(categoryUpdatedName, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -852,7 +852,7 @@ public class UtlFirebase { //TODO: make singleton
 
     }
 
-    public static void updateRegion(String companyID, Region region, @NonNull String regionUpdatedName) {
+    public static void updateRegion(String companyID, Region region,  String regionUpdatedName) {
         COMPANY_REGIONS_ROOT_REFERENCE.child(companyID).child(region.getItemKey()).setValue(regionUpdatedName, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -874,7 +874,7 @@ public class UtlFirebase { //TODO: make singleton
         new NiceToast(currentContext, "Update failed with error \n" + dbError.getCode() + "\n" + dbError.getDetails(), NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
     }
 
-    public static void toastSuccessOrError(String positiveMessage, @Nullable DatabaseError dbError) {
+    public static void toastSuccessOrError(String positiveMessage, DatabaseError dbError) {
         if (dbError == null) {
             new NiceToast(currentContext, positiveMessage, NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_SHORT).show();
         } else {
@@ -962,7 +962,7 @@ public class UtlFirebase { //TODO: make singleton
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onFailure(@NonNull Exception e) {
+            public void onFailure(Exception e) {
 
             }
         });
