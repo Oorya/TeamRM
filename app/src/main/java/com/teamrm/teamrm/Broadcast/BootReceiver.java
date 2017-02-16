@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.teamrm.teamrm.Activities.HomeScreen;
+import com.teamrm.teamrm.Activities.SplashScreen;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.Interfaces.TicketStateStringable;
@@ -95,7 +96,7 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
 
     private void sendNotification(CharSequence title, String text, Context context)
     {
-        Intent homeScreen = new Intent(context, HomeScreen.class);
+        Intent homeScreen = new Intent(context, SplashScreen.class);
 
         Log.w("pending", PendingIntent.FLAG_UPDATE_CURRENT+"");
         resultPendingIntent = PendingIntent.getActivity(context, 600, homeScreen, PendingIntent.FLAG_UPDATE_CURRENT);
