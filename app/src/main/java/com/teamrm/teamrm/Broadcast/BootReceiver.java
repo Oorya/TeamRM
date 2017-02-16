@@ -1,9 +1,16 @@
 package com.teamrm.teamrm.Broadcast;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v4.content.WakefulBroadcastReceiver;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,6 +49,10 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
     private int alamId;
     UtlAlarmManager utlAlarmManager;
 
+    private NotificationManager notificationManager;
+    private NotificationCompat.Builder builder;
+    private PendingIntent resultPendingIntent;
+
     @Override
     public void onReceive(final Context context, Intent intent)
     {
@@ -68,8 +79,10 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
         TICKET_LITE_ROOT_REFERENCE.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                UtlNotification notification = new UtlNotification("ערב טוב","התקבלה הודעה חדשה");
-                notification.sendNotification();
+                //UtlNotification notification = new UtlNotification("ערב טוב","התקבלה הודעה חדשה");
+                //notification.sendNotification();
+                Toast.makeText(context, "START RECEIVER", Toast.LENGTH_SHORT).show();
+                sendNotification("ערב טוב","התקבלה הודעה חדשה", context);
                 Log.w("receiver ","boot receiver");
             }
 
@@ -80,6 +93,29 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
         });
     }
 
+    private void sendNotification(CharSequence title, String text, Context context)
+    {
+        Intent homeScreen = new Intent(context, HomeScreen.class);
+
+        Log.w("pending", PendingIntent.FLAG_UPDATE_CURRENT+"");
+        resultPendingIntent = PendingIntent.getActivity(context, 600, homeScreen, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        builder = (NotificationCompat.Builder) new NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.ic_message_24px)
+                .setContentTitle(title)
+                .setContentText(text)
+                .setAutoCancel(true)
+                .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
+                .setLights(Color.RED, 3000, 3000)
+                .setSound(alarmSound)
+
+                .setContentIntent(resultPendingIntent);
+
+        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(001, builder.build());
+    }
 
     @Override
     public void resultTicket(Ticket ticket) {
