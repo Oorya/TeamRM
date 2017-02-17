@@ -1,11 +1,8 @@
 package com.teamrm.teamrm.Broadcast;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.WakefulBroadcastReceiver;
-import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -40,9 +37,6 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
     private int alamId;
     UtlAlarmManager utlAlarmManager;
 
-    private NotificationManager notificationManager;
-    private NotificationCompat.Builder builder;
-    private PendingIntent resultPendingIntent;
 
     @Override
     public void onReceive(final Context context, Intent intent)
