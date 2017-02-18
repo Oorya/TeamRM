@@ -177,10 +177,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
         long id=0;
         for (Event EVENT : mEvent)
         {
-           // WeekViewEvent Wevent = new WeekViewEvent(Long.parseLong(EVENT.getId()),EVENT.getSummary(), convertStart(EVENT),convertEnd(EVENT));
-           // WeekViewEvent Wevent = new WeekViewEvent(id++,EVENT.getId(),EVENT.getSummary(),convertStart(EVENT),convertEnd(EVENT));
             WeekViewEventCustom weekViewEventCustom = new WeekViewEventCustom(EVENT.getId(),id++,EVENT.getSummary(),convertStart(EVENT),convertEnd(EVENT));
-
             mWeeViewEvent.add(weekViewEventCustom);
 
         }

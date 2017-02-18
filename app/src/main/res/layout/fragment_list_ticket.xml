@@ -41,8 +41,6 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:layoutDirection="rtl"
-
-
                 >
 
                 <ImageView
@@ -69,7 +67,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:layoutDirection="rtl">
+                android:layoutDirection="rtl"
+                android:background="@drawable/costom_bg"
+                android:clickable="true">
 
                 <ImageView
                     android:id="@+id/sortimg"
@@ -97,7 +97,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:layoutDirection="rtl">
+                android:layoutDirection="rtl"
+                >
 
                 <ImageView
                     android:id="@+id/searchImg"

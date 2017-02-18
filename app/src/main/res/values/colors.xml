@@ -26,6 +26,6 @@
     <color name="icon_gray">#90A4AE</color>
     <color name="meterial_red_100">#ffcdd2</color>
     <color name="material_bluegray_200">#B0BEC5</color>
-
+    <color name="colorHighlight">#ffffff</color>
     
 </resources>
