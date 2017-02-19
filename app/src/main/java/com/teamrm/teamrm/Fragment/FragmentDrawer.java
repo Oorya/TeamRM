@@ -112,6 +112,7 @@ public class FragmentDrawer extends Fragment {
     }
 
 
+
     public void setUp(int fragmentId, DrawerLayout drawerLayout, final Toolbar toolbar) {
         containerView = getActivity().findViewById(fragmentId);
         mDrawerLayout = drawerLayout;

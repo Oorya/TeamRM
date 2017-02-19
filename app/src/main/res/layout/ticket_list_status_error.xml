@@ -13,7 +13,8 @@
     android:layoutDirection="rtl"
     card_view:cardCornerRadius="4dp"
     card_view:cardElevation="4dp"
-    android:id="@+id/cardContainer">
+    android:id="@+id/cardContainer"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
