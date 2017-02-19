@@ -4,6 +4,7 @@ package com.teamrm.teamrm.Fragment;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -65,6 +66,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
     FloatingActionButton floatBtn;
     private AlertDialog chekDialog;
     private TextView ordertext;
+    private SwipeRefreshLayout.OnScrollChangeListener swScrollListener;
 
 
     public TicketList() {
@@ -93,7 +95,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
 
         Typeface SEMI_BOLD = Typeface.createFromAsset(this.getContext().getAssets(), "Assistant-SemiBold.ttf");
 
-        filter = (LinearLayout) view.findViewById(R.id.filter);
+        filter = (LinearLayout) view.findViewById(R.id.filter);//TODO:add visual effects for buttons
         search = (LinearLayout) view.findViewById(R.id.search);
         order = (LinearLayout) view.findViewById(R.id.sort);
         ordertext = (TextView)view.findViewById(R.id.sortimgTxt);
@@ -153,11 +155,8 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
 
         ticketListAdapter = new TicketListAdapter(getContext(), ticketLiteList);
         mRecyclerView.setAdapter(ticketListAdapter);
+        orderList(ticketLiteList);
 
-
-
-
-        //mRecyclerView.setAdapter(ticketListAdapter);
 
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefresh);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -196,6 +195,9 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
                 ft.commit();
             }
         });
+
+
+
         return view;
     }
 

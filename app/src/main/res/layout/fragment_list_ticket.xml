@@ -5,7 +5,8 @@
     android:background="@color/app_bg"
     tools:context="com.teamrm.teamrm.Fragment.TicketList"
     tools:paddingTop="25dp"
-    android:id="@+id/ticket_list_fragment">
+    android:id="@+id/ticket_list_fragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:id="@+id/had"
@@ -143,7 +144,8 @@
             android:id="@+id/swipeRefresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/actionBar">
+            android:layout_below="@id/actionBar"
+            >
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/RecyclerView"
@@ -151,8 +153,11 @@
                 android:layout_height="wrap_content"
                 android:clipChildren="false"
                 android:clipToPadding="false"
+                android:paddingStart="8dp"
                 android:paddingEnd="8dp"
-                android:paddingStart="8dp">
+                android:scrollbars="vertical"
+                android:verticalScrollbarPosition="right"
+                >
 
             </android.support.v7.widget.RecyclerView>
 

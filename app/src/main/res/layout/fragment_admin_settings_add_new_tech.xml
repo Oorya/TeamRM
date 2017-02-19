@@ -71,14 +71,13 @@
             android:id="@+id/technicianMailText"
             style="@style/CardRowEditText"
             android:layout_toEndOf="@id/technicianMailLabel"
+            android:gravity="center_horizontal"
             android:hint="write email"
+            android:inputType="textEmailAddress"
             android:minEms="20"
             android:text=""
-            android:inputType="textEmailAddress"
-            android:gravity="center_horizontal"
             android:textAlignment="center"
-            android:textSize="18dp"
-            />
+            android:textSize="18dp" />
 
 
     </RelativeLayout>
@@ -102,9 +101,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/alertIcon"
+            android:text="@string/label_enter_google_mail_only"
             android:textColor="@color/icon_gray"
-            android:textSize="13sp"
-            android:text="@string/label_enter_google_mail_only" />
+            android:textSize="13sp" />
     </RelativeLayout>
 
     <View
@@ -115,16 +114,16 @@
         android:id="@+id/tecAvatarNameSection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/listRow_alt"
         android:paddingBottom="8dp"
-        android:paddingStart="8dp"
-        android:paddingTop="8dp"
-        android:background="@color/listRow_alt">
+        android:paddingTop="8dp">
 
         <ImageView
             android:id="@+id/techAvatar"
             android:layout_width="90dp"
             android:layout_height="90dp"
-            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"
             android:alpha="0.12"
             android:src="@drawable/ic_icon_tech" />
 
@@ -132,8 +131,8 @@
             android:id="@+id/technicianName"
             style="@style/CardRow"
             android:layout_height="45dp"
-            android:layout_toEndOf="@id/techAvatar"
-            android:paddingStart="4dp">
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true">
 
             <ImageView
                 android:id="@+id/technicianNameIcon"
@@ -151,7 +150,6 @@
                 style="@style/CardRowEditText"
                 android:layout_toEndOf="@id/technicianNameLabel"
                 android:ems="20"
-                android:paddingStart="4dp"
                 android:text=""
                 tools:text="שם הטכנאי" />
         </RelativeLayout>
@@ -160,9 +158,7 @@
             android:id="@+id/technicianNick"
             style="@style/CardRow"
             android:layout_height="45dp"
-            android:layout_below="@id/technicianName"
-            android:layout_toEndOf="@id/techAvatar"
-            android:paddingStart="4dp">
+            android:layout_below="@id/technicianName">
 
             <ImageView
                 android:id="@+id/technicianNickIcon"
@@ -180,7 +176,6 @@
                 style="@style/CardRowEditText"
                 android:layout_toEndOf="@id/technicianNickLabel"
                 android:ems="20"
-                android:paddingStart="4dp"
                 android:text=""
                 tools:text="שם הטכנאי" />
         </RelativeLayout>
@@ -189,30 +184,6 @@
     <View
         style="@style/Separator1px"
         android:layout_height="1dp" />
-
-
-    <!--<RelativeLayout
-        android:id="@+id/technicianNameButton"
-        style="@style/CardRowImageEnd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
-
-        <ImageView
-            android:id="@+id/technicianNameButtonImg"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_copy" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/technicianNameButtonImg"
-            android:textColor="@color/icon_gray"
-            android:textSize="14sp"
-            tools:text="העתק מחשבון גוגל" />
-    </RelativeLayout>-->
 
     <RelativeLayout
         android:id="@+id/technicianPhone"
@@ -229,17 +200,12 @@
             android:layout_toEndOf="@id/technicianPhoneIcon"
             android:text="@string/label_phone_number" />
 
-        <TextView
+        <EditText
             android:id="@+id/technicianPhoneText"
-            style="@style/CardRowText"
+            style="@style/CardRowEditText"
             android:layout_toEndOf="@id/technicianPhoneLabel"
             android:text=""
             tools:text="0545-123-456" />
-
-        <ImageView
-            android:id="@+id/technicianPhoneButton"
-            style="@style/CardRowImageEnd"
-            android:src="@drawable/ic_call_24px" />
 
     </RelativeLayout>
 
@@ -258,14 +224,32 @@
             android:layout_toEndOf="@id/technicianCalendarIcon"
             android:text="@string/label_calendar" />
 
-        <TextView
-            android:id="@+id/technicianCalendarText"
-            style="@style/CardRowText"
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_toEndOf="@id/technicianCalendarLabel"
-            android:text=""
-            tools:text="לוח שנה 1" />
+            android:layout_marginEnd="42dp"
+            >
 
+            <ImageView
+                android:id="@+id/selectRegionIcon"
+                android:layout_centerVertical="true"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_icon_down" />
 
+            <Spinner
+                android:id="@+id/selectRegionSpinner"
+                style="@style/RegularRowItem.Spinner"
+                android:dropDownWidth="match_parent"
+                />
+        </RelativeLayout>
+
+        <ImageView style="@style/CardRowImageEnd"
+            android:src="@drawable/ic_perm_contact_calendar"
+            />
     </RelativeLayout>
 
     <RelativeLayout

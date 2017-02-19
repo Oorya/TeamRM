@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             userName=acct.getDisplayName();
             userEmail =acct.getEmail();
             //userStatus="User";
-            //UtlFirebase.stateListener(userStatus,userEmail,"NULL");
+            //UtlFirebase.ticketStateListener(userStatus,userEmail,"NULL");
 
             //UserSingleton.init(acct);
             //UtlFirebase.getUserByKey(userId,this); //fix AsyncTask racing
@@ -312,20 +312,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     @Override
     public void resultUser(Users user) {
-        userStatus=user.getUserStatus();
-        if (userStatus.equals("Admin"))
-        {
-            UtlFirebase.stateListener(userStatus, userEmail, user.getAssignedCompanyID());
-        }
-        else if (userStatus.equals("Client"))
-        {
-            UtlFirebase.stateListener(userStatus, userEmail, "NULL");
-        }
-        else // TECH
-        {
-            //UtlFirebase.stateListener(userStatus, userEmail, "NULL");
-        }
-
     }
 
     @Override

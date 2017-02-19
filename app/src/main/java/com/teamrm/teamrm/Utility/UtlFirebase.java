@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -27,6 +26,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.teamrm.teamrm.Fragment.TicketView;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
+import com.teamrm.teamrm.Interfaces.TicketStateObservable;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.Type.Admin;
 import com.teamrm.teamrm.Type.Category;
@@ -38,6 +38,7 @@ import com.teamrm.teamrm.Type.Region;
 import com.teamrm.teamrm.Type.Technician;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
+import com.teamrm.teamrm.Type.TicketState;
 import com.teamrm.teamrm.Type.Users;
 
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.teamrm.teamrm.Type.TicketState.STATELISTENERTAG;
 import static com.teamrm.teamrm.Utility.UserSingleton.LOGINTAG;
 
 
@@ -60,16 +62,30 @@ public class UtlFirebase { //TODO: make singleton
     private static Technician techFromFirebase;
 
 
+    private static final String COMPANY_ROOT_REFERENCE_STRING = "Companies";
+    private static final String COMPANY_PRODUCTS_ROOT_REFERENCE_STRING = "CompanyProducts";
+    private static final String COMPANY_CATEGORIES_ROOT_REFERENCE_STRING = "CompanyCategories";
+    private static final String COMPANY_REGIONS_ROOT_REFERENCE_STRING = "CompanyRegions";
+    private static final String COMPANY_TECHNICIANS_ROOT_REFERENCE_STRING = "CompanyTechnicians";
+    private static final String TICKET_ROOT_REFERENCE_STRING = "Tickets";
+    private static final String TICKET_LITE_ROOT_REFERENCE_STRING = "TicketLites";
+    private static final String CLIENT_TICKET_STATES_REFERENCE_STRING = "TicketStatesClient";
+    private static final String COMPANY_TICKET_STATES_REFERENCE_STRING = "TicketStatesCompany";
+    private static final String USERS_ROOT_REFERENCE_STRING = "Users";
+    private static final String CLIENT_COMPANIES_ROOT_REFERENCE_STRING = "ClientCompanies";
+
     private static final DatabaseReference GLOBAL_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference();
-    private static final DatabaseReference COMPANY_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("Companies");
-    private static final DatabaseReference COMPANY_PRODUCTS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("CompanyProducts");
-    private static final DatabaseReference COMPANY_CATEGORIES_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("CompanyCategories");
-    private static final DatabaseReference COMPANY_REGIONS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("CompanyRegions");
-    private static final DatabaseReference COMPANY_TECHNICIANS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("CompanyTechnicians");
-    private static final DatabaseReference TICKET_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("Tickets");
-    private static final DatabaseReference TICKET_LITE_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("TicketLites");
-    private static final DatabaseReference USERS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("Users");
-    private static final DatabaseReference CLIENT_COMPANIES_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("ClientCompanies");
+    private static final DatabaseReference COMPANY_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(COMPANY_ROOT_REFERENCE_STRING);
+    private static final DatabaseReference COMPANY_PRODUCTS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(COMPANY_PRODUCTS_ROOT_REFERENCE_STRING);
+    private static final DatabaseReference COMPANY_CATEGORIES_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(COMPANY_CATEGORIES_ROOT_REFERENCE_STRING);
+    private static final DatabaseReference COMPANY_REGIONS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(COMPANY_REGIONS_ROOT_REFERENCE_STRING);
+    private static final DatabaseReference COMPANY_TECHNICIANS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(COMPANY_TECHNICIANS_ROOT_REFERENCE_STRING);
+    private static final DatabaseReference TICKET_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(TICKET_ROOT_REFERENCE_STRING);
+    private static final DatabaseReference TICKET_LITE_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(TICKET_LITE_ROOT_REFERENCE_STRING);
+    private static final DatabaseReference CLIENT_TICKET_STATES_REFERENCE = FirebaseDatabase.getInstance().getReference(CLIENT_TICKET_STATES_REFERENCE_STRING);
+    private static final DatabaseReference COMPANY_TICKET_STATES_REFERENCE = FirebaseDatabase.getInstance().getReference(COMPANY_TICKET_STATES_REFERENCE_STRING);
+    private static final DatabaseReference USERS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(USERS_ROOT_REFERENCE_STRING);
+    private static final DatabaseReference CLIENT_COMPANIES_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(CLIENT_COMPANIES_ROOT_REFERENCE_STRING);
     private static final StorageReference STORAGE_REFERENCE = FirebaseStorage.getInstance().getReferenceFromUrl("gs://teamrm-b1c06.appspot.com");
 
     final static String TAG = ":::UtlFirebase:::";
@@ -252,69 +268,71 @@ public class UtlFirebase { //TODO: make singleton
 
 ///////////////////////////// Ticket /////////////////////////////
 
-    //Listener for state changed
-    public static void stateListener(final String statusUser, String email, String company) { //TODO:rebuild method --> need service
-        ticketFactory = new TicketFactory();
-        final String userStatus = UserSingleton.getInstance().getUserStatus();
-        final String userEmail = UserSingleton.getInstance().getUserEmail();
-        final String userCompanyID = UserSingleton.getInstance().getAssignedCompanyID();
-        Log.w("STATE CHANGED", "state listener");
+    public static void ticketStateListener(final TicketStateObservable ticketStateObserver) {
+        ticketFactory = new TicketFactory(); //TODO:what does it do?
+        DatabaseReference stateRef = null;
 
-        Query query = TICKET_ROOT_REFERENCE.orderByChild(Ticket.CLIENT_EMAIL).equalTo(userEmail);
-
-        switch (userStatus) {
-            case Users.STATUS_ADMIN:
-                query = TICKET_ROOT_REFERENCE.orderByChild(Ticket.COMPANY_ID).equalTo(userCompanyID);
-                break;
-            case Users.STATUS_TECH:
-                query = TICKET_ROOT_REFERENCE.orderByChild("techID").equalTo(userEmail);
-                break;
+        if (UserSingleton.getInstance() instanceof Client) {
+            stateRef = CLIENT_TICKET_STATES_REFERENCE;
+        } else if (UserSingleton.getInstance() instanceof Admin) {
+            stateRef = COMPANY_TICKET_STATES_REFERENCE;
+        } else if (UserSingleton.getInstance() instanceof Technician) {
+            stateRef = COMPANY_TICKET_STATES_REFERENCE;
+        } else {
+            Log.e(TAG, "StateListener:::UserSingleton undefined");
         }
 
-        query.addChildEventListener(new ChildEventListener() {
+        ChildEventListener stateListener = new ChildEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
+            public void onChildAdded(DataSnapshot ticketState, String s) {
+                Log.d(STATELISTENERTAG, "Ticketstate from FireBase: " + ticketState.toString());
+                ticketStateObserver.onTicketAdded(new TicketState(ticketState.getKey(), ticketState.getValue().toString()));
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-               /*
-                String arrData[] = dataSnapshot.getValue().toString().split("[{,]");
-                *//*for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    Ticket retrievedTicket = item.getValue(Ticket.class);
-                    Log.w("STATE FROM LOOP", STATUS_USER + "States." + retrievedTicket.state + STATUS_USER);
-                    ticketFactory.getNewState(STATUS_USER + "States.", retrievedTicket.state + STATUS_USER, retrievedTicket);
-                }*//*
-                Log.w("STATE CHANGED", arrData[1]);
-                //{state=A00Admin, clientNameString=oorya, company=yes, ticketStateString=0, ticketId=11111};
-                for (int ctr = 0; ctr <= arrData.length; ctr++) {
-                    if (arrData[ctr].contains("state")) {
-                        Log.w("STATE FROM LOOP", userStatus + "States." + arrData[ctr].substring(7) + userStatus);
-                        ticketFactory.getNewState(userStatus + "States.", arrData[ctr].substring(7) + userStatus, new Ticket());
-                        return;
-                    }
-                }*/
+            public void onChildChanged(DataSnapshot ticketState, String s) {
+                Log.d(STATELISTENERTAG, "Ticketstate changed in FireBase: " + ticketState.toString());
+                ticketStateObserver.onTicketStateChanged(new TicketState(ticketState.getKey(), ticketState.getValue().toString()));
             }
 
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            public void onChildRemoved(DataSnapshot ticketState) {
+                Log.d(STATELISTENERTAG, "Ticketstate removed from FireBase: " + ticketState.toString());
+                ticketStateObserver.onTicketRemoved(new TicketState(ticketState.getKey(), ticketState.getValue().toString()));
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                //irrelevant
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                toastTheError(databaseError);
             }
-        });
+        };
+        try {
+            stateRef.addChildEventListener(stateListener);
+        } catch (Exception e) {
+            Log.e(STATELISTENERTAG, "Could not attach stateListener");
+            e.printStackTrace();
+        }
     }
 
     public static void addTicket(final Ticket ticket) {
         Map updates = new HashMap();
-        updates.put("Tickets/" + ticket.getTicketID(), ticket);
-        updates.put("TicketLites/" + ticket.getTicketID(), new TicketLite(ticket));
+        updates.put(TICKET_ROOT_REFERENCE_STRING + "/" + ticket.getTicketID(), ticket);
+        updates.put(TICKET_LITE_ROOT_REFERENCE_STRING + "/" + ticket.getTicketID(), new TicketLite(ticket));
+        if (UserSingleton.getInstance() instanceof Client) {
+            Log.d(TAG, "Adding state " + ticket.getTicketStateString() + " for ticket " + ticket.getTicketNumber());
+            updates.put(CLIENT_TICKET_STATES_REFERENCE_STRING + "/" + ticket.getTicketID(), ticket.getTicketStateString());
+        } else if (UserSingleton.getInstance() instanceof Technician) {
+            updates.put(COMPANY_TICKET_STATES_REFERENCE_STRING + "/" + ticket.getTicketID(), ticket.getTicketStateString());
+        } else if ((UserSingleton.getInstance() instanceof Admin)) {
+            updates.put(COMPANY_TICKET_STATES_REFERENCE_STRING + "/" + ticket.getTicketID(), ticket.getTicketStateString());
+        } else {
+            Log.e(LOGINTAG, "getAllTickets::Undefined singleton");
+        }
         GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -324,10 +342,22 @@ public class UtlFirebase { //TODO: make singleton
     }
 
     public static void updateTicketStateString(String ticketID, String ticketStateString) {
-        TICKET_ROOT_REFERENCE.child(ticketID).child(Ticket.TICKET_STATE_STRING).setValue(ticketStateString, new DatabaseReference.CompletionListener() {
+        Map updates = new HashMap();
+        updates.put(TICKET_ROOT_REFERENCE_STRING + "/" + ticketID + "/" + Ticket.TICKET_STATE_STRING, ticketStateString);
+        updates.put(TICKET_LITE_ROOT_REFERENCE_STRING + "/" + ticketID + "/" + Ticket.TICKET_STATE_STRING, ticketStateString);
+        if (UserSingleton.getInstance() instanceof Client) {
+            updates.put(CLIENT_TICKET_STATES_REFERENCE_STRING + "/" + ticketID, ticketStateString);
+        } else if (UserSingleton.getInstance() instanceof Technician) {
+            updates.put(COMPANY_TICKET_STATES_REFERENCE_STRING + "/" + ticketID, ticketStateString);
+        } else if ((UserSingleton.getInstance() instanceof Admin)) {
+            updates.put(COMPANY_TICKET_STATES_REFERENCE_STRING + "/" + ticketID, ticketStateString);
+        } else {
+            Log.e(LOGINTAG, "getAllTickets::Undefined singleton");
+        }
+        GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                if (databaseError != null){
+                if (databaseError != null) {
                     toastTheError(databaseError);
                 }
             }
@@ -503,14 +533,17 @@ public class UtlFirebase { //TODO: make singleton
 
     public static void updateTicketPresentation(String ticketID, int status) {
         Map updates = new HashMap();
-        updates.put("Tickets/" + ticketID + "/" + Ticket.TICKET_PRESENTATION, status);
-        updates.put("TicketLites/" + ticketID + "/" + Ticket.TICKET_PRESENTATION, status);
+        updates.put(TICKET_ROOT_REFERENCE_STRING + "/" + ticketID + "/" + Ticket.TICKET_PRESENTATION, status);
+        updates.put(TICKET_LITE_ROOT_REFERENCE_STRING + "/" + ticketID + "/" + Ticket.TICKET_PRESENTATION, status);
         GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                toastSuccessOrError("", databaseError);
+                if (databaseError != null) {
+                    toastTheError(databaseError);
+                }
             }
         });
+
     }
 
     public static void removeTicket(String ticketID) {
@@ -522,6 +555,13 @@ public class UtlFirebase { //TODO: make singleton
         for (int counter = 0; counter < ticketsIDList.size(); counter++) {
             TICKET_ROOT_REFERENCE.child(ticketsIDList.get(counter)).removeValue();
         }
+    }
+
+    public static void removeAllTickets() {
+        TICKET_ROOT_REFERENCE.removeValue();
+        TICKET_LITE_ROOT_REFERENCE.removeValue();
+        CLIENT_TICKET_STATES_REFERENCE.removeValue();
+        COMPANY_TICKET_STATES_REFERENCE.removeValue();
     }
 
     public static void getTicketByKey(final String key, final FireBaseAble fbHelper) {
@@ -537,7 +577,6 @@ public class UtlFirebase { //TODO: make singleton
                     Log.e("RETURN METHOD ", returnTicket == null ? "NULL" : "NOT NULL");
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
@@ -709,7 +748,7 @@ public class UtlFirebase { //TODO: make singleton
 
     }
 
-    public static void updateProduct(String companyID, Product product,  final String productUpdatedName) {
+    public static void updateProduct(String companyID, Product product, final String productUpdatedName) {
         COMPANY_PRODUCTS_ROOT_REFERENCE.child(companyID).child(product.getItemKey()).setValue(productUpdatedName, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -781,7 +820,7 @@ public class UtlFirebase { //TODO: make singleton
 
     }
 
-    public static void updateCategory(String companyID, Category category,  String categoryUpdatedName) {
+    public static void updateCategory(String companyID, Category category, String categoryUpdatedName) {
         COMPANY_CATEGORIES_ROOT_REFERENCE.child(companyID).child(category.getItemKey()).setValue(categoryUpdatedName, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -852,7 +891,7 @@ public class UtlFirebase { //TODO: make singleton
 
     }
 
-    public static void updateRegion(String companyID, Region region,  String regionUpdatedName) {
+    public static void updateRegion(String companyID, Region region, String regionUpdatedName) {
         COMPANY_REGIONS_ROOT_REFERENCE.child(companyID).child(region.getItemKey()).setValue(regionUpdatedName, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -940,15 +979,13 @@ public class UtlFirebase { //TODO: make singleton
         }
     }
 
-    public static void downloadFile(String path, final int imgNum)
-    {
+    public static void downloadFile(String path, final int imgNum) {
         final long ONE_MEGABYTE = 1024 * 1024;
         STORAGE_REFERENCE.child(path).getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                switch (imgNum)
-                {
+                switch (imgNum) {
                     case 1:
                         TicketView.img1.setImageBitmap(bitmap);
                         break;

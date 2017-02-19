@@ -4,15 +4,19 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
+import com.teamrm.teamrm.Interfaces.TicketStateObservable;
 import com.teamrm.teamrm.Type.Category;
 import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.Product;
 import com.teamrm.teamrm.Type.Region;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
+import com.teamrm.teamrm.Type.TicketState;
 import com.teamrm.teamrm.Type.Users;
 
 import java.util.List;
+
+import static com.teamrm.teamrm.Type.TicketState.STATELISTENERTAG;
 
 
 /**
@@ -24,6 +28,7 @@ public class UserSingleton extends Users{
     public static final String LOGINTAG = ":::LOGIN_SEQUENCE:::";
     private static Users instance = null;
     private static final String TAG = "USER_SINGLETON";
+
 
     private UserSingleton() {}
 
@@ -43,11 +48,11 @@ public class UserSingleton extends Users{
     public static void init(final Users user)
     {
         instance = user;
-        Log.d(LOGINTAG, "Stage 7, init the UserSingleton with user fetched from FireBase");
         new AsyncTask<Void, Void, Void>(){
             @Override
             protected Void doInBackground(Void... voids) {
                 Log.d(LOGINTAG, "::AsyncTask");
+                UtlFirebase.ticketStateListener(ticketStateObserver);
                 Log.d(LOGINTAG, "Calling getAllTicketLites");
                 UtlFirebase.getAllTicketLites(fbHelper);
                 Log.d(LOGINTAG, "Calling getAllCompanies");
@@ -58,7 +63,6 @@ public class UserSingleton extends Users{
                 return null;
             }
         }.execute();
-                //UtlFirebase.stateListener("l","l","l");//TODO:make it work
             }
 
     public static void refreshTicketLites(){
@@ -84,6 +88,11 @@ public class UserSingleton extends Users{
         @Override
         public void ticketLiteListCallback(List<TicketLite> ticketLites) {
             TicketLite.setTicketLiteList(ticketLites);
+            try {
+                Log.d(TAG, TicketLite.getTicketLiteList().toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
@@ -111,6 +120,27 @@ public class UserSingleton extends Users{
 
         }
     };
+
+        private static TicketStateObservable ticketStateObserver = new TicketStateObservable() {
+            @Override
+            public void onTicketAdded(TicketState ticketState) {
+                TicketState.ticketStatesAddTicketState(ticketState);
+                Log.d(STATELISTENERTAG, "Added state " + ticketState.toString());
+            }
+
+            @Override
+            public void onTicketStateChanged(TicketState ticketState) {
+                TicketState.ticketStatesUpdateTicketState(ticketState);
+                Log.d(STATELISTENERTAG, "Changed state " + ticketState.toString());
+            }
+
+            @Override
+            public void onTicketRemoved(TicketState ticketState) {
+                TicketState.ticketStatesRemoveState(ticketState);
+                Log.d(STATELISTENERTAG, "Removed state " + ticketState.toString());
+            }
+        };
     }
+
 
 

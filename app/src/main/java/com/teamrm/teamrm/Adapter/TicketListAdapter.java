@@ -15,6 +15,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,7 +61,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
         CustomViewHolder viewHolder = null;
         switch (viewType) {
             case 0:
-                Toast.makeText(mContext, "Something fucked up", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Something screwed up", Toast.LENGTH_LONG).show();
                 //TODO:notify sysadmins
                 break;
 
@@ -197,6 +198,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
         protected CardView cardContainer;
         protected RelativeLayout clientNameSpan;
         protected RelativeLayout companyNameSpan;
+        protected ImageView editIcon;
 
 
         public CustomViewHolder(View view, int viewNum) {
@@ -250,8 +252,10 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
             }
             this.cardContainer = (CardView) view.findViewById(R.id.cardContainer);
             this.techFirstLetter = (TextView) view.findViewById(R.id.techFirstLetter);
+            this.editIcon = (ImageView) view.findViewById(R.id.editIcon);
 
             if (UserSingleton.getInstance() instanceof Client) {
+                this.editIcon.setVisibility(View.GONE);
                 this.clientNameSpan.setVisibility(View.GONE);
                 this.companyNameSpan.setVisibility(View.VISIBLE);
             } else if (UserSingleton.getInstance() instanceof Technician) {
