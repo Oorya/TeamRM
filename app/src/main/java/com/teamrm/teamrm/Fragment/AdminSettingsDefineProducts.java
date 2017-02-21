@@ -101,6 +101,7 @@ public class AdminSettingsDefineProducts extends Fragment implements FireBaseAbl
                         //Toast.makeText(getContext(), "positive", Toast.LENGTH_SHORT).show();
                     }
                 })
+                .inputMaxLength(20)
                 .positiveText(R.string.label_button_save)
                 .contentColorRes(R.color.textColor_primary)
                 .contentGravity(GravityEnum.CENTER)

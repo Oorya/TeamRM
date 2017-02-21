@@ -6,11 +6,6 @@ import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Type.Category;
 import com.teamrm.teamrm.Type.Company;
@@ -20,7 +15,7 @@ import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
-import com.teamrm.teamrm.Utility.UtlNotification;
+import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.util.List;
 
@@ -41,7 +36,7 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
     @Override
     public void onReceive(final Context context, Intent intent)
     {
-        Log.w(" start receiver ","start receiver");
+        Log.w("start receiver ","start receiver");
          /*if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED"))
          {
                 Log.d("MESSEGE", "BootReceiver is activate after booting");
@@ -60,21 +55,10 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
 
          }*/
 
-        DatabaseReference TICKET_LITE_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference("TicketLites");
-        TICKET_LITE_ROOT_REFERENCE.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                UtlNotification notification = new UtlNotification("ערב טוב","התקבלה הודעה חדשה", context);
-                notification.sendNotification();
-                Toast.makeText(context, "START RECEIVER", Toast.LENGTH_SHORT).show();
-                Log.w("receiver ","boot receiver");
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        UtlFirebase.setCurrentContext(context);
+        UtlFirebase.notifyMess();
+        Toast.makeText(context, "START RECEIVER", Toast.LENGTH_SHORT).show();
+        Log.w("receiver ","boot receiver");
     }
 
     @Override

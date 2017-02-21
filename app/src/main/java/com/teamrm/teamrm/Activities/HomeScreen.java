@@ -45,8 +45,8 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     private FragmentDrawer drawerFragment;
     private FrameLayout frameLayout;
     public static Context context;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
     private static final int SELECT_FILE = 105;
     private static final int FROM_CAMERA = 205;
     private static final int ACTION_OVERLAY = 300;
@@ -85,6 +85,9 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         fragmentTransaction.add(R.id.container_body, new TicketList()).disallowAddToBackStack();
         fragmentTransaction.commit();
         setTitle(getResources().getStringArray(R.array.nav_list)[0]);
+
+        Intent broadcast = new Intent("brod.message");
+        sendBroadcast(broadcast);
     }
 
     @Override

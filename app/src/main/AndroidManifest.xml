@@ -63,11 +63,11 @@
 
         <receiver android:name=".Broadcast.BootReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="brod.message"/>
             </intent-filter>
         </receiver>
 
-        <activity android:name=".Activities.TestStates" />
         <activity android:name=".Activities.MainActivity"/>
     </application>
 

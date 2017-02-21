@@ -121,26 +121,26 @@ public class UserSingleton extends Users{
         }
     };
 
-        private static TicketStateObservable ticketStateObserver = new TicketStateObservable() {
-            @Override
-            public void onTicketAdded(TicketState ticketState) {
-                TicketState.ticketStatesAddTicketState(ticketState);
-                Log.d(STATELISTENERTAG, "Added state " + ticketState.toString());
-            }
+    private static TicketStateObservable ticketStateObserver = new TicketStateObservable() {
+        @Override
+        public void onTicketAdded(TicketState ticketState) {
+            TicketState.ticketStatesAddTicketState(ticketState);
+            Log.d(STATELISTENERTAG, "Added state " + ticketState.toString());
+        }
 
-            @Override
-            public void onTicketStateChanged(TicketState ticketState) {
-                TicketState.ticketStatesUpdateTicketState(ticketState);
-                Log.d(STATELISTENERTAG, "Changed state " + ticketState.toString());
-            }
+        @Override
+        public void onTicketStateChanged(TicketState ticketState) {
+            TicketState.ticketStatesUpdateTicketState(ticketState);
+            Log.d(STATELISTENERTAG, "Changed state " + ticketState.toString());
+        }
 
-            @Override
-            public void onTicketRemoved(TicketState ticketState) {
-                TicketState.ticketStatesRemoveState(ticketState);
-                Log.d(STATELISTENERTAG, "Removed state " + ticketState.toString());
-            }
-        };
-    }
+        @Override
+        public void onTicketRemoved(TicketState ticketState) {
+            TicketState.ticketStatesRemoveState(ticketState);
+            Log.d(STATELISTENERTAG, "Removed state " + ticketState.toString());
+        }
+    };
+}
 
 
 

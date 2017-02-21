@@ -55,8 +55,8 @@ import static com.teamrm.teamrm.Utility.UserSingleton.LOGINTAG;
 
 public class SplashScreen extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
-    ImageView iconWait;
-    TextView loadingStatus;
+    private ImageView iconWait;
+    private TextView loadingStatus;
     private static final String TAG = "SplashScreen";
     public static Context context;
 

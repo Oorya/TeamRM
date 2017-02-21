@@ -42,7 +42,6 @@ import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.App;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
-import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -297,10 +296,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public void nev(View view) {
         Intent nav = new Intent(this,HomeScreen.class);
         startActivity(nav);
-    }
-
-    public void btnTestStates(View view) {
-        startActivity(new Intent(this,TestStates.class));
     }
 
     public void goToSplashScreen(View view) {startActivity(new Intent(this,SplashScreen.class));}

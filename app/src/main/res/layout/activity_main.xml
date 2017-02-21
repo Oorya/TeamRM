@@ -72,15 +72,9 @@
         android:layout_below="@id/nev"
         android:id="@+id/fontX"
         />
+
     <Button
-        android:id="@+id/testStatesBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="test states"
         android:layout_below="@id/fontX"
-        android:onClick="btnTestStates"/>
-    <Button
-        android:layout_below="@id/testStatesBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="SplashScreen"

@@ -205,8 +205,8 @@
                 <EditText
                     android:id="@+id/txtAddress"
                     style="@style/RegularRowItem.EditText"
-                    android:layout_toEndOf="@id/addressLabel">
-
+                    android:layout_toEndOf="@id/addressLabel"
+                    android:maxLength="20">
                     <requestFocus></requestFocus>
                 </EditText>
             </RelativeLayout>
@@ -231,7 +231,10 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="8dp"
                     android:layout_toEndOf="@+id/phoneIcon"
-                    android:text="@string/label_phone_number" />
+                    android:text="@string/label_phone_number"
+                    android:inputType="phone"
+                    android:digits="0123456789+"
+                    android:maxLength="13"/>
 
                 <EditText
                     android:id="@+id/txtPhone"
@@ -307,7 +310,8 @@
                     android:paddingTop="8dp"
                     android:textColor="@color/textColor_primary"
                     android:textColorHint="@color/textColor_lighter"
-                    android:textSize="14sp">
+                    android:textSize="14sp"
+                    android:maxLength="100">
 
                 </EditText>
             </RelativeLayout>

@@ -11,8 +11,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
         android:id="@+id/scroll"
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
 
         <RelativeLayout
@@ -44,7 +44,8 @@
                 <EditText
                     android:id="@+id/txtcompany"
                     style="@style/RegularRowItem.EditText"
-                    android:layout_toEndOf="@id/companyLabel">
+                    android:layout_toEndOf="@id/companyLabel"
+                    android:maxLength="20">
 
                 </EditText>
             </RelativeLayout>
@@ -75,7 +76,8 @@
                 <EditText
                     android:id="@+id/txtAddress"
                     style="@style/RegularRowItem.EditText"
-                    android:layout_toEndOf="@id/addressLabel">
+                    android:layout_toEndOf="@id/addressLabel"
+                    android:maxLength="20">
 
                     <requestFocus></requestFocus>
                 </EditText>
@@ -101,7 +103,10 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="8dp"
                     android:layout_toEndOf="@+id/phoneIcon"
-                    android:text="טלפון:" />
+                    android:text="טלפון:"
+                    android:inputType="phone"
+                    android:digits="0123456789+"
+                    android:maxLength="13"/>
 
                 <EditText
                     android:id="@+id/txtPhone"
