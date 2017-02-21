@@ -246,60 +246,6 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     }
 
     private void submitTicket(View view) {
-
-        //Calendar cal = Calendar.getInstance(); // creates calendar
-        /*if (UserSingleton.getInstance().getUserAddress() == null) {
-            new MaterialDialog.Builder(getContext())
-                    .title(R.string.label_dialog_save_user_detail)
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            UserSingleton.getInstance().setUserAddress(ticketAddress.getText().toString());
-                        }
-                    })
-                    .positiveText(R.string.label_button_save)
-                    .contentColorRes(R.color.textColor_primary)
-                    .contentGravity(GravityEnum.CENTER)
-                    .negativeText(R.string.label_button_cancel)
-                    .titleGravity(GravityEnum.END)
-                    .buttonsGravity(GravityEnum.END)
-                    .backgroundColorRes(R.color.app_bg)
-                    .titleColorRes(R.color.textColor_lighter)
-                    .positiveColorRes(R.color.colorPrimary)
-                    .negativeColorRes(R.color.colorPrimaryDark)
-                    .dividerColorRes(R.color.textColor_lighter)
-                    .show();
-        } else {
-            if (UserSingleton.getInstance().getUserPhone() == null) {
-                new MaterialDialog.Builder(getContext())
-                        .title(R.string.label_add_category)
-                        .input("", "", new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                                Toast.makeText(getContext(), input.toString(), Toast.LENGTH_SHORT).show();
-                                UtlFirebase.addCategory(UserSingleton.getInstance().getAssignedCompanyID(), input.toString());
-                            }
-                        })
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                //Toast.makeText(getContext(), "positive", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .positiveText(R.string.label_button_save)
-                        .contentColorRes(R.color.textColor_primary)
-                        .contentGravity(GravityEnum.CENTER)
-                        .negativeText(R.string.label_button_cancel)
-                        .titleGravity(GravityEnum.END)
-                        .buttonsGravity(GravityEnum.END)
-                        .backgroundColorRes(R.color.app_bg)
-                        .titleColorRes(R.color.textColor_lighter)
-                        .positiveColorRes(R.color.colorPrimary)
-                        .negativeColorRes(R.color.colorPrimaryDark)
-                        .dividerColorRes(R.color.textColor_lighter)
-                        .show();
-            } else {*/
-
                 String uid = UUID.randomUUID().toString();
                 uploadPicture(uid);
 
@@ -326,10 +272,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
 
     @Override
     public void companyListCallback(List<Company> companies) {
-        /*companiesList = companies;
-        listCompanyAdapter = new GenericPrefListAdapter(context, companiesList);
-        selectCompany.setAdapter(listCompanyAdapter);
-        setSpinnerAdapters();*/
+
     }
 
     @Override

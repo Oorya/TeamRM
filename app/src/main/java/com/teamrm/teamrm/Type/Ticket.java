@@ -155,7 +155,7 @@ public class Ticket {
     }
 
     public void updateTicketStateString(String stateName, Ticket ticket) {
-        UtlFirebase.updateTicketStateString(ticket.ticketID, stateName);
+        UtlFirebase.updateTicketStateString(ticket, stateName);
         int ticketPresentation = 0;
         switch (stateName) {
             case TicketStateStringable.STATE_A00:

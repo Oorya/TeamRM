@@ -218,6 +218,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                     {
                         //Toast.makeText(context,"logout OK home",Toast.LENGTH_LONG).show();
                         SplashScreen.resume=true;
+                        UtlFirebase.removeActiveListeners();
                         FirebaseAuth.getInstance().signOut();
                         finish();
                         startActivity(new Intent(HomeScreen.this, SplashScreen.class));
