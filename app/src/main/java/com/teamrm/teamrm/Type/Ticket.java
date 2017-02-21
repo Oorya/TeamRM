@@ -439,5 +439,10 @@ public class Ticket {
     public static void setTicketList(List<Ticket> ticketList) {
         Ticket.ticketList = ticketList;
     }
+
+    @Override
+    public int hashCode() {
+        return this.ticketID.hashCode();
+    }
 }
 

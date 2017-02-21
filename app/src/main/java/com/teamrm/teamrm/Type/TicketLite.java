@@ -271,4 +271,9 @@ public class TicketLite {
     public void setCompanyID(String companyID) {
         this.companyID = companyID;
     }
+
+    @Override
+    public int hashCode() {
+        return this.ticketID.hashCode();
+    }
 }

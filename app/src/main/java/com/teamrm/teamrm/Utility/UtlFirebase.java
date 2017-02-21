@@ -59,8 +59,9 @@ public class UtlFirebase { //TODO: make singleton
     private static TicketFactory ticketFactory;
     private static List<Ticket> ticketList = new ArrayList<>();
     private static List<TicketLite> ticketLiteList = new ArrayList<>();
-    private static Map<Query, ValueEventListener> activeValueEventListeners = new HashMap<>();
-    private static Map<DatabaseReference, ChildEventListener> activeChildEventListeners = new HashMap<>();
+    private static Map<Query, ValueEventListener> activeValueEventListeners = new HashMap<>(3);
+    private static Map<DatabaseReference, ChildEventListener> activeChildEventListeners = new HashMap<>(3);
+    private static Map<Query, ValueEventListener> currentListener = new HashMap<>(1);
     private static Technician techFromFirebase;
 
 
@@ -136,7 +137,7 @@ public class UtlFirebase { //TODO: make singleton
 
                                         @Override
                                         public void onCancelled(DatabaseError databaseError) {
-                                            toastTheError(Thread.currentThread().getStackTrace()[2].getMethodName(), databaseError);
+                                            toastTheError(databaseError);
                                         }
                                     });
 
@@ -165,7 +166,7 @@ public class UtlFirebase { //TODO: make singleton
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(Thread.currentThread().getStackTrace()[2].getMethodName(), databaseError);
+                toastTheError(databaseError);
             }
         });
     }
@@ -297,7 +298,6 @@ public class UtlFirebase { //TODO: make singleton
     }
 
     public static void ticketStateListener(final TicketStateObservable ticketStateObserver) {
-        ticketFactory = new TicketFactory(); //TODO:what does it do?
         DatabaseReference stateRef = null;
 
         if (UserSingleton.getInstance() instanceof Client) {
@@ -336,7 +336,7 @@ public class UtlFirebase { //TODO: make singleton
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(Thread.currentThread().getStackTrace()[2].getMethodName(), databaseError);
+                toastTheError(databaseError);
             }
         };
 
@@ -377,7 +377,7 @@ public class UtlFirebase { //TODO: make singleton
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError != null) {
-                    toastTheError(Thread.currentThread().getStackTrace()[2].getMethodName(), databaseError);
+                    toastTheError(databaseError);
                 }
             }
         });
@@ -429,7 +429,7 @@ public class UtlFirebase { //TODO: make singleton
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(Thread.currentThread().getStackTrace()[2].getMethodName(), databaseError);
+                toastTheError(databaseError);
             }
         };
         query.addValueEventListener(listener);
@@ -451,7 +451,7 @@ public class UtlFirebase { //TODO: make singleton
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(Thread.currentThread().getStackTrace()[2].getMethodName(), databaseError);
+                toastTheError(databaseError);
             }
         };
         query.addValueEventListener(listener);
@@ -473,7 +473,7 @@ public class UtlFirebase { //TODO: make singleton
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(Thread.currentThread().getStackTrace()[2].getMethodName(), databaseError);
+                toastTheError(databaseError);
             }
         };
         query.addValueEventListener(listener);
@@ -495,7 +495,7 @@ public class UtlFirebase { //TODO: make singleton
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(Thread.currentThread().getStackTrace()[2].getMethodName(), databaseError);
+                toastTheError(databaseError);
             }
         };
         query.addValueEventListener(listener);
@@ -517,7 +517,7 @@ public class UtlFirebase { //TODO: make singleton
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(Thread.currentThread().getStackTrace()[2].getMethodName(), databaseError);
+                toastTheError(databaseError);
             }
         };
         query.addValueEventListener(listener);
@@ -539,7 +539,7 @@ public class UtlFirebase { //TODO: make singleton
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(Thread.currentThread().getStackTrace()[2].getMethodName(), databaseError);
+                toastTheError(databaseError);
             }
         };
         query.addValueEventListener(listener);
@@ -555,7 +555,7 @@ public class UtlFirebase { //TODO: make singleton
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(Thread.currentThread().getStackTrace()[2].getMethodName(), databaseError);
+                toastTheError(databaseError);
             }
         });
 
@@ -570,7 +570,7 @@ public class UtlFirebase { //TODO: make singleton
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError != null) {
-                    toastTheError(Thread.currentThread().getStackTrace()[2].getMethodName(), databaseError);
+                    toastTheError(databaseError);
                 }
             }
         });
@@ -641,7 +641,7 @@ public class UtlFirebase { //TODO: make singleton
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                //Toast.makeText(MainActivity.context, "Error retrieving data ", Toast.LENGTH_SHORT).show();
+                toastTheError(databaseError);
             }
 
         };
@@ -652,7 +652,6 @@ public class UtlFirebase { //TODO: make singleton
 
     public static void removeChat(String ticketID) {
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Chat");
-
         myRef.child(ticketID).removeValue();
     }
 
@@ -672,25 +671,15 @@ public class UtlFirebase { //TODO: make singleton
                 }
                 fbHelper.companyListCallback(companyList);
                 Log.e("LIST SIZE COMPANIES: ", companyList.size() + "");
-
-                //Need to notify for current list adapter
-                //NewTicket.listCompanyAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                //Toast.makeText(MainActivity.context, "Error retrieving data ", Toast.LENGTH_SHORT).show();
+                toastTheError(databaseError);
             }
         });
         Log.e("ALL", "COMPANIES LIST");
         return companyList;
-    }
-
-
-    public static void getCurrentCompany(FireBaseAble fbHelper) {
-        final List<Company> clientCompanies = new ArrayList<>();
-        Query query = COMPANY_ROOT_REFERENCE.child(UserSingleton.getInstance().getAssignedCompanyID());
-        //TODO: add method
     }
 
     public static void getAllClientCompanies(final FireBaseAble fbHelper) {
@@ -707,12 +696,12 @@ public class UtlFirebase { //TODO: make singleton
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(Thread.currentThread().getStackTrace()[2].getMethodName(), databaseError);
+                toastTheError(databaseError);
             }
         });
     }
 
-    public static void addCompany(final Company company) {
+    public static void addCompany(final @NonNull Company company) {
         COMPANY_ROOT_REFERENCE.child(company.getCompanyId()).setValue(company, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -736,7 +725,9 @@ public class UtlFirebase { //TODO: make singleton
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 Log.w("Firebase util ", "productName key " + databaseReference.getKey());
-                //TODO:get key callback
+                if (databaseError != null) {
+                    toastTheError(databaseError);
+                }
             }
         });
     }
@@ -764,7 +755,7 @@ public class UtlFirebase { //TODO: make singleton
 
         final List<Product> productList = new ArrayList<>();
         Query query = COMPANY_PRODUCTS_ROOT_REFERENCE.child(companyID).orderByValue();
-            ValueEventListener listener = new ValueEventListener() {
+        ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (!productList.isEmpty()) {
@@ -788,8 +779,10 @@ public class UtlFirebase { //TODO: make singleton
         COMPANY_PRODUCTS_ROOT_REFERENCE.child(companyID).child(product.getItemKey()).setValue(productUpdatedName, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                //TODO:callback
                 Log.d(TAG, "Updated productName " + productUpdatedName);
+                if (databaseError != null) {
+                    toastTheError(databaseError);
+                }
             }
         });
     }
@@ -798,7 +791,9 @@ public class UtlFirebase { //TODO: make singleton
         COMPANY_PRODUCTS_ROOT_REFERENCE.child(companyID).child(product.getItemKey()).removeValue(new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                //TODO:callback
+                if (databaseError != null) {
+                    toastTheError(databaseError);
+                }
             }
         });
     }
@@ -810,7 +805,7 @@ public class UtlFirebase { //TODO: make singleton
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 Log.w("Firebase util ", "category key " + databaseReference.getKey());
-                //TODO:get key callback
+
             }
         });
     }
@@ -863,7 +858,9 @@ public class UtlFirebase { //TODO: make singleton
         COMPANY_CATEGORIES_ROOT_REFERENCE.child(companyID).child(category.getItemKey()).setValue(categoryUpdatedName, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                //TODO:callback
+                if (databaseError != null) {
+                    toastTheError(databaseError);
+                }
             }
         });
     }
@@ -872,7 +869,9 @@ public class UtlFirebase { //TODO: make singleton
         COMPANY_CATEGORIES_ROOT_REFERENCE.child(companyID).child(category.getItemKey()).removeValue(new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                //TODO:callback
+                if (databaseError != null) {
+                    toastTheError(databaseError);
+                }
             }
         });
     }
@@ -884,7 +883,9 @@ public class UtlFirebase { //TODO: make singleton
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 Log.w("Firebase util ", "region key " + databaseReference.getKey());
-                //TODO:get key callback
+                if (databaseError != null) {
+                    toastTheError(databaseError);
+                }
             }
         });
     }
@@ -909,7 +910,6 @@ public class UtlFirebase { //TODO: make singleton
     }
 
     public static void getRegionsForEdit(String companyID, final FireBaseAble fbHelper) {
-
         final List<Region> regionList = new ArrayList<>();
         Query query = COMPANY_REGIONS_ROOT_REFERENCE.child(companyID).orderByValue();
         ValueEventListener listener = new ValueEventListener() {
@@ -936,7 +936,9 @@ public class UtlFirebase { //TODO: make singleton
         COMPANY_REGIONS_ROOT_REFERENCE.child(companyID).child(region.getItemKey()).setValue(regionUpdatedName, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                //TODO:callback
+                if (databaseError != null) {
+                    toastTheError(databaseError);
+                }
             }
         });
     }
@@ -945,7 +947,9 @@ public class UtlFirebase { //TODO: make singleton
         COMPANY_REGIONS_ROOT_REFERENCE.child(companyID).child(region.getItemKey()).removeValue(new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                //TODO:callback
+                if (databaseError != null) {
+                    toastTheError(databaseError);
+                }
             }
         });
     }
@@ -976,7 +980,7 @@ public class UtlFirebase { //TODO: make singleton
                             progressDialog.dismiss();
 
                             //and displaying a success toast
-                           new NiceToast(currentContext, "File uploaded!", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_SHORT).show();
+                            new NiceToast(currentContext, "File uploaded!", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -1040,30 +1044,40 @@ public class UtlFirebase { //TODO: make singleton
         return Thread.currentThread().getStackTrace()[2].getMethodName();
     }
 
-    public static void removeActiveListeners(){
-        for (Map.Entry<Query, ValueEventListener> entry : activeValueEventListeners.entrySet()){
+    public static void removeActiveListeners() {
+        for (Map.Entry<Query, ValueEventListener> entry : activeValueEventListeners.entrySet()) {
             Query query = entry.getKey();
             ValueEventListener listener = entry.getValue();
             Log.d(TAG, "Removing active listener " + listener.toString() + " @ " + query.toString());
             query.removeEventListener(listener);
         }
-        for (Map.Entry<DatabaseReference, ChildEventListener> entry : activeChildEventListeners.entrySet()){
+        for (Map.Entry<DatabaseReference, ChildEventListener> entry : activeChildEventListeners.entrySet()) {
             DatabaseReference ref = entry.getKey();
             ChildEventListener listener = entry.getValue();
             Log.d(TAG, "Removing active listener " + listener + " @ " + ref);
             ref.removeEventListener(listener);
         }
+        if (!activeValueEventListeners.isEmpty()){
+            activeValueEventListeners.clear();
+        }
+        if (!activeChildEventListeners.isEmpty()){
+            activeChildEventListeners.clear();
+        }
     }
 
-    static void toastTheError(String method, DatabaseError dbError) {
-        new NiceToast(currentContext, method + "\nUpdate failed with error \n" + dbError.getCode() + "\n" + dbError.getDetails(), NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
+    static void setCurrentListener(Query query, ValueEventListener listener){
+        currentListener.put(query, listener);
+    }
+
+    static void toastTheError(DatabaseError dbError) {
+        new NiceToast(currentContext, "FireBase failed with error \n" + dbError.getCode() + "\n" + dbError.getMessage(), NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
     }
 
     static void toastSuccessOrError(String positiveMessage, DatabaseError dbError) {
         if (dbError == null) {
             new NiceToast(currentContext, positiveMessage, NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_SHORT).show();
         } else {
-            new NiceToast(currentContext, "Update failed with error \n" + dbError.getCode() + "\n" + dbError.getDetails(), NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
+            new NiceToast(currentContext, "FireBase failed with error \n" + dbError.getCode() + "\n" + dbError.getMessage(), NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
         }
     }
 }
