@@ -21,6 +21,7 @@ import android.view.animation.BounceInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -213,10 +214,12 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
         {
             case R.id.filter:
             {
-
+                SeekBar urgencyBar = (SeekBar) getView().findViewById(R.id.urgencyBar);
                 new MaterialDialog.Builder(getContext())
                         .title(R.string.label_ticket_filter)
-                        .items(R.array.dialog_filter_list)
+                        //.items(R.array.dialog_filter_list)
+                        .customView(R.layout.ticket_filter, false)
+
                         .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
                             @Override
                             public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
