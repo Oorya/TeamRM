@@ -28,12 +28,12 @@ import java.util.Date;
 public class UtlCamera extends Activity
 {
     private static Context context;
-    Activity activity;
-    private String picturePath = "";
+    private Activity activity;
+    private String picturePath = "", ticketID;
     private static final int SELECT_FILE = 105;
     private static final int FROM_CAMERA = 205;
     private static Uri selectedImageUri;
-    ByteArrayOutputStream baos=new ByteArrayOutputStream();
+    private ByteArrayOutputStream baos=new ByteArrayOutputStream();
 
     public UtlCamera(Context context, Activity activity)
     {
@@ -41,7 +41,8 @@ public class UtlCamera extends Activity
         this.activity=activity;
     }
 
-    public void selectImage() {
+    public void selectImage(String ticketID) {
+        this.ticketID = ticketID;
         final CharSequence[] items = {"Take Photo", "Choose from Library", "Remove", "Cancel"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -127,11 +128,12 @@ public class UtlCamera extends Activity
                         case 1:
                             NewTicket.imageView1.setImageBitmap(myBitmap);
                             NewTicket.imgUri1 = selectedImageUri;
-
+                            UtlFirebase.uploadFile(ticketID+"/pic1.jpg", selectedImageUri);
                             break;
                         case 2:
                             NewTicket.imageView2.setImageBitmap(myBitmap);
                             NewTicket.imgUri2 = selectedImageUri;
+                            UtlFirebase.uploadFile(ticketID+"/pic2.jpg", selectedImageUri);
                             break;
                     }
                 }
@@ -158,10 +160,12 @@ public class UtlCamera extends Activity
                     case 1:
                         NewTicket.imageView1.setImageBitmap(bm);
                         NewTicket.imgUri1 = selectedImageUri;
+                        UtlFirebase.uploadFile(ticketID+"/pic1.jpg", selectedImageUri);
                         break;
                     case 2:
                         NewTicket.imageView2.setImageBitmap(bm);
                         NewTicket.imgUri2 = selectedImageUri;
+                        UtlFirebase.uploadFile(ticketID+"/pic2.jpg", selectedImageUri);
                         break;
                 }
             }

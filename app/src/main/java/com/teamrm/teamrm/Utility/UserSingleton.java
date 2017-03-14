@@ -3,8 +3,11 @@ package com.teamrm.teamrm.Utility;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.TicketStateObservable;
+import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.Type.Category;
 import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.Product;
@@ -132,6 +135,23 @@ public class UserSingleton extends Users{
         public void onTicketStateChanged(TicketState ticketState) {
             TicketState.ticketStatesUpdateTicketState(ticketState);
             Log.d(STATELISTENERTAG, "Changed state " + ticketState.toString());
+            TicketFactory ticketFactory = new TicketFactory();
+
+            try
+            {
+                ticketFactory.getNewState(UserSingleton.getInstance().getUserStatus() + "States.", ticketState.getTicketStateString() + UserSingleton.getInstance().getUserStatus(),
+                        new Ticket(ticketState.getTicketID(), ticketState.getTicketStateString()));
+
+            }
+            catch (Exception e)
+            {
+                //test
+                DatabaseReference test = FirebaseDatabase.getInstance().getReference("test");
+                test.push().setValue(UserSingleton.getInstance().getUserStatus() + "States."+ ticketState.getTicketStateString());
+                test.push().setValue(e.getMessage() +" "+ e.getLocalizedMessage());
+                test.push().setValue(e.toString());
+            }
+
         }
 
         @Override

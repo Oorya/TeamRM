@@ -87,12 +87,11 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         // getSupportActionBar().hide();
         setContentView(R.layout.activity_splashscreen);
         UtlFirebase.setCurrentContext(this);
-        //Log.d("splash", "onCreate rotateWaitingIcon: ");
 
+        //Log.d("splash", "onCreate rotateWaitingIcon: ");
         rotateWaitingIcon();
         updateLoadingStatus("מכין אפליקציה לשימוש...");
         //Log.d("splash", "onCreate: ");
-
 
         // everything else that doesn't update UI
         permissionToDrawOverlays();
@@ -101,6 +100,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         mGoogleApiClient = App.getGoogleApiHelper().getGoogleApiClient();
         gso = App.getGoogleApiHelper().getGso();
         firebaseAuth = FirebaseAuth.getInstance();
+
         signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_WIDE);
         //signInButton.setScopes(gso.getScopeArray()); //deprecated - not needed
@@ -108,8 +108,6 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         signInButton.setVisibility(View.GONE);
 
         context = this;
-
-
     }
 
     @Override
@@ -204,7 +202,6 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
-
     }
 
     @Override
@@ -230,9 +227,8 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
             Log.w("IMAGE GOOGLE ACCOUNT", acct.getPhotoUrl() == null ? "NULL" : acct.getPhotoUrl().toString());
 
             Log.d("splash", "handleSignInResult: ");
-
-
-        } else {
+        }
+        else {
             signInButton.setVisibility(View.VISIBLE);
             linearLayout.setVisibility(View.GONE);
         }
@@ -251,10 +247,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
-
-
                         logOnToApp(task.getResult().getUser());
-
 
                         if (!task.isSuccessful()) {
                             Log.w(LOGINTAG, "Stage 3 failed with error " + task.getException());
@@ -319,7 +312,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(context, HomeScreen.class));
+                startActivity(new Intent(SplashScreen.this, HomeScreen.class));
             }
         }, 3000);
     }

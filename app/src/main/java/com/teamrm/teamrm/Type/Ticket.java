@@ -3,13 +3,12 @@ package com.teamrm.teamrm.Type;
 import android.app.PendingIntent;
 
 import com.google.firebase.database.Exclude;
-import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
+import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -88,8 +87,13 @@ public class Ticket {
     public static final String TICKET_PRESENTATION = "ticketPresentation";
 
 
-    public Ticket() {
-    }  //empty constructor, must have
+    public Ticket() {}  //empty constructor, must have
+
+    public Ticket(String ticketID, String ticketStateString)
+    {
+        this.ticketID=ticketID;
+        this.ticketStateString=ticketStateString;
+    }
 
     public Ticket(String clientID,
                   String ticketPhone, String ticketAddress,

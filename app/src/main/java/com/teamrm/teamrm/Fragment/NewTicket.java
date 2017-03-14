@@ -70,6 +70,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     private SharedPreferences.Editor editor;
     public static int imgClick = 0;
     public static UtlCamera utlCamera;
+    private String ticketID;
 
     private static final int PERMISSION_CALLBACK_CONSTANT = 101;
     private static final int REQUEST_PERMISSION_SETTING = 102;
@@ -93,6 +94,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         getActivity().findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
 
         UtlFirebase.setCurrentContext(getContext());
+        ticketID = UUID.randomUUID().toString();
         imageView1 = (ImageView) view.findViewById(R.id.photoChooser1);
         imageView2 = (ImageView) view.findViewById(R.id.photoChooser2);
         ticketAddress = (EditText) view.findViewById(R.id.txtAddress);
@@ -127,7 +129,8 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
             @Override
             public void onClick(View v) {
                 if (checkEntries()) {
-                    submitTicket(view);
+
+                    submitTicket(view, ticketID);
                 }
             }
         });
@@ -161,7 +164,8 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         Log.w("Permission new ticket", "new ticket");
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
             Log.w("Permission new ticket", "INSIDE IF");
-            utlCamera.selectImage();
+            utlCamera.selectImage(ticketID);
+            //uploadPicture(ticketID);
         } else {
 
         }
@@ -243,9 +247,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         return true;
     }
 
-    private void submitTicket(View view) {
-                String uid = UUID.randomUUID().toString();
-                uploadPicture(uid);
+    private void submitTicket(View view, String uid) {
 
                 Ticket newTicket = new Ticket(UserSingleton.getInstance().getUserID(), this.ticketPhone.getText().toString(), this.ticketAddress.getText().toString(), uid,
                         selectedCompany.getCompanyId(), selectedCompany.getCompanyName(),

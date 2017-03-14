@@ -25,10 +25,13 @@
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
 
 
     <application
         android:name=".Utility.App"
+
         android:allowBackup="true"
         android:icon="@drawable/ic_logo_blue"
         android:label="@string/app_name"
@@ -64,9 +67,12 @@
         <receiver android:name=".Broadcast.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="brod.message"/>
             </intent-filter>
         </receiver>
+
+        <service
+            android:name=".Broadcast.FirebaseBackgroundService">
+        </service>
 
         <activity android:name=".Activities.MainActivity"/>
     </application>

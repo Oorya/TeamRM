@@ -267,35 +267,6 @@ public class UtlFirebase { //TODO: make singleton
 
 ///////////////////////////// Ticket /////////////////////////////
 
-    public static void notifyMess()
-    {
-        TICKET_ROOT_REFERENCE.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                ticketFactory = new TicketFactory();
-                Ticket retrievedTicket = dataSnapshot.getValue(Ticket.class);
-                Log.w("STATE CHANGED", retrievedTicket.getTicketStateString());
-                ticketFactory.getNewState("Admin" + "States.", retrievedTicket.getTicketStateString() + "Admin", retrievedTicket);
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-    }
 
     public static void ticketStateListener(final TicketStateObservable ticketStateObserver) {
         DatabaseReference stateRef = null;

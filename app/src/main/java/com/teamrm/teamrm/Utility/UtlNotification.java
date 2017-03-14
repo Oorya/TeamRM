@@ -11,6 +11,7 @@ import android.support.v7.app.NotificationCompat;
 
 import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Activities.SplashScreen;
+import com.teamrm.teamrm.Broadcast.FirebaseBackgroundService;
 import com.teamrm.teamrm.R;
 
 public class UtlNotification {
@@ -67,16 +68,17 @@ public class UtlNotification {
 
     public UtlNotification(CharSequence title, String text)
     {
-        Intent homeScreen = new Intent(SplashScreen.context,HomeScreen.class);
+        Intent homeScreen = new Intent(FirebaseBackgroundService.context, SplashScreen.class);
 
         notificationID=++notificationCounter;
         this.icon= R.drawable.new_msg_icon;
         this.title=title;
         this.text=text;
-        this.context= SplashScreen.context;
+        this.context= FirebaseBackgroundService.context;
 
         resultPendingIntent = PendingIntent.getActivity(context, 0, homeScreen, PendingIntent.FLAG_UPDATE_CURRENT);
     }
+
     public void sendNotification() {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         builder = (NotificationCompat.Builder) new NotificationCompat.Builder(context)

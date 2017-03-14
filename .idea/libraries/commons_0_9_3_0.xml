@@ -4,8 +4,8 @@
       <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.afollestad.material-dialogs/commons/0.9.3.0/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.afollestad.material-dialogs/commons/0.9.3.0/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.afollestad.material-dialogs/commons/0.9.3.0/res" />
+      <root url="file://$USER_HOME$/.android/build-cache/634a0da5f5f4a7f4e53bb2a90dbf17c7e3622f30/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/634a0da5f5f4a7f4e53bb2a90dbf17c7e3622f30/output/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

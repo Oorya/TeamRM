@@ -15,7 +15,6 @@ import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
-import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.util.List;
 
@@ -36,7 +35,6 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
     @Override
     public void onReceive(final Context context, Intent intent)
     {
-        Log.w("start receiver ","start receiver");
          /*if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED"))
          {
                 Log.d("MESSEGE", "BootReceiver is activate after booting");
@@ -54,11 +52,15 @@ public class BootReceiver extends WakefulBroadcastReceiver implements FireBaseAb
              Log.d("MESSEGE", "BootReceiver is activate wen alarm start ");
 
          }*/
+        if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED"))
+        {
+            Toast.makeText(context, "START RECEIVER TEAM_RM", Toast.LENGTH_SHORT).show();
+            Log.w("Receiver ","Start boot receiver");
 
-        UtlFirebase.setCurrentContext(context);
-        UtlFirebase.notifyMess();
-        Toast.makeText(context, "START RECEIVER", Toast.LENGTH_SHORT).show();
-        Log.w("receiver ","boot receiver");
+            Intent service = new Intent(context, FirebaseBackgroundService.class);
+            context.startService(service);
+        }
+
     }
 
     @Override

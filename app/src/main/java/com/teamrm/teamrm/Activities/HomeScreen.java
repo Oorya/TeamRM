@@ -26,6 +26,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
+import com.teamrm.teamrm.Broadcast.FirebaseBackgroundService;
 import com.teamrm.teamrm.Fragment.AdminSettingsAdvanced;
 import com.teamrm.teamrm.Fragment.AdminSettingsBasic;
 import com.teamrm.teamrm.Fragment.CalendarView;
@@ -53,6 +54,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     private final static String[] TAG_FRAGMENT = {"NEW_TICKET", "CALENDER","TICKET_LIST"};
     private GoogleSignInOptions gso;
     private GoogleApiClient mGoogleApiClient;
+    private Intent serviceIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,9 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         context = this;
         frameLayout = (FrameLayout) findViewById(R.id.container_body);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        serviceIntent = new Intent(HomeScreen.this ,FirebaseBackgroundService.class);
+        this.startService(serviceIntent);
 
         TextView appIcon = (TextView) findViewById(R.id.appIcon);
         appIcon.setTypeface(Typeface.createFromAsset(this.getAssets(), "Assistant-Bold.ttf"));
@@ -85,15 +90,12 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         fragmentTransaction.add(R.id.container_body, new TicketList()).disallowAddToBackStack();
         fragmentTransaction.commit();
         setTitle(getResources().getStringArray(R.array.nav_list)[0]);
-
-        Intent broadcast = new Intent("brod.message");
-        sendBroadcast(broadcast);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults) {
-        Log.d("REQUEST = ","API23 HOMSCREEN");
-        Log.w("Permission home screen", "Befor if "+requestCode);
+        Log.d("REQUEST = ","API23 HOME_SCREEN");
+        Log.w("Permission home screen", "Before if "+requestCode);
 
         if(requestCode == 108)
         {
@@ -212,6 +214,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
     private void signOut()
     {
+        this.stopService(serviceIntent);
         mGoogleApiClient=App.getGoogleApiHelper().getGoogleApiClient();
 
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
