@@ -34,6 +34,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Category;
@@ -95,6 +97,15 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
         // everything else that doesn't update UI
         permissionToDrawOverlays();
+        context = this;
+        if(UserSingleton.getInstance() != null)
+        {
+            //test
+            DatabaseReference test = FirebaseDatabase.getInstance().getReference("test");
+            test.push().setValue("create");
+            Log.w("start app ", "on create service");
+            startApp();
+        }
         linearLayout = (LinearLayout) findViewById(R.id.load);
 
         mGoogleApiClient = App.getGoogleApiHelper().getGoogleApiClient();
@@ -106,38 +117,39 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         //signInButton.setScopes(gso.getScopeArray()); //deprecated - not needed
         signInButton.setOnClickListener(this);
         signInButton.setVisibility(View.GONE);
-
-        context = this;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("splash", "onStart: ");
+        Log.w("splash", "onStart: ");
 
-        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient); //LOGIN STAGE 1
-        Log.d(LOGINTAG, "Stage 1, checking Google login");
-        if (opr.isDone()) {
-            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-            // and the GoogleSignInResult will be available instantly.
-            Log.d(LOGINTAG, "Stage 1a, logging in with cached Google login");
-            GoogleSignInResult result = opr.get();
-            handleSignInResult(result); //LOGIN STAGE 2 ->
-            linearLayout.setVisibility(View.VISIBLE);
-        } else {
-            // If the user has not previously signed in on this device or the sign-in has expired,
-            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
-            // single sign-on will occur in this branch.
-            // showProgressDialog();
-            Log.d("splash", "else Got cached sign-in");
+        if(UserSingleton.getInstance() == null)
+        {
+            OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient); //LOGIN STAGE 1
+            Log.d(LOGINTAG, "Stage 1, checking Google login");
+            if (opr.isDone()) {
+                // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+                // and the GoogleSignInResult will be available instantly.
+                Log.d(LOGINTAG, "Stage 1a, logging in with cached Google login");
+                GoogleSignInResult result = opr.get();
+                handleSignInResult(result); //LOGIN STAGE 2 ->
+                linearLayout.setVisibility(View.VISIBLE);
+            } else {
+                // If the user has not previously signed in on this device or the sign-in has expired,
+                // this asynchronous branch will attempt to sign in the user silently.  Cross-device
+                // single sign-on will occur in this branch.
+                // showProgressDialog();
+                Log.d("splash", "else Got cached sign-in");
 
-            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(GoogleSignInResult googleSignInResult) {
-                    // hideProgressDialog();
-                    handleSignInResult(googleSignInResult); //LOGIN STAGE 2 ->
-                }
-            });
+                opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+                    @Override
+                    public void onResult(GoogleSignInResult googleSignInResult) {
+                        // hideProgressDialog();
+                        handleSignInResult(googleSignInResult); //LOGIN STAGE 2 ->
+                    }
+                });
+            }
         }
     }
 
@@ -309,10 +321,15 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     }
 
     void startApp(){
+        //test
+        DatabaseReference test = FirebaseDatabase.getInstance().getReference("test");
+        test.push().setValue("start");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                Log.w("start app ", "method");
                 startActivity(new Intent(SplashScreen.this, HomeScreen.class));
+                finish();
             }
         }, 3000);
     }

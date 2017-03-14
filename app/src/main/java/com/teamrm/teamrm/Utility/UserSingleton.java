@@ -66,7 +66,7 @@ public class UserSingleton extends Users{
                 return null;
             }
         }.execute();
-            }
+    }
 
     public static void refreshTicketLites(){
         UtlFirebase.getAllTicketLites(fbHelper);

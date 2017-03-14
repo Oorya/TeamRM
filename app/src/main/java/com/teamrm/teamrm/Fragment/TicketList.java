@@ -1,10 +1,8 @@
 package com.teamrm.teamrm.Fragment;
 
 
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -39,7 +37,6 @@ import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.UserSingleton;
-import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -60,11 +57,11 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
     public RecyclerView mRecyclerView;
     private SearchView searchView;
     private String searchViewQuery;
-    private static List<TicketLite> ticketLiteList = TicketLite.getTicketLiteList();
+    private static List<TicketLite> ticketLiteList = new ArrayList<>();
     private TicketListAdapter ticketListAdapter;
     private LinearLayout title, filter, search, order;
     private SwipeRefreshLayout swipeContainer;
-    FloatingActionButton floatBtn;
+    private FloatingActionButton floatBtn;
     private AlertDialog chekDialog;
     private TextView ordertext;
     private SwipeRefreshLayout.OnScrollChangeListener swScrollListener;
@@ -76,15 +73,13 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
     @Override
     public void onStart() {
         super.onStart();
-        //if(ticketLiteList!=null)
-        //ticketLiteList.clear();
-        //ticketLiteList.addAll(TicketLite.getTicketLiteList());
+        if(ticketLiteList!=null)
+        ticketLiteList.clear();
+        ticketLiteList.addAll(TicketLite.getTicketLiteList());
         orderList(ticketLiteList);
         Log.d("tiket", "onStart: "+TicketLite.getTicketLiteList().size());
         if(Ticket.getTicketList()!=null)
         Log.d("tiket", "onStart: "+Ticket.getTicketList().size());
-
-
     }
 
 

@@ -50,6 +50,7 @@ public class FirebaseBackgroundService extends Service {
 
                 @Override
                 public void resultUser(Users user) {
+                    Toast.makeText(FirebaseBackgroundService.this, "INIT SERVICE ", Toast.LENGTH_SHORT).show();
                     UserSingleton.init(user);
                 }
 
