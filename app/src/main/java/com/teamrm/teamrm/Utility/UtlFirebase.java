@@ -265,6 +265,10 @@ public class UtlFirebase { //TODO: make singleton
         USERS_ROOT_REFERENCE.child(userID).child(Users.ASSIGNED_COMPANY_ID).setValue(companyID);
     }
 
+    public static void setUserImg(String userID, String imgPath) {
+        USERS_ROOT_REFERENCE.child(userID).child(Users.USER_IMG_PATH).setValue(imgPath);
+    }
+
 ///////////////////////////// Ticket /////////////////////////////
 
 

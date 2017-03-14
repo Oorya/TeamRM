@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.teamrm.teamrm.Activities.SplashScreen;
 import com.teamrm.teamrm.Adapter.NavigationDrawerAdapter;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Utility.NavDrawerItem;
@@ -102,10 +101,10 @@ public class FragmentDrawer extends Fragment {
             }
         }));
 
-       if(!SplashScreen.userImage.equals(""))
+       if(UserSingleton.getInstance().getUserImgPath() != null)
        {
             UtlBitmapUrl bitmapUrl = new UtlBitmapUrl();
-            bitmapUrl.execute(SplashScreen.userImage);
+            bitmapUrl.execute(UserSingleton.getInstance().getUserImgPath().toString());
        }
 
         return layout;

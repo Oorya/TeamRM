@@ -15,15 +15,17 @@ public abstract class Users {
     private String userStatus;
     private String userPhone;
     private String userAddress;
+    private String userImgPath;
     private String assignedCompanyID;
 
     public static final String USER_ID = "userID";
-    public static final String USER_NAMESTRING = "userNameString";
+    public static final String USER_NAME_STRING = "userNameString";
     public static final String USER_EMAIL = "userEmail";
     public static final String USER_IS_ADMIN = "userIsAdmin";
     public static final String USER_STATUS = "userStatus";
     public static final String USER_PHONE = "userPhone";
     public static final String USER_ADDRESS = "userAddress";
+    public static final String USER_IMG_PATH = "userImgPath";
     public static final String ASSIGNED_COMPANY_ID = "assignedCompanyID";
 
 
@@ -94,6 +96,14 @@ public abstract class Users {
 
     public void setUserAddress(String userAddress) {
         this.userAddress = userAddress;
+    }
+
+    public String getUserImgPath() {
+        return userImgPath;
+    }
+
+    public void setUserImgPath(String userImgPath) {
+        this.userImgPath = userImgPath;
     }
 
     public String getAssignedCompanyID() {
