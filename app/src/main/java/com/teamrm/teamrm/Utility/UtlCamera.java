@@ -35,14 +35,14 @@ public class UtlCamera extends Activity
     private static Uri selectedImageUri;
     private ByteArrayOutputStream baos=new ByteArrayOutputStream();
 
-    public UtlCamera(Context context, Activity activity)
+    public UtlCamera(Context context, Activity activity, String ticketID)
     {
         this.context=context;
         this.activity=activity;
+        this.ticketID=ticketID;
     }
 
-    public void selectImage(String ticketID) {
-        this.ticketID = ticketID;
+    public void selectImage() {
         final CharSequence[] items = {"Take Photo", "Choose from Library", "Remove", "Cancel"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

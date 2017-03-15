@@ -298,8 +298,6 @@
                     android:id="@+id/descriptionLong"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/descriptionShort"
-                    android:layout_marginTop="8dp"
                     android:background="@drawable/dotted_rect"
                     android:gravity="top"
                     android:hint="הקלד תאור מפורט"
@@ -311,7 +309,9 @@
                     android:textColor="@color/textColor_primary"
                     android:textColorHint="@color/textColor_lighter"
                     android:textSize="14sp"
-                    android:maxLength="100">
+                    android:maxLength="100"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true">
 
                 </EditText>
             </RelativeLayout>
@@ -339,10 +339,24 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/photoList"
+                android:layout_below="@+id/photos">
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:id="@+id/recycler_view_photos"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/photoChooser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/photos"
+                android:layout_below="@id/photoList"
                 android:orientation="horizontal"
                 android:paddingBottom="24dp"
                 android:paddingEnd="24dp"

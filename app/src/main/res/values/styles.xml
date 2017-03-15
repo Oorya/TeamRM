@@ -188,6 +188,7 @@
         <item name="android:textColor">@color/textColor_primary</item>
         <item name="android:textSize">14sp</item>
     </style>
+
     <style name="TicketCardLabel">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -197,6 +198,7 @@
         <item name="android:spacing">-0.2sp</item>
         <item name="android:layout_marginEnd">8dp</item>
     </style>
+
     <style name="Separator4dp">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">4dp</item>
@@ -208,4 +210,16 @@
         <item name="android:layoutDirection">rtl</item>
     </style>
 
+
+    <style name="actionBarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@android:color/primary_text_light</item>
+        <item name="actionBarSize">32dip</item>
+    </style>
+
+    <style name="customTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="actionBarTheme">@style/actionBarTheme</item>
+        <item name="colorPrimary">#FFA500</item>
+        <item name="actionBarSize">32dip</item>
+        <item name="colorPrimaryDark">#CCa500</item>
+    </style>
 </resources>

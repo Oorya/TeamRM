@@ -4,6 +4,7 @@ package com.teamrm.teamrm.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -39,6 +40,12 @@ import com.teamrm.teamrm.Utility.NiceToast;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
+import java.io.File;
+import java.util.List;
+
+import me.iwf.photopicker.PhotoPicker;
+import me.iwf.photopicker.PhotoPreview;
+
 
 public class HomeScreen extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener, GoogleApiClient.OnConnectionFailedListener {
 
@@ -51,7 +58,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     private static final int SELECT_FILE = 105;
     private static final int FROM_CAMERA = 205;
     private static final int ACTION_OVERLAY = 300;
-    private final static String[] TAG_FRAGMENT = {"NEW_TICKET", "CALENDER","TICKET_LIST"};
+    private final static String[] TAG_FRAGMENT = {"NEW_TICKET", "CALENDER", "TICKET_LIST"};
     private GoogleSignInOptions gso;
     private GoogleApiClient mGoogleApiClient;
     private Intent serviceIntent;
@@ -60,7 +67,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-        new NiceToast(this, "User "+UserSingleton.getInstance().getUserEmail() + "\n" + "logged in as " + UserSingleton.getInstance().getClass().getSimpleName(), NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
+        new NiceToast(this, "User " + UserSingleton.getInstance().getUserEmail() + "\n" + "logged in as " + UserSingleton.getInstance().getClass().getSimpleName(), NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
         UtlFirebase.setCurrentContext(this);
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
@@ -68,7 +75,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         frameLayout = (FrameLayout) findViewById(R.id.container_body);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        serviceIntent = new Intent(HomeScreen.this ,FirebaseBackgroundService.class);
+        serviceIntent = new Intent(HomeScreen.this, FirebaseBackgroundService.class);
         this.startService(serviceIntent);
 
         TextView appIcon = (TextView) findViewById(R.id.appIcon);
@@ -93,17 +100,15 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults) {
-        Log.d("REQUEST = ","API23 HOME_SCREEN");
-        Log.w("Permission home screen", "Before if "+requestCode);
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        Log.d("REQUEST = ", "API23 HOME_SCREEN");
+        Log.w("Permission home screen", "Before if " + requestCode);
 
-        if(requestCode == 108)
-        {
+        if (requestCode == 108) {
             NewTicket newTicket = new NewTicket();
             newTicket.onRequestPermissionsResult(requestCode, permissions, grantResults);
             Log.w("Permission home screen", "Shalty");
-        }
-        else {
+        } else {
             CalendarView.cal.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
@@ -111,16 +116,29 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        Log.d("REQUEST = "+requestCode,"onActivityResult HOME SCREEN");
-        if(requestCode==FROM_CAMERA || requestCode==SELECT_FILE)
-        {
-            NewTicket.utlCamera.onActivityResult(requestCode,resultCode,data);
-        }
-        else
-        {
+        Log.d("REQUEST = " + requestCode, "onActivityResult HOME SCREEN");
+        if (resultCode == RESULT_OK &&
+                (requestCode == PhotoPicker.REQUEST_CODE || requestCode == PhotoPreview.REQUEST_CODE)) {
+
+            List<String> photos = null;
+
+            if (data != null) {
+                photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+                Uri uri = Uri.fromFile(new File(photos.get(0)));
+                UtlFirebase.uploadFile("picTest", uri);
+            }
+            NewTicket.selectedPhotos.clear();
+
+            if (photos != null) {
+
+                NewTicket.selectedPhotos.addAll(photos);
+            }
+            NewTicket.photoAdapter.notifyDataSetChanged();
+        } else if (requestCode == FROM_CAMERA || requestCode == SELECT_FILE) {
+            NewTicket.utlCamera.onActivityResult(requestCode, resultCode, data);
+        } else {
             CalendarView.cal.onActivityResult(requestCode, resultCode, data);
         }
-
     }
 
     @Override
@@ -144,8 +162,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         TicketList ticketList = new TicketList();
-        switch (position)
-        {
+        switch (position) {
             case 0:
                 fragmentTransaction.replace(R.id.container_body, ticketList).addToBackStack(TAG_FRAGMENT[0]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[0]);
@@ -160,7 +177,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 break;
 
             case 2:
-                Log.d("droeswech","case2");
+                Log.d("droeswech", "case2");
                 CalendarView calendarView = new CalendarView();
                 fragmentTransaction.replace(R.id.container_body, calendarView).addToBackStack(TAG_FRAGMENT[1]).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[2]);
@@ -196,37 +213,34 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
     @Override
     public void onBackPressed() {
+
         //final NewTicket NEW_TICKET_FRAGMENT = (NewTicket)getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT[0]);
         Log.w("ON BACK", getFragmentManager().getBackStackEntryCount()
                 + "  SHALTY");
-        if(getFragmentManager().getBackStackEntryCount() > 0)
-        {
-            Log.w(" ON BACK","IF");
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            Log.w(" ON BACK", "IF");
             //Log.w("ON BACK", getFragmentManager().findFragmentByTag(TAG_FRAGMENT[1]).getTag()+ "  SHALTY");
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        }
-        else
-        {
-            Log.w("SUPER ON BACK","ELSE");
+        } else {
+            Log.w("SUPER ON BACK", "ELSE");
             super.onBackPressed();
         }
+
     }
 
-    private void signOut()
-    {
+    private void signOut() {
         UtlFirebase.removeActiveListeners();
         FirebaseAuth.getInstance().signOut();
         UserSingleton.init(null);
         this.stopService(serviceIntent);
-        mGoogleApiClient=App.getGoogleApiHelper().getGoogleApiClient();
+        mGoogleApiClient = App.getGoogleApiHelper().getGoogleApiClient();
 
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
                     @Override
-                    public void onResult(Status status)
-                    {
+                    public void onResult(Status status) {
                         //Toast.makeText(context,"logout OK home",Toast.LENGTH_LONG).show();
-                        SplashScreen.resume=true;
+                        SplashScreen.resume = true;
                         finish();
                         startActivity(new Intent(HomeScreen.this, SplashScreen.class));
                     }
@@ -234,14 +248,11 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     }
 
     @Override
-    public void onConnectionFailed( ConnectionResult connectionResult) {
+    public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
 
-    public Context getContext(){
+    public Context getContext() {
         return this.context;
     }
-
-
-
 }

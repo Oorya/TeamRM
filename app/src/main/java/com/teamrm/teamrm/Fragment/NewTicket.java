@@ -12,6 +12,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.OrientationHelper;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +28,8 @@ import android.widget.Toast;
 
 import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Adapter.GenericPrefListAdapter;
+import com.teamrm.teamrm.Adapter.PhotoAdapter;
+import com.teamrm.teamrm.Adapter.RecyclerItemClickListener;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
 import com.teamrm.teamrm.Interfaces.TicketStateStringable;
@@ -43,6 +48,9 @@ import com.teamrm.teamrm.Utility.UtlFirebase;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import me.iwf.photopicker.PhotoPicker;
+import me.iwf.photopicker.PhotoPreview;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -75,6 +83,10 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     private static final int PERMISSION_CALLBACK_CONSTANT = 101;
     private static final int REQUEST_PERMISSION_SETTING = 102;
     private boolean sentToSettings = false;
+
+    public static PhotoAdapter photoAdapter;
+    public static ArrayList<String> selectedPhotos = new ArrayList<>();
+
     Context context;
 
     public NewTicket() {
@@ -95,6 +107,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
 
         UtlFirebase.setCurrentContext(getContext());
         ticketID = UUID.randomUUID().toString();
+
         imageView1 = (ImageView) view.findViewById(R.id.photoChooser1);
         imageView2 = (ImageView) view.findViewById(R.id.photoChooser2);
         ticketAddress = (EditText) view.findViewById(R.id.txtAddress);
@@ -107,7 +120,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         selectCategory = (Spinner) view.findViewById(R.id.selectCategoryASpinner);
         selectRegion = (Spinner) view.findViewById(R.id.selectRegionSpinner);
 
-        utlCamera = new UtlCamera(getContext(), getActivity());
+        utlCamera = new UtlCamera(getContext(), getActivity(), this.ticketID);
 
         listCompanyAdapter = new GenericPrefListAdapter(context, companiesList);
         selectCompany.setAdapter(listCompanyAdapter);
@@ -135,6 +148,31 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
             }
         });
 
+        RecyclerView recyclerViewPhotos = (RecyclerView) view.findViewById(R.id.recycler_view_photos);
+        photoAdapter = new PhotoAdapter(getContext(), selectedPhotos);
+
+        recyclerViewPhotos.setLayoutManager(new StaggeredGridLayoutManager(4, OrientationHelper.VERTICAL));
+        recyclerViewPhotos.setAdapter(photoAdapter);
+
+        recyclerViewPhotos.addOnItemTouchListener(new RecyclerItemClickListener(getContext(),
+                new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        if (photoAdapter.getItemViewType(position) == PhotoAdapter.TYPE_ADD) {
+                            PhotoPicker.builder()
+                                    .setPhotoCount(PhotoAdapter.MAX)
+                                    .setShowCamera(true)
+                                    .setPreviewEnabled(false)
+                                    .setSelected(selectedPhotos)
+                                    .start(getActivity());
+                        } else {
+                            PhotoPreview.builder()
+                                    .setPhotos(selectedPhotos)
+                                    .setCurrentItem(position)
+                                    .start(getActivity());
+                        }
+                    }
+                }));
         imageView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -164,7 +202,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         Log.w("Permission new ticket", "new ticket");
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
             Log.w("Permission new ticket", "INSIDE IF");
-            utlCamera.selectImage(ticketID);
+            utlCamera.selectImage();
             //uploadPicture(ticketID);
         } else {
 
