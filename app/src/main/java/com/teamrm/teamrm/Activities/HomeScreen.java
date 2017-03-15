@@ -125,7 +125,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
             if (data != null) {
                 photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
                 Uri uri = Uri.fromFile(new File(photos.get(0)));
-                UtlFirebase.uploadFile("picTest", uri);
+                //UtlFirebase.uploadFile("picTest", uri);
             }
             NewTicket.selectedPhotos.clear();
 
