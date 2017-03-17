@@ -98,7 +98,7 @@ public class Ticket {
     public Ticket(String clientID,
                   String ticketPhone, String ticketAddress,
                   String ticketID, String companyID, String companyName,
-                  Product product, Category category, Region region, String descriptionShort, String descriptionLong, String ticketImage1, String ticketImage2) {
+                  Product product, Category category, Region region, String descriptionShort, String descriptionLong, String ticketImage1, String ticketImage2,String startTime) {
         this.clientID = clientID;
         this.clientEmail = UserSingleton.getInstance().getUserEmail();
         this.clientNameString = UserSingleton.getInstance().getUserNameString();
@@ -123,7 +123,7 @@ public class Ticket {
         this.ticketImage2 = ticketImage2;
         this.ticketStateString = TicketStateStringable.STATE_A00;
         this.ticketPresentation = TicketStateAble.TICKET_LIST_PRESENTATION_URGENT;
-        this.ticketOpenDateTime = getCurrentTime();
+        this.ticketOpenDateTime = startTime==null?getCurrentTime():startTime;
 
         this.ticketCalendarID = (new Date()).getTime();
         this.ticketIsClosed = false;

@@ -45,6 +45,7 @@ import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlCamera;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -79,6 +80,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     public static int imgClick = 0;
     public static UtlCamera utlCamera;
     private String ticketID;
+    private String startTime;
 
     private static final int PERMISSION_CALLBACK_CONSTANT = 101;
     private static final int REQUEST_PERMISSION_SETTING = 102;
@@ -96,6 +98,14 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         companiesList.addAll(Company.getCompanyList());
+        Bundle bundle = this.getArguments();
+        if (bundle != null)
+        {
+            startTime = bundle.getString("NEW_TICKET", "error");
+            //TODO WER IS START TIME SET SHALTY
+        }
+
+
     }
 
     @Override
@@ -290,7 +300,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
                 Ticket newTicket = new Ticket(UserSingleton.getInstance().getUserID(), this.ticketPhone.getText().toString(), this.ticketAddress.getText().toString(), uid,
                         selectedCompany.getCompanyId(), selectedCompany.getCompanyName(),
                         this.selectedProduct, this.selectedCategory, this.selectedRegion, this.descriptionShort.getText().toString(), this.descriptionLong.getText().toString(),
-                        imgUri1 != null ? uid+"/pic1.jpg" : "error", imgUri2 != null ? uid+"/pic2.jpg" : "error");
+                        imgUri1 != null ? uid+"/pic1.jpg" : "error", imgUri2 != null ? uid+"/pic2.jpg" : "error",startTime);
                 UtlFirebase.addTicket(newTicket);
                 newTicket.updateTicketStateString(TicketStateStringable.STATE_A01, newTicket);
                 //Toast.makeText(getContext(), "Success opening ticket " + newTicket.getTicketNumber(), Toast.LENGTH_LONG).show();
