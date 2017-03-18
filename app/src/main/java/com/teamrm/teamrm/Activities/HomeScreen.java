@@ -34,6 +34,7 @@ import com.teamrm.teamrm.Fragment.CalendarView;
 import com.teamrm.teamrm.Fragment.FragmentDrawer;
 import com.teamrm.teamrm.Fragment.NewTicket;
 import com.teamrm.teamrm.Fragment.TicketList;
+import com.teamrm.teamrm.Interfaces.FragmentHelper;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Utility.App;
 import com.teamrm.teamrm.Utility.NiceToast;
@@ -49,6 +50,7 @@ import me.iwf.photopicker.PhotoPreview;
 
 public class HomeScreen extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener, GoogleApiClient.OnConnectionFailedListener {
 
+
     private Toolbar mToolbar;
     private FragmentDrawer drawerFragment;
     private FrameLayout frameLayout;
@@ -58,7 +60,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     private static final int SELECT_FILE = 105;
     private static final int FROM_CAMERA = 205;
     private static final int ACTION_OVERLAY = 300;
-    private final static String[] TAG_FRAGMENT = {"NEW_TICKET", "CALENDER", "TICKET_LIST"};
+    private final static String[] TAG_FRAGMENT = {"NEW_TICKET", "CALENDER", "TICKET_LIST","COMPANY_SEATING","COMPANY_SEATING_ADVANCED"};
     private GoogleSignInOptions gso;
     private GoogleApiClient mGoogleApiClient;
     private Intent serviceIntent;
@@ -164,14 +166,15 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         TicketList ticketList = new TicketList();
         switch (position) {
             case 0:
-                fragmentTransaction.replace(R.id.container_body, ticketList).addToBackStack(TAG_FRAGMENT[0]).commit();
+                fragmentTransaction.replace(R.id.container_body, ticketList)
+                        .addToBackStack(TicketList.FRAGMENT_TRANSACTION).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[0]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
                 break;
 
             case 1:
                 NewTicket ticket = new NewTicket();
-                fragmentTransaction.replace(R.id.container_body, ticket).addToBackStack(TAG_FRAGMENT[0]).commit();
+                fragmentTransaction.replace(R.id.container_body, ticket).addToBackStack(NewTicket.FRAGMENT_TRANSACTION).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[1]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
                 break;
@@ -179,21 +182,24 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
             case 2:
                 Log.d("droeswech", "case2");
                 CalendarView calendarView = new CalendarView();
-                fragmentTransaction.replace(R.id.container_body, calendarView).addToBackStack(TAG_FRAGMENT[1]).commit();
+                fragmentTransaction.replace(R.id.container_body, calendarView)
+                        .addToBackStack(CalendarView.FRAGMENT_TRANSACTION).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[2]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.GONE);
                 break;
 
             case 3:
                 AdminSettingsBasic adminSettingsBasic = new AdminSettingsBasic();
-                fragmentTransaction.replace(R.id.container_body, adminSettingsBasic).addToBackStack(TAG_FRAGMENT[0]).commit();
+                fragmentTransaction.replace(R.id.container_body, adminSettingsBasic)
+                        .addToBackStack(FragmentHelper.STACK_FOR_BASIC_SETTINGS_NAVIGATION).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[3]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
                 break;
 
             case 4:
                 AdminSettingsAdvanced adminSettingsAdvanced = new AdminSettingsAdvanced();
-                fragmentTransaction.replace(R.id.container_body, adminSettingsAdvanced).addToBackStack(TAG_FRAGMENT[0]).commit();
+                fragmentTransaction.replace(R.id.container_body, adminSettingsAdvanced)
+                        .addToBackStack(FragmentHelper.STACK_FOR_GENERAL_NAVIGATION).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[4]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
                 break;
@@ -204,7 +210,8 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
             default:
 
-                fragmentTransaction.replace(R.id.container_body, ticketList).addToBackStack(TAG_FRAGMENT[0]).commit();
+                fragmentTransaction.replace(R.id.container_body, ticketList)
+                        .addToBackStack(TicketList.FRAGMENT_TRANSACTION).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[0]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
 
@@ -214,13 +221,39 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     @Override
     public void onBackPressed() {
 
-        //final NewTicket NEW_TICKET_FRAGMENT = (NewTicket)getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT[0]);
-        Log.w("ON BACK", getFragmentManager().getBackStackEntryCount()
-                + "  SHALTY");
-        if (getFragmentManager().getBackStackEntryCount() > 0) {
-            Log.w(" ON BACK", "IF");
-            //Log.w("ON BACK", getFragmentManager().findFragmentByTag(TAG_FRAGMENT[1]).getTag()+ "  SHALTY");
-            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0)
+        {
+            String tag;
+            if(getSupportFragmentManager().getBackStackEntryCount()-2>=0)
+             tag = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-2).getName();
+            else
+             tag = TicketList.FRAGMENT_TRANSACTION;
+            switch (tag)
+            {
+                case CalendarView.FRAGMENT_TRANSACTION:
+                    Log.d("onBackPressed", "case CalendarView = "+CalendarView.FRAGMENT_TRANSACTION);
+                    setTitle(getResources().getStringArray(R.array.nav_list)[2]);
+                    break;
+                case TicketList.FRAGMENT_TRANSACTION:
+                    Log.d("onBackPressed", "case TicketList = "+TicketList.FRAGMENT_TRANSACTION);
+                    setTitle(getResources().getStringArray(R.array.nav_list)[0]);
+                    break;
+                case NewTicket.FRAGMENT_TRANSACTION:
+                    Log.d("onBackPressed", "case NewTicket = "+NewTicket.FRAGMENT_TRANSACTION);
+                    setTitle(getResources().getStringArray(R.array.nav_list)[1]);
+                    break;
+                case FragmentHelper.STACK_FOR_GENERAL_NAVIGATION:
+                    Log.d("onBackPressed", "case FragmentHelper = "+FragmentHelper.STACK_FOR_GENERAL_NAVIGATION);
+                    setTitle(getResources().getStringArray(R.array.nav_list)[3]);
+                    break;
+                case FragmentHelper.STACK_FOR_BASIC_SETTINGS_NAVIGATION:
+                    Log.d("onBackPressed", "case FragmentHelper = "+FragmentHelper.STACK_FOR_BASIC_SETTINGS_NAVIGATION);
+                    setTitle(getResources().getStringArray(R.array.nav_list)[4]);
+                    break;
+            }
+            findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
+            super.onBackPressed();
+
         } else {
             Log.w("SUPER ON BACK", "ELSE");
             super.onBackPressed();

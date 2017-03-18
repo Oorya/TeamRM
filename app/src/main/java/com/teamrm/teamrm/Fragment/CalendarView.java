@@ -55,7 +55,8 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
     WeekView.EmptyViewLongPressListener,
     WeekView.EmptyViewClickListener//WeekView.ScrollListener
         {
-     
+
+    public static final String FRAGMENT_TRANSACTION = "CalendarView";
     private static final int TYPE_DAY_VIEW = 1;
     private static final int TYPE_THREE_DAY_VIEW = 2;
     private static final int TYPE_WEEK_VIEW = 3;
@@ -317,7 +318,8 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
                         ticketView.setArguments(bundel);
 
                         fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-                        fragmentManager.replace(R.id.container_body, ticketView).addToBackStack("NEW_TICKET").commit();
+                        fragmentManager.replace(R.id.container_body, ticketView)
+                                .addToBackStack(TicketView.FRAGMENT_TRANSACTION).commit();
                         dialog.dismiss();
                     } else if (allDay.isChecked()) {
                         time.set(Calendar.HOUR_OF_DAY, 0);
@@ -333,7 +335,8 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
                         ticketView.setArguments(bundel);
 
                         fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-                        fragmentManager.replace(R.id.container_body, ticketView).addToBackStack("TICKET_VIEW").commit();
+                        fragmentManager.replace(R.id.container_body, ticketView)
+                                .addToBackStack(TicketView.FRAGMENT_TRANSACTION).commit();
                         dialog.dismiss();
                     }
 
@@ -350,29 +353,9 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
             bundel.putString("startTime", formatted);
             newTicket.setArguments(bundel);
             fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-            fragmentManager.replace(R.id.container_body, newTicket).addToBackStack("NEW_TICKET").commit();
+            fragmentManager.replace(R.id.container_body, newTicket)
+                    .addToBackStack(TicketView.FRAGMENT_TRANSACTION).commit();
         }
-
-        /*
-        if(ticketID==null) {
-            final Spinner min = (Spinner) dialog.findViewById(R.id.SelectManet);
-            Spinner hour = (Spinner) dialog.findViewById(R.id.SelectHour);
-            Spinner tech = (Spinner) dialog.findViewById(R.id.SelectTech);
-            ArrayAdapter<CharSequence> hourAdapter = ArrayAdapter.createFromResource(getContext(),
-                    R.array.hour_array, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-            hourAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-            hour.setAdapter(hourAdapter);
-
-        ArrayAdapter<CharSequence> minAdapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.Minutes_array, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-        minAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-        min.setAdapter(minAdapter);
-        }
-        */
     }
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
@@ -384,7 +367,9 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
         TicketView ticketView = new TicketView();
         ticketView.setArguments(bundel);
         fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-        fragmentManager.replace(R.id.container_body,  ticketView).commit();
+        fragmentManager.replace(R.id.container_body,  ticketView)
+                .addToBackStack(TicketView.FRAGMENT_TRANSACTION)
+                .commit();
     }
     @Override
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {

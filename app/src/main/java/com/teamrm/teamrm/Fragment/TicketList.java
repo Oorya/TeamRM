@@ -53,6 +53,7 @@ import java.util.List;
  */
 public class TicketList extends Fragment implements FireBaseAble,View.OnClickListener{
 
+    public static final String FRAGMENT_TRANSACTION = "TicketList";
     private static boolean isSort;
     public RecyclerView mRecyclerView;
     private SearchView searchView;
@@ -88,7 +89,6 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_ticket, container, false);
-
         Typeface SEMI_BOLD = Typeface.createFromAsset(this.getContext().getAssets(), "Assistant-SemiBold.ttf");
 
         filter = (LinearLayout) view.findViewById(R.id.filter);//TODO:add visual effects for buttons

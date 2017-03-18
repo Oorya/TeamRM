@@ -57,6 +57,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class NewTicket extends Fragment implements AdapterView.OnItemSelectedListener, FireBaseAble {
 
+    public static final String FRAGMENT_TRANSACTION = "NewTicket";
     private Spinner selectCompany, selectProduct, selectCategory, selectRegion;
     public static ImageView imageView1, imageView2;
     public static Uri imgUri1, imgUri2;

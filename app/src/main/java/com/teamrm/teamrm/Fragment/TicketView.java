@@ -45,6 +45,7 @@ import javax.annotation.Nullable;
  */
 public class TicketView extends Fragment implements View.OnClickListener, FireBaseAble {
 
+    public static final String FRAGMENT_TRANSACTION = "TicketView";
     CardView userDetailCard, approval, cancel, btnProfile;
     RelativeLayout userDetailOpen;
     RelativeLayout ticketDetailClose;
@@ -238,7 +239,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             CalendarView calendarView = new CalendarView();
             calendarView.setArguments(bundle);
             fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-            fragmentManager.replace(R.id.container_body,  calendarView).addToBackStack("NEW_TICKET").commit();
+            fragmentManager.replace(R.id.container_body,  calendarView).addToBackStack(CalendarView.FRAGMENT_TRANSACTION).commit();
             ((HomeScreen) getActivity()).setTitle("יומן");
         }
         else if(view.getId() == cancel.getId())
