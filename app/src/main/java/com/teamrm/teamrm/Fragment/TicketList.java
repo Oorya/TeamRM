@@ -106,13 +106,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-
                 Toast.makeText(getContext(),query,Toast.LENGTH_LONG).show();
-                searchView.setVisibility(View.GONE);
-                filter.setVisibility(View.VISIBLE);
-                order.setVisibility(View.VISIBLE);
-                search.setVisibility(View.VISIBLE);
                 sortByQuery(query);
                 return false;
             }
@@ -132,6 +126,10 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
                 filter.setVisibility(View.VISIBLE);
                 order.setVisibility(View.VISIBLE);
                 search.setVisibility(View.VISIBLE);
+                ticketListAdapter = null;
+                ticketListAdapter = new TicketListAdapter(getContext(), ticketLiteList);
+                mRecyclerView.setAdapter(ticketListAdapter);
+                orderList(ticketLiteList);
 
             }
         });
@@ -248,6 +246,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
             case R.id.search:
             {
                 searchView.setVisibility(View.VISIBLE);
+                searchView.onActionViewExpanded();
                 filter.setVisibility(View.GONE);
                 order.setVisibility(View.GONE);
                 search.setVisibility(View.GONE);
@@ -432,5 +431,24 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
         }
         ticketListAdapter = new TicketListAdapter(getContext(), tempticketLiteList);
         mRecyclerView.setAdapter(ticketListAdapter);
+    }
+
+    public boolean closeSearch()
+    {
+        if(!searchView.isIconified())
+        {
+            searchView.setVisibility(View.GONE);
+            filter.setVisibility(View.VISIBLE);
+            order.setVisibility(View.VISIBLE);
+            search.setVisibility(View.VISIBLE);
+            ticketListAdapter = null;
+            ticketListAdapter = new TicketListAdapter(getContext(), ticketLiteList);
+            mRecyclerView.setAdapter(ticketListAdapter);
+            orderList(ticketLiteList);
+            searchView.setIconified(true);
+            return true;
+        }else {
+            return false;
+        }
     }
 }

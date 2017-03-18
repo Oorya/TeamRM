@@ -1,11 +1,8 @@
 <component name="libraryTable">
   <library name="commons-0.9.3.0">
-    <ANNOTATIONS>
-      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.afollestad.material-dialogs/commons/0.9.3.0/annotations.zip!/" />
-    </ANNOTATIONS>
     <CLASSES>
-      <root url="file://$USER_HOME$/.android/build-cache/634a0da5f5f4a7f4e53bb2a90dbf17c7e3622f30/output/res" />
-      <root url="jar://$USER_HOME$/.android/build-cache/634a0da5f5f4a7f4e53bb2a90dbf17c7e3622f30/output/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.android/build-cache/4f55d9b8a5b80fe54a636e2c50ea601a8574d699/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/4f55d9b8a5b80fe54a636e2c50ea601a8574d699/output/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

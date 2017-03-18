@@ -103,7 +103,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         //fragmentTransaction.add(R.id.container_body, new TicketList()).addToBackStack(TAG_FRAGMENT[2]);
-        fragmentTransaction.add(R.id.container_body, new TicketList()).disallowAddToBackStack();
+        fragmentTransaction.add(R.id.container_body, new TicketList(),TicketList.FRAGMENT_TRANSACTION).disallowAddToBackStack();
         fragmentTransaction.commit();
         setTitle(getResources().getStringArray(R.array.nav_list)[0]);
     }
@@ -263,26 +263,28 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
         } else {
 
+            TicketList ticketListFragment =  (TicketList) getSupportFragmentManager().findFragmentByTag(TicketList.FRAGMENT_TRANSACTION);
+            if(!ticketListFragment.closeSearch()) {
+                new MaterialDialog.Builder(this)
+                        .title("האים אתה בתוח רוצא לצאת מהאפליקציה")
+                        .titleColor(Color.BLACK)
+                        .positiveText("כן")
+                        .negativeText("לא")
+                        .backgroundColor(Color.WHITE)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                exitApp();
+                            }
+                        })
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
 
-            new MaterialDialog.Builder(this)
-                    .title("האים אתה בתוח רוצא לצאת מהאפליקציה")
-                    .titleColor(Color.BLACK)
-                    .positiveText("כן")
-                    .negativeText("לא")
-                    .backgroundColor(Color.WHITE)
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            exitApp();
-                        }
-                    })
-                    .onNegative(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-
-                        }
-                    })
-                    .show();
+                            }
+                        })
+                        .show();
+            }
         }
 
     }
