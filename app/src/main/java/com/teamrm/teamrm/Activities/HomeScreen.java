@@ -1,15 +1,20 @@
 package com.teamrm.teamrm.Activities;
 
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -20,6 +25,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -255,10 +262,33 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
             super.onBackPressed();
 
         } else {
-            Log.w("SUPER ON BACK", "ELSE");
-            super.onBackPressed();
+
+
+            new MaterialDialog.Builder(this)
+                    .title("האים אתה בתוח רוצא לצאת מהאפליקציה")
+                    .titleColor(Color.BLACK)
+                    .positiveText("כן")
+                    .negativeText("לא")
+                    .backgroundColor(Color.WHITE)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            exitApp();
+                        }
+                    })
+                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                        }
+                    })
+                    .show();
         }
 
+    }
+
+    private void exitApp() {
+        super.onBackPressed();
     }
 
     private void signOut() {
