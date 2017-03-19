@@ -11,6 +11,10 @@ import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
 import com.teamrm.teamrm.Utility.UtlNotification;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by root on 01/09/2016.
  */
@@ -27,8 +31,16 @@ public class E04Admin extends TicketStateAdmin implements TicketStateAble {
         UtlNotification utlNotification = new UtlNotification("טיפול נדחה ברבע שעה","יום נפלא");
         utlNotification.sendNotification();
         UtlAlarmManager utlAlarmManager = new UtlAlarmManager(HomeScreen.context);
-        ticket.getTicketCloseDateTime().setTime(ticket.getTicketCloseDateTime().getTime()+900000);
-        ticket.setAlarm(utlAlarmManager.setAlarm(ticket.getTicketCloseDateTime(),TicketStateAble.TTL_END_TIKCET_TIME_EXTENSION,ticket.getTicketID()));
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss - dd/MM/yyyy");
+        Date date=null;
+        try {
+            date = dateFormat.parse(ticket.getTicketCloseDateTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        date.setTime(date.getTime()+900000);
+        ticket.setAlarm(utlAlarmManager.setAlarm(date,TicketStateAble.TTL_END_TIKCET_TIME_EXTENSION,ticket.getTicketID()));
         ticket.setAlarmID(TicketStateAble.TTL_END_TIKCET_TIME_EXTENSION);
     }
 

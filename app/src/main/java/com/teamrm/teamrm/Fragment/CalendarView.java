@@ -242,8 +242,15 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
         Calendar calendar = Calendar.getInstance();
 
         //Log.d("getTicketCloseDateTime", event.getTicketCloseDateTime().toString());
-        if (event.getTicketCloseDateTime() != null)
-            calendar.setTime(event.getTicketCloseDateTime());
+        if (event.getTicketCloseDateTime() != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss - dd/MM/yyyy");
+
+            try {
+                calendar.setTime(dateFormat.parse(event.getTicketCloseDateTime()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
 
         return calendar;
     }

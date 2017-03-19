@@ -35,7 +35,9 @@ import com.teamrm.teamrm.Utility.UtlFirebase;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -90,13 +92,16 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                     endTime.setTime(new Date(bundleEndTime));
                     SimpleDateFormat format1;
                     if(endTime.get(Calendar.HOUR_OF_DAY)>0)
-                        format1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                        format1 = new SimpleDateFormat("HH:mm:ss - dd-MM-yyyy");
                     else
                         format1 = new SimpleDateFormat("dd-MM-yyyy");
                     timeFormated = format1.format(endTime.getTime());
                     Log.w(" Bundle_timeFormated:  ", timeFormated);
+                    Map<String, String> updates = new HashMap<>();
+                    updates.put("ticketCloseDateTime",timeFormated);
 
-                    UtlFirebase.updateTicket(ticketID, "ticketCloseDateTime", endTime.getTime());
+
+                    UtlFirebase.updateTicket(ticketID,(HashMap<String, String>) updates);
                 }
             }
 
@@ -265,8 +270,8 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                 case TicketStateStringable.STATE_E03:
                 {
                     ticket.updateTicketStateString(TicketStateStringable.STATE_E04,ticket);
-                    ticket.getTicketCloseDateTime().setTime(ticket.getTicketCloseDateTime().getTime()+14000);
-                    ticket.setAlarm(utlAlarmManager.setAlarm(ticket.getTicketCloseDateTime(),TicketStateAble.TTL_END_TIKCET_TIME_EXTENSION,ticketID));
+                   // ticket.getTicketCloseDateTime().setTime(ticket.getTicketCloseDateTime().getTime()+14000);
+                   // ticket.setAlarm(utlAlarmManager.setAlarm(ticket.getTicketCloseDateTime(),TicketStateAble.TTL_END_TIKCET_TIME_EXTENSION,ticketID));
 
                     ticket.getTicketStateObj().setView(this.getView());
                     break;
@@ -356,7 +361,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             UtlFirebase.downloadFile(ticket.getTicketID()+"/pic2.jpg",2);
         }
         if(ticket.getTicketCloseDateTime() !=null)
-            endTimeTxt.setText(date2String(ticket.getTicketCloseDateTime()));
+            endTimeTxt.setText(ticket.getTicketCloseDateTime());
 
     }
 

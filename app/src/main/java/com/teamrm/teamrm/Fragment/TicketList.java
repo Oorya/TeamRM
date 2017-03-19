@@ -184,8 +184,8 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
             public void onClick(View view) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
-                ft.replace(R.id.container_body, new NewTicket(), null);
-                ft.addToBackStack(FragmentHelper.STACK_FOR_GENERAL_NAVIGATION);
+                ft.replace(R.id.container_body, new NewTicket(), NewTicket.FRAGMENT_TRANSACTION);
+                ft.addToBackStack(NewTicket.FRAGMENT_TRANSACTION);
                 ft.commit();
             }
         });

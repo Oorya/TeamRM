@@ -9,10 +9,13 @@ import com.teamrm.teamrm.TicketStates.TicketStateAdmin;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import static com.teamrm.teamrm.Activities.HomeScreen.context;
+import static com.teamrm.teamrm.R.id.calendar;
 
 /**
  * Created by root on 01/09/2016.
@@ -34,7 +37,15 @@ public class A03Admin extends TicketStateAdmin implements TicketStateAble {
         UtlAlarmManager utlAlarmManager = new UtlAlarmManager(context);
         utlAlarmManager.cancelAlarm(ticket.get_alarm());
         ticket.setAlarmID(0);
-       ticket.setAlarm(utlAlarmManager.setAlarm(ticket.getTicketCloseDateTime(),TicketStateAble.WAITING_FOR_USER_APPROVAL,ticket.getTicketID()));
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss - dd/MM/yyyy");
+        Date date=null;
+        try {
+            date = dateFormat.parse(ticket.getTicketCloseDateTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+       ticket.setAlarm(utlAlarmManager.setAlarm(date,TicketStateAble.WAITING_FOR_USER_APPROVAL,ticket.getTicketID()));
         ticket.setAlarmID(TicketStateAble.WAITING_FOR_USER_APPROVAL);
 
 

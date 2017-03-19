@@ -51,7 +51,7 @@ public class Ticket {
     private TicketStateAble ticketStateObj;
 
     private String ticketOpenDateTime;
-    private Date ticketCloseDateTime;
+    private String  ticketCloseDateTime;
 
     private int alarmID; //TODO:change to String
     private int alarmTechStartWorkOnTicketID; //TODO:change to String
@@ -124,10 +124,13 @@ public class Ticket {
         this.ticketStateString = TicketStateStringable.STATE_A00;
         this.ticketPresentation = TicketStateAble.TICKET_LIST_PRESENTATION_URGENT;
         this.ticketOpenDateTime = startTime==null?getCurrentTime():startTime;
-
+        this.ticketCloseDateTime = "";
         this.ticketCalendarID = (new Date()).getTime();
         this.ticketIsClosed = false;
         // this.ticketStateObj = TicketFactory.getNewState(UserSingleton.getInstance().getStatus(),TicketStateStringable.STATE_A00,this);
+    }
+    public void setTicketCloseDateTime(String ticketCloseDateTime) {
+        this.ticketCloseDateTime = ticketCloseDateTime;
     }
 
     public long getTicketCalendarID() {
@@ -400,7 +403,7 @@ public class Ticket {
         return ticketOpenDateTime;
     }
 
-    public Date getTicketCloseDateTime() {
+    public String getTicketCloseDateTime() {
         return ticketCloseDateTime;
     }
 

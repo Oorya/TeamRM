@@ -72,7 +72,7 @@ public class TicketLite {
         this.ticketStateString = ticket.getTicketStateString();
 
         this.ticketOpenDateTime = ticket.getTicketOpenDateTime();
-        //this.ticketCloseDateTime = ticket.getTicketCloseDateTime();
+        this.ticketCloseDateTime = ticket.getTicketCloseDateTime();
 
         this.techNameString = ticket.getTechNameString();
         //this.techAvatar=ticket.

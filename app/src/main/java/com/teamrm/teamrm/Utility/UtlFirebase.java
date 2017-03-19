@@ -433,6 +433,30 @@ public class UtlFirebase { //TODO: make singleton
         activeValueEventListeners.put(query, listener);
     }
 
+
+    public static void updateTicket(String ticketID, HashMap<String, String> updateFields) {
+        Map updates = new HashMap();
+        for (Map.Entry<String, String> field : updateFields.entrySet()) {
+            updates.put(TICKET_ROOT_REFERENCE_STRING+ "/" + ticketID + "/" + field.getKey(), field.getValue());
+            updates.put(TICKET_LITE_ROOT_REFERENCE_STRING+ "/" + ticketID + "/" + field.getKey(), field.getValue());
+
+
+        }
+        Log.d("updateTicket", updates.toString());
+        GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                toastSuccessOrError("update successful", databaseError);
+
+            }
+        });
+    }
+
+
+
+
+
+
     private static void getAllCompanyTickets(String companyID, final FireBaseAble fbHelper) {
         Query query = TICKET_ROOT_REFERENCE.orderByChild(Ticket.COMPANY_ID).equalTo(companyID);
         ValueEventListener listener = new ValueEventListener() {

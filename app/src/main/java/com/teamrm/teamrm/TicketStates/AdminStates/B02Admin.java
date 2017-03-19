@@ -10,6 +10,10 @@ import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
 import com.teamrm.teamrm.Utility.UtlNotification;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static com.teamrm.teamrm.Activities.HomeScreen.context;
 
 /**
@@ -30,9 +34,17 @@ public class B02Admin extends TicketStateAdmin implements TicketStateAble {
 
         UtlAlarmManager utlAlarmManager = new UtlAlarmManager(context);
         utlAlarmManager.cancelAlarm(ticket.get_alarm());
-        ticket.setAlarm(utlAlarmManager.setAlarm(ticket.getTicketCloseDateTime(),TicketStateAble.TTL_END_TICKET_DATE,ticket.getTicketID()));
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss - dd/MM/yyyy");
+        Date date=null;
+        try {
+            date = dateFormat.parse(ticket.getTicketCloseDateTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        ticket.setAlarm(utlAlarmManager.setAlarm(date,TicketStateAble.TTL_END_TICKET_DATE,ticket.getTicketID()));
         ticket.setAlarmID(TicketStateAble.TTL_END_TICKET_DATE);
-        ticket.setAlarm(utlAlarmManager.setAlarm(ticket.getTicketCloseDateTime(),TicketStateAble.TECH_START_WORK_ON_TICkET,ticket.getTicketID()));
+        ticket.setAlarm(utlAlarmManager.setAlarm(date,TicketStateAble.TECH_START_WORK_ON_TICkET,ticket.getTicketID()));
         ticket.setAlarmID(TicketStateAble.TECH_START_WORK_ON_TICkET);
 
     }
