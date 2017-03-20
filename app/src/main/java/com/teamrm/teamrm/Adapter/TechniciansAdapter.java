@@ -55,7 +55,6 @@ public class TechniciansAdapter extends RecyclerView.Adapter<TechniciansAdapter.
         holder.userName.setText(technician.getUserNameString());
         holder.userEmail.setText(technician.getUserEmail());
         holder.userPhone.setText(technician.getUserPhone());
-        holder.techCalendarName.setText(technician.getTechCalendarID());
         holder.techAssignedRegions.setText(technician.getTechAssignedRegions());
         holder.techShifts.setText(technician.getTechShifts());
         holder.techColorView.setCardBackgroundColor(Color.parseColor(technician.getTechColor()));
@@ -75,7 +74,7 @@ public class TechniciansAdapter extends RecyclerView.Adapter<TechniciansAdapter.
 
         protected View view;
         //protected String userID, calendarID;
-        protected TextView userName, userEmail, userPhone, techCalendarName, techShifts, techAssignedRegions, userAddress;
+        protected TextView userName, userEmail, userPhone, techShifts, techAssignedRegions, userAddress;
         protected CardView techColorView;
         protected CardView cardContainer;
 
@@ -84,7 +83,6 @@ public class TechniciansAdapter extends RecyclerView.Adapter<TechniciansAdapter.
             this.userName = (TextView)view.findViewById(R.id.technicianNameText);
             this.userEmail = (TextView)view.findViewById(R.id.technicianMailText);
             this.userPhone = (TextView)view.findViewById(R.id.technicianPhoneText);
-            this.techCalendarName = (TextView)view.findViewById(R.id.technicianCalendarText);
             this.techShifts = (TextView)view.findViewById(R.id.technicianShiftsText);
             this.techAssignedRegions = (TextView)view.findViewById(R.id.technicianAssignedRegionsText);
             this.userAddress = (TextView)view.findViewById(R.id.technicianAddressText);

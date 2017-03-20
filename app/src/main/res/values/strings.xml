@@ -173,6 +173,7 @@
     <string name="label_add_product">הוספת מוצר</string>
     <string name="label_add_category">הוספת סיווג</string>
     <string name="label_add_region">הוספת אזור</string>
+    <string name="label_add_workshift">הוסף משמרת</string>
     <string name="label_no_content">ל\"ת</string>
     <string name="label_description_section">תוכן הקריאה</string>
     <string name="label_no_assigned_tech">אין טכנאי מצוות</string>
@@ -183,6 +184,7 @@
     <string name="label_dialog_save_user_detail">עדכון פרטי משתמש</string>
     <string name="label_save_user_address">לשמור את הכתובת הרשומה בפרטי המשתמש?</string>
     <string name="label_save_user_phone">לשמור את הטלפון הרשום בפרטי המשתמש?</string>
+
 
     <!--/labels-->
 

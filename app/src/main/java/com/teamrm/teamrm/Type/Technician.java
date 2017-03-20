@@ -12,8 +12,6 @@ public class Technician extends Users implements GenericKeyValueTypeable {
 
     // inherited from Users -> userID, clientNameString, userEmail, ticketPhone, ticketAddress, companyName
     private String
-            techCalendarID,
-            techCalendarName,
             techColor,
             techShifts,
             techAssignedRegions;
@@ -24,28 +22,9 @@ public class Technician extends Users implements GenericKeyValueTypeable {
     public Technician(String userID, String userNameString, String userEmail, @Nullable String userPhone, @Nullable String userAddress,
                       String techCalendarID, String techCalendarName, String techColor, String techShifts, String techAssignedRegions) {
         super(userID, userNameString, userEmail);
-        this.techCalendarID = techCalendarID;
-        this.techCalendarName = techCalendarName; //TODO: get calendar name by ID? *MARK
         this.techColor = techColor;
         this.techShifts = techShifts;
         this.techAssignedRegions = techAssignedRegions;
-    }
-
-    public String getTechCalendarID() {
-        return techCalendarID;
-    }
-
-    public void setTechCalendarID(String techCalendarID) {
-        this.techCalendarID = techCalendarID;
-        //TODO: add routine for binding a calendar and setting a name *MARK
-    }
-
-    public String getTechCalendarName() {
-        return techCalendarName;
-    }
-
-    public void setTechCalendarName(String techCalendarName) {
-        this.techCalendarName = techCalendarName;
     }
 
     public String getTechColor() {
