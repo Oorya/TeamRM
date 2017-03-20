@@ -1,10 +1,14 @@
 package com.teamrm.teamrm.Utility;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.teamrm.teamrm.Activities.HomeScreen;
+import com.teamrm.teamrm.Adapter.TicketListAdapter;
+import com.teamrm.teamrm.Fragment.TicketList;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.TicketStateObservable;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
@@ -91,6 +95,9 @@ public class UserSingleton extends Users{
         @Override
         public void ticketLiteListCallback(List<TicketLite> ticketLites) {
             TicketLite.setTicketLiteList(ticketLites);
+            TicketListAdapter.setAdpterList(ticketLites);
+            if(TicketListAdapter.getInstance()!=null)
+            TicketListAdapter.getInstance().notifyDataSetChanged();
             try {
                 Log.d(TAG, TicketLite.getTicketLiteList().toString());
             } catch (Exception e) {
@@ -160,6 +167,8 @@ public class UserSingleton extends Users{
             Log.d(STATELISTENERTAG, "Removed state " + ticketState.toString());
         }
     };
+
+
 }
 
 

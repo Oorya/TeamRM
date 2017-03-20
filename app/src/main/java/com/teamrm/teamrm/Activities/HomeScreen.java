@@ -183,7 +183,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
             case 1:
                 NewTicket ticket = new NewTicket();
-                fragmentTransaction.replace(R.id.container_body, ticket).addToBackStack(NewTicket.FRAGMENT_TRANSACTION).commit();
+                fragmentTransaction.replace(R.id.container_body, ticket). addToBackStack(NewTicket.FRAGMENT_TRANSACTION).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[1]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
                 break;
@@ -229,13 +229,6 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
     @Override
     public void onBackPressed() {
-
-
-        //if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-        //    this.drawerLayout.closeDrawer(GravityCompat.START);
-       // } else {
-        //    super.onBackPressed();
-       // }
 
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         if(!drawerLayout.isDrawerOpen(GravityCompat.START)) {

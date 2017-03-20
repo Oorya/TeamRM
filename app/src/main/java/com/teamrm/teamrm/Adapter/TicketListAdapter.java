@@ -47,11 +47,25 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
     private Typeface SEMI_BOLD;
     private static List<TicketLite> mTicketLiteList;
     private Context mContext;
+    private static TicketListAdapter ticketListAdapter;
     private static final String TAG = ":::TicketListAdapter:::";
+
+    public static void setAdpterList(List<TicketLite> ticketLiteList)
+    {
+        if(mTicketLiteList != null) {
+            TicketListAdapter.mTicketLiteList.clear();
+            TicketListAdapter.mTicketLiteList.addAll(ticketLiteList);
+        }
+    }
+    public static TicketListAdapter getInstance()
+    {
+        return ticketListAdapter;
+    }
 
     public TicketListAdapter(Context context, List<TicketLite> ticketLiteList) {
         mTicketLiteList = ticketLiteList;
         this.mContext = context;
+        ticketListAdapter = this;
         setFont();
     }
 

@@ -305,7 +305,9 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
                 UtlFirebase.addTicket(newTicket);
                 newTicket.updateTicketStateString(TicketStateStringable.STATE_A01, newTicket);
                 //Toast.makeText(getContext(), "Success opening ticket " + newTicket.getTicketNumber(), Toast.LENGTH_LONG).show();
-                ((HomeScreen) getActivity()).onDrawerItemSelected(view, 0);
+                //((HomeScreen) getActivity()).onDrawerItemSelected(view, 0);
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 
     private void uploadPicture(String uid) {

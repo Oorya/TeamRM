@@ -91,6 +91,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
         View view = inflater.inflate(R.layout.fragment_list_ticket, container, false);
         Typeface SEMI_BOLD = Typeface.createFromAsset(this.getContext().getAssets(), "Assistant-SemiBold.ttf");
 
+
         filter = (LinearLayout) view.findViewById(R.id.filter);//TODO:add visual effects for buttons
         search = (LinearLayout) view.findViewById(R.id.search);
         order = (LinearLayout) view.findViewById(R.id.sort);
@@ -146,7 +147,6 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
         mRecyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView);
         mRecyclerView.setLayoutManager(recyclerViewManager);
 
-
         ticketListAdapter = new TicketListAdapter(getContext(), ticketLiteList);
         mRecyclerView.setAdapter(ticketListAdapter);
         orderList(ticketLiteList);
@@ -197,6 +197,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
 
     @Override
     public void onResume() {
+
         super.onResume();
 
     }

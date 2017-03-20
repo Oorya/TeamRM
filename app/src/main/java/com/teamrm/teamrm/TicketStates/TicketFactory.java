@@ -43,6 +43,7 @@ public class TicketFactory
             }
         }
         return ((TicketStateAble) m_RegisteredProducts.get(nextStateName)).getNewState(ticket);
+
     }
 
     public static void registerProduct(String ticketID, TicketStateAble T)
