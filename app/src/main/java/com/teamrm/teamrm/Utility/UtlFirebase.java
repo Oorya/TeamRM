@@ -27,6 +27,7 @@ import com.google.firebase.storage.UploadTask;
 import com.teamrm.teamrm.Fragment.TicketView;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.TicketStateObservable;
+import com.teamrm.teamrm.Interfaces.WorkShiftCallback;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.Type.Admin;
 import com.teamrm.teamrm.Type.Category;
@@ -40,6 +41,7 @@ import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.TicketState;
 import com.teamrm.teamrm.Type.Users;
+import com.teamrm.teamrm.Type.WorkShift;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -69,6 +71,7 @@ public class UtlFirebase { //TODO: make singleton
     private static final String COMPANY_PRODUCTS_ROOT_REFERENCE_STRING = "CompanyProducts";
     private static final String COMPANY_CATEGORIES_ROOT_REFERENCE_STRING = "CompanyCategories";
     private static final String COMPANY_REGIONS_ROOT_REFERENCE_STRING = "CompanyRegions";
+    private static final String COMPANY_WORKSHIFTS_ROOT_REFERENCE_STRING = "CompanyWorkShifts";
     private static final String COMPANY_TECHNICIANS_ROOT_REFERENCE_STRING = "CompanyTechnicians";
     private static final String TICKET_ROOT_REFERENCE_STRING = "Tickets";
     private static final String TICKET_LITE_ROOT_REFERENCE_STRING = "TicketLites";
@@ -82,6 +85,7 @@ public class UtlFirebase { //TODO: make singleton
     private static final DatabaseReference COMPANY_PRODUCTS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(COMPANY_PRODUCTS_ROOT_REFERENCE_STRING);
     private static final DatabaseReference COMPANY_CATEGORIES_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(COMPANY_CATEGORIES_ROOT_REFERENCE_STRING);
     private static final DatabaseReference COMPANY_REGIONS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(COMPANY_REGIONS_ROOT_REFERENCE_STRING);
+    private static final DatabaseReference COMPANY_WORKSHIFTS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(COMPANY_WORKSHIFTS_ROOT_REFERENCE_STRING);
     private static final DatabaseReference COMPANY_TECHNICIANS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(COMPANY_TECHNICIANS_ROOT_REFERENCE_STRING);
     private static final DatabaseReference TICKET_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(TICKET_ROOT_REFERENCE_STRING);
     private static final DatabaseReference TICKET_LITE_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(TICKET_LITE_ROOT_REFERENCE_STRING);
@@ -957,6 +961,85 @@ public class UtlFirebase { //TODO: make singleton
         UtlFirebase.currentContext = currentContext;
         Log.d("setCurrentContext", currentContext.toString());
     }
+
+    ///////////////////////////// WorkShift /////////////////////////////
+
+    public static void addWorkShift(String companyID, WorkShift workShift) {
+        COMPANY_WORKSHIFTS_ROOT_REFERENCE.child(companyID).push().setValue(workShift, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                Log.w("Firebase util ", "workShift key " + databaseReference.getKey());
+                if (databaseError != null) {
+                    toastTheError(databaseError);
+                }
+            }
+        });
+    }
+
+    public static void getWorkShifts(String companyID, final WorkShiftCallback workShiftCallback) {
+        final List<WorkShift> workShiftList = new ArrayList<>();
+        COMPANY_WORKSHIFTS_ROOT_REFERENCE.child(companyID).orderByValue().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                workShiftList.clear();
+                for (DataSnapshot workShift : dataSnapshot.getChildren()){
+                    workShiftList.add(workShift.getValue(WorkShift.class));
+                }
+                workShiftCallback.workShiftFireBaseCallback((ArrayList<WorkShift>) workShiftList);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+    }
+
+    public static void getWorkShiftsForEdit(String companyID, final WorkShiftCallback workShiftCallback) {
+        final List<WorkShift> workShiftList = new ArrayList<>();
+        Query query = COMPANY_WORKSHIFTS_ROOT_REFERENCE.child(companyID).orderByValue();
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (!workShiftList.isEmpty()) {
+                    workShiftList.clear();
+                }
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    workShiftCallback.workShiftFireBaseCallback((ArrayList<WorkShift>) workShiftList);
+                }
+                workShiftCallback.workShiftFireBaseCallback((ArrayList<WorkShift>) workShiftList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
+        query.addValueEventListener(listener);
+        activeValueEventListeners.put(query, listener);
+    }
+
+    public static void updateWorkShift(String companyID, WorkShift workShift) {
+        COMPANY_WORKSHIFTS_ROOT_REFERENCE.child(companyID).child(workShift.getWorkShiftID()).setValue(workShift, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (databaseError != null) {
+                    toastTheError(databaseError);
+                }
+            }
+        });
+    }
+
+    public static void removeWorkShift(String companyID, WorkShift workShift) {
+        COMPANY_WORKSHIFTS_ROOT_REFERENCE.child(companyID).child(workShift.getWorkShiftID()).removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (databaseError != null) {
+                    toastTheError(databaseError);
+                }
+            }
+        });
+    }
+
+
 
 ///////////////////////////////// Storage /////////////////////////////
 

@@ -77,7 +77,7 @@
             android:minEms="20"
             android:text=""
             android:textAlignment="center"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
 
     </RelativeLayout>
@@ -224,32 +224,28 @@
             android:layout_toEndOf="@id/technicianCalendarIcon"
             android:text="@string/label_calendar" />
 
-
-        <RelativeLayout
+        <Button
+            android:id="@+id/technicianCalendarButtonLink"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="42dp"
             android:layout_toEndOf="@id/technicianCalendarLabel"
-            android:layout_marginEnd="42dp"
-            >
+            android:drawablePadding="8dp"
+            android:drawableStart="@drawable/ic_icon_person"
+            android:textColor="@color/textColor_primary"
+            tools:text="בחר קיים" />
 
-            <ImageView
-                android:id="@+id/selectRegionIcon"
-                android:layout_centerVertical="true"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_icon_down" />
+        <Button
+            android:id="@+id/technicianCalendarButtonCreate"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:layout_toEndOf="@id/technicianCalendarButtonLink"
+            tools:text="צור חדש"
+            android:textColor="@color/textColor_primary"
+            android:drawableStart="@drawable/ic_icon_person"
+            android:drawablePadding="8dp" />
 
-            <Spinner
-                android:id="@+id/selectRegionSpinner"
-                style="@style/RegularRowItem.Spinner"
-                android:dropDownWidth="match_parent"
-                />
-        </RelativeLayout>
 
-        <ImageView style="@style/CardRowImageEnd"
-            android:src="@drawable/ic_perm_contact_calendar"
-            />
     </RelativeLayout>
 
     <RelativeLayout

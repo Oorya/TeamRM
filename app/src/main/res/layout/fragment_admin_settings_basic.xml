@@ -195,6 +195,36 @@
     <View
         style="@style/Separator4dp"
         />
+    <RelativeLayout
+        android:id="@+id/defineWorkShift"
+        style="@style/PrefRowBig"
+        android:background="@color/listRow_alt"
+        >
+
+        <ImageView
+            android:id="@+id/workShiftIcon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_shifts" />
+
+        <TextView
+            android:id="@+id/workShiftLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="12dp"
+            android:layout_toEndOf="@id/workShiftIcon"
+            android:text="הגדרת משמרות"
+            android:textColor="@color/textColor_primary"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+    <View
+        style="@style/Separator4dp"
+        />
 
     <RelativeLayout
         android:id="@+id/appPrefs"
