@@ -99,8 +99,6 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                     Log.w(" Bundle_timeFormated:  ", timeFormated);
                     Map<String, String> updates = new HashMap<>();
                     updates.put("ticketCloseDateTime",timeFormated);
-
-
                     UtlFirebase.updateTicket(ticketID,(HashMap<String, String>) updates);
                 }
             }

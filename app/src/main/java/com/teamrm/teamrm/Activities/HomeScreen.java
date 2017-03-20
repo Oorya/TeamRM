@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -131,8 +132,9 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
             List<String> photos = null;
 
-            if (data != null) {
+            if (data != null&&data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS)!=null) {
                 photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+
                 Uri uri = Uri.fromFile(new File(photos.get(0)));
                 //UtlFirebase.uploadFile("picTest", uri);
             }
@@ -146,7 +148,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         } else if (requestCode == FROM_CAMERA || requestCode == SELECT_FILE) {
             NewTicket.utlCamera.onActivityResult(requestCode, resultCode, data);
         } else {
-            CalendarView.cal.onActivityResult(requestCode, resultCode, data);
+            //CalendarView.cal.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -228,65 +230,76 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     @Override
     public void onBackPressed() {
 
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0)
-        {
-            String tag;
-            if(getSupportFragmentManager().getBackStackEntryCount()-2>=0)
-             tag = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-2).getName();
-            else
-             tag = TicketList.FRAGMENT_TRANSACTION;
-            switch (tag)
+
+        //if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+        //    this.drawerLayout.closeDrawer(GravityCompat.START);
+       // } else {
+        //    super.onBackPressed();
+       // }
+
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if(!drawerLayout.isDrawerOpen(GravityCompat.START)) {
+
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                String tag;
+                if (getSupportFragmentManager().getBackStackEntryCount() - 2 >= 0)
+                    tag = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 2).getName();
+                else
+                    tag = TicketList.FRAGMENT_TRANSACTION;
+                switch (tag) {
+                    case CalendarView.FRAGMENT_TRANSACTION:
+                        Log.d("onBackPressed", "case CalendarView = " + CalendarView.FRAGMENT_TRANSACTION);
+                        setTitle(getResources().getStringArray(R.array.nav_list)[2]);
+                        break;
+                    case TicketList.FRAGMENT_TRANSACTION:
+                        Log.d("onBackPressed", "case TicketList = " + TicketList.FRAGMENT_TRANSACTION);
+                        setTitle(getResources().getStringArray(R.array.nav_list)[0]);
+                        break;
+                    case NewTicket.FRAGMENT_TRANSACTION:
+                        Log.d("onBackPressed", "case NewTicket = " + NewTicket.FRAGMENT_TRANSACTION);
+                        setTitle(getResources().getStringArray(R.array.nav_list)[1]);
+                        break;
+                    case FragmentHelper.STACK_FOR_GENERAL_NAVIGATION:
+                        Log.d("onBackPressed", "case FragmentHelper = " + FragmentHelper.STACK_FOR_GENERAL_NAVIGATION);
+                        setTitle(getResources().getStringArray(R.array.nav_list)[3]);
+                        break;
+                    case FragmentHelper.STACK_FOR_BASIC_SETTINGS_NAVIGATION:
+                        Log.d("onBackPressed", "case FragmentHelper = " + FragmentHelper.STACK_FOR_BASIC_SETTINGS_NAVIGATION);
+                        setTitle(getResources().getStringArray(R.array.nav_list)[4]);
+                        break;
+                }
+                findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
+                super.onBackPressed();
+
+            } else {
+
+                TicketList ticketListFragment = (TicketList) getSupportFragmentManager().findFragmentByTag(TicketList.FRAGMENT_TRANSACTION);
+                if (!ticketListFragment.closeSearch()) {
+                    new MaterialDialog.Builder(this)
+                            .title("האים אתה בתוח רוצא לצאת מהאפליקציה")
+                            .titleColor(Color.BLACK)
+                            .positiveText("כן")
+                            .negativeText("לא")
+                            .backgroundColor(Color.WHITE)
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    exitApp();
+                                }
+                            })
+                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        }else
             {
-                case CalendarView.FRAGMENT_TRANSACTION:
-                    Log.d("onBackPressed", "case CalendarView = "+CalendarView.FRAGMENT_TRANSACTION);
-                    setTitle(getResources().getStringArray(R.array.nav_list)[2]);
-                    break;
-                case TicketList.FRAGMENT_TRANSACTION:
-                    Log.d("onBackPressed", "case TicketList = "+TicketList.FRAGMENT_TRANSACTION);
-                    setTitle(getResources().getStringArray(R.array.nav_list)[0]);
-                    break;
-                case NewTicket.FRAGMENT_TRANSACTION:
-                    Log.d("onBackPressed", "case NewTicket = "+NewTicket.FRAGMENT_TRANSACTION);
-                    setTitle(getResources().getStringArray(R.array.nav_list)[1]);
-                    break;
-                case FragmentHelper.STACK_FOR_GENERAL_NAVIGATION:
-                    Log.d("onBackPressed", "case FragmentHelper = "+FragmentHelper.STACK_FOR_GENERAL_NAVIGATION);
-                    setTitle(getResources().getStringArray(R.array.nav_list)[3]);
-                    break;
-                case FragmentHelper.STACK_FOR_BASIC_SETTINGS_NAVIGATION:
-                    Log.d("onBackPressed", "case FragmentHelper = "+FragmentHelper.STACK_FOR_BASIC_SETTINGS_NAVIGATION);
-                    setTitle(getResources().getStringArray(R.array.nav_list)[4]);
-                    break;
+                drawerLayout.closeDrawer(GravityCompat.START);
             }
-            findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
-            super.onBackPressed();
-
-        } else {
-
-            TicketList ticketListFragment =  (TicketList) getSupportFragmentManager().findFragmentByTag(TicketList.FRAGMENT_TRANSACTION);
-            if(!ticketListFragment.closeSearch()) {
-                new MaterialDialog.Builder(this)
-                        .title("האים אתה בתוח רוצא לצאת מהאפליקציה")
-                        .titleColor(Color.BLACK)
-                        .positiveText("כן")
-                        .negativeText("לא")
-                        .backgroundColor(Color.WHITE)
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                exitApp();
-                            }
-                        })
-                        .onNegative(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-
-                            }
-                        })
-                        .show();
-            }
-        }
-
     }
 
     private void exitApp() {
