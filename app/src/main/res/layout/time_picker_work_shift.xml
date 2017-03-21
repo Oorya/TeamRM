@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:orientation="vertical"
+    android:textDirection="rtl"
+    tools:paddingTop="25px">
+
+    <EditText
+        android:id="@+id/workShiftName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="enter workshift name"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:textAlignment="gravity"
+        android:textDirection="inherit" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <TimePicker
+            android:id="@+id/workShiftStartPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:timePickerMode="spinner"
+            />
+
+        <TimePicker
+            android:id="@+id/workShiftEndPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:timePickerMode="spinner" />
+    </LinearLayout>
+</LinearLayout>

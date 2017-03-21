@@ -80,15 +80,10 @@ public class AdminSettingsDefineWorkShifts extends Fragment implements WorkShift
     }
 
     private void addWorkshift() {
-        new MaterialDialog.Builder(getContext())
+
+        MaterialDialog.Builder addWorkShiftDialog = new MaterialDialog.Builder(getContext())
                 .title(R.string.label_add_workshift)
-                .input("", "", new MaterialDialog.InputCallback() {
-                    @Override
-                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                        Toast.makeText(getContext(),  input.toString(), Toast.LENGTH_SHORT).show();
-                        UtlFirebase.addWorkShift(UserSingleton.getInstance().getAssignedCompanyID(), new WorkShift(input.toString(), "startShift", "endShift"));
-                    }
-                })
+                .customView(R.layout.time_picker_work_shift, false)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -106,8 +101,7 @@ public class AdminSettingsDefineWorkShifts extends Fragment implements WorkShift
                 .titleColorRes(R.color.textColor_lighter)
                 .positiveColorRes(R.color.colorPrimary)
                 .negativeColorRes(R.color.colorPrimaryDark)
-                .dividerColorRes(R.color.textColor_lighter)
-                .show();
+                .dividerColorRes(R.color.textColor_lighter);
     }
 
     @Override

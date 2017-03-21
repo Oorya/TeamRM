@@ -25,6 +25,7 @@ public class AdminSettingsBasic extends Fragment implements View.OnClickListener
             defineProducts,
             defineCategory,
             defineRegions,
+            defineWorkShifts,
             appPrefs;
 
     public AdminSettingsBasic() {
@@ -43,6 +44,7 @@ public class AdminSettingsBasic extends Fragment implements View.OnClickListener
         defineProducts = (RelativeLayout) view.findViewById(R.id.defineProducts);
         defineCategory = (RelativeLayout) view.findViewById(R.id.defineCategoryA);
         defineRegions = (RelativeLayout) view.findViewById(R.id.defineRegion);
+        defineWorkShifts = (RelativeLayout) view.findViewById(R.id.defineWorkShift);
         appPrefs = (RelativeLayout) view.findViewById(R.id.appPrefs);
 
         defineFirm.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +113,16 @@ public class AdminSettingsBasic extends Fragment implements View.OnClickListener
             }
         });
 
+        defineWorkShifts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
+                ft.replace(R.id.container_body, new AdminSettingsDefineWorkShifts(), null);
+                ft.addToBackStack(FragmentHelper.STACK_FOR_BASIC_SETTINGS_NAVIGATION);
+                ft.commit();
+            }
+        });
 
         return view;
     }

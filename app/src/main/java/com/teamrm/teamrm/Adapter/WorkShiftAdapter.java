@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.teamrm.teamrm.Interfaces.PrefListable;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.WorkShift;
 import com.teamrm.teamrm.Utility.UserSingleton;
@@ -27,10 +26,10 @@ import java.util.List;
  * Created by root on 13/01/2017.
  */
 
-public class WorkShiftAdapter extends RecyclerView.Adapter<WorkShiftAdapter.WorkShiftHolder> implements PrefListable {
+public class WorkShiftAdapter extends RecyclerView.Adapter<WorkShiftAdapter.WorkShiftHolder> {
 
-    List<WorkShift> workShiftList = new ArrayList<>();
-    Context cContext;
+    private List<WorkShift> workShiftList = new ArrayList<>();
+    private Context cContext;
     private static final String TAG = "WorkShiftAdapter:::";
 
 
@@ -42,7 +41,7 @@ public class WorkShiftAdapter extends RecyclerView.Adapter<WorkShiftAdapter.Work
 
     @Override
     public WorkShiftHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pref_adapter_row_6, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pref_adapter_row_3, null);
         return new WorkShiftHolder(view);
     }
 
@@ -50,7 +49,11 @@ public class WorkShiftAdapter extends RecyclerView.Adapter<WorkShiftAdapter.Work
     public void onBindViewHolder(final WorkShiftHolder holder, final int position) {
 
         final WorkShift workShiftItem = workShiftList.get(position);
-        holder.workShiftName.setText(workShiftItem.getWorkShiftName());
+        holder.workShiftNameString.setText(workShiftItem.getWorkShiftName());
+        holder.workShiftStartLabel.setText(R.string.label_workshift_start);
+        holder.workShiftStartString.setText(workShiftItem.getWorkShiftStart());
+        holder.workShiftEndLabel.setText(R.string.label_workshift_end);
+        holder.workShiftEndString.setText(workShiftItem.getWorkShiftEnd());
         holder.iconEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,13 +140,18 @@ public class WorkShiftAdapter extends RecyclerView.Adapter<WorkShiftAdapter.Work
 
     public class WorkShiftHolder extends RecyclerView.ViewHolder {
         protected View view;
-        protected TextView workShiftName;
+        protected TextView workShiftNameLabel, workShiftNameString, workShiftStartLabel, workShiftStartString, workShiftEndLabel, workShiftEndString;
         protected ImageView iconEdit, iconRemove;
 
         public WorkShiftHolder(View view) {
             super(view);
             this.view = view;
-            this.workShiftName = (TextView) view.findViewById(R.id.prefText);
+            this.workShiftNameLabel = (TextView) view.findViewById(R.id.prefLabel1);
+            this.workShiftNameString = (TextView) view.findViewById(R.id.prefText1);
+            this.workShiftStartLabel = (TextView) view.findViewById(R.id.prefLabel2);
+            this.workShiftStartString = (TextView) view.findViewById(R.id.prefText2);
+            this.workShiftEndLabel = (TextView) view.findViewById(R.id.prefLabel3);
+            this.workShiftEndString = (TextView) view.findViewById(R.id.prefText3);
             this.iconEdit = (ImageView) view.findViewById(R.id.prefIconEdit);
             this.iconRemove = (ImageView) view.findViewById(R.id.prefIconRemove);
         }

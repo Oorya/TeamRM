@@ -184,6 +184,10 @@
     <string name="label_dialog_save_user_detail">עדכון פרטי משתמש</string>
     <string name="label_save_user_address">לשמור את הכתובת הרשומה בפרטי המשתמש?</string>
     <string name="label_save_user_phone">לשמור את הטלפון הרשום בפרטי המשתמש?</string>
+    <string name="label_workshift_start">מ-</string>
+    <string name="label_workshift_end">עד</string>
+
+
 
 
     <!--/labels-->

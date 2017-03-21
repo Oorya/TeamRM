@@ -4,6 +4,7 @@
     android:id="@+id/prefRow"
     style="@style/CardRow"
     android:layout_height="wrap_content"
+    android:layout_width="match_parent"
     android:background="#fff"
     android:layoutDirection="rtl"
     android:minHeight="48dp"

@@ -457,10 +457,6 @@ public class UtlFirebase { //TODO: make singleton
     }
 
 
-
-
-
-
     private static void getAllCompanyTickets(String companyID, final FireBaseAble fbHelper) {
         Query query = TICKET_ROOT_REFERENCE.orderByChild(Ticket.COMPANY_ID).equalTo(companyID);
         ValueEventListener listener = new ValueEventListener() {
