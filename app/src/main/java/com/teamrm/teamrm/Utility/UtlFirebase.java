@@ -446,7 +446,7 @@ public class UtlFirebase { //TODO: make singleton
 
 
         }
-        Log.d("updateTicket", updates.toString());
+        //Log.d("updateTicket", updates.toString());
         GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -576,9 +576,20 @@ public class UtlFirebase { //TODO: make singleton
 
     }
 
-    public static void removeTicket(String ticketID) {
-        TICKET_ROOT_REFERENCE.child(ticketID).removeValue();
-        TICKET_LITE_ROOT_REFERENCE.child(ticketID).removeValue();
+    public static void removeTicket(Ticket ticket) {
+        Map updates = new HashMap();
+        updates.put(TICKET_ROOT_REFERENCE_STRING + "/" + ticket.getTicketID(), null);
+        updates.put(TICKET_LITE_ROOT_REFERENCE_STRING + "/" + ticket.getTicketID(), null);
+        updates.put(CLIENT_TICKET_STATES_REFERENCE_STRING + "/" + ticket.getClientID() + "/" + ticket.getTicketID(), null);
+        updates.put(COMPANY_TICKET_STATES_REFERENCE_STRING + "/" + ticket.getCompanyID() + "/" + ticket.getTicketID(), null);
+    }
+
+    public static void removeTicketLite(TicketLite ticketLite) {
+        Map updates = new HashMap();
+        updates.put(TICKET_ROOT_REFERENCE_STRING + "/" + ticketLite.getTicketID(), null);
+        updates.put(TICKET_LITE_ROOT_REFERENCE_STRING + "/" + ticketLite.getTicketID(), null);
+        updates.put(CLIENT_TICKET_STATES_REFERENCE_STRING + "/" + ticketLite.getClientID() + "/" + ticketLite.getTicketID(), null);
+        updates.put(COMPANY_TICKET_STATES_REFERENCE_STRING + "/" + ticketLite.getCompanyID() + "/" + ticketLite.getTicketID(), null);
     }
 
     public static void removeMultipleTickets(List<String> ticketsIDList) {
@@ -602,9 +613,9 @@ public class UtlFirebase { //TODO: make singleton
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     Ticket ticket = item.getValue(Ticket.class);
                     returnTicket = ticket;
-                    Log.e("ON DATA CHANGE ", ticket == null ? "NULL" : "NOT NULL");
+                    //Log.e("ON DATA CHANGE ", ticket == null ? "NULL" : "NOT NULL");
                     fbHelper.resultTicket(ticket);
-                    Log.e("RETURN METHOD ", returnTicket == null ? "NULL" : "NOT NULL");
+                    //Log.e("RETURN METHOD ", returnTicket == null ? "NULL" : "NOT NULL");
                 }
             }
 
@@ -631,7 +642,7 @@ public class UtlFirebase { //TODO: make singleton
                     Chat retrievedChat = item.getValue(Chat.class);
                     chatList.add(retrievedChat);
                 }
-                Log.e("LIST SIZE: ", chatList.size() + "");
+                //Log.e("LIST SIZE: ", chatList.size() + "");
 
                 //Need to notify for current list adapter
                 //ChatTicket.chatAdapter.notifyDataSetChanged();
@@ -669,7 +680,7 @@ public class UtlFirebase { //TODO: make singleton
                     companyList.add(retrieveCompany);
                 }
                 fbHelper.companyListCallback(companyList);
-                Log.e("LIST SIZE COMPANIES: ", companyList.size() + "");
+                //Log.e("LIST SIZE COMPANIES: ", companyList.size() + "");
             }
 
             @Override
@@ -677,7 +688,7 @@ public class UtlFirebase { //TODO: make singleton
                 toastTheError(databaseError);
             }
         });
-        Log.e("ALL", "COMPANIES LIST");
+        //Log.e("ALL", "COMPANIES LIST");
         return companyList;
     }
 
@@ -723,7 +734,7 @@ public class UtlFirebase { //TODO: make singleton
         COMPANY_PRODUCTS_ROOT_REFERENCE.child(companyID).push().setValue(productName, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                Log.w("Firebase util ", "productName key " + databaseReference.getKey());
+                //Log.w("Firebase util ", "productName key " + databaseReference.getKey());
                 if (databaseError != null) {
                     toastTheError(databaseError);
                 }
@@ -778,7 +789,7 @@ public class UtlFirebase { //TODO: make singleton
         COMPANY_PRODUCTS_ROOT_REFERENCE.child(companyID).child(product.getItemKey()).setValue(productUpdatedName, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                Log.d(TAG, "Updated productName " + productUpdatedName);
+                //Log.d(TAG, "Updated productName " + productUpdatedName);
                 if (databaseError != null) {
                     toastTheError(databaseError);
                 }
@@ -803,7 +814,7 @@ public class UtlFirebase { //TODO: make singleton
         COMPANY_CATEGORIES_ROOT_REFERENCE.child(companyID).push().setValue(categoryName, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                Log.w("Firebase util ", "category key " + databaseReference.getKey());
+                //Log.w("Firebase util ", "category key " + databaseReference.getKey());
 
             }
         });
@@ -881,7 +892,7 @@ public class UtlFirebase { //TODO: make singleton
         COMPANY_REGIONS_ROOT_REFERENCE.child(companyID).push().setValue(regionName, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                Log.w("Firebase util ", "region key " + databaseReference.getKey());
+                //Log.w("Firebase util ", "region key " + databaseReference.getKey());
                 if (databaseError != null) {
                     toastTheError(databaseError);
                 }
@@ -953,18 +964,14 @@ public class UtlFirebase { //TODO: make singleton
         });
     }
 
-    public static void setCurrentContext(Context currentContext) {
-        UtlFirebase.currentContext = currentContext;
-        Log.d("setCurrentContext", currentContext.toString());
-    }
-
     ///////////////////////////// WorkShift /////////////////////////////
 
     public static void addWorkShift(String companyID, WorkShift workShift) {
-        COMPANY_WORKSHIFTS_ROOT_REFERENCE.child(companyID).push().setValue(workShift, new DatabaseReference.CompletionListener() {
+        DatabaseReference ref = COMPANY_WORKSHIFTS_ROOT_REFERENCE.child(companyID).push();
+        workShift.setWorkShiftID(ref.getKey());
+        ref.setValue(workShift, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                Log.w("Firebase util ", "workShift key " + databaseReference.getKey());
                 if (databaseError != null) {
                     toastTheError(databaseError);
                 }
@@ -1000,8 +1007,9 @@ public class UtlFirebase { //TODO: make singleton
                     workShiftList.clear();
                 }
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    workShiftCallback.workShiftFireBaseCallback((ArrayList<WorkShift>) workShiftList);
+                    workShiftList.add(item.getValue(WorkShift.class));
                 }
+                Log.d(TAG, "@getWorkShiftsForEdit: workShiftList before callback:" + workShiftList.size());
                 workShiftCallback.workShiftFireBaseCallback((ArrayList<WorkShift>) workShiftList);
             }
 
@@ -1034,8 +1042,6 @@ public class UtlFirebase { //TODO: make singleton
             }
         });
     }
-
-
 
 ///////////////////////////////// Storage /////////////////////////////
 
@@ -1076,6 +1082,7 @@ public class UtlFirebase { //TODO: make singleton
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                             //calculating progress percentage
+                            @SuppressWarnings("VisibleForTests")
                             double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
 
                             //displaying percentage in progress dialog
@@ -1117,6 +1124,11 @@ public class UtlFirebase { //TODO: make singleton
     }
 
 ///////////////////////////////// Generic methods /////////////////////////////
+
+    public static void setCurrentContext(Context currentContext) {
+        UtlFirebase.currentContext = currentContext;
+        Log.d("setCurrentContext", currentContext.toString());
+    }
 
     static String getMethodName() {
         return Thread.currentThread().getStackTrace()[2].getMethodName();

@@ -5,37 +5,41 @@
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:orientation="vertical"
+    android:paddingEnd="32dp"
+    android:paddingStart="32dp"
     android:textDirection="rtl"
     tools:paddingTop="25px">
 
     <EditText
         android:id="@+id/workShiftName"
+        style="@style/CardRowEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="enter workshift name"
+        android:hint="@string/label_workshift_input_name"
         android:paddingBottom="16dp"
         android:paddingTop="16dp"
-        android:textAlignment="gravity"
-        android:textDirection="inherit" />
+        android:textAlignment="center"
+        android:textDirection="inherit"
+        android:textSize="16sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="140dp"
         android:orientation="horizontal"
         android:weightSum="2">
 
-        <TimePicker
+        <com.teamrm.teamrm.Utility.TimePickerCompat
             android:id="@+id/workShiftStartPicker"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="120dp"
             android:layout_weight="1"
             android:timePickerMode="spinner"
             />
 
-        <TimePicker
+        <com.teamrm.teamrm.Utility.TimePickerCompat
             android:id="@+id/workShiftEndPicker"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="120dp"
             android:layout_weight="1"
             android:timePickerMode="spinner" />
     </LinearLayout>

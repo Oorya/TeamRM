@@ -26,6 +26,7 @@ import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Admin;
 import com.teamrm.teamrm.Type.Client;
 import com.teamrm.teamrm.Type.Technician;
+import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
@@ -172,10 +173,10 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
             }
         });
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() { //TODO: DISABLE THIS SHIT FOR PRODUCTION!!!
             @Override
             public boolean onLongClick(View view) {
-                UtlFirebase.removeTicket(item.getTicketID());
+                UtlFirebase.removeTicketLite(item);
                 return false;
             }
         });

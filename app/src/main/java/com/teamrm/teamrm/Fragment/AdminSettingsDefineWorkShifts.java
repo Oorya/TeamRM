@@ -11,6 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -20,6 +23,8 @@ import com.teamrm.teamrm.Adapter.WorkShiftAdapter;
 import com.teamrm.teamrm.Interfaces.WorkShiftCallback;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.WorkShift;
+import com.teamrm.teamrm.Utility.NiceToast;
+import com.teamrm.teamrm.Utility.TimePickerCompat;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
@@ -29,7 +34,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AdminSettingsDefineWorkShifts extends Fragment implements WorkShiftCallback{
+public class AdminSettingsDefineWorkShifts extends Fragment implements WorkShiftCallback {
 
     final static String TAG = ":::Settings:Categories:::";
     List<WorkShift> workShiftList = new ArrayList<>();
@@ -72,24 +77,24 @@ public class AdminSettingsDefineWorkShifts extends Fragment implements WorkShift
         floatBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addWorkshift();
+                showAddWorkShiftDialog();
             }
         });
 
         return view;
     }
 
-    private void addWorkshift() {
+    private void showAddWorkShiftDialog() {
 
-        MaterialDialog.Builder addWorkShiftDialog = new MaterialDialog.Builder(getContext())
+        final MaterialDialog addWorkShiftDialog = new MaterialDialog.Builder(getContext())
                 .title(R.string.label_add_workshift)
                 .customView(R.layout.time_picker_work_shift, false)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                /*.onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         //Toast.makeText(getContext(), "positive", Toast.LENGTH_SHORT).show();
                     }
-                })
+                })*/
                 .inputMaxLength(20)
                 .positiveText(R.string.label_button_save)
                 .contentColorRes(R.color.textColor_primary)
@@ -98,10 +103,34 @@ public class AdminSettingsDefineWorkShifts extends Fragment implements WorkShift
                 .titleGravity(GravityEnum.END)
                 .buttonsGravity(GravityEnum.END)
                 .backgroundColorRes(R.color.app_bg)
+                .widgetColorRes(R.color.textColor_primary)
                 .titleColorRes(R.color.textColor_lighter)
                 .positiveColorRes(R.color.colorPrimary)
                 .negativeColorRes(R.color.colorPrimaryDark)
-                .dividerColorRes(R.color.textColor_lighter);
+                .dividerColorRes(R.color.textColor_lighter)
+                .build();
+
+        View timePickerView = addWorkShiftDialog.getCustomView();
+        final EditText workShiftNameInput = (EditText) timePickerView.findViewById(R.id.workShiftName);
+        final TimePickerCompat tpWorkShiftStart = (TimePickerCompat) timePickerView.findViewById(R.id.workShiftStartPicker);
+        final TimePickerCompat tpWorkShiftEnd = (TimePickerCompat) timePickerView.findViewById(R.id.workShiftEndPicker);
+
+
+        View btnPositive = addWorkShiftDialog.getActionButton(DialogAction.POSITIVE);
+        btnPositive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tpWorkShiftStart.clearFocus(); //required workaround
+                tpWorkShiftEnd.clearFocus(); //required workaround
+                String resolvedWorkShiftNameString = workShiftNameInput.getText().toString();
+                String resolvedWorkShiftStartString = tpWorkShiftStart.getHour() + ":" + tpWorkShiftStart.getMinute();
+                String resolvedWorkShiftEndString = tpWorkShiftEnd.getHour() + ":" + tpWorkShiftEnd.getMinute();
+                UtlFirebase.addWorkShift(UserSingleton.getInstance().getAssignedCompanyID(), new WorkShift(resolvedWorkShiftNameString, resolvedWorkShiftStartString, resolvedWorkShiftEndString));
+                addWorkShiftDialog.dismiss();
+            }
+        });
+
+        addWorkShiftDialog.show();
     }
 
     @Override

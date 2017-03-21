@@ -16,7 +16,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:layout_centerVertical="true">
+    android:layout_centerVertical="true"
+    >
     <TextView
         android:id="@+id/prefLabel1"
         style="@style/CardRowLabel"
@@ -34,7 +35,8 @@
         android:paddingTop="4dp"
         android:textSize="16sp"
         android:layout_toEndOf="@id/prefLabel1"
-        tools:text="משמרת בוקר" />
+        tools:text="משמרת בוקר"
+        android:maxEms="18"/>
 </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
