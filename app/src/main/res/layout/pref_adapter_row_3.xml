@@ -3,63 +3,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/prefRow"
     style="@style/CardRow"
-    android:layout_height="36dp"
     android:layout_width="match_parent"
+    android:layout_height="36dp"
     android:layout_margin="0dp"
     android:background="#fff"
     android:layoutDirection="rtl"
     android:minHeight="48dp"
     tools:layout_marginTop="50dp">
 
-<LinearLayout
-    android:id="@+id/prefNameLayout"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_centerVertical="true"
-    >
-    <TextView
-        android:id="@+id/prefLabel1"
-        style="@style/CardRowLabel"
-        android:paddingBottom="4dp"
-        android:paddingStart="8dp"
-        android:paddingTop="4dp"
-        android:layout_marginEnd="4dp"
-        android:textSize="16sp"
-        tools:text="שם:" />
+    <LinearLayout
+        android:id="@+id/prefNameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/prefText1"
-        style="@style/CardRowText"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:textSize="16sp"
-        android:layout_toEndOf="@id/prefLabel1"
-        tools:text="משמרת בוקר"
-        android:maxEms="18"/>
-</LinearLayout>
+        <TextView
+            android:id="@+id/prefLabel1"
+            style="@style/CardRowLabel"
+            android:layout_marginEnd="4dp"
+            android:paddingBottom="4dp"
+            android:paddingStart="8dp"
+            android:paddingTop="4dp"
+            android:textSize="14sp"
+            tools:text="שם:" />
+
+        <TextView
+            android:id="@+id/prefText1"
+            style="@style/CardRowText"
+            android:layout_toEndOf="@id/prefLabel1"
+            android:maxLength="16"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:textSize="16sp"
+            tools:text="ששלחעלחע" />
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:paddingEnd="80dp"
-        >
+        android:paddingEnd="88dp">
 
         <TextView
             android:id="@+id/prefLabel2"
             style="@style/CardRowLabel"
             android:paddingBottom="4dp"
+            android:paddingEnd="2dp"
             android:paddingTop="4dp"
-            android:textSize="16sp"
+            android:textSize="14sp"
             tools:text="מ-" />
 
         <TextView
             android:id="@+id/prefText2"
             style="@style/CardRowText"
+            android:layout_marginEnd="8dp"
             android:paddingBottom="4dp"
             android:paddingTop="4dp"
-            android:layout_marginEnd="8dp"
             android:textSize="16sp"
             tools:text="12:00" />
 
@@ -67,8 +68,9 @@
             android:id="@+id/prefLabel3"
             style="@style/CardRowLabel"
             android:paddingBottom="4dp"
+            android:paddingEnd="2dp"
             android:paddingTop="4dp"
-            android:textSize="16sp"
+            android:textSize="14sp"
             tools:text="עד" />
 
         <TextView
@@ -81,19 +83,20 @@
 
     </LinearLayout>
 
-        <ImageView
-            android:id="@+id/prefIconRemove"
-            style="@style/CardRowImageEnd"
-            android:src="@drawable/ic_remove" />
+    <ImageView
+        android:id="@+id/prefIconRemove"
+        style="@style/CardRowImageEnd"
+        android:src="@drawable/ic_remove" />
 
-        <ImageView
-            android:id="@+id/prefIconEdit"
-            style="@style/CardRowImageEnd"
-            android:layout_marginEnd="48dp"
-            android:src="@drawable/ic_edit" />
+    <ImageView
+        android:id="@+id/prefIconEdit"
+        style="@style/CardRowImageEnd"
+        android:layout_marginEnd="48dp"
+        android:src="@drawable/ic_edit" />
+
     <View
-    style="@style/Separator1px"
-    android:layout_height="2px"
-    android:layout_alignParentBottom="true"
-    android:background="@color/app_bg" />
-    </RelativeLayout>
+        style="@style/Separator1px"
+        android:layout_height="2px"
+        android:layout_alignParentBottom="true"
+        android:background="@color/app_bg" />
+</RelativeLayout>

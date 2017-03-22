@@ -20,27 +20,141 @@
         android:paddingTop="16dp"
         android:textAlignment="center"
         android:textDirection="inherit"
-        android:textSize="16sp" />
+        android:textSize="18sp"
+        android:maxLength="16"
+        android:textColorHint="@color/textColor_lighter"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="2">
+        android:weightSum="5">
 
-        <com.teamrm.teamrm.Utility.TimePickerCompat
-            android:id="@+id/workShiftStartPicker"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="120dp"
-            android:layout_weight="1"
-            android:timePickerMode="spinner"
-            />
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:weightSum="5">
 
-        <com.teamrm.teamrm.Utility.TimePickerCompat
-            android:id="@+id/workShiftEndPicker"
-            android:layout_width="wrap_content"
-            android:layout_height="120dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:layoutDirection="ltr"
+                android:orientation="horizontal">
+
+                <NumberPicker
+                    android:id="@+id/wsStartHour"
+                    android:layout_width="40dp"
+                    android:layout_height="160dp"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text=":"
+                    android:textAlignment="center"
+                    android:textSize="18sp" />
+
+                <NumberPicker
+                    android:id="@+id/wsStartMinute"
+                    android:layout_width="40dp"
+                    android:layout_height="160dp"
+
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="תחילת משמרת"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:textColor="@color/textColor_lighter"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:timePickerMode="spinner" />
+            android:layout_gravity="center"
+            android:gravity="center">
+<View
+    android:layout_width="1dp"
+    android:layout_height="match_parent"
+    android:background="@color/textColor_lighter"
+    android:layout_gravity="center"
+    android:foregroundGravity="center"
+    android:layout_marginBottom="16dp"
+    android:layout_marginTop="8dp"
+    />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:weightSum="5">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:layoutDirection="ltr"
+                android:orientation="horizontal">
+
+                <NumberPicker
+                    android:id="@+id/wsEndHour"
+                    android:layout_width="40dp"
+                    android:layout_height="160dp"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text=":"
+                    android:textAlignment="center"
+                    android:textSize="18sp" />
+
+                <NumberPicker
+                    android:id="@+id/wsEndMinute"
+                    android:layout_width="40dp"
+                    android:layout_height="160dp"
+
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textColor="@color/textColor_lighter"
+                android:text="סיום משמרת"
+                android:textAlignment="center"
+                android:textSize="16sp" />
+        </LinearLayout>
+
     </LinearLayout>
+
 </LinearLayout>

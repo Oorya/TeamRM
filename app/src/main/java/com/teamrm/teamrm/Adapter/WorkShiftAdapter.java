@@ -49,6 +49,7 @@ public class WorkShiftAdapter extends RecyclerView.Adapter<WorkShiftAdapter.Work
     public void onBindViewHolder(final WorkShiftHolder holder, final int position) {
 
         final WorkShift workShiftItem = workShiftList.get(position);
+        holder.workShiftNameLabel.setText(R.string.label_workshift_input_label);
         holder.workShiftNameString.setText(workShiftItem.getWorkShiftName());
         holder.workShiftStartLabel.setText(R.string.label_workshift_start);
         holder.workShiftStartString.setText(workShiftItem.getWorkShiftStart());

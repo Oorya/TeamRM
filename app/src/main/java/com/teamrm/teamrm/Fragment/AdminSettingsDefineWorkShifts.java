@@ -1,20 +1,19 @@
 package com.teamrm.teamrm.Fragment;
 
 
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TimePicker;
-import android.widget.Toast;
+import android.widget.NumberPicker;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
@@ -23,12 +22,11 @@ import com.teamrm.teamrm.Adapter.WorkShiftAdapter;
 import com.teamrm.teamrm.Interfaces.WorkShiftCallback;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.WorkShift;
-import com.teamrm.teamrm.Utility.NiceToast;
-import com.teamrm.teamrm.Utility.TimePickerCompat;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -36,11 +34,14 @@ import java.util.List;
  */
 public class AdminSettingsDefineWorkShifts extends Fragment implements WorkShiftCallback {
 
-    final static String TAG = ":::Settings:Categories:::";
+    final static String TAG = "WorkShiftFrag";
     List<WorkShift> workShiftList = new ArrayList<>();
     public RecyclerView workShiftView;
     WorkShiftAdapter workShiftAdapter;
     FloatingActionButton floatBtn;
+    String startHour = "", startMinute = "", endHour = "", endMinute = "";
+    String[] hoursArray;
+    String[] quarterHoursArray;
 
 
     public AdminSettingsDefineWorkShifts() {
@@ -56,8 +57,13 @@ public class AdminSettingsDefineWorkShifts extends Fragment implements WorkShift
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_admin_settings_define_generic, container, false);
+
+        hoursArray = getActivity().getResources().getStringArray(R.array.hour_array);
+        Log.d(TAG, Arrays.toString(hoursArray));
+        quarterHoursArray = getActivity().getResources().getStringArray(R.array.quarter_hour);
+        Log.d(TAG, Arrays.toString(quarterHoursArray));
+
         floatBtn = (FloatingActionButton) view.findViewById(R.id.floatBtn);
         floatBtn.hide();
         workShiftView = (RecyclerView) view.findViewById(R.id.prefRecyclerView);
@@ -112,19 +118,59 @@ public class AdminSettingsDefineWorkShifts extends Fragment implements WorkShift
 
         View timePickerView = addWorkShiftDialog.getCustomView();
         final EditText workShiftNameInput = (EditText) timePickerView.findViewById(R.id.workShiftName);
-        final TimePickerCompat tpWorkShiftStart = (TimePickerCompat) timePickerView.findViewById(R.id.workShiftStartPicker);
-        final TimePickerCompat tpWorkShiftEnd = (TimePickerCompat) timePickerView.findViewById(R.id.workShiftEndPicker);
+        final NumberPicker wsStartHourPicker = (NumberPicker) timePickerView.findViewById(R.id.wsStartHour);
+        final NumberPicker wsStartMinutePicker = (NumberPicker) timePickerView.findViewById(R.id.wsStartMinute);
+        final NumberPicker wsEndHourPicker = (NumberPicker) timePickerView.findViewById(R.id.wsEndHour);
+        final NumberPicker wsEndMinutePicker = (NumberPicker) timePickerView.findViewById(R.id.wsEndMinute);
 
+
+        pickerSetup(wsStartHourPicker, hoursArray);
+        pickerSetup(wsStartMinutePicker, quarterHoursArray);
+        pickerSetup(wsEndHourPicker, hoursArray);
+        pickerSetup(wsEndMinutePicker, quarterHoursArray);
+        startHour = hoursArray[wsStartHourPicker.getValue()];
+        startMinute = quarterHoursArray[wsStartMinutePicker.getValue()];
+        endHour = hoursArray[wsEndHourPicker.getValue()];
+        endMinute = quarterHoursArray[wsEndMinutePicker.getValue()];
+
+        wsStartHourPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                startHour = hoursArray[i1];
+            }
+        });
+
+        wsStartMinutePicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                startMinute = quarterHoursArray[i1];
+            }
+        });
+
+        wsEndHourPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                endHour = hoursArray[i1];
+            }
+        });
+
+        wsEndMinutePicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                endMinute = quarterHoursArray[i1];
+            }
+        });
 
         View btnPositive = addWorkShiftDialog.getActionButton(DialogAction.POSITIVE);
         btnPositive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tpWorkShiftStart.clearFocus(); //required workaround
-                tpWorkShiftEnd.clearFocus(); //required workaround
+                wsStartHourPicker.clearFocus();
+                wsStartMinutePicker.clearFocus();
                 String resolvedWorkShiftNameString = workShiftNameInput.getText().toString();
-                String resolvedWorkShiftStartString = tpWorkShiftStart.getHour() + ":" + tpWorkShiftStart.getMinute();
-                String resolvedWorkShiftEndString = tpWorkShiftEnd.getHour() + ":" + tpWorkShiftEnd.getMinute();
+                String resolvedWorkShiftStartString = startHour + ":" + startMinute;
+                String resolvedWorkShiftEndString = endHour + ":" + endMinute;
+
                 UtlFirebase.addWorkShift(UserSingleton.getInstance().getAssignedCompanyID(), new WorkShift(resolvedWorkShiftNameString, resolvedWorkShiftStartString, resolvedWorkShiftEndString));
                 addWorkShiftDialog.dismiss();
             }
@@ -138,5 +184,13 @@ public class AdminSettingsDefineWorkShifts extends Fragment implements WorkShift
         workShiftList = workShifts;
         workShiftAdapter = new WorkShiftAdapter(getContext(), workShiftList);
         workShiftView.setAdapter(workShiftAdapter);
+    }
+
+    void pickerSetup(NumberPicker picker, String[] values) {
+        picker.setDisplayedValues(values);
+        picker.setMinValue(0);
+        picker.setMaxValue(values.length - 1);
+        picker.setWrapSelectorWheel(true);
+
     }
 }

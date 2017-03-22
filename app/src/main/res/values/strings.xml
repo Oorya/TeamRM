@@ -26,7 +26,7 @@
         <item>21</item>
         <item>22</item>
         <item>23</item>
-        <item>24</item>
+        <item>00</item>
     </string-array>
 
     <string-array name="Minutes_array">
@@ -94,6 +94,12 @@
 
     </string-array>
 
+    <string-array name="quarter_hour">
+        <item>00</item>
+        <item>15</item>
+        <item>30</item>
+        <item>45</item>
+    </string-array>
 
     <string-array name="nav_list">
         <item>רשימת קריאות</item>
@@ -187,6 +193,7 @@
     <string name="label_workshift_start">מ-</string>
     <string name="label_workshift_end">עד</string>
     <string name="label_workshift_input_name">הקלד שם למשמרת</string>
+    <string name="label_workshift_input_label">שם:</string>
 
 
 

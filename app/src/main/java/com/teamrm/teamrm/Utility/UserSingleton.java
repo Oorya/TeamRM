@@ -44,11 +44,11 @@ public class UserSingleton extends Users{
         if(instance == null)
         {
             instance = new UserSingleton();
-            Log.w(TAG, instance.getUserEmail()+" if");
+            //Log.w(TAG, instance.getUserEmail()+" if");
 
             return instance;
         }
-        Log.w(TAG, instance.getUserEmail()+" else");
+        //Log.w(TAG, instance.getUserEmail()+" else");
         return instance;
     }
 

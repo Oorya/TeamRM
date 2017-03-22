@@ -173,14 +173,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
             }
         });
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() { //TODO: DISABLE THIS SHIT FOR PRODUCTION!!!
-            @Override
-            public boolean onLongClick(View view) {
-                UtlFirebase.removeTicketLite(item);
-                return false;
-            }
-        });
-        /*if (position == mTicketLiteList.size()-1){
+               /*if (position == mTicketLiteList.size()-1){
             CardView.MarginLayoutParams mlp = (CardView.MarginLayoutParams)holder.cardContainer.getLayoutParams();
             mlp.setMargins(mlp.leftMargin, mlp.topMargin, mlp.rightMargin, convertDpToPx(120)); //add 120dp margin after last card
         }*/
