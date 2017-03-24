@@ -155,6 +155,7 @@
         <item name="android:paddingBottom">4dp</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/textColor_primary</item>
+        <item name="android:textColorHint">@color/textColor_lighter</item>
         <item name="android:background">@drawable/edittext_bg</item>
     </style>
 

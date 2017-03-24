@@ -5,9 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="25dp">
 
-    <RelativeLayout
+    <com.teamrm.teamrm.Utility.RowViewLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="16dp">
@@ -50,9 +51,9 @@
                     android:textColor="@color/textColor_primary" />
             </RelativeLayout>
         </android.support.v7.widget.CardView>
-    </RelativeLayout>
+    </com.teamrm.teamrm.Utility.RowViewLayout>
 
-    <RelativeLayout
+    <com.teamrm.teamrm.Utility.RowViewLayout
         android:id="@+id/technicianMail"
         style="@style/CardRow">
 
@@ -75,14 +76,13 @@
             android:hint="write email"
             android:inputType="textEmailAddress"
             android:minEms="20"
-            android:text=""
             android:textAlignment="center"
             android:textSize="18sp" />
 
 
-    </RelativeLayout>
+    </com.teamrm.teamrm.Utility.RowViewLayout>
 
-    <RelativeLayout
+    <com.teamrm.teamrm.Utility.RowViewLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -104,13 +104,13 @@
             android:text="@string/label_enter_google_mail_only"
             android:textColor="@color/icon_gray"
             android:textSize="13sp" />
-    </RelativeLayout>
+    </com.teamrm.teamrm.Utility.RowViewLayout>
 
     <View
         style="@style/Separator1px"
         android:layout_height="1dp" />
 
-    <RelativeLayout
+    <com.teamrm.teamrm.Utility.RowViewLayout
         android:id="@+id/tecAvatarNameSection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -122,8 +122,8 @@
             android:id="@+id/techAvatar"
             android:layout_width="90dp"
             android:layout_height="90dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="8dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="8dp"
             android:alpha="0.12"
             android:src="@drawable/ic_icon_tech" />
 
@@ -131,8 +131,7 @@
             android:id="@+id/technicianName"
             style="@style/CardRow"
             android:layout_height="45dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true">
+            android:layout_toEndOf="@id/techAvatar">
 
             <ImageView
                 android:id="@+id/technicianNameIcon"
@@ -158,7 +157,9 @@
             android:id="@+id/technicianNick"
             style="@style/CardRow"
             android:layout_height="45dp"
-            android:layout_below="@id/technicianName">
+            android:layout_below="@id/technicianName"
+            android:layout_toEndOf="@id/techAvatar">
+
 
             <ImageView
                 android:id="@+id/technicianNickIcon"
@@ -179,13 +180,19 @@
                 android:text=""
                 tools:text="שם הטכנאי" />
         </RelativeLayout>
-    </RelativeLayout>
+    </com.teamrm.teamrm.Utility.RowViewLayout>
 
     <View
         style="@style/Separator1px"
         android:layout_height="1dp" />
 
-    <RelativeLayout
+    <com.teamrm.teamrm.Utility.RowSetLayout
+        android:id="@+id/rowSet1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <com.teamrm.teamrm.Utility.RowViewLayout
         android:id="@+id/technicianPhone"
         style="@style/CardRow">
 
@@ -207,48 +214,9 @@
             android:text=""
             tools:text="0545-123-456" />
 
-    </RelativeLayout>
+    </com.teamrm.teamrm.Utility.RowViewLayout>
 
-    <RelativeLayout
-        android:id="@+id/technicianCalendar"
-        style="@style/CardRow">
-
-        <ImageView
-            android:id="@+id/technicianCalendarIcon"
-            style="@style/CardRowImageStart"
-            android:src="@drawable/ic_perm_contact_calendar" />
-
-        <TextView
-            android:id="@+id/technicianCalendarLabel"
-            style="@style/CardRowLabel"
-            android:layout_toEndOf="@id/technicianCalendarIcon"
-            android:text="@string/label_calendar" />
-
-        <Button
-            android:id="@+id/technicianCalendarButtonLink"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="42dp"
-            android:layout_toEndOf="@id/technicianCalendarLabel"
-            android:drawablePadding="8dp"
-            android:drawableStart="@drawable/ic_icon_person"
-            android:textColor="@color/textColor_primary"
-            tools:text="בחר קיים" />
-
-        <Button
-            android:id="@+id/technicianCalendarButtonCreate"
-            android:layout_width="wrap_content"
-            android:layout_height="42dp"
-            android:layout_toEndOf="@id/technicianCalendarButtonLink"
-            tools:text="צור חדש"
-            android:textColor="@color/textColor_primary"
-            android:drawableStart="@drawable/ic_icon_person"
-            android:drawablePadding="8dp" />
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
+    <com.teamrm.teamrm.Utility.RowViewLayout
         android:id="@+id/technicianColor"
         style="@style/CardRow">
 
@@ -277,9 +245,9 @@
 
         </android.support.v7.widget.CardView>
 
-    </RelativeLayout>
+    </com.teamrm.teamrm.Utility.RowViewLayout>
 
-    <RelativeLayout
+    <com.teamrm.teamrm.Utility.RowViewLayout
         android:id="@+id/technicianShifts"
         style="@style/CardRow">
 
@@ -301,9 +269,9 @@
             android:text=""
             tools:text="כל היום" />
 
-    </RelativeLayout>
+    </com.teamrm.teamrm.Utility.RowViewLayout>
 
-    <RelativeLayout
+    <com.teamrm.teamrm.Utility.RowViewLayout
         android:id="@+id/technicianAssignedRegions"
         style="@style/CardRow">
 
@@ -326,9 +294,9 @@
             tools:text="כל האזורים" />
 
 
-    </RelativeLayout>
+    </com.teamrm.teamrm.Utility.RowViewLayout>
 
-    <RelativeLayout
+    <com.teamrm.teamrm.Utility.RowViewLayout
         android:id="@+id/technicianAddress"
         style="@style/CardRow">
 
@@ -356,9 +324,9 @@
             style="@style/CardRowImageEnd"
             android:src="@drawable/ic_icon_nav" />
 
-    </RelativeLayout>
+    </com.teamrm.teamrm.Utility.RowViewLayout>
 
-
+    </com.teamrm.teamrm.Utility.RowSetLayout>
 </LinearLayout>
 
 

@@ -1,6 +1,7 @@
 package com.teamrm.teamrm.Fragment;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -101,7 +102,7 @@ public class AdminSettingsDefineCategory extends Fragment implements FireBaseAbl
                         //Toast.makeText(getContext(), "positive", Toast.LENGTH_SHORT).show();
                     }
                 })
-                .inputMaxLength(20)
+                .inputRange(1, 24, Color.RED)
                 .positiveText(R.string.label_button_save)
                 .contentColorRes(R.color.textColor_primary)
                 .contentGravity(GravityEnum.CENTER)

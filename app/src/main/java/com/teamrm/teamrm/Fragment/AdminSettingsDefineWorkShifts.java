@@ -2,11 +2,17 @@ package com.teamrm.teamrm.Fragment;
 
 
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
@@ -42,6 +49,7 @@ public class AdminSettingsDefineWorkShifts extends Fragment implements WorkShift
     String startHour = "", startMinute = "", endHour = "", endMinute = "";
     String[] hoursArray;
     String[] quarterHoursArray;
+    final static int INPUT_MAX = 18;
 
 
     public AdminSettingsDefineWorkShifts() {
@@ -101,7 +109,6 @@ public class AdminSettingsDefineWorkShifts extends Fragment implements WorkShift
                         //Toast.makeText(getContext(), "positive", Toast.LENGTH_SHORT).show();
                     }
                 })*/
-                .inputMaxLength(20)
                 .positiveText(R.string.label_button_save)
                 .contentColorRes(R.color.textColor_primary)
                 .contentGravity(GravityEnum.CENTER)
@@ -122,7 +129,44 @@ public class AdminSettingsDefineWorkShifts extends Fragment implements WorkShift
         final NumberPicker wsStartMinutePicker = (NumberPicker) timePickerView.findViewById(R.id.wsStartMinute);
         final NumberPicker wsEndHourPicker = (NumberPicker) timePickerView.findViewById(R.id.wsEndHour);
         final NumberPicker wsEndMinutePicker = (NumberPicker) timePickerView.findViewById(R.id.wsEndMinute);
+        final TextView inputMinMax = (TextView) timePickerView.findViewById(R.id.input_minmax);
+        inputMinMax.setText("0/" + INPUT_MAX);
+        if (workShiftNameInput.length() == 0) {
+            workShiftNameInput.setBackgroundResource(R.drawable.edittext_underline_red);
+            inputMinMax.setTextColor(Color.RED);
+            addWorkShiftDialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
+        } else {
+            workShiftNameInput.setBackgroundResource(R.drawable.edittext_bg);
+            inputMinMax.setTextColor(ContextCompat.getColor(getContext(), R.color.textColor_lighter));
+            addWorkShiftDialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
 
+        }
+        workShiftNameInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                inputMinMax.setText(s.length() + "/" + INPUT_MAX);
+                if (s.length() == 0) {
+                    workShiftNameInput.setBackgroundResource(R.drawable.edittext_underline_red);
+                    inputMinMax.setTextColor(Color.RED);
+                    addWorkShiftDialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
+                } else {
+                    workShiftNameInput.setBackgroundResource(R.drawable.edittext_bg);
+                    inputMinMax.setTextColor(ContextCompat.getColor(getContext(), R.color.textColor_lighter));
+                    addWorkShiftDialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+
+            }
+        });
 
         pickerSetup(wsStartHourPicker, hoursArray);
         pickerSetup(wsStartMinutePicker, quarterHoursArray);

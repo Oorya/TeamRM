@@ -8,24 +8,44 @@
     android:paddingEnd="32dp"
     android:paddingStart="32dp"
     android:textDirection="rtl"
-    tools:paddingTop="25px">
+    tools:paddingTop="25dp">
 
-    <EditText
-        android:id="@+id/workShiftName"
-        style="@style/CardRowEditText"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/workShiftName"
+            style="@style/CardRowEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/label_workshift_input_name"
+            android:maxLength="18"
+            android:paddingTop="16dp"
+            android:textAlignment="center"
+            android:textColorHint="@color/textColor_lighter"
+            android:textDirection="inherit"
+            android:textSize="18sp"
+            />
+
+
+    </RelativeLayout>
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/label_workshift_input_name"
-        android:paddingBottom="16dp"
-        android:paddingTop="16dp"
-        android:textAlignment="center"
-        android:textDirection="inherit"
-        android:textSize="18sp"
-        android:maxLength="16"
-        android:textColorHint="@color/textColor_lighter"
-        />
+        android:paddingTop="4dp">
+        <TextView
+            android:id="@+id/input_minmax"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:minWidth="48dp"
+            android:textSize="12sp"
+            tools:text="50/100" />
+    </RelativeLayout>
 
     <LinearLayout
+        android:paddingTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -80,26 +100,25 @@
                 android:padding="8dp"
                 android:text="תחילת משמרת"
                 android:textAlignment="center"
-                android:textSize="16sp"
                 android:textColor="@color/textColor_lighter"
-                />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_gravity="center"
+            android:layout_weight="1"
             android:gravity="center">
-<View
-    android:layout_width="1dp"
-    android:layout_height="match_parent"
-    android:background="@color/textColor_lighter"
-    android:layout_gravity="center"
-    android:foregroundGravity="center"
-    android:layout_marginBottom="16dp"
-    android:layout_marginTop="8dp"
-    />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/textColor_lighter"
+                android:foregroundGravity="center" />
         </LinearLayout>
 
         <LinearLayout
@@ -149,9 +168,9 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:padding="8dp"
-                android:textColor="@color/textColor_lighter"
                 android:text="סיום משמרת"
                 android:textAlignment="center"
+                android:textColor="@color/textColor_lighter"
                 android:textSize="16sp" />
         </LinearLayout>
 
