@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
-import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Category;
@@ -52,9 +51,11 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     RelativeLayout userDetailOpen;
     RelativeLayout ticketDetailClose;
     RelativeLayout ticketDetailOpen;
-    TextView userName, userProfile, txtCancel, endTimeTxt, txtProduct, txtCategory, txtRegion,
-        txtProductEx, txtCategoryEx, txtRegionEx, txtAddressEx, txtPhoneEx, descriptionShort, descriptionLong,
-        userNameEx, mailUserEx, regionUserEx, addressUserEx, phoneUserEx;
+    TextView userNameClose, userProfile,userNameCardOpen, txtCancel, dateTimeChange,userNameCardClose,dateTimeOpen,ticketNumber,ticketStatus
+            ,productTicketDetailsCardClosed,categoryTicketDetailsCardClosed,regionTicketDetailsCardClosed
+            ,categoryTicketDetailsCardOpen,regionTicketDetailsCardOpen,addressTicketDetailsCardOpen,phoneTicketDetailsCardOpen
+            ,descriptionShortTicketDetailsCardOpen,descriptionLongTicketDetailsCardOpen,userMailCardOpen,userAddCardOpen,userPhoneCardOpen
+            ,productTicketDetailsCardOpen;
     public static ImageView img1, img2;
     private Ticket ticket;
     static  String ticketID, timeFormated;
@@ -119,21 +120,13 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         getActivity().findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
 
 
-        ((TextView) view.findViewById(R.id.statusTxt)).setTypeface(REGULAR);
+        ((TextView) view.findViewById(R.id.ticketStatus)).setTypeface(REGULAR);
         ((TextView) view.findViewById(R.id.dateTimeChange)).setTypeface(REGULAR);
         ((TextView) view.findViewById(R.id.dateTimeOpen)).setTypeface(REGULAR);
-        ((TextView) view.findViewById(R.id.ticketNum)).setTypeface(SEMI_BOLD);
+        ((TextView) view.findViewById(R.id.ticketNumber)).setTypeface(SEMI_BOLD);
         UtlFirebase.getTicketByKey(ticketID, this);
 
         return view;
-    }
-
-    private void initUserCard() {
-        userNameEx.setText(ticket.getClientNameString());
-        mailUserEx.setText(ticket.getClientEmail());
-        regionUserEx.setText(ticket.getRegionName());
-        addressUserEx.setText(ticket.getTicketAddress());
-        phoneUserEx.setText(ticket.getTicketPhone());
     }
 
     @Override
@@ -233,7 +226,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                     break;
                 }
             }
-        } else if (view.getId() == endTimeTxt.getId()) {
+        } else if (view.getId() == dateTimeChange.getId()) {
             Bundle bundle = new Bundle();
             bundle.putString("ticketID",ticketID);
 
@@ -290,36 +283,56 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     }
 
     private void setListeners(View view) {
+
+        //ticket header
+        ticketNumber = (TextView) view.findViewById(R.id.ticketNumber);
+        ticketStatus = (TextView) view.findViewById(R.id.ticketStatus);
+        dateTimeChange = (TextView) view.findViewById(R.id.dateTimeChange);
+        dateTimeOpen = (TextView) view.findViewById(R.id.dateTimeOpen);
+
+        //ticket card
         userDetailCard = (CardView) view.findViewById(R.id.userDetailCard);
         userDetailOpen = (RelativeLayout) view.findViewById(R.id.name);
         ticketDetailClose = (RelativeLayout) view.findViewById(R.id.ticketHeading);
         ticketDetailOpen = (RelativeLayout) view.findViewById(R.id.ticketHeadingExpand);
-        userName = (TextView) view.findViewById(R.id.userNameCard);
+
+        //ticket profile buttons
         userProfile = (TextView) view.findViewById(R.id.userProfileLabel);
-        btnProfile = (CardView)view.findViewById(R.id.btnProfile); 
+        btnProfile = (CardView)view.findViewById(R.id.btnProfile);
         approval = (CardView) view.findViewById(R.id.ok);
         cancel = (CardView) view.findViewById(R.id.cancel);
         txtCancel = (TextView) view.findViewById(R.id.txtCancel);
-        endTimeTxt = (TextView) view.findViewById(R.id.dateTimeChange);
+
+        //user card Close
+        userNameCardClose = (TextView) view.findViewById(R.id.userNameCardClose);
+
+        //user card open
+        userNameCardOpen = (TextView)view.findViewById(R.id.userNameCardOpen);
+        userMailCardOpen = (TextView)view.findViewById(R.id.userMailCardOpen);
+        userAddCardOpen = (TextView)view.findViewById(R.id.userAddCardOpen);
+        userPhoneCardOpen = (TextView)view.findViewById(R.id.userPhoneCardOpen);
+
+        //ticket card Close
+        productTicketDetailsCardClosed = (TextView)view.findViewById(R.id.productTicketDetailsCardClosed);
+        categoryTicketDetailsCardClosed = (TextView)view.findViewById(R.id.categoryTicketDetailsCardClosed);
+        regionTicketDetailsCardClosed = (TextView)view.findViewById(R.id.regionTicketDetailsCardClosed);
+
+       //ticket card open
+        productTicketDetailsCardOpen = (TextView)view.findViewById(R.id.productTicketDetailsCardClosed);
+        categoryTicketDetailsCardOpen = (TextView)view.findViewById(R.id.categoryTicketDetailsCardOpen);
+        regionTicketDetailsCardOpen = (TextView)view.findViewById(R.id.regionTicketDetailsCardOpen);
+        addressTicketDetailsCardOpen  = (TextView)view.findViewById(R.id.addressTicketDetailsCardOpen);
+        phoneTicketDetailsCardOpen  = (TextView)view.findViewById(R.id.phoneTicketDetailsCardOpen);
+        descriptionShortTicketDetailsCardOpen  = (TextView)view.findViewById(R.id.descriptionShortTicketDetailsCardOpen);
+        descriptionLongTicketDetailsCardOpen = (TextView)view.findViewById(R.id.descriptionLongTicketDetailsCardOpen);
+
+
+        //ticket img
         img1 = (ImageView)view.findViewById(R.id.photo1);
         img2 = (ImageView)view.findViewById(R.id.photo2);
-        txtProduct = (TextView)view.findViewById(R.id.productText);
-        txtCategory = (TextView)view.findViewById(R.id.categoryText);
-        txtRegion = (TextView)view.findViewById(R.id.regionText);
-        txtProductEx = (TextView)view.findViewById(R.id.productTextEx);
-        txtCategoryEx = (TextView)view.findViewById(R.id.categoryTextEx);
-        txtRegionEx = (TextView)view.findViewById(R.id.regionTextEx);
-        txtAddressEx  = (TextView)view.findViewById(R.id.addressTextEx);
-        txtPhoneEx  = (TextView)view.findViewById(R.id.phoneTextEx);
-        descriptionShort  = (TextView)view.findViewById(R.id.descriptionShortEx);
-        descriptionLong = (TextView)view.findViewById(R.id.descriptionLongEx);
-        userNameEx = (TextView)view.findViewById(R.id.userNameCard);
-        mailUserEx = (TextView)view.findViewById(R.id.mailAdd);
-        regionUserEx = (TextView)view.findViewById(R.id.locationAdd);
-        addressUserEx = (TextView)view.findViewById(R.id.locationText);
-        phoneUserEx = (TextView)view.findViewById(R.id.phoneText);
 
-        endTimeTxt.setOnClickListener(this);
+
+        dateTimeChange.setOnClickListener(this);
         userDetailCard.setOnClickListener(this);
         userDetailOpen.setOnClickListener(this);
         ticketDetailClose.setOnClickListener(this);
@@ -334,21 +347,36 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     public void resultTicket(Ticket ticket) {
         this.ticket = ticket;
         initializeTicket();
-        initUserCard();
+
     }
 
     private void initializeTicket() {
-        userName.setText(ticket.getClientNameString());
-        txtProduct.setText(ticket.getProductName());
-        txtCategory.setText(ticket.getCategoryName());
-        txtRegion.setText(ticket.getRegionName());
-        txtProductEx.setText(ticket.getProductName());
-        txtCategoryEx.setText(ticket.getCategoryName());
-        txtRegionEx.setText(ticket.getRegionName());
-        txtAddressEx.setText(ticket.getTicketAddress());
-        txtPhoneEx.setText(ticket.getTicketPhone());
-        descriptionShort.setText(ticket.getDescriptionShort());
-        descriptionLong.setText(ticket.getDescriptionLong());
+
+        if(UserSingleton.getInstance().isUserIsAdmin()) {
+            userNameCardClose.setText(ticket.getClientNameString());
+            userNameCardOpen.setText(ticket.getClientNameString());
+            userAddCardOpen.setText(ticket.getClientEmail());//TODO ADD FILED IN TICKET CLIENT ADD
+            userMailCardOpen.setText(ticket.getClientEmail());
+            userPhoneCardOpen.setText(ticket.getClientEmail());//TODO ADD CLIENT PHONE NUMBER FILED
+        }else
+            {
+                userNameCardClose.setText(ticket.getCompanyName());
+                userNameCardOpen.setText(ticket.getCompanyName());
+                userAddCardOpen.setText(ticket.getCompanyID());//TODO ADD FILED  add IN Company
+                userMailCardOpen.setText(ticket.getCompanyID());//TODO ADD FILED mail IN Company
+                userPhoneCardOpen.setText(ticket.getCompanyID());//TODO ADD FILED PHONE NUMBER IN Company
+            }
+
+        categoryTicketDetailsCardClosed.setText(ticket.getCategoryName());
+        categoryTicketDetailsCardOpen.setText(ticket.getCategoryName());
+        regionTicketDetailsCardClosed.setText(ticket.getRegionName());
+        regionTicketDetailsCardOpen.setText(ticket.getRegionName());
+        productTicketDetailsCardClosed.setText(ticket.getProductName());
+        productTicketDetailsCardOpen.setText(ticket.getProductName());
+        addressTicketDetailsCardOpen.setText(ticket.getTicketAddress());
+        phoneTicketDetailsCardOpen.setText(ticket.getTicketPhone());
+        descriptionShortTicketDetailsCardOpen.setText(ticket.getDescriptionShort());
+        descriptionLongTicketDetailsCardOpen.setText(ticket.getDescriptionLong());
 
         if(!ticket.getTicketImage1().equals("error"))
         {
@@ -358,8 +386,8 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         {
             UtlFirebase.downloadFile(ticket.getTicketID()+"/pic2.jpg",2);
         }
-        if(ticket.getTicketCloseDateTime() !=null)
-            endTimeTxt.setText(ticket.getTicketCloseDateTime());
+        if(ticket.getTicketCloseDateTime() !="")
+            dateTimeChange.setText(ticket.getTicketCloseDateTime());
 
     }
 
