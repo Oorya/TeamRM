@@ -25,6 +25,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.teamrm.teamrm.Fragment.TicketView;
+import com.teamrm.teamrm.Interfaces.CompanyCallback;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.TicketStateObservable;
 import com.teamrm.teamrm.Interfaces.WorkShiftCallback;
@@ -724,6 +725,21 @@ public class UtlFirebase { //TODO: make singleton
                         new NiceToast(currentContext, "Created company " + company.getCompanyName() + "for Admin" + UserSingleton.getInstance().getUserEmail(), NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG);
                     }
                 });
+            }
+        });
+    }
+
+    public static void getCompanyByID(String companyid, final CompanyCallback companyCallback){
+        COMPANY_ROOT_REFERENCE.child(companyid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                companyCallback.companyCallback(dataSnapshot.getValue(Company.class));
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                toastTheError(databaseError);
             }
         });
     }
