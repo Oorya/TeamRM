@@ -25,6 +25,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.teamrm.teamrm.Fragment.TicketView;
+import com.teamrm.teamrm.Interfaces.ClientCallback;
 import com.teamrm.teamrm.Interfaces.CompanyCallback;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.TicketStateObservable;
@@ -223,6 +224,21 @@ public class UtlFirebase { //TODO: make singleton
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+    }
+
+    public static void getClientByID(String clientID, final ClientCallback clientCallback){
+        USERS_ROOT_REFERENCE.child(clientID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                clientCallback.clientCallback(dataSnapshot.getValue(Client.class));
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                toastTheError(databaseError);
             }
         });
     }
