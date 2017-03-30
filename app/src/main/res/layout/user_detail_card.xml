@@ -32,7 +32,7 @@
                 />
 
             <TextView
-                android:id="@+id/userNameCard"
+                android:id="@+id/userNameCardClose"
                 style="@style/CardRowText"
                 android:layout_toEndOf="@id/userIcon"
                 android:text="ישראל ישראלי"

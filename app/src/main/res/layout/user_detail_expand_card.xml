@@ -36,7 +36,7 @@
                     android:src="@drawable/ic_icon_person" />
 
                 <TextView
-                    android:id="@+id/userNameCard"
+                    android:id="@+id/userNameCardOpen"
                     style="@style/CardRowText"
                     android:layout_toEndOf="@id/userIcon"
                     android:text="ישראל ישראלי"
@@ -69,7 +69,7 @@
                     android:text="@string/label_mail" />
 
                 <TextView
-                    android:id="@+id/mailAdd"
+                    android:id="@+id/userMailCardOpen"
                     style="@style/CardRowLabel"
                     android:layout_toEndOf="@id/mailAdd1"
                     android:text="xxx@xxxx" />
@@ -98,7 +98,7 @@
                     android:text="@string/label_region" />
 
                 <TextView
-                    android:id="@+id/locationAdd"
+                    android:id="@+id/userAreaCardOpen"
                     style="@style/CardRowText"
                     android:layout_toEndOf="@id/locationTitel"
                     android:text="אזור" />
@@ -123,7 +123,7 @@
                     android:text="@string/label_address" />
 
                 <TextView
-                    android:id="@+id/locationText"
+                    android:id="@+id/userAddCardOpen"
                     style="@style/CardRowText"
                     android:layout_toEndOf="@id/addressLabel"
                     android:text="xxxxxxx" />
@@ -152,7 +152,7 @@
                     android:text="@string/label_phone_number" />
 
                 <TextView
-                    android:id="@+id/phoneText"
+                    android:id="@+id/userPhoneCardOpen"
                     style="@style/CardRowText"
                     android:layout_toEndOf="@id/phoneTitel"
                     android:text="xxxxxxx" />

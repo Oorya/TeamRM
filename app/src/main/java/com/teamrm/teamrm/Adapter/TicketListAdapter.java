@@ -26,10 +26,8 @@ import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Admin;
 import com.teamrm.teamrm.Type.Client;
 import com.teamrm.teamrm.Type.Technician;
-import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Utility.UserSingleton;
-import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.util.List;
 
@@ -239,7 +237,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
 
             this.clientNameSpan = (RelativeLayout)view.findViewById(R.id.clientNameSpan);
             this.companyNameSpan = (RelativeLayout)view.findViewById(R.id.companyNameSpan);
-            this.ticketNumber = (TextView) view.findViewById(R.id.ticketNum);
+            this.ticketNumber = (TextView) view.findViewById(R.id.ticketNumber);
             this.ticketStatusString = (TextView)view.findViewById(R.id.ticketStatusString);
             this.clientNameString = (TextView) view.findViewById(R.id.clientName);
             this.companyNameString = (TextView) view.findViewById(R.id.companyName);

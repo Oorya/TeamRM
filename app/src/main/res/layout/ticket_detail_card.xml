@@ -67,7 +67,7 @@
                     android:text="מוצר:" />
 
                 <TextView
-                    android:id="@+id/productText"
+                    android:id="@+id/productTicketDetailsCardClosed"
                     style="@style/CardRowText"
                     android:layout_toEndOf="@id/categoryALabel"
                     android:paddingEnd="32dp"
@@ -93,7 +93,7 @@
                     android:text="סיווג:" />
 
                 <TextView
-                    android:id="@+id/categoryText"
+                    android:id="@+id/categoryTicketDetailsCardClosed"
                     style="@style/CardRowText"
                     android:layout_toEndOf="@id/categoryLabel"
                     tools:text="דגכלךעידךגעלחי" />
@@ -118,7 +118,7 @@
                     android:text="אזור:" />
 
                 <TextView
-                    android:id="@+id/regionText"
+                    android:id="@+id/regionTicketDetailsCardClosed"
                     android:layout_toEndOf="@id/regionLabel"
                     tools:text="דגכלךעידךגעלחי"
                     style="@style/CardRowText"

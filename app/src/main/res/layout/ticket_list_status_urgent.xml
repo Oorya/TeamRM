@@ -55,7 +55,7 @@
                     android:src="@drawable/ic_edit_24px_white" />
 
                 <TextView
-                    android:id="@+id/ticketNum"
+                    android:id="@+id/ticketNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"

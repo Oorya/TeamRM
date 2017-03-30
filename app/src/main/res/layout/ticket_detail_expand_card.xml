@@ -66,7 +66,7 @@
                     android:text="מוצר:" />
 
                 <TextView
-                    android:id="@+id/productTextEx"
+                    android:id="@+id/userNameCardOpen"
                     style="@style/CardRowText"
                     android:layout_toEndOf="@id/categoryALabel"
                     android:paddingEnd="32dp"
@@ -92,33 +92,9 @@
                     android:text="סיווג:" />
 
                 <TextView
-                    android:id="@+id/categoryTextEx"
+                    android:id="@+id/categoryTicketDetailsCardOpen"
                     style="@style/CardRowText"
                     android:layout_toEndOf="@id/categoryLabel"
-                    tools:text="דגכלךעידךגעלחי" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/regionRow"
-                style="@style/CardRow"
-                android:layout_below="@id/categoryRow">
-
-                <ImageView
-                    android:id="@+id/regionIcon"
-                    style="@style/CardRowImageStart"
-                    android:src="@drawable/ic_region_new" />
-
-                <TextView
-                    android:id="@+id/regionLabel"
-                    style="@style/CardRowLabel"
-                    android:layout_toEndOf="@id/regionIcon"
-                    android:text="אזור:" />
-
-                <TextView
-                    android:id="@+id/regionTextEx"
-                    style="@style/CardRowText"
-                    android:layout_toEndOf="@id/regionLabel"
                     tools:text="דגכלךעידךגעלחי" />
 
             </RelativeLayout>
@@ -127,7 +103,7 @@
                 android:id="@+id/addressRow"
                 style="@style/CardRow"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/regionRow"
+                android:layout_below="@id/categoryRow"
                 android:background="@color/listRow_alt"
                 android:minHeight="48dp">
 
@@ -143,7 +119,7 @@
                     android:text="כתובת:" />
 
                 <TextView
-                    android:id="@+id/addressTextEx"
+                    android:id="@+id/addressTicketDetailsCardOpen"
                     style="@style/CardRowText"
                     android:layout_toEndOf="@id/addressLabel"
                     android:paddingBottom="4dp"
@@ -158,9 +134,35 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/phoneRow"
+                android:id="@+id/regionRow"
                 style="@style/CardRow"
                 android:layout_below="@id/addressRow">
+
+                <ImageView
+                    android:id="@+id/regionIcon"
+                    style="@style/CardRowImageStart"
+                    android:src="@drawable/ic_region_new" />
+
+                <TextView
+                    android:id="@+id/regionLabel"
+                    style="@style/CardRowLabel"
+                    android:layout_toEndOf="@id/regionIcon"
+                    android:text="אזור:" />
+
+                <TextView
+                    android:id="@+id/regionTicketDetailsCardOpen"
+                    style="@style/CardRowText"
+                    tools:text="דגכלךעידךגעלחי"
+                    android:layout_alignBaseline="@+id/regionLabel"
+                    android:layout_alignBottom="@+id/regionLabel"
+                    android:layout_toStartOf="@+id/regionLabel" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/phoneRow"
+                style="@style/CardRow"
+                android:layout_below="@id/regionRow">
 
                 <ImageView
                     android:id="@+id/phoneIcon"
@@ -174,7 +176,7 @@
                     android:text="טלפון:" />
 
                 <TextView
-                    android:id="@+id/phoneTextEx"
+                    android:id="@+id/phoneTicketDetailsCardOpen"
                     style="@style/CardRowText"
                     android:layout_toEndOf="@id/phoneLabel"
                     android:paddingEnd="32dp"
@@ -225,7 +227,7 @@
                     android:paddingTop="10dp">
 
                     <TextView
-                        android:id="@+id/descriptionShortEx"
+                        android:id="@+id/descriptionShortTicketDetailsCardOpen"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
@@ -237,10 +239,10 @@
                     </TextView>
 
                     <TextView
-                        android:id="@+id/descriptionLongEx"
+                        android:id="@+id/descriptionLongTicketDetailsCardOpen"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/descriptionShortEx"
+                        android:layout_below="@id/descriptionShortTicketDetailsCardOpen"
                         android:layout_marginBottom="8dp"
                         android:gravity="top"
                         android:lineSpacingExtra="2sp"

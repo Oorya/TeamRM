@@ -36,7 +36,7 @@
                     android:src="@drawable/ic_icon_tech" />
 
                 <TextView
-                    android:id="@+id/userNameCard"
+                    android:id="@+id/userNameCardClose"
                     style="@style/CardRowText"
                     android:layout_toEndOf="@id/technicianIcon"
                     android:text="טכנאי מוסמך"

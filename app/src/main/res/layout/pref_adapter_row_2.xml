@@ -22,7 +22,7 @@
         android:text="כתובת:" />
 
     <TextView
-        android:id="@+id/addressTextEx"
+        android:id="@+id/addressTicketDetailsCardOpen"
         style="@style/CardRowText"
         android:layout_toEndOf="@id/addressLabel"
         android:paddingBottom="4dp"

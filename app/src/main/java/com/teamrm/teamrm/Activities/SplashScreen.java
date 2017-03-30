@@ -104,7 +104,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
             //test
             DatabaseReference test = FirebaseDatabase.getInstance().getReference("test");
             test.push().setValue("on create service");
-            Log.w("start app ", "on create service");
+            Log.d(TAG, "on create service");
             startApp();
         }
         Toast.makeText(this, UserSingleton.getInstance().getUserNameString() + " user exist", Toast.LENGTH_SHORT).show();
@@ -121,15 +121,15 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     @Override
     public void onStart() {
         super.onStart();
-        Log.w("splash", "onStart: ");
+        Log.d(TAG, "onStart: ");
 
         if (UserSingleton.getInstance().getUserNameString() == null) {
             OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient); //LOGIN STAGE 1
-            Log.d(LOGINTAG, "Stage 1, checking Google login");
+            Log.d(TAG, "Stage 1, checking Google login");
             if (opr.isDone()) {
                 // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
                 // and the GoogleSignInResult will be available instantly.
-                Log.d(LOGINTAG, "Stage 1a, logging in with cached Google login");
+                Log.d(TAG, "Stage 1a, logging in with cached Google login");
                 GoogleSignInResult result = opr.get();
                 handleSignInResult(result); //LOGIN STAGE 2 ->
                 linearLayout.setVisibility(View.VISIBLE);
@@ -138,7 +138,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
                 // this asynchronous branch will attempt to sign in the user silently.  Cross-device
                 // single sign-on will occur in this branch.
                 // showProgressDialog();
-                Log.d("splash", "else Got cached sign-in");
+                Log.d(TAG, "else Got cached sign-in");
 
                 opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                     @Override
@@ -165,7 +165,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("splash", "onActivityResult: ");
+        Log.d(TAG, "onActivityResult: ");
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
@@ -222,10 +222,10 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
     private void handleSignInResult(GoogleSignInResult result) {
 
-        Log.d("splash", "handleSignInResult: ");
+        Log.d(TAG, "handleSignInResult: "+result.isSuccess());
 
         if (result.isSuccess()) {
-            Log.d(LOGINTAG, "Stage 2, Google login OK");
+            Log.d(TAG, "Stage 2, Google login OK");
             // Signed in successfully, show authenticated UI.
             acct = result.getSignInAccount();
             firebaseAuthWithGoogle(acct); //LOGIN STAGE 3 ->
@@ -234,8 +234,10 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
             editor.putString(PREF_ACCOUNT_NAME, acct.getEmail());
             editor.apply();
 
-            Log.d("splash", "handleSignInResult: ");
+            Log.d(TAG, "handleSignInResult: = Success");
         } else {
+            Log.d(TAG, "handleSignInResult: = !Success = "+result.getStatus().getStatusCode());
+
             signInButton.setVisibility(View.VISIBLE);
             linearLayout.setVisibility(View.GONE);
         }
@@ -244,12 +246,12 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        Log.d(LOGINTAG, "Stage 3, signing in to Firebase with user " + acct.getEmail());
+        Log.d(TAG, "Stage 3, signing in to Firebase with user " + acct.getEmail());
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull final Task<AuthResult> task) {
-                        Log.d("ON COMPLETE: ", "signInWithCredential:onComplete:" + task.isSuccessful());
+                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
