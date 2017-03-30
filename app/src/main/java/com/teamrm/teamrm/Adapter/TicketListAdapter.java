@@ -26,6 +26,7 @@ import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Admin;
 import com.teamrm.teamrm.Type.Client;
 import com.teamrm.teamrm.Type.Technician;
+import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Utility.UserSingleton;
 
@@ -166,8 +167,8 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
                         .beginTransaction();
                 TicketView ticketView = new TicketView();
                 ticketView.setArguments(bundle);
-                fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-                fragmentManager.replace(R.id.container_body, ticketView).addToBackStack("NEW_TICKET").commit();
+                //fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+                fragmentManager.replace(R.id.container_body, ticketView,TicketView.FRAGMENT_TRANSACTION).addToBackStack(TicketView.FRAGMENT_TRANSACTION).commit();
             }
         });
 

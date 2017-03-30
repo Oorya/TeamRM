@@ -78,7 +78,8 @@
                 <ImageView
                     android:id="@+id/mailButton"
                     style="@style/CardRowImageEnd"
-                    android:src="@drawable/ic_icon_newmail" />
+                    android:src="@drawable/ic_icon_newmail"
+                    />
 
             </com.teamrm.teamrm.Utility.RowViewLayout>
 

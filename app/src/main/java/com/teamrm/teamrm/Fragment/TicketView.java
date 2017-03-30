@@ -1,8 +1,13 @@
 package com.teamrm.teamrm.Fragment;
 
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -17,11 +22,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.teamrm.teamrm.Activities.HomeScreen;
+import com.teamrm.teamrm.Interfaces.ClientCallback;
 import com.teamrm.teamrm.Interfaces.CompanyCallback;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Category;
+import com.teamrm.teamrm.Type.Client;
 import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.Product;
 import com.teamrm.teamrm.Type.Region;
@@ -49,23 +56,21 @@ import javax.annotation.Nullable;
 public class TicketView extends Fragment implements View.OnClickListener, FireBaseAble {
 
     public static final String FRAGMENT_TRANSACTION = "TicketView";
+    public static final int PERMISSION_PHONE_REQUEST_CODE = 1050;
     CardView userDetailCard, approval, cancel, btnProfile;
     RelativeLayout userDetailOpen;
     RelativeLayout ticketDetailClose;
     RelativeLayout ticketDetailOpen;
-    TextView userNameClose, userProfile,userNameCardOpen, txtCancel, dateTimeChange,userNameCardClose,dateTimeOpen,ticketNumber,ticketStatus
-            ,productTicketDetailsCardClosed,categoryTicketDetailsCardClosed,regionTicketDetailsCardClosed
-            ,categoryTicketDetailsCardOpen,regionTicketDetailsCardOpen,addressTicketDetailsCardOpen,phoneTicketDetailsCardOpen
-            ,descriptionShortTicketDetailsCardOpen,descriptionLongTicketDetailsCardOpen,userMailCardOpen,userAddCardOpen,userPhoneCardOpen
-            ,productTicketDetailsCardOpen;
-    public static ImageView img1, img2;
+    TextView userNameClose, userProfile,userAreaCardOpen, userNameCardOpen, txtCancel, dateTimeChange, userNameCardClose, dateTimeOpen, ticketNumber, ticketStatus, productTicketDetailsCardClosed, categoryTicketDetailsCardClosed, regionTicketDetailsCardClosed, categoryTicketDetailsCardOpen, regionTicketDetailsCardOpen, addressTicketDetailsCardOpen, phoneTicketDetailsCardOpen, descriptionShortTicketDetailsCardOpen, descriptionLongTicketDetailsCardOpen, userMailCardOpen, userAddCardOpen, userPhoneCardOpen, productTicketDetailsCardOpen;
+    public static ImageView img1, img2, mailBtn, locationButton, phoneButton;
     private Ticket ticket;
-    static  String ticketID, timeFormated;
+    static String ticketID, timeFormated;
     static Long bundleEndTime;
     Calendar endTime;
-    private Users userProfileObj ;
+    private Users userProfileObj;
     Fragment stateActionButtons;
     UtlAlarmManager utlAlarmManager;
+    private Object userDitaile;
 
     public TicketView() {
         // Required empty public constructor
@@ -76,7 +81,10 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         super.onCreate(savedInstanceState);
 
 
-       // Toast.makeText(getContext(), UserSingleton.getInstance().getUserEmail(), Toast.LENGTH_SHORT).show();
+
+
+
+        // Toast.makeText(getContext(), UserSingleton.getInstance().getUserEmail(), Toast.LENGTH_SHORT).show();
         userProfileObj = UserSingleton.getInstance();
         Bundle bundle = this.getArguments();
         utlAlarmManager = new UtlAlarmManager(getContext());
@@ -85,24 +93,25 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                 String ticketId = bundle.getString("ticketID", "error");
                 Log.w("TICKET_ID Bundle:  ", ticketId);
                 ticketID = ticketId;
+                UtlFirebase.getTicketByKey(ticketID, this);
 
 
                 if (bundle.getLong("ticketOpenDateTime", 0) != 0) {
-                    Log.w("TICKET_ID Bundle:  ", bundle.getLong("ticketOpenDateTime", 0)+"");
+                    Log.w("TICKET_ID Bundle:  ", bundle.getLong("ticketOpenDateTime", 0) + "");
 
                     bundleEndTime = bundle.getLong("ticketOpenDateTime", 0);
                     endTime = Calendar.getInstance();
                     endTime.setTime(new Date(bundleEndTime));
                     SimpleDateFormat format1;
-                    if(endTime.get(Calendar.HOUR_OF_DAY)>0)
+                    if (endTime.get(Calendar.HOUR_OF_DAY) > 0)
                         format1 = new SimpleDateFormat("HH:mm:ss - dd-MM-yyyy");
                     else
                         format1 = new SimpleDateFormat("dd-MM-yyyy");
                     timeFormated = format1.format(endTime.getTime());
                     Log.w(" Bundle_timeFormated:  ", timeFormated);
                     Map<String, String> updates = new HashMap<>();
-                    updates.put("ticketCloseDateTime",timeFormated);
-                    UtlFirebase.updateTicket(ticketID,(HashMap<String, String>) updates);
+                    updates.put("ticketCloseDateTime", timeFormated);
+                    UtlFirebase.updateTicket(ticketID, (HashMap<String, String>) updates);
                 }
             }
 
@@ -114,9 +123,10 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ticket, container, false);
 
-        alternateRowColor(view, R.id.rowSet1);
+        //alternateRowColor(view, R.id.rowSet1);
 
         stateActionButtons = new StateActionButtons();
+
         setListeners(view);
         Typeface REGULAR = Typeface.createFromAsset(this.getContext().getAssets(), "Assistant-Regular.ttf");
         Typeface SEMI_BOLD = Typeface.createFromAsset(this.getContext().getAssets(), "Assistant-SemiBold.ttf");
@@ -129,7 +139,8 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         ((TextView) view.findViewById(R.id.dateTimeChange)).setTypeface(REGULAR);
         ((TextView) view.findViewById(R.id.dateTimeOpen)).setTypeface(REGULAR);
         ((TextView) view.findViewById(R.id.ticketNumber)).setTypeface(SEMI_BOLD);
-        UtlFirebase.getTicketByKey(ticketID, this);
+
+
 
         return view;
     }
@@ -141,153 +152,180 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         if (view.getId() == userDetailCard.getId()) {
             this.getView().findViewById(R.id.userDetails).setVisibility(View.GONE);
             this.getView().findViewById(R.id.userDetailsOpen).setVisibility(View.VISIBLE);
-            alternateRowColor(view, R.id.rowSet2);
+            //alternateRowColor(view, R.id.rowSet2);
+
+
+        } else if (view.getId() == mailBtn.getId()) {
+            openMailDialog();
+
+        } else if (view.getId() == locationButton.getId()) {
+            openGpsDialog();
+
+        } else if (view.getId() == phoneButton.getId()) {
+            openPhoneDialog();
+
         } else if (view.getId() == userDetailOpen.getId()) {
             this.getView().findViewById(R.id.userDetails).setVisibility(View.VISIBLE);
             this.getView().findViewById(R.id.userDetailsOpen).setVisibility(View.GONE);
         } else if (view.getId() == ticketDetailClose.getId()) {
             this.getView().findViewById(R.id.ticketDetails).setVisibility(View.GONE);
             this.getView().findViewById(R.id.ticketDetailsOpen).setVisibility(View.VISIBLE);
-            alternateRowColor(view, R.id.rowSet1);
+            //alternateRowColor(view, R.id.rowSet1);
         } else if (view.getId() == ticketDetailOpen.getId()) {
             this.getView().findViewById(R.id.ticketDetails).setVisibility(View.VISIBLE);
             this.getView().findViewById(R.id.ticketDetailsOpen).setVisibility(View.GONE);
-            alternateRowColor(view, R.id.rowSet1);
+            //alternateRowColor(view, R.id.rowSet1);
         } else if (view.getId() == userProfile.getId()) {
             Toast.makeText(getContext(), "USER PROFILE " + ticket.getClientNameString(), Toast.LENGTH_SHORT).show();
 
-
-        } else if (view.getId() == btnProfile.getId())
-        {
+        } else if (view.getId() == btnProfile.getId()) {
             Toast.makeText(getContext(), UserSingleton.getInstance().getUserNameString(), Toast.LENGTH_SHORT).show();
-        }else if (view.getId() == approval.getId()) {
+        } else if (view.getId() == approval.getId()) {
 
             Toast.makeText(getContext(), "ok", Toast.LENGTH_SHORT).show();
-            switch (ticket.getTicketStateString())
-            {
+            switch (ticket.getTicketStateString()) {
                 case TicketStateStringable.STATE_A00: {
-                    ticket.updateTicketStateString(TicketStateStringable.STATE_A01,ticket);
+                    ticket.updateTicketStateString(TicketStateStringable.STATE_A01, ticket);
                     ticket.getTicketStateObj().setView(this.getView());
                     break;
                 }
-                case TicketStateStringable.STATE_A01:{
-                    ticket.updateTicketStateString(TicketStateStringable.STATE_B01,ticket);
+                case TicketStateStringable.STATE_A01: {
+                    ticket.updateTicketStateString(TicketStateStringable.STATE_B01, ticket);
                     //ticket.getTicketStateObj().setView(this.getView());
                     break;
                 }
-                case TicketStateStringable.STATE_A02CN:
-                {
-                    if(timeFormated!=null)
-                    {
-                        if(!(ticket.getRepeatSendCounter()>3)) {
+                case TicketStateStringable.STATE_A02CN: {
+                    if (timeFormated != null) {
+                        if (!(ticket.getRepeatSendCounter() > 3)) {
                             ticket.incCounter();
-                            ticket.updateTicketStateString(TicketStateStringable.STATE_A03,ticket);
+                            ticket.updateTicketStateString(TicketStateStringable.STATE_A03, ticket);
                             ticket.getTicketStateObj().setView(this.getView());
                             break;
-                        }else
-                        {
-                            ticket.updateTicketStateString(TicketStateStringable.STATE_E02,ticket);
+                        } else {
+                            ticket.updateTicketStateString(TicketStateStringable.STATE_E02, ticket);
                             ticket.incInitialization();
                             break;
                         }
                     }
                 }
-                case TicketStateStringable.STATE_A03:
-                {
-                        ticket.updateTicketStateString(TicketStateStringable.STATE_B01,ticket);
-                        ticket.getTicketStateObj().setView(this.getView());
-                        break;
-                }
-                case TicketStateStringable.STATE_B01:
-                {
-                    ticket.updateTicketStateString(TicketStateStringable.STATE_B02,ticket);
+                case TicketStateStringable.STATE_A03: {
+                    ticket.updateTicketStateString(TicketStateStringable.STATE_B01, ticket);
                     ticket.getTicketStateObj().setView(this.getView());
                     break;
                 }
-                case TicketStateStringable.STATE_B03:
-                {
-                    if(ticket.getTicketDone()) {
-                        ticket.updateTicketStateString(TicketStateStringable.STATE_C01,ticket);
+                case TicketStateStringable.STATE_B01: {
+                    ticket.updateTicketStateString(TicketStateStringable.STATE_B02, ticket);
+                    ticket.getTicketStateObj().setView(this.getView());
+                    break;
+                }
+                case TicketStateStringable.STATE_B03: {
+                    if (ticket.getTicketDone()) {
+                        ticket.updateTicketStateString(TicketStateStringable.STATE_C01, ticket);
                         ticket.getTicketStateObj().setView(this.getView());
                         break;
-                    }else
-                    {
-                        ticket.updateTicketStateString(TicketStateStringable.STATE_E06,ticket);
+                    } else {
+                        ticket.updateTicketStateString(TicketStateStringable.STATE_E06, ticket);
                         ticket.getTicketStateObj().setView(this.getView());
                         break;
                     }
                 }
-                case TicketStateStringable.STATE_C01:
-                {
-                        ticket.updateTicketStateString(TicketStateStringable.STATE_C02,ticket);
-                        ticket.getTicketStateObj().setView(this.getView());
-                        break;
+                case TicketStateStringable.STATE_C01: {
+                    ticket.updateTicketStateString(TicketStateStringable.STATE_C02, ticket);
+                    ticket.getTicketStateObj().setView(this.getView());
+                    break;
                 }
-                case TicketStateStringable.STATE_C02:
-                {
-                        ticket.updateTicketStateString(TicketStateStringable.STATE_Z00,ticket);
-                        break;
+                case TicketStateStringable.STATE_C02: {
+                    ticket.updateTicketStateString(TicketStateStringable.STATE_Z00, ticket);
+                    break;
                 }
-                case TicketStateStringable.STATE_E03:
-                {
-                    ticket.updateTicketStateString(TicketStateStringable.STATE_E02,ticket);
+                case TicketStateStringable.STATE_E03: {
+                    ticket.updateTicketStateString(TicketStateStringable.STATE_E02, ticket);
                     break;
                 }
             }
         } else if (view.getId() == dateTimeChange.getId()) {
             Bundle bundle = new Bundle();
-            bundle.putString("ticketID",ticketID);
+            bundle.putString("ticketID", ticketID);
 
             FragmentTransaction fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager()
                     .beginTransaction();
             CalendarView calendarView = new CalendarView();
             calendarView.setArguments(bundle);
             fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-            fragmentManager.replace(R.id.container_body,  calendarView).addToBackStack(CalendarView.FRAGMENT_TRANSACTION).commit();
+            fragmentManager.replace(R.id.container_body, calendarView).addToBackStack(CalendarView.FRAGMENT_TRANSACTION).commit();
             ((HomeScreen) getActivity()).setTitle("יומן");
-        }
-        else if(view.getId() == cancel.getId())
-        {
-            switch (ticket.getTicketStateString())
-            {
+        } else if (view.getId() == cancel.getId()) {
+            switch (ticket.getTicketStateString()) {
                 case TicketStateStringable.STATE_A00: {
-                    ticket.updateTicketStateString(TicketStateStringable.STATE_E00,ticket);
+                    ticket.updateTicketStateString(TicketStateStringable.STATE_E00, ticket);
                     ticket.getTicketStateObj().setView(this.getView());
                     break;
                 }
-                case TicketStateStringable.STATE_A01:{
-                    ticket.updateTicketStateString(TicketStateStringable.STATE_E01,ticket);
+                case TicketStateStringable.STATE_A01: {
+                    ticket.updateTicketStateString(TicketStateStringable.STATE_E01, ticket);
                     ticket.getTicketStateObj().setView(this.getView());
                     break;
                 }
-                case TicketStateStringable.STATE_A03:
-                {
-                    ticket.updateTicketStateString(TicketStateStringable.STATE_E02,ticket);
+                case TicketStateStringable.STATE_A03: {
+                    ticket.updateTicketStateString(TicketStateStringable.STATE_E02, ticket);
                     ticket.getTicketStateObj().setView(this.getView());
                     break;
                 }
-                case TicketStateStringable.STATE_E03:
-                {
-                    ticket.updateTicketStateString(TicketStateStringable.STATE_E04,ticket);
-                   // ticket.getTicketCloseDateTime().setTime(ticket.getTicketCloseDateTime().getTime()+14000);
-                   // ticket.setAlarm(utlAlarmManager.setAlarm(ticket.getTicketCloseDateTime(),TicketStateAble.TTL_END_TIKCET_TIME_EXTENSION,ticketID));
+                case TicketStateStringable.STATE_E03: {
+                    ticket.updateTicketStateString(TicketStateStringable.STATE_E04, ticket);
+                    // ticket.getTicketCloseDateTime().setTime(ticket.getTicketCloseDateTime().getTime()+14000);
+                    // ticket.setAlarm(utlAlarmManager.setAlarm(ticket.getTicketCloseDateTime(),TicketStateAble.TTL_END_TIKCET_TIME_EXTENSION,ticketID));
 
                     ticket.getTicketStateObj().setView(this.getView());
                     break;
                 }
-                case TicketStateStringable.STATE_C01:
-                {
-                        ticket.updateTicketStateString(TicketStateStringable.STATE_E07,ticket);
-                        ticket.getTicketStateObj().setView(this.getView());
-                        break;
+                case TicketStateStringable.STATE_C01: {
+                    ticket.updateTicketStateString(TicketStateStringable.STATE_E07, ticket);
+                    ticket.getTicketStateObj().setView(this.getView());
+                    break;
                 }
-                case TicketStateStringable.STATE_C02:
-                {
-                    ticket.updateTicketStateString(TicketStateStringable.STATE_Z00,ticket);
+                case TicketStateStringable.STATE_C02: {
+                    ticket.updateTicketStateString(TicketStateStringable.STATE_Z00, ticket);
                     break;
                 }
             }
         }
+    }
+
+    public void openPhoneDialog() {
+
+        if (UserSingleton.getInstance().isUserIsAdmin()) {
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            callIntent.setData(Uri.parse("tel:" + ticket.getTicketPhone()));
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, PERMISSION_PHONE_REQUEST_CODE);
+                Log.d("openPhoneDialog",ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE)+"" );
+                return;
+            }else {
+
+                getActivity().startActivity(callIntent);
+            }
+        }else {
+
+            UtlFirebase.getCompanyByID(ticket.getCategoryID(), new CompanyCallback() {
+                @Override
+                public void companyCallback(Company company) {
+                    String phone = company.getCompanyPhone();
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse(phone));
+                    getContext().startActivity(intent);
+                }
+            });
+
+        }
+
+    }
+
+    private void openGpsDialog() {
+    }
+
+    private void openMailDialog() {
     }
 
     private void setListeners(View view) {
@@ -319,6 +357,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         userMailCardOpen = (TextView)view.findViewById(R.id.userMailCardOpen);
         userAddCardOpen = (TextView)view.findViewById(R.id.userAddCardOpen);
         userPhoneCardOpen = (TextView)view.findViewById(R.id.userPhoneCardOpen);
+        userAreaCardOpen = (TextView)view.findViewById(R.id.userAreaCardOpen);
 
         //ticket card Close
         productTicketDetailsCardClosed = (TextView)view.findViewById(R.id.productTicketDetailsCardClosed);
@@ -339,6 +378,10 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         img1 = (ImageView)view.findViewById(R.id.photo1);
         img2 = (ImageView)view.findViewById(R.id.photo2);
 
+        mailBtn =  (ImageView) view.findViewById(R.id.mailButton);
+        locationButton =  (ImageView) view.findViewById(R.id.locationButton);
+        phoneButton =  (ImageView) view.findViewById(R.id.phoneButton);
+
 
         dateTimeChange.setOnClickListener(this);
         userDetailCard.setOnClickListener(this);
@@ -349,12 +392,36 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         btnProfile.setOnClickListener(this);
         approval.setOnClickListener(this);
         cancel.setOnClickListener(this);
+        mailBtn.setOnClickListener(this);
+        locationButton.setOnClickListener(this);
+        phoneButton.setOnClickListener(this);
     }
 
     @Override
     public void resultTicket(Ticket ticket) {
         this.ticket = ticket;
-        initializeTicket();
+
+        if(UserSingleton.getInstance().isUserIsAdmin())
+        {
+            UtlFirebase.getClientByID(ticket.getClientID(), new ClientCallback() {
+                @Override
+                public void clientCallback(Client client) {
+
+                    userDitaile = client;
+                    initializeTicket();
+                }
+            });
+        }else
+        {
+            UtlFirebase.getCompanyByID(ticket.getCategoryID(), new CompanyCallback() {
+                @Override
+                public void companyCallback(Company company) {
+                    userDitaile = company;
+                    initializeTicket();
+                }
+            });
+        }
+
 
     }
 
@@ -362,30 +429,25 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
 
         ticketNumber.setText(ticket.getTicketNumber());
-        if(ticket.getTicketCloseDateTime()!="")
-        dateTimeChange.setText(ticket.getTicketCloseDateTime());
-        dateTimeOpen.setText(ticket.getTicketOpenDateTime());
+        dateTimeOpen.setText(ticket.getTicketOpenDateTime().split(" ")[ticket.getTicketOpenDateTime().split(" ").length-1]);
+
+        if(userDitaile instanceof Client) {
+
+                    userNameCardClose.setText(((Users)userDitaile).getUserNameString());
+                    userNameCardOpen.setText(((Users)userDitaile).getUserNameString());
+                    userAddCardOpen.setText(((Users)userDitaile).getUserAddress());
+                    userMailCardOpen.setText(((Users)userDitaile).getUserEmail());
+                    userPhoneCardOpen.setText(((Users)userDitaile).getUserPhone());
+                    userAreaCardOpen.setText(((Users)userDitaile).getUserNameString());//TODO ADD FILED AREA TO USER
 
 
-
-        if(UserSingleton.getInstance().isUserIsAdmin()) {
-            userNameCardClose.setText(ticket.getClientNameString());
-            userNameCardOpen.setText(ticket.getClientNameString());
-            userAddCardOpen.setText(ticket.getClientEmail());//TODO ADD FILED IN TICKET CLIENT ADD
-            userMailCardOpen.setText(ticket.getClientEmail());
-            userPhoneCardOpen.setText(ticket.getClientEmail());//TODO ADD CLIENT PHONE NUMBER FILED
         }else
             {
-                UtlFirebase.getCompanyByID(ticket.getCategoryID(), new CompanyCallback() {
-                    @Override
-                    public void companyCallback(Company company) {
-                        userNameCardClose.setText(company.getCompanyName());
-                        userNameCardOpen.setText(company.getCompanyName());
-                        userAddCardOpen.setText(company.getCompanyAddress());
-                        userMailCardOpen.setText(company.getAdminId());//TODO ADD FILED mail IN Company
-                        userPhoneCardOpen.setText(company.getCompanyPhone());
-                    }
-                });
+                    userNameCardClose.setText(((Company)userDitaile).getCompanyName());
+                    userNameCardOpen.setText(((Company)userDitaile).getCompanyName());
+                    userAddCardOpen.setText(((Company)userDitaile).getCompanyAddress());
+                    userMailCardOpen.setText(((Company)userDitaile).getAdminId());//TODO ADD FILED mail IN Company
+                    userPhoneCardOpen.setText(((Company)userDitaile).getCompanyPhone());
 
             }
 
@@ -408,7 +470,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         {
             UtlFirebase.downloadFile(ticket.getTicketID()+"/pic2.jpg",2);
         }
-        if(ticket.getTicketCloseDateTime() !="")
+        if(ticket.getTicketCloseDateTime().length()>0)
             dateTimeChange.setText(ticket.getTicketCloseDateTime());
 
     }
