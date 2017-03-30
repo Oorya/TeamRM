@@ -215,7 +215,7 @@ public class UtlFirebase { //TODO: make singleton
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    Users user = item.getValue(Users.class);
+                      Users user = item.getValue(Users.class);
                     fireBaseAble.resultUser(user);
                     Log.e("ON DATA CHANGE ", user == null ? "NULL" : "NOT NULL");
                 }

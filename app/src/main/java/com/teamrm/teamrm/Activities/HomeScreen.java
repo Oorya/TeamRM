@@ -42,6 +42,7 @@ import com.teamrm.teamrm.Fragment.CalendarView;
 import com.teamrm.teamrm.Fragment.FragmentDrawer;
 import com.teamrm.teamrm.Fragment.NewTicket;
 import com.teamrm.teamrm.Fragment.TicketList;
+import com.teamrm.teamrm.Fragment.TicketView;
 import com.teamrm.teamrm.Interfaces.FragmentHelper;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Utility.App;
@@ -118,8 +119,9 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
             NewTicket newTicket = new NewTicket();
             newTicket.onRequestPermissionsResult(requestCode, permissions, grantResults);
             Log.w("Permission home screen", "Shalty");
-        } else {
-            CalendarView.cal.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        } else if(requestCode == TicketView.PERMISSION_PHONE_REQUEST_CODE){
+            TicketView ticketListFragment = (TicketView) getSupportFragmentManager().findFragmentByTag(TicketView.FRAGMENT_TRANSACTION);
+            ticketListFragment.openPhoneDialog();
         }
     }
 
