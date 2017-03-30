@@ -64,7 +64,7 @@
                     android:text="מוצר:" />
 
                 <TextView
-                    android:id="@+id/userNameCardOpen"
+                    android:id="@+id/productTicketDetailsCardOpen"
                     style="@style/CardRowText"
                     android:layout_toEndOf="@id/categoryALabel"
                     android:paddingEnd="32dp"

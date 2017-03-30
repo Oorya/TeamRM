@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.teamrm.teamrm.Activities.HomeScreen;
+import com.teamrm.teamrm.Interfaces.CompanyCallback;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 import com.teamrm.teamrm.R;
@@ -325,7 +326,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         regionTicketDetailsCardClosed = (TextView)view.findViewById(R.id.regionTicketDetailsCardClosed);
 
        //ticket card open
-        productTicketDetailsCardOpen = (TextView)view.findViewById(R.id.productTicketDetailsCardClosed);
+        productTicketDetailsCardOpen = (TextView)view.findViewById(R.id.productTicketDetailsCardOpen);
         categoryTicketDetailsCardOpen = (TextView)view.findViewById(R.id.categoryTicketDetailsCardOpen);
         regionTicketDetailsCardOpen = (TextView)view.findViewById(R.id.regionTicketDetailsCardOpen);
         addressTicketDetailsCardOpen  = (TextView)view.findViewById(R.id.addressTicketDetailsCardOpen);
@@ -359,6 +360,14 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
     private void initializeTicket() {
 
+
+        ticketNumber.setText(ticket.getTicketNumber());
+        if(ticket.getTicketCloseDateTime()!="")
+        dateTimeChange.setText(ticket.getTicketCloseDateTime());
+        dateTimeOpen.setText(ticket.getTicketOpenDateTime());
+
+
+
         if(UserSingleton.getInstance().isUserIsAdmin()) {
             userNameCardClose.setText(ticket.getClientNameString());
             userNameCardOpen.setText(ticket.getClientNameString());
@@ -367,11 +376,17 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             userPhoneCardOpen.setText(ticket.getClientEmail());//TODO ADD CLIENT PHONE NUMBER FILED
         }else
             {
-                userNameCardClose.setText(ticket.getCompanyName());
-                userNameCardOpen.setText(ticket.getCompanyName());
-                userAddCardOpen.setText(ticket.getCompanyID());//TODO ADD FILED  add IN Company
-                userMailCardOpen.setText(ticket.getCompanyID());//TODO ADD FILED mail IN Company
-                userPhoneCardOpen.setText(ticket.getCompanyID());//TODO ADD FILED PHONE NUMBER IN Company
+                UtlFirebase.getCompanyByID(ticket.getCategoryID(), new CompanyCallback() {
+                    @Override
+                    public void companyCallback(Company company) {
+                        userNameCardClose.setText(company.getCompanyName());
+                        userNameCardOpen.setText(company.getCompanyName());
+                        userAddCardOpen.setText(company.getCompanyAddress());
+                        userMailCardOpen.setText(company.getAdminId());//TODO ADD FILED mail IN Company
+                        userPhoneCardOpen.setText(company.getCompanyPhone());
+                    }
+                });
+
             }
 
         categoryTicketDetailsCardClosed.setText(ticket.getCategoryName());

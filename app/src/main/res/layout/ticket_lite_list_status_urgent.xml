@@ -40,7 +40,8 @@
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@id/statusIcon"
                 android:text="קריאה ממתינה לאישור פתיחה"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="15sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -58,7 +59,8 @@
                     android:layout_marginEnd="8dp"
                     android:alpha=".75"
                     android:text="A20160811"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:textSize="13.5sp" />
 
                 <ImageView
                     android:id="@+id/editIcon"
