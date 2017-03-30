@@ -177,7 +177,7 @@ public class UtlFirebase { //TODO: make singleton
     }
 
 
-    public static void addClient(final Users user) {
+    private static void addClient(final Users user) {
         Log.d(LOGINTAG, "Stage 6a, adding user " + user.getUserEmail());
         USERS_ROOT_REFERENCE.child(user.getUserID()).setValue(user, new DatabaseReference.CompletionListener() {
             @Override

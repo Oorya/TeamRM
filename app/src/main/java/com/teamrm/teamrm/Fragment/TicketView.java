@@ -27,6 +27,7 @@ import com.teamrm.teamrm.Type.Region;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.Users;
+import com.teamrm.teamrm.Utility.RowSetLayout;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
 import com.teamrm.teamrm.Utility.UtlFirebase;
@@ -111,6 +112,9 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ticket, container, false);
+
+        alternateRowColor(view, R.id.rowSet1);
+
         stateActionButtons = new StateActionButtons();
         setListeners(view);
         Typeface REGULAR = Typeface.createFromAsset(this.getContext().getAssets(), "Assistant-Regular.ttf");
@@ -136,15 +140,18 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         if (view.getId() == userDetailCard.getId()) {
             this.getView().findViewById(R.id.userDetails).setVisibility(View.GONE);
             this.getView().findViewById(R.id.userDetailsOpen).setVisibility(View.VISIBLE);
+            alternateRowColor(view, R.id.rowSet2);
         } else if (view.getId() == userDetailOpen.getId()) {
             this.getView().findViewById(R.id.userDetails).setVisibility(View.VISIBLE);
             this.getView().findViewById(R.id.userDetailsOpen).setVisibility(View.GONE);
         } else if (view.getId() == ticketDetailClose.getId()) {
             this.getView().findViewById(R.id.ticketDetails).setVisibility(View.GONE);
             this.getView().findViewById(R.id.ticketDetailsOpen).setVisibility(View.VISIBLE);
+            alternateRowColor(view, R.id.rowSet1);
         } else if (view.getId() == ticketDetailOpen.getId()) {
             this.getView().findViewById(R.id.ticketDetails).setVisibility(View.VISIBLE);
             this.getView().findViewById(R.id.ticketDetailsOpen).setVisibility(View.GONE);
+            alternateRowColor(view, R.id.rowSet1);
         } else if (view.getId() == userProfile.getId()) {
             Toast.makeText(getContext(), "USER PROFILE " + ticket.getClientNameString(), Toast.LENGTH_SHORT).show();
 
@@ -441,6 +448,15 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     @Override
     public void ticketLiteListCallback(List<TicketLite> ticketLites) {
 
+    }
+
+    private void alternateRowColor(View view, int rowSetID){
+        try {
+            RowSetLayout rowSetLayout = (RowSetLayout)view.findViewById(rowSetID);
+            rowSetLayout.AlternateRowsBackground(rowSetLayout, R.color.listRow_alt, RowSetLayout.ALTER_EVEN_ROWS);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 

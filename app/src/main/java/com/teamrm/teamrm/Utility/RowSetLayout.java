@@ -60,13 +60,13 @@ public class RowSetLayout extends LinearLayout {
                     switch (alterOddOrEvenRows) {
                         case ALTER_EVEN_ROWS:
                             if (cCount % 2 == 0) {
-                                targetChildren.get(cCount).setBackgroundResource(backgroundResource);
+                                targetChildren.get(cCount-1).setBackgroundResource(backgroundResource);
                             }
                             break;
 
                         case ALTER_ODD_ROWS:
                             if (cCount % 2 != 0) {
-                                targetChildren.get(cCount).setBackgroundResource(backgroundResource);
+                                targetChildren.get(cCount-1).setBackgroundResource(backgroundResource);
                             }
                             break;
 

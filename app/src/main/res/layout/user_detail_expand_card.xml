@@ -17,10 +17,11 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
 
-        <RelativeLayout
+        <com.teamrm.teamrm.Utility.RowSetLayout
+            android:id="@+id/rowSet2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:orientation="vertical"
             >
 
             <RelativeLayout
@@ -52,10 +53,10 @@
                 style="@style/Separator1px"
                 android:layout_below="@id/name" />
 
-            <RelativeLayout
+            <com.teamrm.teamrm.Utility.RowViewLayout
                 android:id="@+id/mail"
                 style="@style/CardRow"
-                android:layout_below="@id/name">
+                >
 
                 <ImageView
                     android:id="@+id/mailIcon"
@@ -79,12 +80,12 @@
                     style="@style/CardRowImageEnd"
                     android:src="@drawable/ic_icon_newmail" />
 
-            </RelativeLayout>
+            </com.teamrm.teamrm.Utility.RowViewLayout>
 
-            <RelativeLayout
+            <com.teamrm.teamrm.Utility.RowViewLayout
                 android:id="@+id/location"
                 style="@style/CardRow"
-                android:layout_below="@id/mail">
+                >
 
                 <ImageView
                     android:id="@+id/locationIcon"
@@ -102,14 +103,14 @@
                     style="@style/CardRowText"
                     android:layout_toEndOf="@id/locationTitel"
                     android:text="אזור" />
-                />
 
-            </RelativeLayout>
 
-            <RelativeLayout
+            </com.teamrm.teamrm.Utility.RowViewLayout>
+
+            <com.teamrm.teamrm.Utility.RowViewLayout
                 android:id="@+id/userAddress"
                 style="@style/CardRow"
-                android:layout_below="@id/location">
+                >
 
                 <ImageView
                     android:id="@+id/addressIcon"
@@ -133,12 +134,12 @@
                     style="@style/CardRowImageEnd"
                     android:src="@drawable/ic_icon_nav" />
 
-            </RelativeLayout>
+            </com.teamrm.teamrm.Utility.RowViewLayout>
 
-            <RelativeLayout
+            <com.teamrm.teamrm.Utility.RowViewLayout
                 android:id="@+id/userPhone"
                 style="@style/CardRow"
-                android:layout_below="@id/userAddress">
+                >
 
                 <ImageView
                     android:id="@+id/phoneIcon"
@@ -162,7 +163,7 @@
                     style="@style/CardRowImageEnd"
                     android:src="@drawable/ic_call_24px" />
 
-            </RelativeLayout>
+            </com.teamrm.teamrm.Utility.RowViewLayout>
 
             <android.support.v7.widget.CardView
                 android:layout_width="wrap_content"
@@ -174,7 +175,8 @@
                 android:layoutDirection="rtl"
                 app:cardBackgroundColor="@color/listRow_alt"
                 app:cardCornerRadius="5dp"
-                android:id="@+id/btnProfile">
+                android:id="@+id/btnProfile"
+                android:layout_gravity="center_horizontal">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -202,7 +204,7 @@
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 
-        </RelativeLayout>
+        </com.teamrm.teamrm.Utility.RowSetLayout>
     </android.support.v7.widget.CardView>
 
 </RelativeLayout>

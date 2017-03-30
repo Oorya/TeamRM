@@ -4,26 +4,24 @@
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     tools:context="com.teamrm.teamrm.Fragment.NewTicket"
-    tools:paddingTop="25px">
+    tools:paddingTop="25dp">
 
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
-        <RelativeLayout
+        <com.teamrm.teamrm.Utility.RowSetLayout
+            android:id="@+id/rowSet1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-
-
-            <RelativeLayout
+            <com.teamrm.teamrm.Utility.RowViewLayout
                 android:id="@+id/companyRow"
-                style="@style/RegularRow"
-                android:background="@color/listRow_alt"
-                >
+                style="@style/RegularRow">
 
                 <ImageView
                     android:id="@+id/companyIcon"
@@ -54,16 +52,14 @@
                     android:id="@+id/selectCompanySpinner"
                     style="@style/RegularRowItem.Spinner"
                     android:layout_toEndOf="@id/selectCompanyLabel"
-                    android:dropDownWidth="match_parent"
-                    />
+                    android:dropDownWidth="match_parent" />
 
 
-            </RelativeLayout>
+            </com.teamrm.teamrm.Utility.RowViewLayout>
 
-            <RelativeLayout
+            <com.teamrm.teamrm.Utility.RowViewLayout
                 android:id="@+id/productRow"
-                style="@style/RegularRow"
-                android:layout_below="@id/companyRow">
+                style="@style/RegularRow">
 
                 <ImageView
                     android:id="@+id/productIcon"
@@ -99,11 +95,11 @@
                     />
 
 
-            </RelativeLayout>
+            </com.teamrm.teamrm.Utility.RowViewLayout>
 
-            <RelativeLayout
+            <com.teamrm.teamrm.Utility.RowViewLayout
                 android:id="@+id/categoryRow"
-                style="@style/RegularRow.Alt"
+                style="@style/RegularRow"
                 android:layout_below="@id/productRow">
 
                 <ImageView
@@ -136,12 +132,11 @@
                     android:id="@+id/selectCategoryASpinner"
                     style="@style/RegularRowItem.Spinner"
                     android:layout_toEndOf="@id/categoryLabel"
-                    android:dropDownWidth="match_parent"
-                    />
+                    android:dropDownWidth="match_parent" />
 
-            </RelativeLayout>
+            </com.teamrm.teamrm.Utility.RowViewLayout>
 
-            <RelativeLayout
+            <com.teamrm.teamrm.Utility.RowViewLayout
                 android:id="@+id/regionRow"
                 style="@style/RegularRow"
                 android:layout_below="@id/categoryRow">
@@ -174,14 +169,13 @@
                     android:id="@+id/selectRegionSpinner"
                     style="@style/RegularRowItem.Spinner"
                     android:layout_toEndOf="@id/regionLabel"
-                    android:dropDownWidth="match_parent"
-                    />
+                    android:dropDownWidth="match_parent" />
 
-            </RelativeLayout>
+            </com.teamrm.teamrm.Utility.RowViewLayout>
 
-            <RelativeLayout
+            <com.teamrm.teamrm.Utility.RowViewLayout
                 android:id="@+id/addressRow"
-                style="@style/RegularRow.Alt"
+                style="@style/RegularRow"
                 android:layout_below="@id/regionRow">
 
                 <ImageView
@@ -199,19 +193,20 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="8dp"
                     android:layout_toEndOf="@+id/addressIcon"
-                    android:text="@string/label_address"
-                    android:nextFocusDown="@id/txtPhone"/>
+                    android:nextFocusDown="@id/txtPhone"
+                    android:text="@string/label_address" />
 
                 <EditText
                     android:id="@+id/txtAddress"
                     style="@style/RegularRowItem.EditText"
                     android:layout_toEndOf="@id/addressLabel"
                     android:maxLength="20">
+
                     <requestFocus></requestFocus>
                 </EditText>
-            </RelativeLayout>
+            </com.teamrm.teamrm.Utility.RowViewLayout>
 
-            <RelativeLayout
+            <com.teamrm.teamrm.Utility.RowViewLayout
                 android:id="@+id/phoneRow"
                 style="@style/RegularRow"
                 android:layout_below="@id/addressRow">
@@ -231,175 +226,181 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="8dp"
                     android:layout_toEndOf="@+id/phoneIcon"
-                    android:text="@string/label_phone_number"
-                    android:inputType="phone"
                     android:digits="0123456789+"
-                    android:maxLength="13"/>
+                    android:inputType="phone"
+                    android:maxLength="13"
+                    android:text="@string/label_phone_number" />
 
                 <EditText
                     android:id="@+id/txtPhone"
                     style="@style/RegularRowItem.EditText"
                     android:layout_toEndOf="@id/phoneLabel"
                     android:inputType="phone"
-                    >
-                </EditText>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/labelDescription"
-                style="@style/RegularRow.Alt"
-                android:layout_below="@id/phoneRow">
-
-                <ImageView
-                    android:id="@+id/descriptionIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="12dp"
-                    android:src="@drawable/ic_icon_note" />
-
-                <TextView
-                    android:id="@+id/descriptionLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@id/descriptionIcon"
-                    android:text="@string/label_description_section" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/descriptionLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/labelDescription"
-                android:background="@color/listRow_alt"
-                android:paddingBottom="16dp"
-                android:paddingEnd="32dp"
-                android:paddingStart="32dp">
-
-                <EditText
-                    android:id="@+id/descriptionShort"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/dotted_rect"
-                    android:hint="הקלד תאור קצר"
-                    android:maxLength="24"
-                    android:minHeight="32dp"
-                    android:paddingEnd="16dp"
-                    android:paddingStart="16dp"
-                    android:textColor="@color/textColor_primary"
-                    android:textColorHint="@color/textColor_lighter"
-                    android:textSize="16sp"
-                    >
-
-                </EditText>
-
-                <EditText
-                    android:id="@+id/descriptionLong"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/dotted_rect"
-                    android:gravity="top"
-                    android:hint="הקלד תאור מפורט"
-                    android:minHeight="48dp"
-                    android:paddingBottom="8dp"
-                    android:paddingEnd="16dp"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:textColor="@color/textColor_primary"
-                    android:textColorHint="@color/textColor_lighter"
-                    android:textSize="14sp"
-                    android:maxLength="100"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentStart="true">
-
-                </EditText>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/photos"
-                style="@style/RegularRow"
-                android:layout_below="@id/descriptionLayout">
-
-                <ImageView
-                    android:id="@+id/photoIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="12dp"
-                    android:src="@drawable/ic_icon_camera" />
-
-                <TextView
-                    android:id="@+id/photoLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@id/photoIcon"
-                    android:text="צירוף תמונות" />
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/photoList"
-                android:layout_below="@+id/photos">
-
-                <android.support.v7.widget.RecyclerView
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:id="@+id/recycler_view_photos"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/photoChooser"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/photoList"
-                android:orientation="horizontal"
-                android:paddingBottom="24dp"
-                android:paddingEnd="24dp"
-                android:paddingStart="24dp"
-                android:weightSum="2.1">
-
-                <ImageView
-                    android:id="@+id/photoChooser1"
-                    android:layout_width="1dp"
-                    android:layout_height="120dp"
-                    android:layout_weight="1"
-                    android:background="#e7e7e7"
-                    android:src="@drawable/ic_image_black_24dp"
                     />
+            </com.teamrm.teamrm.Utility.RowViewLayout>
 
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".1" />
+            <com.teamrm.teamrm.Utility.RowViewLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/photoChooser2"
-                    android:layout_width="1dp"
-                    android:layout_height="120dp"
-                    android:layout_toEndOf="@id/photoChooser1"
-                    android:layout_weight="1"
-                    android:background="#e7e7e7"
-                    android:src="@drawable/ic_image_black_24dp"
-                     />
+                <RelativeLayout
+                    android:id="@+id/labelDescription"
+                    style="@style/RegularRow"
+                    android:layout_below="@id/phoneRow">
 
-            </LinearLayout>
+                    <ImageView
+                        android:id="@+id/descriptionIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/ic_icon_note" />
+
+                    <TextView
+                        android:id="@+id/descriptionLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/descriptionIcon"
+                        android:text="@string/label_description_section" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/descriptionLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/labelDescription"
+                    android:paddingBottom="16dp"
+                    android:paddingEnd="32dp"
+                    android:paddingStart="32dp">
+
+                    <EditText
+                        android:id="@+id/descriptionShort"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/dotted_rect"
+                        android:hint="הקלד כותרת לקריאה"
+                        android:maxLength="24"
+                        android:minHeight="32dp"
+                        android:paddingEnd="16dp"
+                        android:paddingStart="16dp"
+                        android:textColor="@color/textColor_primary"
+                        android:textColorHint="@color/textColor_lighter"
+                        android:textSize="16sp">
+
+                    </EditText>
+
+                    <EditText
+                        android:id="@+id/descriptionLong"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/descriptionShort"
+                        android:background="@drawable/dotted_rect"
+                        android:gravity="top"
+                        android:hint="הקלד תאור מפורט"
+                        android:maxLength="100"
+                        android:minHeight="48dp"
+                        android:paddingBottom="8dp"
+                        android:paddingEnd="16dp"
+                        android:paddingStart="16dp"
+                        android:paddingTop="8dp"
+                        android:textColor="@color/textColor_primary"
+                        android:textColorHint="@color/textColor_lighter"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+            </com.teamrm.teamrm.Utility.RowViewLayout>
+
+            <com.teamrm.teamrm.Utility.RowViewLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/photos"
+                    style="@style/RegularRow"
+                    android:layout_below="@id/descriptionLayout">
+
+                    <ImageView
+                        android:id="@+id/photoIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/ic_icon_camera" />
+
+                    <TextView
+                        android:id="@+id/photoLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/photoIcon"
+                        android:text="צירוף תמונות" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/photoList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/photos">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_view_photos"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/photoChooser"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/photoList"
+                    android:orientation="horizontal"
+                    android:paddingBottom="24dp"
+                    android:paddingEnd="24dp"
+                    android:paddingStart="24dp"
+                    android:weightSum="2.1">
+
+                    <ImageView
+                        android:id="@+id/photoChooser1"
+                        android:layout_width="1dp"
+                        android:layout_height="120dp"
+                        android:layout_weight="1"
+                        android:background="#e7e7e7"
+                        android:src="@drawable/ic_image_black_24dp" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight=".1" />
+
+                    <ImageView
+                        android:id="@+id/photoChooser2"
+                        android:layout_width="1dp"
+                        android:layout_height="120dp"
+                        android:layout_toEndOf="@id/photoChooser1"
+                        android:layout_weight="1"
+                        android:background="#e7e7e7"
+                        android:src="@drawable/ic_image_black_24dp" />
+
+                </LinearLayout>
+            </com.teamrm.teamrm.Utility.RowViewLayout>
 
             <Button
                 android:id="@+id/btnSubmitTicket"
                 style="@style/paddedBtn"
                 android:layout_below="@id/photoChooser"
                 android:backgroundTint="@color/status_ok"
-                android:text="פתח קריאה" />
+                android:text="פתח קריאה"
+                android:layout_gravity="center_horizontal"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_below="@id/btnSubmitTicket" />
-        </RelativeLayout>
+        </com.teamrm.teamrm.Utility.RowSetLayout>
     </ScrollView>
 </RelativeLayout>

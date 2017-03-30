@@ -192,139 +192,139 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-    <com.teamrm.teamrm.Utility.RowViewLayout
-        android:id="@+id/technicianPhone"
-        style="@style/CardRow">
+        <com.teamrm.teamrm.Utility.RowViewLayout
+            android:id="@+id/technicianPhone"
+            style="@style/CardRow">
 
-        <ImageView
-            android:id="@+id/technicianPhoneIcon"
-            style="@style/CardRowImageStart"
-            android:src="@drawable/ic_icon_phone" />
+            <ImageView
+                android:id="@+id/technicianPhoneIcon"
+                style="@style/CardRowImageStart"
+                android:src="@drawable/ic_icon_phone" />
 
-        <TextView
-            android:id="@+id/technicianPhoneLabel"
-            style="@style/CardRowLabel"
-            android:layout_toEndOf="@id/technicianPhoneIcon"
-            android:text="@string/label_phone_number" />
+            <TextView
+                android:id="@+id/technicianPhoneLabel"
+                style="@style/CardRowLabel"
+                android:layout_toEndOf="@id/technicianPhoneIcon"
+                android:text="@string/label_phone_number" />
 
-        <EditText
-            android:id="@+id/technicianPhoneText"
-            style="@style/CardRowEditText"
-            android:layout_toEndOf="@id/technicianPhoneLabel"
-            android:text=""
-            tools:text="0545-123-456" />
+            <EditText
+                android:id="@+id/technicianPhoneText"
+                style="@style/CardRowEditText"
+                android:layout_toEndOf="@id/technicianPhoneLabel"
+                android:inputType="phone"
+                tools:text="0545-123-456" />
 
-    </com.teamrm.teamrm.Utility.RowViewLayout>
+        </com.teamrm.teamrm.Utility.RowViewLayout>
 
-    <com.teamrm.teamrm.Utility.RowViewLayout
-        android:id="@+id/technicianColor"
-        style="@style/CardRow">
+        <com.teamrm.teamrm.Utility.RowViewLayout
+            android:id="@+id/technicianColor"
+            style="@style/CardRow">
 
-        <ImageView
-            android:id="@+id/technicianColorIcon"
-            style="@style/CardRowImageStart"
-            android:src="@drawable/ic_palette" />
+            <ImageView
+                android:id="@+id/technicianColorIcon"
+                style="@style/CardRowImageStart"
+                android:src="@drawable/ic_palette" />
 
-        <TextView
-            android:id="@+id/technicianColorLabel"
-            style="@style/CardRowLabel"
-            android:layout_marginEnd="8dp"
-            android:layout_toEndOf="@id/technicianColorIcon"
-            android:text="@string/label_calendar_color" />
+            <TextView
+                android:id="@+id/technicianColorLabel"
+                style="@style/CardRowLabel"
+                android:layout_marginEnd="8dp"
+                android:layout_toEndOf="@id/technicianColorIcon"
+                android:text="@string/label_calendar_color" />
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/technicianColorView"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/technicianColorLabel"
-            app:cardBackgroundColor="#0f0"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="@dimen/item_elevation_default"
-            app:cardUseCompatPadding="false">
+            <android.support.v7.widget.CardView
+                android:id="@+id/technicianColorView"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/technicianColorLabel"
+                app:cardBackgroundColor="#0f0"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="@dimen/item_elevation_default"
+                app:cardUseCompatPadding="false">
 
-        </android.support.v7.widget.CardView>
+            </android.support.v7.widget.CardView>
 
-    </com.teamrm.teamrm.Utility.RowViewLayout>
+        </com.teamrm.teamrm.Utility.RowViewLayout>
 
-    <com.teamrm.teamrm.Utility.RowViewLayout
-        android:id="@+id/technicianShifts"
-        style="@style/CardRow">
+        <com.teamrm.teamrm.Utility.RowViewLayout
+            android:id="@+id/technicianShifts"
+            style="@style/CardRow">
 
-        <ImageView
-            android:id="@+id/technicianShiftsIcon"
-            style="@style/CardRowImageStart"
-            android:src="@drawable/ic_shifts" />
+            <ImageView
+                android:id="@+id/technicianShiftsIcon"
+                style="@style/CardRowImageStart"
+                android:src="@drawable/ic_shifts" />
 
-        <TextView
-            android:id="@+id/technicianShiftsLabel"
-            style="@style/CardRowLabel"
-            android:layout_toEndOf="@id/technicianShiftsIcon"
-            android:text="@string/label_tech_shifts" />
+            <TextView
+                android:id="@+id/technicianShiftsLabel"
+                style="@style/CardRowLabel"
+                android:layout_toEndOf="@id/technicianShiftsIcon"
+                android:text="@string/label_tech_shifts" />
 
-        <TextView
-            android:id="@+id/technicianShiftsText"
-            style="@style/CardRowText"
-            android:layout_toEndOf="@id/technicianShiftsLabel"
-            android:text=""
-            tools:text="כל היום" />
+            <TextView
+                android:id="@+id/technicianShiftsText"
+                style="@style/CardRowText"
+                android:layout_toEndOf="@id/technicianShiftsLabel"
+                android:text=""
+                tools:text="כל היום" />
 
-    </com.teamrm.teamrm.Utility.RowViewLayout>
+        </com.teamrm.teamrm.Utility.RowViewLayout>
 
-    <com.teamrm.teamrm.Utility.RowViewLayout
-        android:id="@+id/technicianAssignedRegions"
-        style="@style/CardRow">
+        <com.teamrm.teamrm.Utility.RowViewLayout
+            android:id="@+id/technicianAssignedRegions"
+            style="@style/CardRow">
 
-        <ImageView
-            android:id="@+id/technicianAssignedRegionsIcon"
-            style="@style/CardRowImageStart"
-            android:src="@drawable/ic_region_new" />
+            <ImageView
+                android:id="@+id/technicianAssignedRegionsIcon"
+                style="@style/CardRowImageStart"
+                android:src="@drawable/ic_region_new" />
 
-        <TextView
-            android:id="@+id/technicianAssignedRegionsLabel"
-            style="@style/CardRowLabel"
-            android:layout_toEndOf="@id/technicianAssignedRegionsIcon"
-            android:text="@string/label_tech_regions" />
+            <TextView
+                android:id="@+id/technicianAssignedRegionsLabel"
+                style="@style/CardRowLabel"
+                android:layout_toEndOf="@id/technicianAssignedRegionsIcon"
+                android:text="@string/label_tech_regions" />
 
-        <TextView
-            android:id="@+id/technicianAssignedRegionsText"
-            style="@style/CardRowText"
-            android:layout_toEndOf="@id/technicianAssignedRegionsLabel"
-            android:text=""
-            tools:text="כל האזורים" />
-
-
-    </com.teamrm.teamrm.Utility.RowViewLayout>
-
-    <com.teamrm.teamrm.Utility.RowViewLayout
-        android:id="@+id/technicianAddress"
-        style="@style/CardRow">
-
-        <ImageView
-            android:id="@+id/technicianAddressIcon"
-            style="@style/CardRowImageStart"
-            android:src="@drawable/ic_icon_location" />
-
-        <TextView
-            android:id="@+id/technicianAddressLabel"
-            style="@style/CardRowLabel"
-            android:layout_toEndOf="@id/technicianAddressIcon"
-            android:text="@string/label_post_address" />
-
-        <TextView
-            android:id="@+id/technicianAddressText"
-            style="@style/CardRowText"
-            android:layout_toEndOf="@id/technicianAddressLabel"
-            android:text=""
-            tools:text="רחוב שומשום 666" />
+            <TextView
+                android:id="@+id/technicianAssignedRegionsText"
+                style="@style/CardRowText"
+                android:layout_toEndOf="@id/technicianAssignedRegionsLabel"
+                android:text=""
+                tools:text="כל האזורים" />
 
 
-        <ImageView
-            android:id="@+id/technicianAddressButton"
-            style="@style/CardRowImageEnd"
-            android:src="@drawable/ic_icon_nav" />
+        </com.teamrm.teamrm.Utility.RowViewLayout>
 
-    </com.teamrm.teamrm.Utility.RowViewLayout>
+        <com.teamrm.teamrm.Utility.RowViewLayout
+            android:id="@+id/technicianAddress"
+            style="@style/CardRow">
+
+            <ImageView
+                android:id="@+id/technicianAddressIcon"
+                style="@style/CardRowImageStart"
+                android:src="@drawable/ic_icon_location" />
+
+            <TextView
+                android:id="@+id/technicianAddressLabel"
+                style="@style/CardRowLabel"
+                android:layout_toEndOf="@id/technicianAddressIcon"
+                android:text="@string/label_post_address" />
+
+            <TextView
+                android:id="@+id/technicianAddressText"
+                style="@style/CardRowText"
+                android:layout_toEndOf="@id/technicianAddressLabel"
+                android:text=""
+                tools:text="רחוב שומשום 666" />
+
+
+            <ImageView
+                android:id="@+id/technicianAddressButton"
+                style="@style/CardRowImageEnd"
+                android:src="@drawable/ic_icon_nav" />
+
+        </com.teamrm.teamrm.Utility.RowViewLayout>
 
     </com.teamrm.teamrm.Utility.RowSetLayout>
 </LinearLayout>
