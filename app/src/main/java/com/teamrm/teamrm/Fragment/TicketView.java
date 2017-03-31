@@ -2,14 +2,21 @@ package com.teamrm.teamrm.Fragment;
 
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -21,6 +28,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.gms.vision.barcode.Barcode;
+import com.google.android.gms.vision.barcode.Barcode.GeoPoint;
 import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Interfaces.ClientCallback;
 import com.teamrm.teamrm.Interfaces.CompanyCallback;
@@ -40,11 +51,13 @@ import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Nullable;
@@ -62,7 +75,8 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     RelativeLayout ticketDetailClose;
     RelativeLayout ticketDetailOpen;
     TextView userNameClose, userProfile,userAreaCardOpen, userNameCardOpen, txtCancel, dateTimeChange, userNameCardClose, dateTimeOpen, ticketNumber, ticketStatus, productTicketDetailsCardClosed, categoryTicketDetailsCardClosed, regionTicketDetailsCardClosed, categoryTicketDetailsCardOpen, regionTicketDetailsCardOpen, addressTicketDetailsCardOpen, phoneTicketDetailsCardOpen, descriptionShortTicketDetailsCardOpen, descriptionLongTicketDetailsCardOpen, userMailCardOpen, userAddCardOpen, userPhoneCardOpen, productTicketDetailsCardOpen;
-    public static ImageView img1, img2, mailBtn, locationButton, phoneButton;
+    public static ImageView img1, img2, mailBtn, locationButton, phoneButton,navigateToAddressTicketDetailsCardOpen
+            ,callNumberTicketDetailsCardOpen;
     private Ticket ticket;
     static String ticketID, timeFormated;
     static Long bundleEndTime;
@@ -153,7 +167,10 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             this.getView().findViewById(R.id.userDetails).setVisibility(View.GONE);
             this.getView().findViewById(R.id.userDetailsOpen).setVisibility(View.VISIBLE);
             //alternateRowColor(view, R.id.rowSet2);
-
+        } else if (view.getId() == navigateToAddressTicketDetailsCardOpen.getId()) {
+            openGpsDialog(ticket.getTicketAddress());
+        } else if (view.getId() == callNumberTicketDetailsCardOpen.getId()) {
+            openPhoneDialog(ticket.getTicketPhone());
 
         } else if (view.getId() == mailBtn.getId()) {
             openMailDialog();
@@ -292,40 +309,143 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         }
     }
 
+    public void openPhoneDialog(String phone) {
+
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        callIntent.setData(Uri.parse("tel:"+phone));
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, PERMISSION_PHONE_REQUEST_CODE);
+            Log.d("openPhoneDialog",ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE)+"" );
+            return;
+        }
+        else
+        {
+
+            getActivity().startActivity(callIntent);
+        }
+    }
+    private void openGpsDialog(String addres) {
+
+        Address formataddres=null;
+        String title = "בחר תוכנת ניוות";
+        formataddres = getLocationFromAddress(addres);
+        if(formataddres!=null) {
+            double longitude = formataddres.getLongitude();
+            double latitude = formataddres.getLatitude();
+
+            String link = "geo:" + latitude + "," + longitude;
+            Intent navigateIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+            Intent chooser = Intent.createChooser(navigateIntent, title);
+            if (navigateIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivity(chooser);
+            }
+        }else
+        {
+            new MaterialDialog.Builder(getContext())
+                    .title("לא הוזנה כתובת לתקלה זו!")
+                    .titleColor(Color.BLACK)
+                    .positiveText("הבנתי")
+                    .backgroundColor(Color.WHITE)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                        }
+                    })
+                    .show();
+        }
+    }
+
     public void openPhoneDialog() {
 
-        if (UserSingleton.getInstance().isUserIsAdmin()) {
-            Intent callIntent = new Intent(Intent.ACTION_CALL);
-            callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            callIntent.setData(Uri.parse("tel:" + ticket.getTicketPhone()));
-            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+        String phone = null;
+
+        if(userDitaile instanceof Client)
+            phone = ((Client)userDitaile).getUserPhone();
+        else
+            phone = ((Company)userDitaile).getCompanyPhone();
+
+
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        callIntent.setData(Uri.parse("tel:"+phone));
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+            {
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, PERMISSION_PHONE_REQUEST_CODE);
                 Log.d("openPhoneDialog",ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE)+"" );
                 return;
-            }else {
+            }
+        else
+            {
 
                 getActivity().startActivity(callIntent);
             }
-        }else {
-
-            UtlFirebase.getCompanyByID(ticket.getCategoryID(), new CompanyCallback() {
-                @Override
-                public void companyCallback(Company company) {
-                    String phone = company.getCompanyPhone();
-                    Intent intent = new Intent(Intent.ACTION_DIAL);
-                    intent.setData(Uri.parse(phone));
-                    getContext().startActivity(intent);
-                }
-            });
-
-        }
-
     }
 
     private void openGpsDialog() {
+
+        Address addres;
+        String title = "בחר לנוות עם...";
+        if(getLocationFromAddress(ticket.getTicketAddress())!=null) {
+            if(userDitaile instanceof Client)
+                addres = getLocationFromAddress(((Client)userDitaile).getUserAddress());
+            else
+                addres = getLocationFromAddress(((Company)userDitaile).getCompanyAddress());
+            double longitude = addres.getLongitude();
+            double latitude = addres.getLatitude();
+
+            String link = "geo:" + latitude + "," + longitude;
+            Intent navigateIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+            Intent chooser = Intent.createChooser(navigateIntent, title);
+            if (navigateIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivity(chooser);
+            }
+        }else
+            {
+                new MaterialDialog.Builder(getContext())
+                        .title("לא קיימת כתובת למשתמש זה")
+                        .titleColor(Color.BLACK)
+                        .positiveText("הבנתי")
+                        .backgroundColor(Color.WHITE)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                            }
+                        })
+                        .show();
+            }
     }
 
-    private void openMailDialog() {
+    private void openMailDialog()
+    {
+        String email;
+        if(userDitaile instanceof Client)
+            email = ((Client)userDitaile).getUserEmail();
+        else
+            email = ((Company)userDitaile).getCompanyName();
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri data = Uri.parse("mailto:?to=" + email );
+        intent.setData(data);
+        startActivity(intent);
+    }
+    public Address getLocationFromAddress(String strAddress){
+
+        if (strAddress.length()==0)
+            return null;
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+        List<Address> addresses = null;
+        try {
+            addresses = geocoder.getFromLocationName(strAddress, 1);
+        } catch (IOException e) {
+            Log.d("getLocationFromAddress", e.getMessage());
+        }
+        Address address = addresses.get(0);
+
+        return address;
     }
 
     private void setListeners(View view) {
@@ -373,6 +493,8 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         descriptionShortTicketDetailsCardOpen  = (TextView)view.findViewById(R.id.descriptionShortTicketDetailsCardOpen);
         descriptionLongTicketDetailsCardOpen = (TextView)view.findViewById(R.id.descriptionLongTicketDetailsCardOpen);
 
+        navigateToAddressTicketDetailsCardOpen = (ImageView)view.findViewById(R.id.navigateToAddress);
+        callNumberTicketDetailsCardOpen = (ImageView)view.findViewById(R.id.callNumber);
 
         //ticket img
         img1 = (ImageView)view.findViewById(R.id.photo1);
@@ -382,7 +504,8 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         locationButton =  (ImageView) view.findViewById(R.id.locationButton);
         phoneButton =  (ImageView) view.findViewById(R.id.phoneButton);
 
-
+        navigateToAddressTicketDetailsCardOpen.setOnClickListener(this);
+        callNumberTicketDetailsCardOpen.setOnClickListener(this);
         dateTimeChange.setOnClickListener(this);
         userDetailCard.setOnClickListener(this);
         userDetailOpen.setOnClickListener(this);
