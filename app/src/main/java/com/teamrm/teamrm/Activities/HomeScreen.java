@@ -1,13 +1,10 @@
 package com.teamrm.teamrm.Activities;
 
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
@@ -15,7 +12,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -29,12 +25,12 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
+import com.teamrm.teamrm.Adapter.PhotoAdapter;
 import com.teamrm.teamrm.Broadcast.FirebaseBackgroundService;
 import com.teamrm.teamrm.Fragment.AdminSettingsAdvanced;
 import com.teamrm.teamrm.Fragment.AdminSettingsBasic;
@@ -49,6 +45,7 @@ import com.teamrm.teamrm.Utility.App;
 import com.teamrm.teamrm.Utility.NiceToast;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
+import com.teamrm.teamrm.Utility.UtlImage;
 
 import java.io.File;
 import java.util.List;
@@ -66,11 +63,8 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     public static Context context;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
-    private static final int SELECT_FILE = 105;
-    private static final int FROM_CAMERA = 205;
-    private static final int ACTION_OVERLAY = 300;
+    private static final int ACTION_OVERLAY = 300, FROM_PHOTO_ADAPTER = 2;
     private final static String[] TAG_FRAGMENT = {"NEW_TICKET", "CALENDER", "TICKET_LIST","COMPANY_SEATING","COMPANY_SEATING_ADVANCED"};
-    private GoogleSignInOptions gso;
     private GoogleApiClient mGoogleApiClient;
     private Intent serviceIntent;
 
@@ -112,16 +106,18 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        Log.d("REQUEST = ", "API23 HOME_SCREEN");
         Log.w("Permission home screen", "Before if " + requestCode);
 
-        if (requestCode == 108) {
-            NewTicket newTicket = new NewTicket();
-            newTicket.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            Log.w("Permission home screen", "Shalty");
-        } else if(requestCode == TicketView.PERMISSION_PHONE_REQUEST_CODE){
+        if(requestCode == TicketView.PERMISSION_PHONE_REQUEST_CODE){
             TicketView ticketListFragment = (TicketView) getSupportFragmentManager().findFragmentByTag(TicketView.FRAGMENT_TRANSACTION);
             ticketListFragment.openPhoneDialog();
+        } else if (requestCode == FROM_PHOTO_ADAPTER){
+            PhotoPicker.builder()
+                    .setPhotoCount(PhotoAdapter.MAX)
+                    .setShowCamera(true)
+                    .setPreviewEnabled(false)
+                    .setSelected(NewTicket.selectedPhotos)
+                    .start(this);
         }
     }
 
@@ -134,23 +130,31 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
             List<String> photos = null;
 
-            if (data != null&&data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS)!=null) {
+            if (data != null && data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS) != null && requestCode == 233) {
                 photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
 
-                Uri uri = Uri.fromFile(new File(photos.get(0)));
-                //UtlFirebase.uploadFile("picTest", uri);
+                switch (photos.size())
+                {
+                    case 1:
+                        NewTicket.imgUri1 = UtlImage.fileToUri(new File(photos.get(0)), this);
+                        break;
+                    case 2:
+                        NewTicket.imgUri1 = UtlImage.fileToUri(new File(photos.get(0)), this);
+                        NewTicket.imgUri2 = UtlImage.fileToUri(new File(photos.get(1)), this);
+                        break;
+                }
+            }
+            else if(data != null && data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS) != null && requestCode == 666)
+            {
+                photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
             }
             NewTicket.selectedPhotos.clear();
 
-            if (photos != null) {
-
+            if (photos != null)
+            {
                 NewTicket.selectedPhotos.addAll(photos);
             }
             NewTicket.photoAdapter.notifyDataSetChanged();
-        } else if (requestCode == FROM_CAMERA || requestCode == SELECT_FILE) {
-            NewTicket.utlCamera.onActivityResult(requestCode, resultCode, data);
-        } else {
-            //CalendarView.cal.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -231,7 +235,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
     @Override
     public void onBackPressed() {
-
+        NewTicket.selectedPhotos.clear();
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         if(!drawerLayout.isDrawerOpen(GravityCompat.START)) {
 
@@ -271,7 +275,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 TicketList ticketListFragment = (TicketList) getSupportFragmentManager().findFragmentByTag(TicketList.FRAGMENT_TRANSACTION);
                 if (!ticketListFragment.closeSearch()) {
                     new MaterialDialog.Builder(this)
-                            .title("האים אתה בתוח רוצא לצאת מהאפליקציה")
+                            .title("האם אתה בטוח שברצונך לצאת מהאפליקציה?")
                             .titleColor(Color.BLACK)
                             .positiveText("כן")
                             .negativeText("לא")

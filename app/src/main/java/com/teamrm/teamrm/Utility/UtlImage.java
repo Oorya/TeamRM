@@ -1,10 +1,14 @@
 package com.teamrm.teamrm.Utility;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 
 /**
  * Created by אוריה on 24/07/2016.
@@ -37,5 +41,15 @@ public class UtlImage
         Bitmap myBitmap = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
         //return the bitmap back to the user.....
         return myBitmap;
+    }
+
+    public static Uri fileToUri(File file, Context context)
+    {
+        Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        myBitmap.compress(Bitmap.CompressFormat.JPEG,0,baos);
+
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), myBitmap,null, null);
+        return Uri.parse(path);
     }
 }
