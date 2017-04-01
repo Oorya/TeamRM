@@ -100,14 +100,14 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         permissionToDrawOverlays();
         context = this;
 
-        if (UserSingleton.getInstance().getUserNameString() != null) {
+        if (UserSingleton.isUserLoaded()) {
             //test
             DatabaseReference test = FirebaseDatabase.getInstance().getReference("test");
             test.push().setValue("on create service");
             Log.d(TAG, "on create service");
             startApp();
         }
-        Toast.makeText(this, UserSingleton.getInstance().getUserNameString() + " user exist", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, UserSingleton.getInstance().getUserNameString() + " user exist", Toast.LENGTH_SHORT).show();
 
 
         linearLayout = (LinearLayout) findViewById(R.id.load);
@@ -123,7 +123,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         super.onStart();
         Log.d(TAG, "onStart: ");
 
-        if (UserSingleton.getInstance().getUserNameString() == null) {
+        if (!UserSingleton.isUserLoaded()) {
             OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient); //LOGIN STAGE 1
             Log.d(TAG, "Stage 1, checking Google login");
             if (opr.isDone()) {

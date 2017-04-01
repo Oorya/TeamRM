@@ -215,7 +215,7 @@ public class UtlFirebase { //TODO: make singleton
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
-                      Users user = item.getValue(Users.class);
+                    Users user = item.getValue(Users.class);
                     fireBaseAble.resultUser(user);
                     Log.e("ON DATA CHANGE ", user == null ? "NULL" : "NOT NULL");
                 }
@@ -228,7 +228,7 @@ public class UtlFirebase { //TODO: make singleton
         });
     }
 
-    public static void getClientByID(String clientID, final ClientCallback clientCallback){
+    public static void getClientByID(String clientID, final ClientCallback clientCallback) {
         USERS_ROOT_REFERENCE.child(clientID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -296,15 +296,28 @@ public class UtlFirebase { //TODO: make singleton
     public static void ticketStateListener(final TicketStateObservable ticketStateObserver) {
         DatabaseReference stateRef = null;
 
-        if (UserSingleton.getInstance() instanceof Client) {
-            stateRef = CLIENT_TICKET_STATES_REFERENCE.child(UserSingleton.getInstance().getUserID());
-        } else if (UserSingleton.getInstance() instanceof Admin) {
-            stateRef = COMPANY_TICKET_STATES_REFERENCE.child(UserSingleton.getInstance().getAssignedCompanyID());
-        } else if (UserSingleton.getInstance() instanceof Technician) {
-            stateRef = COMPANY_TICKET_STATES_REFERENCE.child(UserSingleton.getInstance().getAssignedCompanyID());
-        } else {
-            Log.e(TAG, "StateListener:::UserSingleton undefined");
+        switch (UserSingleton.getUserHolderClassName()) {
+            case "Client":
+                stateRef = CLIENT_TICKET_STATES_REFERENCE.child(UserSingleton.getInstance().getUserID());
+                break;
+
+            case "Admin":
+                stateRef = COMPANY_TICKET_STATES_REFERENCE.child(UserSingleton.getInstance().getAssignedCompanyID());
+                break;
+
+            case "Technician":
+                stateRef = COMPANY_TICKET_STATES_REFERENCE.child(UserSingleton.getInstance().getAssignedCompanyID());
+                break;
+
+            case "undefined":
+                Log.e(TAG, "StateListener:::UserSingleton undefined");
+                break;
+
+            default:
+                Log.e(TAG, "StateListener:::UserSingleton undefined");
+                break;
         }
+
 
         ChildEventListener stateListener = new ChildEventListener() {
             @Override
@@ -385,26 +398,52 @@ public class UtlFirebase { //TODO: make singleton
     }
 
     public static void getAllTickets(final FireBaseAble fbHelper) {
-        if (UserSingleton.getInstance() instanceof Client) {
+        switch (UserSingleton.getUserHolderClassName()) {
+            case "Client":
             getAllClientTickets(UserSingleton.getInstance().getUserID(), fbHelper);
-        } else if (UserSingleton.getInstance() instanceof Technician) {
+                break;
+
+            case "Admin":
             getAllCompanyTickets(UserSingleton.getInstance().getAssignedCompanyID(), fbHelper);
-        } else if ((UserSingleton.getInstance() instanceof Admin)) {
+                break;
+
+            case "Technician":
             getAllCompanyTickets(UserSingleton.getInstance().getAssignedCompanyID(), fbHelper);
-        } else {
-            Log.e(LOGINTAG, "getAllTickets::Undefined singleton");
+                break;
+
+            case "undefined":
+                Log.e(TAG, "getAllTickets:::UserSingleton undefined");
+                break;
+
+            default:
+                Log.e(TAG, "getAllTickets:::UserSingleton undefined");
+                break;
         }
+
     }
 
     public static void getAllTicketLites(final FireBaseAble fbHelper) {
-        if (UserSingleton.getInstance() instanceof Client) {
+
+        switch (UserSingleton.getUserHolderClassName()) {
+            case "Client":
             getAllClientTicketLites(UserSingleton.getInstance().getUserID(), fbHelper);
-        } else if (UserSingleton.getInstance() instanceof Technician) {
+                break;
+
+            case "Admin":
             getAllCompanyTicketLites(UserSingleton.getInstance().getAssignedCompanyID(), fbHelper);
-        } else if ((UserSingleton.getInstance() instanceof Admin)) {
+                break;
+
+            case "Technician":
             getAllCompanyTicketLites(UserSingleton.getInstance().getAssignedCompanyID(), fbHelper);
-        } else {
-            Log.e(LOGINTAG, "getAllTicketlites::Undefined singleton");
+                break;
+
+            case "undefined":
+                Log.e(TAG, "getAllTicketlites:::UserSingleton undefined");
+                break;
+
+            default:
+                Log.e(TAG, "getAllTicketlites:::UserSingleton undefined");
+                break;
         }
 
     }
@@ -458,8 +497,8 @@ public class UtlFirebase { //TODO: make singleton
     public static void updateTicket(String ticketID, HashMap<String, String> updateFields) {
         Map updates = new HashMap();
         for (Map.Entry<String, String> field : updateFields.entrySet()) {
-            updates.put(TICKET_ROOT_REFERENCE_STRING+ "/" + ticketID + "/" + field.getKey(), field.getValue());
-            updates.put(TICKET_LITE_ROOT_REFERENCE_STRING+ "/" + ticketID + "/" + field.getKey(), field.getValue());
+            updates.put(TICKET_ROOT_REFERENCE_STRING + "/" + ticketID + "/" + field.getKey(), field.getValue());
+            updates.put(TICKET_LITE_ROOT_REFERENCE_STRING + "/" + ticketID + "/" + field.getKey(), field.getValue());
 
 
         }
@@ -745,7 +784,7 @@ public class UtlFirebase { //TODO: make singleton
         });
     }
 
-    public static void getCompanyByID(String companyid, final CompanyCallback companyCallback){
+    public static void getCompanyByID(String companyid, final CompanyCallback companyCallback) {
         COMPANY_ROOT_REFERENCE.child(companyid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -1017,11 +1056,12 @@ public class UtlFirebase { //TODO: make singleton
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 workShiftList.clear();
-                for (DataSnapshot workShift : dataSnapshot.getChildren()){
+                for (DataSnapshot workShift : dataSnapshot.getChildren()) {
                     workShiftList.add(workShift.getValue(WorkShift.class));
                 }
                 workShiftCallback.workShiftFireBaseCallback((ArrayList<WorkShift>) workShiftList);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
@@ -1179,15 +1219,15 @@ public class UtlFirebase { //TODO: make singleton
             Log.d(TAG, "Removing active listener " + listener + " @ " + ref);
             ref.removeEventListener(listener);
         }
-        if (!activeValueEventListeners.isEmpty()){
+        if (!activeValueEventListeners.isEmpty()) {
             activeValueEventListeners.clear();
         }
-        if (!activeChildEventListeners.isEmpty()){
+        if (!activeChildEventListeners.isEmpty()) {
             activeChildEventListeners.clear();
         }
     }
 
-    static void setCurrentListener(Query query, ValueEventListener listener){
+    static void setCurrentListener(Query query, ValueEventListener listener) {
         currentListener.put(query, listener);
     }
 

@@ -50,15 +50,14 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
     private static TicketListAdapter ticketListAdapter;
     private static final String TAG = ":::TicketListAdapter:::";
 
-    public static void setAdpterList(List<TicketLite> ticketLiteList)
-    {
-        if(mTicketLiteList != null) {
+    public static void setAdpterList(List<TicketLite> ticketLiteList) {
+        if (mTicketLiteList != null) {
             TicketListAdapter.mTicketLiteList.clear();
             TicketListAdapter.mTicketLiteList.addAll(ticketLiteList);
         }
     }
-    public static TicketListAdapter getInstance()
-    {
+
+    public static TicketListAdapter getInstance() {
         return ticketListAdapter;
     }
 
@@ -139,9 +138,9 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
             holder.techFirstLetter.setText("?");
         } else {
             String assignedTechNameString = item.getTechNameString();
-            String assignedTechColor =  item.getTechColor();
-            Log.d(TAG, "tech name = "+assignedTechNameString);
-            Log.d(TAG, "tech colorString = "+assignedTechColor);
+            String assignedTechColor = item.getTechColor();
+            Log.d(TAG, "tech name = " + assignedTechNameString);
+            Log.d(TAG, "tech colorString = " + assignedTechColor);
             holder.technicianNameString.setText(assignedTechNameString);
             holder.techFirstLetter.setText("T");
             //holder.techFirstLetter.setText(assignedTechNameString.substring(0,1));
@@ -168,7 +167,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
                 TicketView ticketView = new TicketView();
                 ticketView.setArguments(bundle);
                 //fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-                fragmentManager.replace(R.id.container_body, ticketView,TicketView.FRAGMENT_TRANSACTION).addToBackStack(TicketView.FRAGMENT_TRANSACTION).commit();
+                fragmentManager.replace(R.id.container_body, ticketView, TicketView.FRAGMENT_TRANSACTION).addToBackStack(TicketView.FRAGMENT_TRANSACTION).commit();
             }
         });
 
@@ -236,15 +235,15 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
 
         private void setView1() {
 
-            this.clientNameSpan = (RelativeLayout)view.findViewById(R.id.clientNameSpan);
-            this.companyNameSpan = (RelativeLayout)view.findViewById(R.id.companyNameSpan);
+            this.clientNameSpan = (RelativeLayout) view.findViewById(R.id.clientNameSpan);
+            this.companyNameSpan = (RelativeLayout) view.findViewById(R.id.companyNameSpan);
             this.ticketNumber = (TextView) view.findViewById(R.id.ticketNumber);
-            this.ticketStatusString = (TextView)view.findViewById(R.id.ticketStatusString);
+            this.ticketStatusString = (TextView) view.findViewById(R.id.ticketStatusString);
             this.clientNameString = (TextView) view.findViewById(R.id.clientName);
             this.companyNameString = (TextView) view.findViewById(R.id.companyName);
 
             this.technicianNameString = (TextView) view.findViewById(R.id.technicianName);
-            this.technicianColorView = (CardView)view.findViewById(R.id.technicianColorView);
+            this.technicianColorView = (CardView) view.findViewById(R.id.technicianColorView);
 
             this.productName = (TextView) view.findViewById(R.id.ticketProduct);
             this.categoryName = (TextView) view.findViewById(R.id.ticketCategory);
@@ -254,23 +253,35 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
             this.descriptionLong = (TextView) view.findViewById(R.id.descriptionLong);
             this.ticketOpenDateTime = (TextView) view.findViewById(R.id.openDate);
             this.descriptionShort.setTypeface(BOLD);
-            if (this.ticketAddress.length() > 0){
+            if (this.ticketAddress.length() > 0) {
                 ticketAddress.setTypeface(SEMI_BOLD);
             }
             this.cardContainer = (CardView) view.findViewById(R.id.cardContainer);
             this.techFirstLetter = (TextView) view.findViewById(R.id.techFirstLetter);
             this.editIcon = (ImageView) view.findViewById(R.id.editIcon);
 
-            if (UserSingleton.getInstance() instanceof Client) {
-                this.editIcon.setVisibility(View.GONE);
-                this.clientNameSpan.setVisibility(View.GONE);
-                this.companyNameSpan.setVisibility(View.VISIBLE);
-            } else if (UserSingleton.getInstance() instanceof Technician) {
-                //do nothing
-            } else if ((UserSingleton.getInstance() instanceof Admin)) {
-                //do nothing
-            } else {
-                Log.e(TAG, "Undefined singleton");
+            switch (UserSingleton.getUserHolderClassName()) {
+                case "Client":
+                    this.editIcon.setVisibility(View.GONE);
+                    this.clientNameSpan.setVisibility(View.GONE);
+                    this.companyNameSpan.setVisibility(View.VISIBLE);
+                    break;
+
+                case "Admin":
+                    //do nothing
+                    break;
+
+                case "Technician":
+                    //do nothing
+                    break;
+
+                case "undefined":
+                    Log.e(TAG, ":::UserSingleton undefined");
+                    break;
+
+                default:
+                    Log.e(TAG, ":::UserSingleton undefined");
+                    break;
             }
 
             this.regionName.setTypeface(BOLD);
