@@ -2,6 +2,7 @@ package com.teamrm.teamrm.Fragment;
 
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -77,6 +78,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     TextView userNameClose, userProfile,userAreaCardOpen, userNameCardOpen, txtCancel, dateTimeChange, userNameCardClose, dateTimeOpen, ticketNumber, ticketStatus, productTicketDetailsCardClosed, categoryTicketDetailsCardClosed, regionTicketDetailsCardClosed, categoryTicketDetailsCardOpen, regionTicketDetailsCardOpen, addressTicketDetailsCardOpen, phoneTicketDetailsCardOpen, descriptionShortTicketDetailsCardOpen, descriptionLongTicketDetailsCardOpen, userMailCardOpen, userAddCardOpen, userPhoneCardOpen, productTicketDetailsCardOpen;
     public static ImageView img1, img2, mailBtn, locationButton, phoneButton,navigateToAddressTicketDetailsCardOpen
             ,callNumberTicketDetailsCardOpen;
+    private static ProgressDialog mProgress;
     private Ticket ticket;
     static String ticketID, timeFormated;
     static Long bundleEndTime;
@@ -94,18 +96,24 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
-
-
         // Toast.makeText(getContext(), UserSingleton.getInstance().getUserEmail(), Toast.LENGTH_SHORT).show();
         userProfileObj = UserSingleton.getInstance();
         Bundle bundle = this.getArguments();
+
+        mProgress = new ProgressDialog(getContext());
+        mProgress.setMessage("מוריד קריאה...");
+        mProgress.setCanceledOnTouchOutside(false);
+
+
+
         utlAlarmManager = new UtlAlarmManager(getContext());
         if (bundle != null) {
+            Log.d("TICKET_ID Bundle:  ", bundle.getString("ticketID", "error"));
+
+
             if (!bundle.getString("ticketID", "error").equals("error")) {
                 String ticketId = bundle.getString("ticketID", "error");
-                Log.w("TICKET_ID Bundle:  ", ticketId);
+                Log.d("TICKET_ID Bundle:  ", ticketId);
                 ticketID = ticketId;
                 UtlFirebase.getTicketByKey(ticketID, this);
 
@@ -138,7 +146,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         View view = inflater.inflate(R.layout.fragment_ticket, container, false);
 
         //alternateRowColor(view, R.id.rowSet1);
-
+        mProgress.show();
         stateActionButtons = new StateActionButtons();
 
         setListeners(view);
@@ -551,7 +559,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     private void initializeTicket() {
 
 
-        ticketNumber.setText(ticket.getTicketNumber());
+        ticketNumber.setText("מספר קריאה "+ticket.getTicketNumber());
         dateTimeOpen.setText(ticket.getTicketOpenDateTime().split(" ")[ticket.getTicketOpenDateTime().split(" ").length-1]);
 
         if(userDitaile instanceof Client) {
@@ -595,6 +603,8 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         }
         if(ticket.getTicketCloseDateTime().length()>0)
             dateTimeChange.setText(ticket.getTicketCloseDateTime());
+
+        mProgress.hide();
 
     }
 

@@ -62,7 +62,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
     private static final int TYPE_WEEK_VIEW = 3;
     private int mWeekViewType = TYPE_THREE_DAY_VIEW;
     private static   WeekView mWeekView;
-    private static List<WeekViewEvent> mWeeViewEvent;
+    private static List<WeekViewEventCustom> mWeeViewEvent;
     private static List<Ticket> mEvent;
     public static CalendarUtil cal;
     private static String ticketID;
@@ -183,18 +183,19 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
         long id=0;
         for (Ticket EVENT : mEvent)
         {
-            if(EVENT.getTicketCloseDateTime()!=null) {
-                WeekViewEventCustom weekViewEventCustom = new WeekViewEventCustom(EVENT.getTicketEventID()
+            if(EVENT.getTicketCloseDateTime().length()>0) {
+                WeekViewEventCustom weekViewEventCustom = new WeekViewEventCustom(EVENT.getTicketID()
                         , id++, EVENT.getDescriptionShort(), convertStart(EVENT), convertEnd(EVENT));
+
                 mWeeViewEvent.add(weekViewEventCustom);
             }
 
         }
 
-        List<WeekViewEvent> matchedEvents = new ArrayList<>();
-        for (WeekViewEvent event : mWeeViewEvent)
+         List<WeekViewEventCustom> matchedEvents = new ArrayList<>();
+        for (WeekViewEventCustom event : mWeeViewEvent)
         {
-            if (mWeeViewEvent.contains(event) &&event.getEndTime()!=null&& eventMatches(event, newYear, newMonth))
+            if (mWeeViewEvent.contains(event) && eventMatches(event, newYear, newMonth))
             {
                 Log.d("list contains= ",eventMatches(event, newYear, newMonth)+"");
                 Log.d("list contains= ",event.getStartTime()+"");
@@ -254,8 +255,6 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
 
         return calendar;
     }
-
-
     @Override
     public void onEmptyViewLongPress(Calendar time) {
 
@@ -368,7 +367,6 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
         Bundle bundel = new Bundle();
         bundel.putString("ticketID",((WeekViewEventCustom)event).getEventId());
-
         FragmentTransaction fragmentManager = (getActivity().getSupportFragmentManager())
                 .beginTransaction();
         TicketView ticketView = new TicketView();
