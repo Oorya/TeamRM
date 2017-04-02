@@ -446,6 +446,20 @@ public class Ticket {
     public static void setTicketList(List<Ticket> ticketList) {
         Ticket.ticketList = ticketList;
     }
+    public static Ticket getTickeyById(String ticketId) {
+
+        for (Ticket item:ticketList)
+        {
+            if(item.getTicketID().equals(ticketId))
+            {
+                return item;
+            }
+
+        }
+
+        return null;
+
+    }
 
     @Override
     public int hashCode() {

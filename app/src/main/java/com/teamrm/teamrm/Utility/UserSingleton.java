@@ -51,7 +51,7 @@ public class UserSingleton extends Users {
 
     public static void init(final Users user) {
         userHolder = user;
-        Log.d("userLoader", " loaded class " + userHolder.getClass().getSimpleName());
+       // Log.d("userLoader", " loaded class " + userHolder.getClass().getSimpleName());
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {

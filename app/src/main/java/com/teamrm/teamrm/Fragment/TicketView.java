@@ -115,6 +115,11 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                 String ticketId = bundle.getString("ticketID", "error");
                 Log.d("TICKET_ID Bundle:  ", ticketId);
                 ticketID = ticketId;
+                if(Ticket.getTickeyById(ticketId)!=null) {
+                    this.ticket = Ticket.getTickeyById(ticketId);
+
+                }
+                else
                 UtlFirebase.getTicketByKey(ticketID, this);
 
 
@@ -146,10 +151,15 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         View view = inflater.inflate(R.layout.fragment_ticket, container, false);
 
         //alternateRowColor(view, R.id.rowSet1);
+
+
         mProgress.show();
         stateActionButtons = new StateActionButtons();
 
         setListeners(view);
+        if(this.ticket!=null) {
+            initializeUserDitile();
+        }
         Typeface REGULAR = Typeface.createFromAsset(this.getContext().getAssets(), "Assistant-Regular.ttf");
         Typeface SEMI_BOLD = Typeface.createFromAsset(this.getContext().getAssets(), "Assistant-SemiBold.ttf");
 
@@ -531,7 +541,13 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     @Override
     public void resultTicket(Ticket ticket) {
         this.ticket = ticket;
+        initializeUserDitile();
 
+
+    }
+
+    private void initializeUserDitile()
+    {
         if(UserSingleton.getInstance().isUserIsAdmin())
         {
             UtlFirebase.getClientByID(ticket.getClientID(), new ClientCallback() {
@@ -540,6 +556,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
                     userDitaile = client;
                     initializeTicket();
+
                 }
             });
         }else
@@ -549,10 +566,10 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                 public void companyCallback(Company company) {
                     userDitaile = company;
                     initializeTicket();
+
                 }
             });
         }
-
 
     }
 
