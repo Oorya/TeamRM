@@ -39,3 +39,7 @@ captures/
 
 # Keystore files
 *.jks
+
+# Custom
+# gradle libraries folder
+.idea/libraries
