@@ -51,6 +51,7 @@ public class UserSingleton extends Users {
 
     public static void init(final Users user) {
         userHolder = user;
+<<<<<<< Updated upstream
        // Log.d("userLoader", " loaded class " + userHolder.getClass().getSimpleName());
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -67,13 +68,32 @@ public class UserSingleton extends Users {
                 return null;
             }
         }.execute();
+=======
+        if (isUserLoaded()) {
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    Log.d(LOGINTAG, "::AsyncTask");
+                    UtlFirebase.ticketStateListener(ticketStateObserver);
+                    Log.d(LOGINTAG, "Calling getAllTicketLites");
+                    UtlFirebase.getAllTicketLites(fbHelper);
+                    Log.d(LOGINTAG, "Calling getAllCompanies");
+                    UtlFirebase.getAllCompanies(fbHelper);
+                    Log.d(LOGINTAG, "Calling getAllTickets");
+                    UtlFirebase.getAllTickets(fbHelper);
+
+                    return null;
+                }
+            }.execute();
+        }
+>>>>>>> Stashed changes
     }
 
     public static boolean isUserLoaded(){
         return userHolder != null;
     }
 
-    public static String getUserHolderClassName(){
+    public static String getLoadedUserType(){
         if (isUserLoaded()){
             Log.d(TAG, "userLoaded loaded class: " + userHolder.getClass().getSimpleName());
             return userHolder.getClass().getSimpleName();

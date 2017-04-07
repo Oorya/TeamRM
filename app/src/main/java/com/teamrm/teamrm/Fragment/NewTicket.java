@@ -104,7 +104,6 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         context = this.getContext();
         getActivity().findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
 
-        UtlFirebase.setCurrentContext(getContext());
         ticketAddress = (EditText) view.findViewById(R.id.txtAddress);
         ticketPhone = (EditText) view.findViewById(R.id.txtPhone);
         descriptionShort = (EditText) view.findViewById(R.id.descriptionShort);

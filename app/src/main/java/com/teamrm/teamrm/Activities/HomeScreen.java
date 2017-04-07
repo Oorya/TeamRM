@@ -72,8 +72,8 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-        new NiceToast(this, "User " + UserSingleton.getInstance().getUserEmail() + "\n" + "logged in as " + UserSingleton.getInstance().getClass().getSimpleName(), NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
-        UtlFirebase.setCurrentContext(this);
+        new NiceToast(this, "User " + UserSingleton.getInstance().getUserEmail() + "\n"
+                + "logged in as " + UserSingleton.getLoadedUserType(), NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
         context = this;
@@ -308,7 +308,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     private void signOut() {
         UtlFirebase.removeActiveListeners();
         FirebaseAuth.getInstance().signOut();
-        UserSingleton.init(null);
+
         this.stopService(serviceIntent);
         mGoogleApiClient = App.getGoogleApiHelper().getGoogleApiClient();
 
@@ -322,6 +322,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                         startActivity(new Intent(HomeScreen.this, SplashScreen.class));
                     }
                 });
+        UserSingleton.init(null);
     }
 
     @Override

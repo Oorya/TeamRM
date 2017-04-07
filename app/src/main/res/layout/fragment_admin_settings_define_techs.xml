@@ -1,0 +1,29 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    android:layoutDirection="rtl"
+    tools:paddingTop="25dp">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/enrollmentRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="120dp"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:paddingTop="24dp"
+        android:id="@+id/prefRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@id/enrollmentRecyclerView"
+        app:layout_anchorGravity="bottom"
+        android:layout_gravity="bottom">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <include layout="@layout/floating_action_button" />
+</android.support.design.widget.CoordinatorLayout>

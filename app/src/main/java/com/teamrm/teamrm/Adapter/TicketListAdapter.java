@@ -23,10 +23,6 @@ import android.widget.Toast;
 import com.teamrm.teamrm.Fragment.TicketView;
 import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.R;
-import com.teamrm.teamrm.Type.Admin;
-import com.teamrm.teamrm.Type.Client;
-import com.teamrm.teamrm.Type.Technician;
-import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Utility.UserSingleton;
 
@@ -260,7 +256,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
             this.techFirstLetter = (TextView) view.findViewById(R.id.techFirstLetter);
             this.editIcon = (ImageView) view.findViewById(R.id.editIcon);
 
-            switch (UserSingleton.getUserHolderClassName()) {
+            switch (UserSingleton.getLoadedUserType()) {
                 case "Client":
                     this.editIcon.setVisibility(View.GONE);
                     this.clientNameSpan.setVisibility(View.GONE);

@@ -87,7 +87,6 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         super.onCreate(savedInstanceState);
         // getSupportActionBar().hide();
         setContentView(R.layout.activity_splashscreen);
-        UtlFirebase.setCurrentContext(this);
         mGoogleApiClient = App.getGoogleApiHelper().getGoogleApiClient();
         gso = App.getGoogleApiHelper().getGso();
         firebaseAuth = FirebaseAuth.getInstance();

@@ -170,6 +170,7 @@
     <string name="label_edit_prefitem_dialog_title">עריכת רשומה</string>
     <string name="label_remove_prefitem_dialog_title">מחיקת רשומה</string>
     <string name="label_button_save">שמירה</string>
+    <string name="label_button_save_enrollment_code">הוספת קוד הרשמה</string>
     <string name="label_button_remove">מחיקה</string>
     <string name="label_button_cancel">ביטול</string>
     <string name="label_button_confirm">אישור</string>
@@ -178,6 +179,7 @@
     <string name="label_remove_text">למחוק את הרשומה?</string>
     <string name="label_add_product">הוספת מוצר</string>
     <string name="label_add_category">הוספת סיווג</string>
+    <string name="label_add_enrollment_code">הוספת קוד הרשמה לטכנאי</string>
     <string name="label_add_region">הוספת אזור</string>
     <string name="label_add_workshift">הוסף משמרת</string>
     <string name="label_no_content">ל\"ת</string>
@@ -194,6 +196,7 @@
     <string name="label_workshift_end">עד</string>
     <string name="label_workshift_input_name">הקלד שם למשמרת</string>
     <string name="label_workshift_input_label">שם:</string>
+    <string name="label_enrollment_code">קוד הרשמה לטכנאי:</string>
 
 
 

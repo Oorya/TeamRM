@@ -2,18 +2,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
     android:background="@color/app_bg"
+    android:layoutDirection="rtl"
     tools:paddingTop="25dp">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/prefRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        >
+        android:clipToPadding="false">
 
     </android.support.v7.widget.RecyclerView>
+
+    <RelativeLayout
+        android:id="@+id/nothingToDisplay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="NOTHING TO DISPLAY" />
+    </RelativeLayout>
 
     <include layout="@layout/floating_action_button" />
 </android.support.design.widget.CoordinatorLayout>

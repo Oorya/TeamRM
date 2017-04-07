@@ -5,10 +5,15 @@ import android.support.annotation.Nullable;
 import com.google.firebase.database.Exclude;
 import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Oorya on 10/08/2016.
  */
 public class Technician extends Users implements GenericKeyValueTypeable {
+
+    private static List<Technician> technicianList = new ArrayList<>();
 
     // inherited from Users -> userID, clientNameString, userEmail, ticketPhone, ticketAddress, companyName
     private String
@@ -49,6 +54,14 @@ public class Technician extends Users implements GenericKeyValueTypeable {
 
     public void setTechAssignedRegions(String techAssignedRegions) {
         this.techAssignedRegions = techAssignedRegions;
+    }
+
+    public static List<Technician> getTechnicianList() {
+        return technicianList;
+    }
+
+    public static void setTechnicianList(List<Technician> technicianList) {
+        Technician.technicianList = technicianList;
     }
 
     @Override

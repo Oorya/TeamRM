@@ -92,7 +92,7 @@ public class AdminSettingsDefineProducts extends Fragment implements FireBaseAbl
                 .input("", "", new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                        Toast.makeText(getContext(),  input.toString(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(),  input.toString(), Toast.LENGTH_SHORT).show();
                         UtlFirebase.addProduct(UserSingleton.getInstance().getAssignedCompanyID(), input.toString());
                     }
                 })
