@@ -181,13 +181,9 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         TicketList ticketList = new TicketList();
         if (!UserSingleton.getInstance().isUserIsAdmin())
         {
-            switch (position)
-            {
-                case 2:
-                case 3:
+                if(position>1)
                     position += 2;
-                    break;
-            }
+
         }
 
         switch (position) {
