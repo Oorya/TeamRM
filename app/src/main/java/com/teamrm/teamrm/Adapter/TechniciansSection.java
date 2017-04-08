@@ -6,9 +6,7 @@ import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.teamrm.teamrm.R;
@@ -54,7 +52,7 @@ public class TechniciansSection extends StatelessSection {
         techHolder.userEmail.setText(technician.getUserEmail() == null ? "" : technician.getUserEmail());
         techHolder.userPhone.setText(technician.getUserPhone() == null ? "" : technician.getUserPhone());
         techHolder.techAssignedRegions.setText(technician.getTechAssignedRegions() == null ? "" : technician.getTechAssignedRegions());
-        techHolder.techShifts.setText(technician.getTechShifts() == null ? "" : technician.getTechShifts());
+        techHolder.techShifts.setText(technician.getTechAssignedShifts() == null ? "" : technician.getTechAssignedShifts());
         techHolder.techColorView.setCardBackgroundColor(technician.getTechColor() == null ? Color.RED : Color.parseColor(technician.getTechColor()));
         techHolder.userAddress.setText(technician.getUserAddress() == null ? "" : technician.getUserAddress());
     }

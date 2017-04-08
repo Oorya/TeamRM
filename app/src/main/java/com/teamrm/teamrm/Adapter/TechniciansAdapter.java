@@ -3,10 +3,8 @@ package com.teamrm.teamrm.Adapter;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +15,6 @@ import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Technician;
 
 import java.util.ArrayList;
-
-import static android.graphics.Color.parseColor;
 
 /**
  * Created by r00t on 01/01/2017.
@@ -56,7 +52,7 @@ public class TechniciansAdapter extends RecyclerView.Adapter<TechniciansAdapter.
         holder.userEmail.setText(technician.getUserEmail());
         holder.userPhone.setText(technician.getUserPhone());
         holder.techAssignedRegions.setText(technician.getTechAssignedRegions());
-        holder.techShifts.setText(technician.getTechShifts());
+        holder.techShifts.setText(technician.getTechAssignedShifts());
         holder.techColorView.setCardBackgroundColor(Color.parseColor(technician.getTechColor()));
         holder.userAddress.setText(technician.getUserAddress());
         if (_position == techniciansList.size()-1){

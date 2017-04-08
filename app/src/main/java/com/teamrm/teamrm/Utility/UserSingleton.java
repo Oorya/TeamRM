@@ -1,22 +1,22 @@
 package com.teamrm.teamrm.Utility;
 
-import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.IgnoreExtraProperties;
-import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Adapter.TicketListAdapter;
-import com.teamrm.teamrm.Fragment.TicketList;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
+import com.teamrm.teamrm.Interfaces.TechniciansObservable;
 import com.teamrm.teamrm.Interfaces.TicketStateObservable;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.Type.Category;
 import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.Product;
 import com.teamrm.teamrm.Type.Region;
+import com.teamrm.teamrm.Type.Technician;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.TicketState;
@@ -51,24 +51,7 @@ public class UserSingleton extends Users {
 
     public static void init(final Users user) {
         userHolder = user;
-<<<<<<< Updated upstream
-       // Log.d("userLoader", " loaded class " + userHolder.getClass().getSimpleName());
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... voids) {
-                Log.d(LOGINTAG, "::AsyncTask");
-                UtlFirebase.ticketStateListener(ticketStateObserver);
-                Log.d(LOGINTAG, "Calling getAllTicketLites");
-                UtlFirebase.getAllTicketLites(fbHelper);
-                Log.d(LOGINTAG, "Calling getAllCompanies");
-                UtlFirebase.getAllCompanies(fbHelper);
-                Log.d(LOGINTAG, "Calling getAllTickets");
-                UtlFirebase.getAllTickets(fbHelper);
 
-                return null;
-            }
-        }.execute();
-=======
         if (isUserLoaded()) {
             new AsyncTask<Void, Void, Void>() {
                 @Override
@@ -81,23 +64,34 @@ public class UserSingleton extends Users {
                     UtlFirebase.getAllCompanies(fbHelper);
                     Log.d(LOGINTAG, "Calling getAllTickets");
                     UtlFirebase.getAllTickets(fbHelper);
+                    if (getLoadedUserType().equals("Admin")) {
+                        UtlFirebase.getCompanyTechniciansForEdit(getInstance().getAssignedCompanyID(), TechObserver);
+                    }
 
                     return null;
                 }
             }.execute();
         }
->>>>>>> Stashed changes
+
     }
 
-    public static boolean isUserLoaded(){
+    public static boolean isUserLoaded() {
         return userHolder != null;
     }
 
-    public static String getLoadedUserType(){
-        if (isUserLoaded()){
+    public static String getLoadedUserType() {
+        if (isUserLoaded()) {
             Log.d(TAG, "userLoaded loaded class: " + userHolder.getClass().getSimpleName());
             return userHolder.getClass().getSimpleName();
         } else return "undefined";
+    }
+
+    public static Users getLoadedUserObject() {
+        if (isUserLoaded()) {
+            return userHolder;
+        } else {
+            return null;
+        }
     }
 
     public static void refreshTicketLites() {
@@ -194,7 +188,6 @@ public class UserSingleton extends Users {
     };
 
 
-
     @Override
     public String getUserID() {
         return userHolder.getUserID();
@@ -245,8 +238,25 @@ public class UserSingleton extends Users {
         return userHolder.getAssignedCompanyID();
     }
 
+    private static TechniciansObservable TechObserver = new TechniciansObservable() {
+        @Override
+        public void onTechnicianAdded(Technician technician) {
+            Technician.addTechnicianToList(technician);
+            if (!technician.isEdited()) {
+                //TODO: notify about new technician
+            }
+        }
 
+        @Override
+        public void onTechnicianChanged(Technician technician) {
+            Technician.changeTechnician(technician);
+        }
 
+        @Override
+        public void onTechnicianRemoved(Technician technician) {
+            Technician.removeTechnicianFromList(technician);
+        }
+    };
 }
 
 

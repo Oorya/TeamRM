@@ -39,8 +39,20 @@ public abstract class Users {
         this.userEmail = userEmail;
         this.userStatus = STATUS_CLIENT;
         this.userIsAdmin = false;
-
     }
+
+    public Users(Users otherUser) {
+        this.userID = otherUser.userID;
+        this.userNameString = otherUser.userNameString;
+        this.userEmail = otherUser.userEmail;
+        this.userIsAdmin = otherUser.userIsAdmin;
+        this.userStatus = otherUser.userStatus;
+        this.userPhone = otherUser.userPhone;
+        this.userAddress = otherUser.userAddress;
+        this.userImgPath = otherUser.userImgPath;
+        this.assignedCompanyID = otherUser.assignedCompanyID;
+    }
+
 
     public String getUserID() {
         return userID;

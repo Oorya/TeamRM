@@ -16,7 +16,6 @@ import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.EnrollmentCode;
 import com.teamrm.teamrm.Utility.NiceToast;
 import com.teamrm.teamrm.Utility.RowViewLayout;
-import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
@@ -65,15 +64,6 @@ public class EnrollmentCodeSection extends StatelessSection {
         final EnrollmentCodeHolder ecHolder = (EnrollmentCodeHolder) holder;
         final EnrollmentCode ecListItem = EnrollmentCode.enrollmentCodeList.get(position);
         Log.d(TAG, ecListItem.toString());
-
-        // FOR TESTING
-/*
-        ecHolder.ecString.setText(ecListItem.getEnrollmentCodeString());
-
-        ecHolder.ecSentToMail.setText(ecListItem.getEnrollmentCodeSentToMail());
-        ecHolder.ecSentToPhone.setText(ecListItem.getEnrollmentCodeSentToPhone());
-*/
-        // /FOR TESTING
 
         ecHolder.cardHeaderView.setOnClickListener(new View.OnClickListener() {
             @Override

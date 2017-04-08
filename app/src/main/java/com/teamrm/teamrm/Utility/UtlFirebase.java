@@ -28,8 +28,10 @@ import com.teamrm.teamrm.Fragment.TicketView;
 import com.teamrm.teamrm.Interfaces.ClientCallback;
 import com.teamrm.teamrm.Interfaces.CompanyCallback;
 import com.teamrm.teamrm.Interfaces.EnrollmentCodeCallback;
+import com.teamrm.teamrm.Interfaces.EnrollmentCodeSingleCallback;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.TechnicianCallback;
+import com.teamrm.teamrm.Interfaces.TechniciansObservable;
 import com.teamrm.teamrm.Interfaces.TicketStateObservable;
 import com.teamrm.teamrm.Interfaces.WorkShiftCallback;
 import com.teamrm.teamrm.Type.Admin;
@@ -85,7 +87,7 @@ public class UtlFirebase {
     private static final DatabaseReference COMPANY_REGIONS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(COMPANY_REGIONS_ROOT_REFERENCE_STRING);
     private static final DatabaseReference COMPANY_WORKSHIFTS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(COMPANY_WORKSHIFTS_ROOT_REFERENCE_STRING);
     private static final DatabaseReference COMPANY_TECHNICIANS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(COMPANY_TECHNICIANS_ROOT_REFERENCE_STRING);
-    private static final DatabaseReference COMPANY_TECHNICIAN_ENROLLMENT_CODES = FirebaseDatabase.getInstance().getReference(TECHNICIAN_ENROLLMENT_CODES);
+    private static final DatabaseReference TECHNICIAN_ENROLLMENT_CODES_REFERENCE = FirebaseDatabase.getInstance().getReference(TECHNICIAN_ENROLLMENT_CODES);
     private static final DatabaseReference TICKET_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(TICKET_ROOT_REFERENCE_STRING);
     private static final DatabaseReference TICKET_LITE_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(TICKET_LITE_ROOT_REFERENCE_STRING);
     private static final DatabaseReference CLIENT_TICKET_STATES_REFERENCE = FirebaseDatabase.getInstance().getReference(CLIENT_TICKET_STATES_REFERENCE_STRING);
@@ -278,7 +280,7 @@ public class UtlFirebase {
 ///////////////////////////// Technician -> EnrollmentCode /////////////////////////////
 
     public static void addEnrollmentCode(EnrollmentCode enrollmentcode) {
-        DatabaseReference ref = COMPANY_TECHNICIAN_ENROLLMENT_CODES.push();
+        DatabaseReference ref = TECHNICIAN_ENROLLMENT_CODES_REFERENCE.push();
         enrollmentcode.setEnrollmentCodeID(ref.getKey());
         ref.setValue(enrollmentcode, new DatabaseReference.CompletionListener() {
             @Override
@@ -290,9 +292,28 @@ public class UtlFirebase {
         });
     }
 
+    public static void getEnrollmentCodeByString(String enrollmentCodeString, final EnrollmentCodeSingleCallback ecCallback){
+        Query query = TECHNICIAN_ENROLLMENT_CODES_REFERENCE.orderByChild(EnrollmentCode.ENROLLMENT_CODE_STRING).equalTo(enrollmentCodeString);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount() == 1) {
+                    ecCallback.enrollmentCodeCallback(dataSnapshot.getValue(EnrollmentCode.class));
+                } else {
+                    new NiceToast(getAppContext(), "Enrollment code problem, please ask for another code", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                toastTheError(databaseError);
+            }
+        });
+    }
+
     public static void getEnrollmentCodes(String companyID, final EnrollmentCodeCallback enrollmentCodeCallback) {
         final List<EnrollmentCode> enrollmentCodeList = new ArrayList<>();
-        COMPANY_TECHNICIAN_ENROLLMENT_CODES.orderByChild(EnrollmentCode.ENROLLMENT_CODE_COMPANY_ID).equalTo(companyID).addListenerForSingleValueEvent(new ValueEventListener() {
+        TECHNICIAN_ENROLLMENT_CODES_REFERENCE.orderByChild(EnrollmentCode.ENROLLMENT_CODE_COMPANY_ID).equalTo(companyID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 enrollmentCodeList.clear();
@@ -311,7 +332,7 @@ public class UtlFirebase {
 
     public static void getEnrollmentCodesForEdit(String companyID, final EnrollmentCodeCallback enrollmentCodeCallback) {
         final List<EnrollmentCode> enrollmentCodeList = new ArrayList<>();
-        Query query = COMPANY_TECHNICIAN_ENROLLMENT_CODES.orderByChild(EnrollmentCode.ENROLLMENT_CODE_COMPANY_ID).equalTo(companyID);
+        Query query = TECHNICIAN_ENROLLMENT_CODES_REFERENCE.orderByChild(EnrollmentCode.ENROLLMENT_CODE_COMPANY_ID).equalTo(companyID);
 
             ValueEventListener listener = new ValueEventListener() {
             @Override
@@ -341,7 +362,7 @@ public class UtlFirebase {
             updates.put(TICKET_LITE_ROOT_REFERENCE_STRING + "/" + ticketID + "/" + field.getKey(), field.getValue());
         }*/
         //Log.d("updateTicket", updates.toString());
-        COMPANY_TECHNICIAN_ENROLLMENT_CODES.child(enrollmentCodeID).updateChildren(updates, new DatabaseReference.CompletionListener() {
+        TECHNICIAN_ENROLLMENT_CODES_REFERENCE.child(enrollmentCodeID).updateChildren(updates, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 toastSuccessOrError("update successful", databaseError);
@@ -350,32 +371,87 @@ public class UtlFirebase {
     }
 
     public static void removeEnrollmentCode(EnrollmentCode enrollmentCode) {
-       COMPANY_TECHNICIAN_ENROLLMENT_CODES.child(enrollmentCode.getEnrollmentCodeID()).removeValue();
+       TECHNICIAN_ENROLLMENT_CODES_REFERENCE.child(enrollmentCode.getEnrollmentCodeID()).removeValue();
     }
 
 ///////////////////////////// Technician -> Technician /////////////////////////////
 
-    public static void getCompanyTechniciansForEdit(String companyID, final TechnicianCallback technicianCallback) {
-        final List<Technician> techicianList = new ArrayList<>();
-        Query query = COMPANY_TECHNICIANS_ROOT_REFERENCE.child(companyID).orderByValue();
-        ValueEventListener listener = new ValueEventListener() {
+    public static void registerAsTechnician(final String enrollmentCodeString){
+        getEnrollmentCodeByString(enrollmentCodeString, new EnrollmentCodeSingleCallback() {
+            @Override
+            public void enrollmentCodeCallback(EnrollmentCode enrollmentCodeSingle) {
+                EnrollmentCode ecObject = enrollmentCodeSingle;
+                DatabaseReference companyTechRef = COMPANY_TECHNICIANS_ROOT_REFERENCE.child(ecObject.getEnrollmentCodeCompanyId());
+                Users myUser = UserSingleton.getInstance();
+                companyTechRef.child(myUser.getUserID()).setValue(new Technician(enrollmentCodeString, ecObject.getEnrollmentCodeCompanyId(), UserSingleton.getLoadedUserObject()));
+                TECHNICIAN_ENROLLMENT_CODES_REFERENCE.child(ecObject.getEnrollmentCodeID()).removeValue();
+            }
+        });
+    }
+
+   /* public static void getCompanyTechnicians(String companyID, TechnicianCallback technicianCallback) {
+        final List<Technician> technicianList = new ArrayList<>();
+        getEnrollmentCodes();
+        if ()
+        COMPANY_TECHNICIANS_ROOT_REFERENCE.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    Technician technician = item.getValue(Technician.class);
-                    techicianList.add(technician);
+                enrollmentCodeList.clear();
+                for (DataSnapshot enrollmentcode : dataSnapshot.getChildren()) {
+                    enrollmentCodeList.add(enrollmentcode.getValue(EnrollmentCode.class));
                 }
-                technicianCallback.technicianCallback((ArrayList<Technician>) techicianList);
+                enrollmentCodeCallback.enrollmentCodeCallback((ArrayList<EnrollmentCode>) enrollmentCodeCallback);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+    }*/
+
+    public static void getCompanyTechniciansForEdit(String companyID, final TechniciansObservable techniciansObservable) {
+        final List<Technician> techicianList = new ArrayList<>();
+        DatabaseReference ref = COMPANY_TECHNICIANS_ROOT_REFERENCE.child(companyID);
+
+        ChildEventListener cListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                techniciansObservable.onTechnicianAdded(dataSnapshot.getValue(Technician.class));
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                techniciansObservable.onTechnicianChanged(dataSnapshot.getValue(Technician.class));
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                techniciansObservable.onTechnicianRemoved(dataSnapshot.getValue(Technician.class));
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 toastTheError(databaseError);
-
             }
         };
-        query.addValueEventListener(listener);
-        activeValueEventListeners.put(query, listener);
+
+        ref.addChildEventListener(cListener);
+        activeChildEventListeners.put(ref, cListener);
+    }
+
+    public void updateTechnician(String companyID, String technicianID, HashMap<String, Object> updates){
+        COMPANY_TECHNICIANS_ROOT_REFERENCE.child(companyID).child(technicianID).updateChildren(updates, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                toastSuccessOrError("Successfully updated technician", databaseError);
+            }
+        });
     }
 
     /*public static void addTechnician(String companyID, final Technician technician) {
