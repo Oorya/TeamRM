@@ -216,9 +216,9 @@
 
     <style name="customTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="actionBarTheme">@style/actionBarTheme</item>
-        <item name="colorPrimary">#FFA500</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="actionBarSize">32dip</item>
-        <item name="colorPrimaryDark">#CCa500</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
 
     <style name="NumberSpinner" parent="Widget.AppCompat.Spinner">

@@ -179,6 +179,17 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         TicketList ticketList = new TicketList();
+        if (!UserSingleton.getInstance().isUserIsAdmin())
+        {
+            switch (position)
+            {
+                case 2:
+                case 3:
+                    position += 2;
+                    break;
+            }
+        }
+
         switch (position) {
             case 0:
                 fragmentTransaction.replace(R.id.container_body, ticketList)

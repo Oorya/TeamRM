@@ -120,7 +120,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="12dp"
             android:layout_toEndOf="@id/categoryAIcon"
-            android:text="הגדרת סיווג ראשי לקריאות"
+            android:text="צור קשר"
             android:textColor="@color/textColor_primary"
             android:textSize="18sp" />
 
@@ -151,7 +151,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="12dp"
             android:layout_toEndOf="@id/categoryBIcon"
-            android:text="הגדרת סיווג משני לקריאות"
+            android:text="שתף"
             android:textColor="@color/textColor_primary"
             android:textSize="18sp" />
 
