@@ -4,6 +4,7 @@ import com.google.firebase.database.Exclude;
 import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -11,6 +12,8 @@ import java.util.List;
  */
 
 public class TicketLite {
+
+    private static List<TicketLite> ticketLiteList = Collections.EMPTY_LIST;
 
     private String clientID;
     private String clientNameString;
@@ -38,7 +41,6 @@ public class TicketLite {
     //private Image techAvatar;
 
     private int ticketPresentation;
-    private static List<TicketLite> ticketLiteList = new ArrayList<>();
 
 
     public static List<TicketLite> getTicketLiteList() {

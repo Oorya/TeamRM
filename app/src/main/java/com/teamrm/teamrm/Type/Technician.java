@@ -4,9 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.google.firebase.database.Exclude;
 import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
-import com.teamrm.teamrm.Utility.UserSingleton;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,6 +21,7 @@ public class Technician extends Users implements GenericKeyValueTypeable {
     private String techAssignedRegions;
     private String techEnrollmentCode;
 
+    private boolean isPending;
     private boolean isEdited;
 
     public Technician() {
@@ -43,6 +42,7 @@ public class Technician extends Users implements GenericKeyValueTypeable {
         this.techColor = "";
         this.techAssignedRegions = "";
         this.techAssignedShifts = "";
+        this.isPending = true;
         this.isEdited = false;
     }
 
@@ -78,6 +78,13 @@ public class Technician extends Users implements GenericKeyValueTypeable {
         this.techEnrollmentCode = techEnrollmentCode;
     }
 
+    public boolean isPending() {
+        return isPending;
+    }
+
+    public void setPending(boolean pending) {
+        isPending = pending;
+    }
 
     public boolean isEdited() {
         return isEdited;

@@ -50,8 +50,8 @@ public class EnrollmentCodeSection extends StatelessSection {
 
     @Override
     public int getContentItemsTotal() {
-        Log.d(TAG, "items: " + EnrollmentCode.enrollmentCodeList.size());
-        return EnrollmentCode.enrollmentCodeList.size();
+        //Log.d(TAG, "items: " + EnrollmentCode.getEnrollmentCodeList().size());
+        return EnrollmentCode.getEnrollmentCodeList().size();
     }
 
     @Override
@@ -62,7 +62,7 @@ public class EnrollmentCodeSection extends StatelessSection {
     @Override
     public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
         final EnrollmentCodeHolder ecHolder = (EnrollmentCodeHolder) holder;
-        final EnrollmentCode ecListItem = EnrollmentCode.enrollmentCodeList.get(position);
+        final EnrollmentCode ecListItem = EnrollmentCode.getEnrollmentCodeList().get(position);
         Log.d(TAG, ecListItem.toString());
 
         ecHolder.cardHeaderView.setOnClickListener(new View.OnClickListener() {
@@ -213,7 +213,7 @@ public class EnrollmentCodeSection extends StatelessSection {
             ecSentToPhone = (TextView) view.findViewById(R.id.enrollmentPhoneSentText);
             ecSendPhoneAction = (TextView) view.findViewById(R.id.enrollmentSendPhoneAction);
 
-            btnRemoveEC = (View) view.findViewById(R.id.btnRemove);
+            btnRemoveEC = view.findViewById(R.id.btnRemove);
 
 
         }

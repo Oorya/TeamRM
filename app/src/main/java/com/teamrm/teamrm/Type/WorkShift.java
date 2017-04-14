@@ -1,11 +1,17 @@
 package com.teamrm.teamrm.Type;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Created by r00t on 08/03/2017.
  */
 
 public class WorkShift {
 
+
+    private static List<WorkShift> workShiftList = Collections.EMPTY_LIST;
 
     private String workShiftID;
     private String workShiftName;

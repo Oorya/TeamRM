@@ -1,22 +1,21 @@
 package com.teamrm.teamrm.Utility;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.teamrm.teamrm.Adapter.TicketListAdapter;
+import com.teamrm.teamrm.Interfaces.EnrollmentCodesObservable;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
-import com.teamrm.teamrm.Interfaces.TechniciansObservable;
+import com.teamrm.teamrm.Interfaces.FireBaseBooleanCallback;
 import com.teamrm.teamrm.Interfaces.TicketStateObservable;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.Type.Category;
 import com.teamrm.teamrm.Type.Company;
+import com.teamrm.teamrm.Type.EnrollmentCode;
 import com.teamrm.teamrm.Type.Product;
 import com.teamrm.teamrm.Type.Region;
-import com.teamrm.teamrm.Type.Technician;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.TicketState;
@@ -56,16 +55,42 @@ public class UserSingleton extends Users {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    Log.d(LOGINTAG, "::AsyncTask");
-                    UtlFirebase.ticketStateListener(ticketStateObserver);
-                    Log.d(LOGINTAG, "Calling getAllTicketLites");
-                    UtlFirebase.getAllTicketLites(fbHelper);
-                    Log.d(LOGINTAG, "Calling getAllCompanies");
-                    UtlFirebase.getAllCompanies(fbHelper);
-                    Log.d(LOGINTAG, "Calling getAllTickets");
-                    UtlFirebase.getAllTickets(fbHelper);
-                    if (getLoadedUserType().equals("Admin")) {
-                        UtlFirebase.getCompanyTechniciansForEdit(getInstance().getAssignedCompanyID(), TechObserver);
+                    switch (getLoadedUserType()) {
+                        case Users.STATUS_PENDING_TECH:
+                            UtlFirebase.checkEnrollmentCodes(userHolder.getAssignedCompanyID(), new FireBaseBooleanCallback() {
+                                @Override
+                                public void booleanCallback(boolean isTrue) {
+                                    if (isTrue){
+                                        UtlFirebase.enrollmentCodeListener(userHolder.getAssignedCompanyID(), enrollmentCodeObserver);
+                                    } else {
+                                        //TODO: 1.NOTIFY USER THAT THE CODE WAS REMOVED
+                                        //TODO: 2. ROLL BACK USER STATUS = CLIENT
+                                        //TODO: 3. LOGOUT
+                                    }
+                                }
+                            });
+                            break;
+
+                        case Users.STATUS_ADMIN:
+                        case Users.STATUS_CLIENT:
+                        case Users.STATUS_TECH:
+                            Log.d(LOGINTAG, "::AsyncTask");
+                            UtlFirebase.ticketStateListener(ticketStateObserver);
+                            Log.d(LOGINTAG, "Calling getAllTicketLites");
+                            UtlFirebase.getAllTicketLites(fbHelper);
+                            Log.d(LOGINTAG, "Calling getAllCompanies");
+                            UtlFirebase.getAllCompanies(fbHelper);
+                            Log.d(LOGINTAG, "Calling getAllTickets");
+                            UtlFirebase.getAllTickets(fbHelper);
+                            break;
+
+                        case "undefined":
+                            Log.e(TAG, ":::UserSingleton undefined");
+                            break;
+
+                        default:
+                            Log.e(TAG, ":::UserSingleton undefined");
+                            break;
                     }
 
                     return null;
@@ -238,25 +263,24 @@ public class UserSingleton extends Users {
         return userHolder.getAssignedCompanyID();
     }
 
-    private static TechniciansObservable TechObserver = new TechniciansObservable() {
+
+    private static EnrollmentCodesObservable enrollmentCodeObserver = new EnrollmentCodesObservable() {
         @Override
-        public void onTechnicianAdded(Technician technician) {
-            Technician.addTechnicianToList(technician);
-            if (!technician.isEdited()) {
-                //TODO: notify about new technician
-            }
+        public void onEnrollmentCodeAdded(EnrollmentCode enrollmentCode) {
+            EnrollmentCode.addEnrollmentCodeToList(enrollmentCode);
         }
 
         @Override
-        public void onTechnicianChanged(Technician technician) {
-            Technician.changeTechnician(technician);
+        public void onEnrollmentCodeChanged(EnrollmentCode enrollmentCode) {
+
         }
 
         @Override
-        public void onTechnicianRemoved(Technician technician) {
-            Technician.removeTechnicianFromList(technician);
+        public void onEnrollmentCodeRemoved(EnrollmentCode enrollmentCode) {
+
         }
     };
+
 }
 
 

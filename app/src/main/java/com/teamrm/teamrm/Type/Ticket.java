@@ -12,6 +12,7 @@ import com.teamrm.teamrm.Utility.UtlFirebase;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +22,8 @@ import java.util.List;
 public class Ticket {
 
     public static final TicketFactory TicketFactory = new TicketFactory();
+
+    private static List<Ticket> ticketList = Collections.EMPTY_LIST;
 
     private String clientID;
     private String clientEmail;
@@ -75,7 +78,6 @@ public class Ticket {
     private boolean isUserApprove;
     private boolean isTechDone;
     private boolean ticketIsClosed;
-    private static List<Ticket> ticketList = new ArrayList<>();
 
     public static final String CLIENT_ID = "clientID";
     public static final String CLIENT_EMAIL = "clientEmail";
