@@ -60,13 +60,14 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     private Toolbar mToolbar;
     private FragmentDrawer drawerFragment;
     private FrameLayout frameLayout;
-    public static Context context;
+    private Context context;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private static final int ACTION_OVERLAY = 300, FROM_PHOTO_ADAPTER = 2;
     private final static String[] TAG_FRAGMENT = {"NEW_TICKET", "CALENDER", "TICKET_LIST","COMPANY_SEATING","COMPANY_SEATING_ADVANCED"};
     private GoogleApiClient mGoogleApiClient;
-    private Intent serviceIntent;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth.AuthStateListener fireBaseAuthStateListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,11 +78,24 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
         context = this;
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        fireBaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if (null == firebaseAuth.getCurrentUser()) {
+                    Intent splashScreenIntent = new Intent(context, SplashScreen.class);
+                    splashScreenIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // for starting Intent from no-Activity context
+                    splashScreenIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // for finishing all running activities
+                    startActivity(splashScreenIntent);
+                }
+            }
+        };
+
         frameLayout = (FrameLayout) findViewById(R.id.container_body);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        serviceIntent = new Intent(HomeScreen.this, FirebaseBackgroundService.class);
-        this.startService(serviceIntent);
+        App.getInstance().startService();
 
         TextView appIcon = (TextView) findViewById(R.id.appIcon);
         appIcon.setTypeface(Typeface.createFromAsset(this.getAssets(), "Assistant-Bold.ttf"));
@@ -102,6 +116,20 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         fragmentTransaction.add(R.id.container_body, new TicketList(),TicketList.FRAGMENT_TRANSACTION).disallowAddToBackStack();
         fragmentTransaction.commit();
         setTitle(getResources().getStringArray(R.array.nav_list)[0]);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseAuth.addAuthStateListener(fireBaseAuthStateListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (null != fireBaseAuthStateListener){
+            firebaseAuth.removeAuthStateListener(fireBaseAuthStateListener);
+        }
     }
 
     @Override
@@ -313,23 +341,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     }
 
     private void signOut() {
-        UtlFirebase.removeActiveListeners();
-        FirebaseAuth.getInstance().signOut();
-
-        this.stopService(serviceIntent);
-        mGoogleApiClient = App.getGoogleApiHelper().getGoogleApiClient();
-
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        //Toast.makeText(context,"logout OK home",Toast.LENGTH_LONG).show();
-                        SplashScreen.resume = true;
-                        finish();
-                        startActivity(new Intent(HomeScreen.this, SplashScreen.class));
-                    }
-                });
-        UserSingleton.init(null);
+        App.getInstance().signOut();
     }
 
     @Override
@@ -340,4 +352,5 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     public Context getContext() {
         return this.context;
     }
+
 }

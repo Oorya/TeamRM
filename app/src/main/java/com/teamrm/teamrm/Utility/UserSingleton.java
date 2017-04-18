@@ -1,10 +1,15 @@
 package com.teamrm.teamrm.Utility;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.teamrm.teamrm.Activities.HomeScreen;
+import com.teamrm.teamrm.Activities.SplashScreen;
 import com.teamrm.teamrm.Adapter.TicketListAdapter;
 import com.teamrm.teamrm.Interfaces.EnrollmentCodesObservable;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
@@ -96,6 +101,10 @@ public class UserSingleton extends Users {
                     return null;
                 }
             }.execute();
+        } else if (FirebaseAuth.getInstance().getCurrentUser() != null){
+            Log.e(LOGINTAG, "UserSingleton init failed!");
+            new NiceToast(App.getInstance().getApplicationContext(),"Application initialization failed, logging out...\nPlease log in again", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG);
+            App.getInstance().signOut();
         }
 
     }
@@ -280,6 +289,7 @@ public class UserSingleton extends Users {
 
         }
     };
+
 
 }
 

@@ -21,9 +21,9 @@ import java.util.List;
  */
 public class Ticket {
 
-    public static final TicketFactory TicketFactory = new TicketFactory();
+    @Exclude public static final TicketFactory TicketFactory = new TicketFactory();
 
-    private static List<Ticket> ticketList = Collections.EMPTY_LIST;
+    @Exclude private static List<Ticket> ticketList = new ArrayList<>();
 
     private String clientID;
     private String clientEmail;
@@ -128,6 +128,7 @@ public class Ticket {
         this.ticketOpenDateTime = startTime==null?getCurrentTime():startTime;
         this.ticketCloseDateTime = "";
         this.ticketCalendarID = (new Date()).getTime();
+        this.isTicketDone = false;
         this.ticketIsClosed = false;
         // this.ticketStateObj = TicketFactory.getNewState(UserSingleton.getInstance().getStatus(),TicketStateStringable.STATE_A00,this);
     }
@@ -203,7 +204,7 @@ public class Ticket {
         UtlFirebase.updateTicketPresentation(ticket.ticketID, ticketPresentation);
     }
 
-    public Integer getUrgency() {
+    @Exclude public Integer getUrgency() {
         Integer urgency;
 
         switch (this.ticketStateString) {
@@ -275,6 +276,7 @@ public class Ticket {
     public void setUserApprove(boolean userApprove) {
         isUserApprove = userApprove;
     }
+
 
     public boolean getTechDone() {
         return isTechDone;

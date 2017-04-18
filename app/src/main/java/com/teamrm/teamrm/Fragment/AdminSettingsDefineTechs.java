@@ -67,7 +67,7 @@ public class AdminSettingsDefineTechs extends Fragment {
         //ecSection.setState(Section.State.LOADING);
         //techSection.setVisible(false);
 
-        UtlFirebase.enrollmentCodeListener(UserSingleton.getInstance().getAssignedCompanyID(), new EnrollmentCodeCallback() {
+        /*UtlFirebase.enrollmentCodeListener(UserSingleton.getInstance().getAssignedCompanyID(), new EnrollmentCodeCallback() {
             @Override
             public void enrollmentCodeCallback(ArrayList<EnrollmentCode> enrollmentCodes) {
                 Log.d(":::ec callback", "BOOM");
@@ -75,15 +75,15 @@ public class AdminSettingsDefineTechs extends Fragment {
                     EnrollmentCode.setenrollmentCodeList(enrollmentCodes);
                     ecSection.setVisible(true);
                     tAdapter.notifyDataSetChanged();
-               /* if (!enrollmentCodes.isEmpty()) {
+               *//* if (!enrollmentCodes.isEmpty()) {
                     //ecSection.setVisible(true);
-                }*/
+                }*//*
                 } else {
                     tAdapter.notifyDataSetChanged();
                     ecSection.setVisible(false);
                 }
             }
-        });
+        });*/
 
        /* UtlFirebase.getCompanyTechniciansForEdit(UserSingleton.getInstance().getAssignedCompanyID(), new TechnicianCallback() {
             @Override

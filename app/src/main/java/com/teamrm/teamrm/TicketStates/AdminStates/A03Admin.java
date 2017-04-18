@@ -1,5 +1,6 @@
 package com.teamrm.teamrm.TicketStates.AdminStates;
 
+import android.content.Context;
 import android.view.View;
 
 import com.teamrm.teamrm.Interfaces.TicketStateStringable;
@@ -7,6 +8,7 @@ import com.teamrm.teamrm.Interfaces.TicketStateAble;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.TicketStates.TicketStateAdmin;
 import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Utility.App;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
 
 import java.text.ParseException;
@@ -14,7 +16,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import static com.teamrm.teamrm.Activities.HomeScreen.context;
 import static com.teamrm.teamrm.R.id.calendar;
 
 /**
@@ -22,7 +23,7 @@ import static com.teamrm.teamrm.R.id.calendar;
  */
 public class A03Admin extends TicketStateAdmin implements TicketStateAble {
 
-
+    private Context context = App.getInstance().getApplicationContext();
     static {
         TicketFactory.registerProduct(TicketStateStringable.STATE_ADMIN_A03,new A03Admin());
     }
