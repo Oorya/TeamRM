@@ -37,58 +37,58 @@ public class FirebaseBackgroundService extends Service {
         Toast.makeText(this, "FROM SERVICE ", Toast.LENGTH_SHORT).show();
 
         context = this;
-        Log.w("from service","create ");
+        Log.w("from service", "create ");
+        if (!UserSingleton.isUserLoaded()) {
+            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                Toast.makeText(this, "FROM SERVICE USER " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();
+                UtlFirebase.loginUser(FirebaseAuth.getInstance().getCurrentUser(), new FireBaseAble() {
+                    @Override
+                    public void resultTicket(Ticket ticket) {
 
-        if(FirebaseAuth.getInstance().getCurrentUser() != null)
-        {
-            Toast.makeText(this, "FROM SERVICE USER "+ FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();
-            UtlFirebase.loginUser(FirebaseAuth.getInstance().getCurrentUser(), new FireBaseAble() {
-                @Override
-                public void resultTicket(Ticket ticket) {
+                    }
 
-                }
+                    @Override
+                    public void resultUser(Users user) {
+                        Toast.makeText(FirebaseBackgroundService.this, "INIT SERVICE ", Toast.LENGTH_SHORT).show();
+                        UserSingleton.init(user);
+                    }
 
-                @Override
-                public void resultUser(Users user) {
-                    Toast.makeText(FirebaseBackgroundService.this, "INIT SERVICE ", Toast.LENGTH_SHORT).show();
-                    UserSingleton.init(user);
-                }
+                    @Override
+                    public void ticketListCallback(List<Ticket> tickets) {
 
-                @Override
-                public void ticketListCallback(List<Ticket> tickets) {
+                    }
 
-                }
+                    @Override
+                    public void ticketLiteListCallback(List<TicketLite> ticketLites) {
 
-                @Override
-                public void ticketLiteListCallback(List<TicketLite> ticketLites) {
+                    }
 
-                }
+                    @Override
+                    public void resultBoolean(boolean bool) {
 
-                @Override
-                public void resultBoolean(boolean bool) {
+                    }
 
-                }
+                    @Override
+                    public void companyListCallback(List<Company> companies) {
 
-                @Override
-                public void companyListCallback(List<Company> companies) {
+                    }
 
-                }
+                    @Override
+                    public void productListCallback(List<Product> products) {
 
-                @Override
-                public void productListCallback(List<Product> products) {
+                    }
 
-                }
+                    @Override
+                    public void categoryListCallback(List<Category> categories) {
 
-                @Override
-                public void categoryListCallback(List<Category> categories) {
+                    }
 
-                }
+                    @Override
+                    public void regionListCallback(List<Region> regions) {
 
-                @Override
-                public void regionListCallback(List<Region> regions) {
-
-                }
-            });
+                    }
+                });
+            }
         }
     }
 

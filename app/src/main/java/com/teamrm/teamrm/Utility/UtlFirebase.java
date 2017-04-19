@@ -56,9 +56,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static com.teamrm.teamrm.Type.TicketState.STATELISTENERTAG;
 import static com.teamrm.teamrm.Utility.UserSingleton.LOGINTAG;
+import static com.teamrm.teamrm.Utility.UserSingleton.TE_SEQ;
 
 
 public class UtlFirebase {
@@ -271,15 +273,15 @@ public class UtlFirebase {
 
 ///////////////////////////// Technician -> EnrollmentCode /////////////////////////////
 
-    public static void addEnrollmentCode(EnrollmentCode enrollmentcode) {
+    public static void addEnrollmentCode() {
+        EnrollmentCode enrollmentCode = new EnrollmentCode(UserSingleton.getInstance().getAssignedCompanyID(), UUID.randomUUID().toString().substring(0, 7).toUpperCase());
         DatabaseReference ref = TECHNICIAN_ENROLLMENT_CODES_REFERENCE.push();
-        enrollmentcode.setEnrollmentCodeID(ref.getKey());
-        ref.setValue(enrollmentcode, new DatabaseReference.CompletionListener() {
+        enrollmentCode.setEnrollmentCodeID(ref.getKey());
+        ref.setValue(enrollmentCode, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                if (databaseError != null) {
-                    toastTheError(databaseError);
-                }
+                Log.d(TE_SEQ, "Stage 01+02");
+                toastSuccessOrError("Enrollment code added successfully", databaseError);
             }
         });
     }
@@ -363,7 +365,7 @@ public class UtlFirebase {
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            // irrelevant
+                // irrelevant
             }
 
             @Override
@@ -397,19 +399,20 @@ public class UtlFirebase {
 
 ///////////////////////////// Technician -> Technician /////////////////////////////
 
-    public static void registerAsTechnician(final String enrollmentCodeString) {
+    public static void registerAsTechnician(final String enrollmentCodeString, final FireBaseBooleanCallback resultCallback) {
         getEnrollmentCodeByString(enrollmentCodeString, new EnrollmentCodeSingleCallback() {
             @Override
             public void enrollmentCodeCallback(EnrollmentCode ecObject) {
                 Map<String, Object> updates = new HashMap<>();
-                updates.put(USERS_ROOT_REFERENCE_STRING + "/" + (UserSingleton.getInstance().getUserID()) + "/" + (Users.USER_STATUS), Users.STATUS_TECH);
-                updates.put(TECHNICIAN_ENROLLMENT_CODES_STRING + "/" + ecObject.getEnrollmentCodeID() + "/" + EnrollmentCode.IS_ACCEPTED, true);
+                updates.put(USERS_ROOT_REFERENCE_STRING + "/" + (UserSingleton.getInstance().getUserID()) + "/" + (Users.USER_STATUS), Users.STATUS_PENDING_TECH);
+                updates.put(TECHNICIAN_ENROLLMENT_CODES_STRING + "/" + ecObject.getEnrollmentCodeID() + "/" + EnrollmentCode.ENROLLMENT_STATUS, EnrollmentCode.STATUS_PENDING);
                 updates.put(TECHNICIAN_ENROLLMENT_CODES_STRING + "/" + ecObject.getEnrollmentCodeID() + "/" + EnrollmentCode.ENROLLED_TECH_USER_ID, UserSingleton.getInstance().getUserID());
 
                 GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                         toastSuccessOrError("Successfully registered as Technician", databaseError);
+                        resultCallback.booleanCallback(true);
                     }
                 });
                 /*DatabaseReference companyTechRef = COMPANY_TECHNICIANS_ROOT_REFERENCE.child(ecObject.getEnrollmentCodeCompanyId()); // reference the company from EnrollmentCode

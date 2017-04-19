@@ -2,10 +2,10 @@ package com.teamrm.teamrm.Type;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.widget.TabHost;
 
 import com.google.firebase.database.Exclude;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class EnrollmentCode{
 
-    @Exclude private static List<EnrollmentCode> enrollmentCodeList = Collections.EMPTY_LIST;
+    @Exclude private static List<EnrollmentCode> enrollmentCodeList = new ArrayList<>();
 
     @Exclude public static final String ENROLLMENT_CODE_ID = "enrollmentCodeID";
     @Exclude public static final String ENROLLMENT_CODE_STRING = "enrollmentCodeString";
@@ -24,14 +24,14 @@ public class EnrollmentCode{
     @Exclude public static final String ENROLLMENT_CODE_SENT_TO_PHONE = "enrollmentCodeSentToPhone";
     @Exclude public static final String IS_SENT_TO_MAIL = "isSentToMail";
     @Exclude public static final String ENROLLMENT_CODE_SENT_TO_MAIL = "enrollmentCodeSentToMail";
-    @Exclude public static final String IS_ACCEPTED = "isPending";
+    @Exclude public static final String ENROLLMENT_STATUS = "enrollmentStatus";
     @Exclude public static final String ENROLLED_TECH_USER_ID = "enrolledTechUserID";
 
-    @Exclude private static final int ENROLLMENT_ISSUED = 66379;
-    @Exclude private static final int ENROLLMENT_PENDING = 75236;
-    @Exclude private static final int ENROLLMENT_ACCEPTED = 62344;
-    @Exclude private static final int ENROLLMENT_DECLINED = 98223;
-    @Exclude private static final int ENROLLMENT_FINALIZED = 84863;
+    @Exclude public static final int STATUS_ISSUED = 66379;
+    @Exclude public static final int STATUS_PENDING = 75236;
+    @Exclude public static final int STATUS_ACCEPTED = 62344;
+    @Exclude public static final int STATUS_DECLINED = 98223;
+    @Exclude public static final int STATUS_FINALIZED = 84863;
 
     private String enrollmentCodeID;
     private String enrollmentCodeString;
@@ -52,7 +52,7 @@ public class EnrollmentCode{
         this.isSentToPhone = false;
         this.enrollmentCodeSentToMail = "";
         this.enrollmentCodeSentToPhone = "";
-        this.enrollmentStatus = ENROLLMENT_ISSUED;
+        this.enrollmentStatus = STATUS_ISSUED;
         this.enrolledTechUserID = "";
     }
 
@@ -64,6 +64,18 @@ public class EnrollmentCode{
         this.enrollmentCodeSentToPhone = enrollmentCodeSentToPhone;
         this.isSentToMail = isSentToMail;
         this.enrollmentCodeSentToMail = enrollmentCodeSentToMail;
+    }
+
+    public EnrollmentCode(EnrollmentCode other) {
+        this.enrollmentCodeID = other.enrollmentCodeID;
+        this.enrollmentCodeString = other.enrollmentCodeString;
+        this.enrollmentCodeCompanyId = other.enrollmentCodeCompanyId;
+        this.isSentToPhone = other.isSentToPhone;
+        this.enrollmentCodeSentToPhone = other.enrollmentCodeSentToPhone;
+        this.isSentToMail = other.isSentToMail;
+        this.enrollmentCodeSentToMail = other.enrollmentCodeSentToMail;
+        this.enrollmentStatus = other.enrollmentStatus;
+        this.enrolledTechUserID = other.enrolledTechUserID;
     }
 
     public String getEnrollmentCodeID() {
@@ -135,11 +147,27 @@ public class EnrollmentCode{
     }
 
     public static void removeEnrollmentCodeFromList(EnrollmentCode enrollmentCode) {
-        //TODO:add method
+        enrollmentCodeList.remove(new EnrollmentCode(enrollmentCode));
     }
 
     public static void changeEnrollmentCodeInList(EnrollmentCode enrollmentCode) {
         //TODO:add method
+    }
+
+    public int getEnrollmentStatus() {
+        return enrollmentStatus;
+    }
+
+    public void setEnrollmentStatus(int enrollmentStatus) {
+        this.enrollmentStatus = enrollmentStatus;
+    }
+
+    public String getEnrolledTechUserID() {
+        return enrolledTechUserID;
+    }
+
+    public void setEnrolledTechUserID(String enrolledTechUserID) {
+        this.enrolledTechUserID = enrolledTechUserID;
     }
 
     @Override
@@ -152,5 +180,14 @@ public class EnrollmentCode{
     @Override
     public int hashCode() {
         return this.enrollmentCodeID.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof EnrollmentCode)){
+            return false;
+        }
+        EnrollmentCode other = (EnrollmentCode) obj;
+        return enrollmentCodeID.equals(other.enrollmentCodeID);
     }
 }

@@ -30,7 +30,7 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 
 public class EnrollmentCodeSection extends StatelessSection {
 
-    public static final String TAG = "ecSection";
+    public static final String TAG = "enrollmentCodeSection";
 
     static final int MAIL_SEND_SUCCESS = 1000;
     static final int PHONE_SEND_SUCCESS = 2000;
@@ -41,12 +41,10 @@ public class EnrollmentCodeSection extends StatelessSection {
     public EnrollmentCodeSection(Context context) {
         super(R.layout.technician_enrollment_section_header, R.layout.enrollment_code_card);
         Log.d(TAG, "called constructor");
+        Log.d(TAG, "items: " + EnrollmentCode.getEnrollmentCodeList().size());
         eContext = context;
     }
 
-   /* public void setList(List<EnrollmentCode> newEcList){
-        enrollmentCodeList = newEcList;
-    }*/
 
     @Override
     public int getContentItemsTotal() {

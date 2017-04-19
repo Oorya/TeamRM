@@ -99,6 +99,10 @@ public class AdminSettingsDefineTechs extends Fragment {
 
         tRecyclerView.setAdapter(tAdapter);
 
+        if (!EnrollmentCode.getEnrollmentCodeList().isEmpty()) {
+            ecSection.setVisible(true);
+        }
+
         view.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -113,11 +117,23 @@ public class AdminSettingsDefineTechs extends Fragment {
             @Override
             public void onClick(View view) {
                 //addTech();
-                UtlFirebase.addEnrollmentCode(new EnrollmentCode(UserSingleton.getInstance().getAssignedCompanyID(), UUID.randomUUID().toString().substring(0, 7).toUpperCase()));
+                UtlFirebase.addEnrollmentCode();
             }
         });
         return view;
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        UserSingleton.setECAdapter(tAdapter);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        UserSingleton.setECAdapter(null);
     }
 
     void addTech() {

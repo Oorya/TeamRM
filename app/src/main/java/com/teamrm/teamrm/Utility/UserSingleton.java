@@ -1,6 +1,5 @@
 package com.teamrm.teamrm.Utility;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -8,8 +7,6 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.teamrm.teamrm.Activities.HomeScreen;
-import com.teamrm.teamrm.Activities.SplashScreen;
 import com.teamrm.teamrm.Adapter.TicketListAdapter;
 import com.teamrm.teamrm.Interfaces.EnrollmentCodesObservable;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
@@ -26,7 +23,10 @@ import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.TicketState;
 import com.teamrm.teamrm.Type.Users;
 
+import java.util.HashMap;
 import java.util.List;
+
+import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
 import static com.teamrm.teamrm.Type.TicketState.STATELISTENERTAG;
 
@@ -38,9 +38,12 @@ import static com.teamrm.teamrm.Type.TicketState.STATELISTENERTAG;
 public class UserSingleton extends Users {
 
     public static final String LOGINTAG = ":::LOGIN_SEQUENCE:::";
+    public static final String TE_SEQ = "TechEnrollSequence";
     private static final String TAG = "USER_SINGLETON";
 
     private static Users userHolder;
+
+    private static SectionedRecyclerViewAdapter ecAdapter;
 
     private static class SingletonLoader {
         private static final UserSingleton INSTANCE = new UserSingleton();
@@ -60,13 +63,16 @@ public class UserSingleton extends Users {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    switch (getLoadedUserType()) {
+                    switch (getLoadedUserType()) { // check which user type is loaded into the Singleton
                         case Users.STATUS_PENDING_TECH:
                             UtlFirebase.checkEnrollmentCodes(userHolder.getAssignedCompanyID(), new FireBaseBooleanCallback() {
                                 @Override
                                 public void booleanCallback(boolean isTrue) {
-                                    if (isTrue){
+                                    Log.d(TE_SEQ, "enrollmentCodes exist");
+                                    if (isTrue) {
+                                        //TODO:set application interface for Pending Technician
                                         UtlFirebase.enrollmentCodeListener(userHolder.getAssignedCompanyID(), enrollmentCodeObserver);
+
                                     } else {
                                         //TODO: 1.NOTIFY USER THAT THE CODE WAS REMOVED
                                         //TODO: 2. ROLL BACK USER STATUS = CLIENT
@@ -77,6 +83,8 @@ public class UserSingleton extends Users {
                             break;
 
                         case Users.STATUS_ADMIN:
+                            UtlFirebase.enrollmentCodeListener(userHolder.getAssignedCompanyID(), enrollmentCodeObserver);
+
                         case Users.STATUS_CLIENT:
                         case Users.STATUS_TECH:
                             Log.d(LOGINTAG, "::AsyncTask");
@@ -101,9 +109,9 @@ public class UserSingleton extends Users {
                     return null;
                 }
             }.execute();
-        } else if (FirebaseAuth.getInstance().getCurrentUser() != null){
+        } else if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             Log.e(LOGINTAG, "UserSingleton init failed!");
-            new NiceToast(App.getInstance().getApplicationContext(),"Application initialization failed, logging out...\nPlease log in again", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG);
+            new NiceToast(App.getInstance().getApplicationContext(), "Application initialization failed, logging out...\nPlease log in again", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG);
             App.getInstance().signOut();
         }
 
@@ -273,10 +281,76 @@ public class UserSingleton extends Users {
     }
 
 
+    public static void setECAdapter(SectionedRecyclerViewAdapter _ecAdapter){
+        ecAdapter = _ecAdapter;
+        if (null != ecAdapter) {
+            Log.d(TE_SEQ, "Adapter = " + ecAdapter.toString());
+        }
+    }
+
     private static EnrollmentCodesObservable enrollmentCodeObserver = new EnrollmentCodesObservable() {
         @Override
         public void onEnrollmentCodeAdded(EnrollmentCode enrollmentCode) {
-            EnrollmentCode.addEnrollmentCodeToList(enrollmentCode);
+            switch (getLoadedUserType()) {
+                case Users.STATUS_PENDING_TECH:
+                    HashMap<String, Object> update = new HashMap<>();
+                    switch (enrollmentCode.getEnrollmentStatus()) {
+                        case EnrollmentCode.STATUS_ACCEPTED:
+                            update.put(EnrollmentCode.ENROLLMENT_STATUS, EnrollmentCode.STATUS_FINALIZED);
+                            //TODO: set userStatus = Tech
+                            UtlFirebase.updateEnrollmentCode(enrollmentCode.getEnrollmentCodeID(), update);
+                            App.getInstance().signOut();
+                            break;
+
+                        case EnrollmentCode.STATUS_DECLINED:
+                            update.put(EnrollmentCode.ENROLLMENT_STATUS, EnrollmentCode.STATUS_FINALIZED);
+                            //TODO: set userStatus = Client
+                            App.getInstance().signOut();
+                            break;
+
+                        case EnrollmentCode.STATUS_ISSUED:
+                            //should be impossible
+                            //TODO: notify error occurred
+                            break;
+
+                        case EnrollmentCode.STATUS_FINALIZED:
+                            //ignore
+                            break;
+
+                        case EnrollmentCode.STATUS_PENDING:
+                            EnrollmentCode.addEnrollmentCodeToList(enrollmentCode);
+                            break;
+                    }
+                    break;
+
+                case Users.STATUS_ADMIN:
+                    switch (enrollmentCode.getEnrollmentStatus()) {
+                        case EnrollmentCode.STATUS_ISSUED:
+                        case EnrollmentCode.STATUS_PENDING:
+                        case EnrollmentCode.STATUS_ACCEPTED:
+                        case EnrollmentCode.STATUS_DECLINED:
+                            EnrollmentCode.addEnrollmentCodeToList(enrollmentCode);
+                            Log.d(TE_SEQ, "List: added enrollmentCode " + enrollmentCode.getEnrollmentCodeString());
+                            if (ecAdapter != null){
+                                Log.d(TE_SEQ, "notifying adapter with " + enrollmentCode.getEnrollmentCodeString());
+                                ecAdapter.notifyDataSetChanged();
+                            }
+                            break;
+
+                        case EnrollmentCode.STATUS_FINALIZED:
+                            UtlFirebase.removeEnrollmentCode(enrollmentCode);
+                            Log.d(TE_SEQ, "List: removed enrollmentCode " + enrollmentCode.toString());
+                            if (ecAdapter != null){
+                                ecAdapter.notifyDataSetChanged();
+                            }
+                            break;
+                    }
+
+                case Users.STATUS_CLIENT:
+                case Users.STATUS_TECH:
+                    //ignore
+                    break;
+            }
         }
 
         @Override
@@ -286,7 +360,10 @@ public class UserSingleton extends Users {
 
         @Override
         public void onEnrollmentCodeRemoved(EnrollmentCode enrollmentCode) {
-
+            EnrollmentCode.removeEnrollmentCodeFromList(enrollmentCode);
+            if (ecAdapter != null){
+                ecAdapter.notifyDataSetChanged();
+            }
         }
     };
 
