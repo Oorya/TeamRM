@@ -148,6 +148,7 @@ public class EnrollmentCode{
     }
 
     public static void addEnrollmentCodeToList(EnrollmentCode enrollmentCode) {
+
         enrollmentCodeList.add(enrollmentCode);
     }
 

@@ -88,7 +88,10 @@ public class Ticket {
     public static final String TECH_ID = "techID";
     public static final String TICKET_PRESENTATION = "ticketPresentation";
 
-
+    public static void clearList()
+    {
+        ticketList.clear();
+    }
     public Ticket() {}  //empty constructor, must have
 
     public Ticket(String ticketID, String ticketStateString)

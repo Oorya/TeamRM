@@ -39,7 +39,7 @@ public class TechniciansAdapter extends RecyclerView.Adapter<TechniciansAdapter.
 
     @Override
     public int getItemViewType(int position) {
-        int viewType = 0; //TODO:add more types
+        int viewType = 0;
         return viewType;
     }
 

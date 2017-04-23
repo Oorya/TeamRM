@@ -1,6 +1,5 @@
 package com.teamrm.teamrm.Utility;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -10,9 +9,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
-import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Activities.SplashScreen;
 import com.teamrm.teamrm.Broadcast.FirebaseBackgroundService;
+import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Type.TicketLite;
 
 /**
  * Created by Oorya on 13/12/2016.
@@ -62,6 +62,9 @@ public class App extends Application {
                     @Override
                     public void onResult(@NonNull Status status) {
                         //Toast.makeText(context,"logout OK home",Toast.LENGTH_LONG).show();
+                        Ticket.clearList();
+                        TicketLite.clearList();
+
                         SplashScreen.resume = true;
                     }
                 });

@@ -89,7 +89,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         if (bundle != null)
         {
             startTime = bundle.getString("NEW_TICKET", "error");
-            //TODO WER IS START TIME SET SHALTY
+
         }
 
 
@@ -222,7 +222,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
 
     private boolean checkEntries() {
         //add method
-        //TODO: add check if not exist user address, phone -> ask if to save?
+
         return true;
     }
 

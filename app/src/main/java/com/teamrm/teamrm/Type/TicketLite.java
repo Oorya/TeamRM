@@ -42,6 +42,10 @@ public class TicketLite {
 
     private int ticketPresentation;
 
+    public static void clearList()
+    {
+        ticketLiteList.clear();
+    }
 
     public static List<TicketLite> getTicketLiteList() {
         return ticketLiteList;

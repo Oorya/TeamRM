@@ -561,9 +561,10 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             });
         }else
         {
-            UtlFirebase.getCompanyByID(ticket.getCategoryID(), new CompanyCallback() {
+            UtlFirebase.getCompanyByID(ticket.getCompanyID(), new CompanyCallback() {
                 @Override
                 public void companyCallback(Company company) {
+
                     userDitaile = company;
                     initializeTicket();
 
@@ -594,7 +595,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                     userNameCardClose.setText(((Company)userDitaile).getCompanyName());
                     userNameCardOpen.setText(((Company)userDitaile).getCompanyName());
                     userAddCardOpen.setText(((Company)userDitaile).getCompanyAddress());
-                    userMailCardOpen.setText(((Company)userDitaile).getAdminId());//TODO ADD FILED mail IN Company
+                    userMailCardOpen.setText(((Company)userDitaile).getCompanyName());//TODO ADD FILED mail IN Company
                     userPhoneCardOpen.setText(((Company)userDitaile).getCompanyPhone());
 
             }
