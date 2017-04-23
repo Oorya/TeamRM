@@ -64,20 +64,20 @@
                     android:visibility="visible">
 
                     <ImageView
-                        android:id="@+id/enrollmentStatusIcon"
+                        android:id="@+id/enrollmentStatusSentIcon"
                         style="@style/CardRowImageStart"
                         android:src="@drawable/ic_icon_camera" />
 
                     <TextView
-                        android:id="@+id/enrollmentStatusLabel"
+                        android:id="@+id/enrollmentStatusSentLabel"
                         style="@style/CardRowLabel"
-                        android:layout_toEndOf="@id/enrollmentStatusIcon"
+                        android:layout_toEndOf="@id/enrollmentStatusSentIcon"
                         android:text="סטטוס קוד הרשמה" />
 
                     <TextView
-                        android:id="@+id/enrollmentStatusText"
+                        android:id="@+id/enrollmentStatusSentText"
                         style="@style/CardRowText"
-                        android:layout_toEndOf="@id/enrollmentStatusLabel"
+                        android:layout_toEndOf="@id/enrollmentStatusSentLabel"
                         tools:text="ממתין לאישור"/>
 
                 </com.teamrm.teamrm.Utility.RowViewLayout>

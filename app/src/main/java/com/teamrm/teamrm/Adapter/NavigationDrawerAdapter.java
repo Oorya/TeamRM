@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.NavDrawerItem;
 import com.teamrm.teamrm.Utility.UserSingleton;
 
@@ -27,7 +28,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
     public NavigationDrawerAdapter(Context context, List<NavDrawerItem> data) {
         this.context = context;
         inflater = LayoutInflater.from(context);
-        if (!UserSingleton.getInstance().isUserIsAdmin())
+        if (!UserSingleton.getLoadedUserType().equals(Users.STATUS_ADMIN))
         {
             data.remove(3);
             data.remove(2);

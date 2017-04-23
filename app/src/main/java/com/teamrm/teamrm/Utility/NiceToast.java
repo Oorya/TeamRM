@@ -34,11 +34,13 @@ public class NiceToast extends Toast {
         ImageView icon = (ImageView) layout.findViewById(R.id.toastIcon);
         switch (toastType) {
             case NICETOAST_INFORMATION:
+                toastCard.setAlpha(0.9f);
                 toastBG.setBackgroundResource(R.color.status_ok);
                 icon.setBackgroundResource(R.drawable.ic_info_outline);
                 break;
 
             case NICETOAST_WARNING:
+                toastCard.setAlpha(0.95f);
                 toastBG.setBackgroundResource(R.color.status_pending);
                 icon.setBackgroundResource(R.drawable.ic_icon_alert2);
                 break;

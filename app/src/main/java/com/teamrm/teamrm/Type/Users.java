@@ -126,4 +126,14 @@ public abstract class Users {
     public void setAssignedCompanyID(String assignedCompanyID) {
         this.assignedCompanyID = assignedCompanyID;
     }
+
+    @Override
+    public String toString() {
+        String out = "userID = " + getUserID() + "\n";
+        out += "userNameString = " + getUserNameString() + "\n";
+        out += "userEmail = " + getUserEmail() + "\n";
+        out += "userStatus = " + getUserStatus() + "\n";
+        return out;
+
+    }
 }

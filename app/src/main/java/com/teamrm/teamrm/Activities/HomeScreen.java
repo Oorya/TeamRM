@@ -41,6 +41,7 @@ import com.teamrm.teamrm.Fragment.TicketList;
 import com.teamrm.teamrm.Fragment.TicketView;
 import com.teamrm.teamrm.Interfaces.FragmentHelper;
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.App;
 import com.teamrm.teamrm.Utility.NiceToast;
 import com.teamrm.teamrm.Utility.UserSingleton;
@@ -56,6 +57,10 @@ import me.iwf.photopicker.PhotoPreview;
 
 public class HomeScreen extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener, GoogleApiClient.OnConnectionFailedListener {
 
+    private static final int PENDING_TECH_ENROLLMENT_PENDING = 598;
+    private static final int PENDING_TECH_ENROLLMENT_DECLINED = 672;
+    private static final int PENDING_TECH_ENROLLMENT_ACCEPTED = 268;
+    private static final int PENDING_TECH_ENROLLMENT_DELETED = 455;
 
     private Toolbar mToolbar;
     private FragmentDrawer drawerFragment;
@@ -72,6 +77,33 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle bundle = getIntent().getExtras();
+        int startParams = bundle.getInt("startParams");
+
+        if (UserSingleton.getLoadedUserType().equals(Users.STATUS_PENDING_TECH)){
+            switch (startParams){
+
+                case PENDING_TECH_ENROLLMENT_PENDING:
+                    //
+                    break;
+
+                case PENDING_TECH_ENROLLMENT_ACCEPTED:
+                    //
+                    break;
+
+                case PENDING_TECH_ENROLLMENT_DECLINED:
+                    //
+                    break;
+
+                case PENDING_TECH_ENROLLMENT_DELETED:
+                    //
+                    break;
+
+                default: //do nothing
+            }
+        }
+
         setContentView(R.layout.activity_home_screen);
         new NiceToast(this, "User " + UserSingleton.getInstance().getUserEmail() + "\n"
                 + "logged in as " + UserSingleton.getLoadedUserType(), NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();

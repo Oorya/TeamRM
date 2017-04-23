@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.teamrm.teamrm.Interfaces.FragmentHelper;
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Utility.RowViewLayout;
 
 
 /**
@@ -19,7 +20,7 @@ import com.teamrm.teamrm.R;
  */
 public class AdminSettingsBasic extends Fragment implements View.OnClickListener {
 
-    private RelativeLayout
+    private RowViewLayout
             defineFirm,
             defineTechnicians,
             defineProducts,
@@ -39,13 +40,13 @@ public class AdminSettingsBasic extends Fragment implements View.OnClickListener
         View view = inflater.inflate(R.layout.fragment_admin_settings_basic, container, false);
 
 
-        defineFirm = (RelativeLayout) view.findViewById(R.id.defineFirm);
-        defineTechnicians = (RelativeLayout) view.findViewById(R.id.defineTechnicians);
-        defineProducts = (RelativeLayout) view.findViewById(R.id.defineProducts);
-        defineCategory = (RelativeLayout) view.findViewById(R.id.defineCategoryA);
-        defineRegions = (RelativeLayout) view.findViewById(R.id.defineRegion);
-        defineWorkShifts = (RelativeLayout) view.findViewById(R.id.defineWorkShift);
-        appPrefs = (RelativeLayout) view.findViewById(R.id.appPrefs);
+        defineFirm = (RowViewLayout) view.findViewById(R.id.defineFirm);
+        defineTechnicians = (RowViewLayout) view.findViewById(R.id.defineTechnicians);
+        defineProducts = (RowViewLayout) view.findViewById(R.id.defineProducts);
+        defineCategory = (RowViewLayout) view.findViewById(R.id.defineCategoryA);
+        defineRegions = (RowViewLayout) view.findViewById(R.id.defineRegion);
+        defineWorkShifts = (RowViewLayout) view.findViewById(R.id.defineWorkShift);
+        appPrefs = (RowViewLayout) view.findViewById(R.id.appPrefs);
 
         defineFirm.setOnClickListener(new View.OnClickListener() {
             @Override

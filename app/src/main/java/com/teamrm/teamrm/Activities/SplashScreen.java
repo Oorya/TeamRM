@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -104,7 +105,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
             DatabaseReference test = FirebaseDatabase.getInstance().getReference("test");
             test.push().setValue("on create service");
             Log.d(TAG, "on create service");
-            startApp();
+            startApp(null);
         }
         //Toast.makeText(this, UserSingleton.getInstance().getUserNameString() + " user exist", Toast.LENGTH_SHORT).show();
 
@@ -221,7 +222,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
     private void handleSignInResult(GoogleSignInResult result) {
 
-        Log.d(TAG, "handleSignInResult: "+result.isSuccess());
+        Log.d(TAG, "handleSignInResult: " + result.isSuccess());
 
         if (result.isSuccess()) {
             Log.d(TAG, "Stage 2, Google login OK");
@@ -235,7 +236,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
             Log.d(TAG, "handleSignInResult: = Success");
         } else {
-            Log.d(TAG, "handleSignInResult: = !Success = "+result.getStatus().getStatusCode());
+            Log.d(TAG, "handleSignInResult: = !Success = " + result.getStatus().getStatusCode());
 
             signInButton.setVisibility(View.VISIBLE);
             linearLayout.setVisibility(View.GONE);
@@ -277,8 +278,14 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
             @Override
             public void resultUser(Users user) {
-                UserSingleton.init(user);       //LOGIN STAGE 7 -> init the UserSingleton with  user fetched from FireBase
-                startApp();
+                if (null != user) {
+                    Log.d(LOGINTAG, user.toString());
+                    UserSingleton.init(user);       //LOGIN STAGE 7 -> init the UserSingleton with  user fetched from FireBase
+                    startApp(null);
+                } else {
+                    Log.e(LOGINTAG, "Received empty user from callback");
+                }
+
             }
 
             @Override
@@ -318,12 +325,16 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         });
     }
 
-    void startApp() {
+    void startApp(@Nullable final Bundle bundle) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 Log.w("start app ", "method");
-                startActivity(new Intent(SplashScreen.this, HomeScreen.class));
+                Intent homeScreenIntent = new Intent(SplashScreen.this, HomeScreen.class);
+                if (null != bundle){
+                    homeScreenIntent.putExtras(bundle);
+                }
+                startActivity(homeScreenIntent);
                 finish();
             }
         }, 3000);

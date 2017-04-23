@@ -30,4 +30,29 @@
         android:id="@+id/delTickets"
         />
 
+    <com.teamrm.teamrm.Utility.RowViewLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="ltr"
+        android:layout_marginTop="32dp">
+
+        <EditText
+            android:id="@+id/enrollmentCodeInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:minWidth="60dp"
+            tools:text="asfasdfasfd"
+            />
+
+        <Button
+            android:id="@+id/registerAsTech"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="register as tech"
+            android:layout_toEndOf="@id/enrollmentCodeLabel"
+            android:layout_alignParentEnd="true"
+            />
+    </com.teamrm.teamrm.Utility.RowViewLayout>
+
 </LinearLayout>

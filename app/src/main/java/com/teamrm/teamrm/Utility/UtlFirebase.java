@@ -28,7 +28,6 @@ import com.google.firebase.storage.UploadTask;
 import com.teamrm.teamrm.Fragment.TicketView;
 import com.teamrm.teamrm.Interfaces.ClientCallback;
 import com.teamrm.teamrm.Interfaces.CompanyCallback;
-import com.teamrm.teamrm.Interfaces.EnrollmentCodeCallback;
 import com.teamrm.teamrm.Interfaces.EnrollmentCodeSingleCallback;
 import com.teamrm.teamrm.Interfaces.EnrollmentCodesObservable;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
@@ -42,6 +41,7 @@ import com.teamrm.teamrm.Type.Chat;
 import com.teamrm.teamrm.Type.Client;
 import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.EnrollmentCode;
+import com.teamrm.teamrm.Type.PendingTech;
 import com.teamrm.teamrm.Type.Product;
 import com.teamrm.teamrm.Type.Region;
 import com.teamrm.teamrm.Type.Technician;
@@ -77,7 +77,7 @@ public class UtlFirebase {
     private static final String COMPANY_REGIONS_ROOT_REFERENCE_STRING = "CompanyRegions";
     private static final String COMPANY_WORKSHIFTS_ROOT_REFERENCE_STRING = "CompanyWorkShifts";
     private static final String COMPANY_TECHNICIANS_ROOT_REFERENCE_STRING = "CompanyTechnicians";
-    private static final String TECHNICIAN_ENROLLMENT_CODES_STRING = "TechnicianEnrollmentCodes";
+    private static final String TECHNICIAN_ENROLLMENT_CODES_REFERENCE_STRING = "TechnicianEnrollmentCodes";
     private static final String TICKET_ROOT_REFERENCE_STRING = "Tickets";
     private static final String TICKET_LITE_ROOT_REFERENCE_STRING = "TicketLites";
     private static final String CLIENT_TICKET_STATES_REFERENCE_STRING = "TicketStatesClient";
@@ -92,7 +92,7 @@ public class UtlFirebase {
     private static final DatabaseReference COMPANY_REGIONS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(COMPANY_REGIONS_ROOT_REFERENCE_STRING);
     private static final DatabaseReference COMPANY_WORKSHIFTS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(COMPANY_WORKSHIFTS_ROOT_REFERENCE_STRING);
     private static final DatabaseReference COMPANY_TECHNICIANS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(COMPANY_TECHNICIANS_ROOT_REFERENCE_STRING);
-    private static final DatabaseReference TECHNICIAN_ENROLLMENT_CODES_REFERENCE = FirebaseDatabase.getInstance().getReference(TECHNICIAN_ENROLLMENT_CODES_STRING);
+    private static final DatabaseReference TECHNICIAN_ENROLLMENT_CODES_REFERENCE = FirebaseDatabase.getInstance().getReference(TECHNICIAN_ENROLLMENT_CODES_REFERENCE_STRING);
     private static final DatabaseReference TICKET_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(TICKET_ROOT_REFERENCE_STRING);
     private static final DatabaseReference TICKET_LITE_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(TICKET_LITE_ROOT_REFERENCE_STRING);
     private static final DatabaseReference CLIENT_TICKET_STATES_REFERENCE = FirebaseDatabase.getInstance().getReference(CLIENT_TICKET_STATES_REFERENCE_STRING);
@@ -158,17 +158,30 @@ public class UtlFirebase {
                                     if (item.child(Users.USER_IS_ADMIN).getValue().equals(true)) {                             // check flag isAdmin
                                         fbHelper.resultUser(item.getValue(Admin.class));
                                     } else {
-                                        fbHelper.resultUser(item.getValue(Client.class));
-                                        Log.e(LOGINTAG, "Stage 6b, Admin validation error");
+                                        Log.e(LOGINTAG, "Stage 6b, Admin validation error, Logging out");
+                                        fbHelper.resultUser(null);
+                                        new NiceToast(getAppContext(), "Could not log you in!", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
+                                        App.getInstance().signOut();//FIXME:app crashes because there is no FireBaseAuth listener in SplashScreen
                                     }
                                     break;
+
+                                case Users.STATUS_PENDING_TECH:
+                                    Log.d(LOGINTAG, "Stage 6b, found PendingTech");
+                                    fbHelper.resultUser(item.getValue(PendingTech.class));
+                                    break;
+
                                 default:
-                                    fbHelper.resultUser(item.getValue(Client.class));                       // push current dataSnapshot as Client to the UserSingleton
+                                    Log.e(LOGINTAG, "Stage 6: Singleton undefined! Logging out");
+                                    fbHelper.resultUser(null);
+                                    new NiceToast(getAppContext(), "Could not log you in!", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
+                                    App.getInstance().signOut();//FIXME:app crashes because there is no FireBaseAuth listener in SplashScreen
                                     break;
                             }
                         } else {
-                            Log.d(LOGINTAG, "Stage 6: Singleton undefined! fallback, logging in as Client!");
-                            fbHelper.resultUser(item.getValue(Client.class));                       // push current dataSnapshot as Client to the UserSingleton
+                            Log.e(LOGINTAG, "Stage 6: Singleton undefined! Logging out");
+                            fbHelper.resultUser(null);
+                            new NiceToast(getAppContext(), "Could not log you in!", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
+                            App.getInstance().signOut();//FIXME:app crashes because there is no FireBaseAuth listener in SplashScreen
                         }
                     }
                 }
@@ -274,7 +287,7 @@ public class UtlFirebase {
 ///////////////////////////// Technician -> EnrollmentCode /////////////////////////////
 
     public static void addEnrollmentCode() {
-        EnrollmentCode enrollmentCode = new EnrollmentCode(UserSingleton.getInstance().getAssignedCompanyID(), UUID.randomUUID().toString().substring(0, 7).toUpperCase());
+        EnrollmentCode enrollmentCode = new EnrollmentCode(UserSingleton.getInstance().getAssignedCompanyID(), UUID.randomUUID().toString().substring(0, 4).toUpperCase());
         DatabaseReference ref = TECHNICIAN_ENROLLMENT_CODES_REFERENCE.push();
         enrollmentCode.setEnrollmentCodeID(ref.getKey());
         ref.setValue(enrollmentCode, new DatabaseReference.CompletionListener() {
@@ -292,9 +305,12 @@ public class UtlFirebase {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getChildrenCount() == 1) {
-                    ecCallback.enrollmentCodeCallback(dataSnapshot.getValue(EnrollmentCode.class));
+                    //Log.d(TE_SEQ, "getEnrollmentCodeByString callback = " + dataSnapshot.toString());
+                    for (DataSnapshot child : dataSnapshot.getChildren()) {
+                        ecCallback.enrollmentCodeCallback(child.getValue(EnrollmentCode.class));
+                    }
                 } else {
-                    new NiceToast(getAppContext(), "Enrollment code problem, please ask for another code", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
+                    new NiceToast(getAppContext(), "Enrollment code is invalid", NiceToast.NICETOAST_WARNING, Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -305,23 +321,6 @@ public class UtlFirebase {
         });
     }
 
-    public static void getEnrollmentCodes(String companyID, final EnrollmentCodeCallback enrollmentCodeCallback) {
-        final List<EnrollmentCode> enrollmentCodeList = new ArrayList<>();
-        TECHNICIAN_ENROLLMENT_CODES_REFERENCE.orderByChild(EnrollmentCode.ENROLLMENT_CODE_COMPANY_ID).equalTo(companyID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                enrollmentCodeList.clear();
-                for (DataSnapshot enrollmentcode : dataSnapshot.getChildren()) {
-                    enrollmentCodeList.add(enrollmentcode.getValue(EnrollmentCode.class));
-                }
-                enrollmentCodeCallback.enrollmentCodeCallback((ArrayList<EnrollmentCode>) enrollmentCodeCallback);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-    }
 
     public static void checkEnrollmentCodes(final String companyID, final FireBaseBooleanCallback fbCallback) {
         TECHNICIAN_ENROLLMENT_CODES_REFERENCE.orderByChild(EnrollmentCode.ENROLLMENT_CODE_COMPANY_ID).equalTo(companyID).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -378,17 +377,11 @@ public class UtlFirebase {
         activeChildEventListeners.put(query.getRef(), listener);
     }
 
-    public static void updateEnrollmentCode(String enrollmentCodeID, HashMap<String, Object> updateFields) {
-        Map updates = new HashMap();
-        /*for (Map.Entry<String, String> field : updateFields.entrySet()) {
-            updates.put(TICKET_ROOT_REFERENCE_STRING + "/" + ticketID + "/" + field.getKey(), field.getValue());
-            updates.put(TICKET_LITE_ROOT_REFERENCE_STRING + "/" + ticketID + "/" + field.getKey(), field.getValue());
-        }*/
-        //Log.d("updateTicket", updates.toString());
-        TECHNICIAN_ENROLLMENT_CODES_REFERENCE.child(enrollmentCodeID).updateChildren(updates, new DatabaseReference.CompletionListener() {
+    public static void updateEnrollmentCode(final String enrollmentCodeID, HashMap<String, Object> updateFields) {
+        TECHNICIAN_ENROLLMENT_CODES_REFERENCE.child(enrollmentCodeID).updateChildren(updateFields, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                toastSuccessOrError("update successful", databaseError);
+                toastSuccessOrError("enrollmentCode " + enrollmentCodeID + " update successful", databaseError);
             }
         });
     }
@@ -399,28 +392,39 @@ public class UtlFirebase {
 
 ///////////////////////////// Technician -> Technician /////////////////////////////
 
-    public static void registerAsTechnician(final String enrollmentCodeString, final FireBaseBooleanCallback resultCallback) {
+    public static void enrollPendingTechnician(final String enrollmentCodeString, final FireBaseBooleanCallback resultCallback) {
+
         getEnrollmentCodeByString(enrollmentCodeString, new EnrollmentCodeSingleCallback() {
             @Override
             public void enrollmentCodeCallback(EnrollmentCode ecObject) {
-                Map<String, Object> updates = new HashMap<>();
-                updates.put(USERS_ROOT_REFERENCE_STRING + "/" + (UserSingleton.getInstance().getUserID()) + "/" + (Users.USER_STATUS), Users.STATUS_PENDING_TECH);
-                updates.put(TECHNICIAN_ENROLLMENT_CODES_STRING + "/" + ecObject.getEnrollmentCodeID() + "/" + EnrollmentCode.ENROLLMENT_STATUS, EnrollmentCode.STATUS_PENDING);
-                updates.put(TECHNICIAN_ENROLLMENT_CODES_STRING + "/" + ecObject.getEnrollmentCodeID() + "/" + EnrollmentCode.ENROLLED_TECH_USER_ID, UserSingleton.getInstance().getUserID());
-
-                GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
-                    @Override
-                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                        toastSuccessOrError("Successfully registered as Technician", databaseError);
-                        resultCallback.booleanCallback(true);
-                    }
-                });
+                if (null != ecObject && null != ecObject.getEnrollmentCodeID()) {
+                    Log.d(TE_SEQ, "enrollPendingTechnician" + ecObject.toString());
+                    Map<String, Object> updates = new HashMap<>();
+                    updates.put(USERS_ROOT_REFERENCE_STRING + "/" + (UserSingleton.getInstance().getUserID()) + "/" + (Users.USER_STATUS), Users.STATUS_PENDING_TECH);
+                    updates.put(USERS_ROOT_REFERENCE_STRING + "/" + (UserSingleton.getInstance().getUserID()) + "/" + (Users.ASSIGNED_COMPANY_ID), (ecObject.getEnrollmentCodeCompanyId()));
+                    updates.put(TECHNICIAN_ENROLLMENT_CODES_REFERENCE_STRING + "/" + ecObject.getEnrollmentCodeID() + "/" + EnrollmentCode.ENROLLMENT_STATUS, EnrollmentCode.STATUS_PENDING);
+                    updates.put(TECHNICIAN_ENROLLMENT_CODES_REFERENCE_STRING + "/" + ecObject.getEnrollmentCodeID() + "/" + EnrollmentCode.ENROLLED_TECH_USER_ID, UserSingleton.getInstance().getUserID());
+                    Log.d(TE_SEQ, "enrollPendingTechnician phase 2 " + updates.toString());
+                    GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                            toastSuccessOrError("Successfully registered as Technician", databaseError);
+                            resultCallback.booleanCallback(true);
+                        }
+                    });
+                } else {
+                    resultCallback.booleanCallback(false);
+                }
                 /*DatabaseReference companyTechRef = COMPANY_TECHNICIANS_ROOT_REFERENCE.child(ecObject.getEnrollmentCodeCompanyId()); // reference the company from EnrollmentCode
                 Users myUser = UserSingleton.getInstance();
                 companyTechRef.child(myUser.getUserID()).setValue(new Technician(enrollmentCodeString, ecObject.getEnrollmentCodeCompanyId(), UserSingleton.getLoadedUserObject())); //
                 TECHNICIAN_ENROLLMENT_CODES_REFERENCE.child(ecObject.getEnrollmentCodeID()).removeValue(); //*/
             }
         });
+    }
+
+    public static void cancelPendingTechEnrollment(FireBaseBooleanCallback resultCallback) {
+
     }
 
    /* public static void getCompanyTechnicians(String companyID, TechnicianCallback technicianCallback) {

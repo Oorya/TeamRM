@@ -42,4 +42,4 @@ captures/
 
 # Custom
 # gradle libraries folder
-.idea/libraries
+/.idea/libraries/*.*

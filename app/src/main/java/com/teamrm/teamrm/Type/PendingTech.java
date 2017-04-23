@@ -11,13 +11,11 @@ import java.util.List;
 /**
  * Created by Oorya on 10/08/2016.
  */
-public class Client extends Users implements GenericKeyValueTypeable {
-    public Client() {
-    }
+public class PendingTech extends Users implements GenericKeyValueTypeable
+{
+    private String enrollmentCodeID;
 
-    public Client(String clientID, String userNameString, String userEmail, @Nullable String userPhone, @Nullable String userAddress) {
-        super(clientID, userNameString, userEmail);
-
+    public PendingTech(){
     }
 
     @Override

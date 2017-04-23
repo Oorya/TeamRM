@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.teamrm.teamrm.Utility.RowSetLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,7 +13,7 @@
         style="@style/Separator4dp"
         />
 
-    <RelativeLayout
+    <com.teamrm.teamrm.Utility.RowViewLayout
         android:id="@+id/defineFirm"
         style="@style/PrefRowBig"
         android:background="@color/listRow_alt"
@@ -37,13 +37,13 @@
             android:text="נתוני חברה"
             android:textColor="@color/textColor_primary"
             android:textSize="18sp" />
-    </RelativeLayout>
+    </com.teamrm.teamrm.Utility.RowViewLayout>
 
     <View
         style="@style/Separator4dp"
         />
 
-    <RelativeLayout
+    <com.teamrm.teamrm.Utility.RowViewLayout
         android:id="@+id/defineTechnicians"
         style="@style/PrefRowBig"
         android:background="@color/listRow_alt"
@@ -67,13 +67,13 @@
             android:text="הגדרת טכנאים"
             android:textColor="@color/textColor_primary"
             android:textSize="18sp" />
-    </RelativeLayout>
+    </com.teamrm.teamrm.Utility.RowViewLayout>
 
     <View
         style="@style/Separator4dp"
         />
 
-    <RelativeLayout
+    <com.teamrm.teamrm.Utility.RowViewLayout
         android:id="@+id/defineProducts"
         style="@style/PrefRowBig"
         android:background="@color/listRow_alt"
@@ -97,13 +97,13 @@
             android:text="הגדרת מוצרים"
             android:textColor="@color/textColor_primary"
             android:textSize="18sp" />
-    </RelativeLayout>
+    </com.teamrm.teamrm.Utility.RowViewLayout>
 
     <View
         style="@style/Separator4dp"
         />
 
-    <RelativeLayout
+    <com.teamrm.teamrm.Utility.RowViewLayout
         android:id="@+id/defineCategoryA"
         style="@style/PrefRowBig"
         android:background="@color/listRow_alt"
@@ -128,7 +128,7 @@
             android:textColor="@color/textColor_primary"
             android:textSize="18sp" />
 
-    </RelativeLayout>
+    </com.teamrm.teamrm.Utility.RowViewLayout>
 
     <View
         style="@style/Separator4dp"
@@ -165,7 +165,7 @@
         style="@style/Separator4dp"
         /-->
 
-    <RelativeLayout
+    <com.teamrm.teamrm.Utility.RowViewLayout
         android:id="@+id/defineRegion"
         style="@style/PrefRowBig"
         android:background="@color/listRow_alt"
@@ -190,12 +190,12 @@
             android:textColor="@color/textColor_primary"
             android:textSize="18sp" />
 
-    </RelativeLayout>
+    </com.teamrm.teamrm.Utility.RowViewLayout>
 
     <View
         style="@style/Separator4dp"
         />
-    <RelativeLayout
+    <com.teamrm.teamrm.Utility.RowViewLayout
         android:id="@+id/defineWorkShift"
         style="@style/PrefRowBig"
         android:background="@color/listRow_alt"
@@ -220,13 +220,13 @@
             android:textColor="@color/textColor_primary"
             android:textSize="18sp" />
 
-    </RelativeLayout>
+    </com.teamrm.teamrm.Utility.RowViewLayout>
 
     <View
         style="@style/Separator4dp"
         />
 
-    <RelativeLayout
+    <com.teamrm.teamrm.Utility.RowViewLayout
         android:id="@+id/appPrefs"
         style="@style/PrefRowBig"
         android:background="@color/listRow_alt"
@@ -251,10 +251,10 @@
             android:textColor="@color/textColor_primary"
             android:textSize="18sp" />
 
-    </RelativeLayout>
+    </com.teamrm.teamrm.Utility.RowViewLayout>
 
     <View
         style="@style/Separator4dp"
         />
 
-</LinearLayout>
+</com.teamrm.teamrm.Utility.RowSetLayout>

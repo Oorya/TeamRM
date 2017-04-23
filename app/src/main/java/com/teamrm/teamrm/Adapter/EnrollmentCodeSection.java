@@ -72,6 +72,10 @@ public class EnrollmentCodeSection extends StatelessSection {
         });
 
         ecHolder.ecString.setText(ecListItem.getEnrollmentCodeString());
+
+
+        ecHolder.ecStatus.setText(getStatusString(ecListItem));
+
         if (ecListItem.isSentToMail()) {
             ecHolder.ecMailNotSentRow.setVisibility(View.GONE);
             ecHolder.ecMailSentRow.setVisibility(View.VISIBLE);
@@ -173,6 +177,8 @@ public class EnrollmentCodeSection extends StatelessSection {
 
         private TextView ecString;
 
+        private TextView ecStatus;
+
         private RowViewLayout ecMailSentRow;
         private RowViewLayout ecMailNotSentRow;
         private EditText ecMailInput;
@@ -199,6 +205,8 @@ public class EnrollmentCodeSection extends StatelessSection {
 
             ecString = (TextView) view.findViewById(R.id.enrollmentCodeString);
 
+            ecStatus = (TextView) view.findViewById(R.id.enrollmentStatusText);
+
             ecMailNotSentRow = (RowViewLayout) view.findViewById(R.id.enrollmentSendMailRow);
             ecMailSentRow = (RowViewLayout) view.findViewById(R.id.enrollmentMailSentRow);
             ecMailInput = (EditText) view.findViewById(R.id.enrollmentSendMailInput);
@@ -219,6 +227,23 @@ public class EnrollmentCodeSection extends StatelessSection {
 
     void rotateButtonOnToggle(ExpandableLayout expandableLayout, ImageView expandBtn) {
         expandBtn.animate().rotation(expandBtn.getRotation() - 180f).setInterpolator(new LinearInterpolator()).start();
+    }
+
+    private String getStatusString(EnrollmentCode ec){
+        switch (ec.getEnrollmentStatus()){
+            case EnrollmentCode.STATUS_ISSUED:
+                return "Issued";
+
+            case EnrollmentCode.STATUS_PENDING:
+                return "Pending";
+
+            case EnrollmentCode.STATUS_CANCELLED:
+                return "Cancelled";
+
+            default:
+                return ec.getEnrollmentStatus() + "";
+
+        }
     }
 
 }

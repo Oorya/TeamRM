@@ -31,6 +31,7 @@ public class EnrollmentCode{
     @Exclude public static final int STATUS_PENDING = 75236;
     @Exclude public static final int STATUS_ACCEPTED = 62344;
     @Exclude public static final int STATUS_DECLINED = 98223;
+    @Exclude public static final int STATUS_CANCELLED = 28347;
     @Exclude public static final int STATUS_FINALIZED = 84863;
 
     private String enrollmentCodeID;
