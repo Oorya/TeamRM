@@ -73,7 +73,6 @@ public class UserSingleton extends Users {
                                 public void booleanCallback(boolean isTrue) {
                                     if (isTrue) {
                                     Log.d(TE_SEQ, "found enrollmentCodes, attaching listener");
-                                        //TODO:set application interface for Pending Technician
                                         UtlFirebase.enrollmentCodeListener(userHolder.getAssignedCompanyID(), enrollmentCodeObserver);
 
                                     } else {
@@ -299,20 +298,7 @@ public class UserSingleton extends Users {
                 case Users.STATUS_PENDING_TECH:
                     HashMap<String, Object> update = new HashMap<>();
                     switch (enrollmentCode.getEnrollmentStatus()) {
-                        case EnrollmentCode.STATUS_ACCEPTED:
-                            Log.e(TE_SEQ, "PENDING_TECH: Found STATUS_ACCEPTED enrollmentCode, finalizing enrollment and setting user as Tech");
-                            update.put(EnrollmentCode.ENROLLMENT_STATUS, EnrollmentCode.STATUS_FINALIZED);
-                            //TODO: set userStatus = Tech
-                            UtlFirebase.updateEnrollmentCode(enrollmentCode.getEnrollmentCodeID(), update);
-                            App.getInstance().signOut();
-                            break;
 
-                        case EnrollmentCode.STATUS_DECLINED:
-                            Log.e(TE_SEQ, "PENDING_TECH; Found STATUS_DECLINED enrollmentCode, finalizing enrollment and rolling back User to Client");
-                            update.put(EnrollmentCode.ENROLLMENT_STATUS, EnrollmentCode.STATUS_FINALIZED);
-                            //TODO: set userStatus = Client
-                            App.getInstance().signOut();
-                            break;
 
                         case EnrollmentCode.STATUS_ISSUED:
                         case EnrollmentCode.STATUS_CANCELLED:
@@ -327,6 +313,8 @@ public class UserSingleton extends Users {
                             break;
 
                         case EnrollmentCode.STATUS_PENDING:
+                        case EnrollmentCode.STATUS_ACCEPTED:
+                        case EnrollmentCode.STATUS_DECLINED:
                             Log.d(TE_SEQ, "PENDING_TECH: Adding to listener STATUS_PENDING enrollmentCode");
                             EnrollmentCode.addEnrollmentCodeToList(enrollmentCode);
                             break;
