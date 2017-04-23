@@ -40,7 +40,7 @@ public class FragmentDrawer extends Fragment {
     private NavigationDrawerAdapter adapter;
     private View containerView;
     private TextView userName;
-    private static String[] titles = null;
+    private  static String[] titles = null;
     private FragmentDrawerListener drawerListener;
     public static ImageView imageAvatar;
 

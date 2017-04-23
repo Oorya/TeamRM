@@ -90,8 +90,6 @@
         <item>58</item>
         <item>59</item>
         <item>60</item>
-
-
     </string-array>
 
     <string-array name="quarter_hour">
@@ -109,6 +107,7 @@
         <item>הגדרות</item>
         <item>התנתק/החלף משתמש</item>
     </string-array>
+
     <string-array name="dialog_filter_list">
         <item>סינון1</item>
         <item>סינון2</item>
@@ -116,7 +115,6 @@
         <item>סינון4</item>
         <item>סינון5</item>
     </string-array>
-
 
     <string name="userEmail">Email</string>
     <string name="minimum_password">Password too short, enter minimum 6 characters!</string>

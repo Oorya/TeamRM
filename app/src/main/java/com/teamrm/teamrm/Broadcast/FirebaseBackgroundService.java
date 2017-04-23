@@ -34,6 +34,10 @@ public class FirebaseBackgroundService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(this, "FROM SERVICE ", Toast.LENGTH_SHORT).show();
 
         context = this;
@@ -90,8 +94,8 @@ public class FirebaseBackgroundService extends Service {
                 });
             }
         }
+        return super.onStartCommand(intent, flags, startId);
     }
-
 
     @Override
     public void onDestroy() {

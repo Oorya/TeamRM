@@ -1,5 +1,7 @@
 package com.teamrm.teamrm.Utility;
 
+import android.util.Log;
+
 /**
  * Created by shalty on 17/09/2016.
  */
@@ -27,10 +29,12 @@ public class NavDrawerItem {
     }
 
     public String getTitle() {
+        Log.w("title", title  +"  ^^  title get");
         return title;
     }
 
     public void setTitle(String title) {
+        Log.w("title", title  +"  ^^  title set");
         this.title = title;
     }
 }
