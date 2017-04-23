@@ -78,9 +78,6 @@ public class UserSingleton extends Users {
 
                                     } else {
                                         Log.d(TE_SEQ, "NOT found enrollmentCodes, signing out");
-                                        //TODO: 1.NOTIFY USER THAT THE CODE WAS REMOVED
-                                        //TODO: 2. ROLL BACK USER STATUS = CLIENT
-                                        App.getInstance().signOut();
                                     }
                                 }
                             });
