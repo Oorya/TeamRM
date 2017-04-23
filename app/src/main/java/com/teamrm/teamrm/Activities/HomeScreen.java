@@ -74,9 +74,11 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        context = this;
+
         if (UserSingleton.getLoadedUserType().equals(Users.STATUS_PENDING_TECH)) {
             if (EnrollmentCode.getEnrollmentCodeList().isEmpty()) {
-                new NiceToast(getContext(), "Enrollment was deleted", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
+                new NiceToast(context, "Enrollment was deleted", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
                 // TODO: TE_SEQ roll back user to Client
                 // TODO: TE_SEQ Logout
 
@@ -88,13 +90,13 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                         break;
 
                     case (EnrollmentCode.STATUS_DECLINED):
-                        new NiceToast(getContext(), "Enrollment was declined", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
+                        new NiceToast(context, "Enrollment was declined", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
                         // TODO: TE_SEQ roll back user to Client
                         // TODO: TE_SEQ Logout
                         break;
 
                     case (EnrollmentCode.STATUS_ACCEPTED):
-                        new NiceToast(getContext(), "Enrollment was accepted", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
+                        new NiceToast(context, "Enrollment was accepted", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
                         // TODO: TE_SEQ set user as Technician
                         // TODO: TE_SEQ Logout
                         break;
@@ -109,7 +111,6 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 + "logged in as " + UserSingleton.getLoadedUserType(), NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
-        context = this;
 
         firebaseAuth = FirebaseAuth.getInstance();
         fireBaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
