@@ -24,14 +24,12 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.teamrm.teamrm.Adapter.PhotoAdapter;
 import com.teamrm.teamrm.Broadcast.FirebaseBackgroundService;
+import com.teamrm.teamrm.Broadcast.ServiceChecker;
 import com.teamrm.teamrm.Fragment.AdminSettingsAdvanced;
 import com.teamrm.teamrm.Fragment.AdminSettingsBasic;
 import com.teamrm.teamrm.Fragment.CalendarView;
@@ -46,7 +44,6 @@ import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.App;
 import com.teamrm.teamrm.Utility.NiceToast;
 import com.teamrm.teamrm.Utility.UserSingleton;
-import com.teamrm.teamrm.Utility.UtlFirebase;
 import com.teamrm.teamrm.Utility.UtlImage;
 
 import java.io.File;
@@ -128,8 +125,10 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         frameLayout = (FrameLayout) findViewById(R.id.container_body);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        App.getInstance().startService();
-
+        if(!ServiceChecker.isServiceStarted(this, FirebaseBackgroundService.class))
+        {
+            App.getInstance().startService();
+        }
         TextView appIcon = (TextView) findViewById(R.id.appIcon);
         appIcon.setTypeface(Typeface.createFromAsset(this.getAssets(), "Assistant-Bold.ttf"));
 
@@ -338,7 +337,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 TicketList ticketListFragment = (TicketList) getSupportFragmentManager().findFragmentByTag(TicketList.FRAGMENT_TRANSACTION);
                 if (!ticketListFragment.closeSearch()) {
                     new MaterialDialog.Builder(this)
-                            .title("האם אתה בטוח שברצונך לצאת מהאפליקציה?")
+                            .title("האם ברצונך לצאת מהאפליקציה?")
                             .titleColor(Color.BLACK)
                             .positiveText("כן")
                             .negativeText("לא")
