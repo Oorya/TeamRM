@@ -526,17 +526,20 @@ public class UtlFirebase {
         DatabaseReference stateRef = null;
 
         switch (UserSingleton.getLoadedUserType()) {
-            case "Client":
+            case Users.STATUS_CLIENT:
                 stateRef = CLIENT_TICKET_STATES_REFERENCE.child(UserSingleton.getInstance().getUserID());
                 break;
 
-            case "Admin":
+            case Users.STATUS_ADMIN:
                 stateRef = COMPANY_TICKET_STATES_REFERENCE.child(UserSingleton.getInstance().getAssignedCompanyID());
                 break;
 
-            case "Technician":
+            case Users.STATUS_TECH:
                 stateRef = COMPANY_TICKET_STATES_REFERENCE.child(UserSingleton.getInstance().getAssignedCompanyID());
                 break;
+
+            case Users.STATUS_PENDING_TECH:
+                stateRef = null;
 
             case "undefined":
                 Log.e(TAG, "StateListener:::UserSingleton undefined");

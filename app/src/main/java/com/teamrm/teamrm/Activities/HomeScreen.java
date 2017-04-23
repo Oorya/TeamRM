@@ -103,6 +103,37 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
             }
         }
 
+        if (UserSingleton.getLoadedUserType().equals(Users.STATUS_ADMIN)) {
+            if (!EnrollmentCode.getEnrollmentCodeList().isEmpty()) {
+                for (EnrollmentCode singleEnrollmentCode : EnrollmentCode.getEnrollmentCodeList()){
+                    switch (singleEnrollmentCode.getEnrollmentStatus()) {
+
+                        case (EnrollmentCode.STATUS_ISSUED):
+                        case (EnrollmentCode.STATUS_DECLINED):
+                            // do nothing
+                            break;
+
+                        case (EnrollmentCode.STATUS_PENDING):
+                            // TODO: TE_SEQ notify admin about PendingTech waiting for approval
+                            break;
+
+                        case (EnrollmentCode.STATUS_CANCELLED):
+                            //TODO: TE_SEQ notify admin that PendingTech cancelled the enrollment
+                            break;
+
+                        case (EnrollmentCode.STATUS_ACCEPTED):
+                        case (EnrollmentCode.STATUS_FINALIZED):
+                            // shouldn't happen
+                            break;
+
+                        default: //do nothing
+                    }
+                }
+
+
+            }
+        }
+
         setContentView(R.layout.activity_home_screen);
         new NiceToast(this, "User " + UserSingleton.getInstance().getUserEmail() + "\n"
                 + "logged in as " + UserSingleton.getLoadedUserType(), NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
@@ -125,8 +156,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         frameLayout = (FrameLayout) findViewById(R.id.container_body);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        if(!ServiceChecker.isServiceStarted(this, FirebaseBackgroundService.class))
-        {
+        if (!ServiceChecker.isServiceStarted(this, FirebaseBackgroundService.class)) {
             App.getInstance().startService();
         }
         TextView appIcon = (TextView) findViewById(R.id.appIcon);
