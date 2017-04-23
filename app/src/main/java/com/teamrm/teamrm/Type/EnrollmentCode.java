@@ -139,6 +139,10 @@ public class EnrollmentCode{
         return enrollmentCodeList;
     }
 
+    public static void clearEnrollmentCodeList() {
+        enrollmentCodeList.clear();
+    }
+
     public static void setenrollmentCodeList(List<EnrollmentCode> enrollmentCodes) {
         enrollmentCodeList = enrollmentCodes;
     }

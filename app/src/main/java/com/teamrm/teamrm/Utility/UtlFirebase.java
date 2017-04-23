@@ -342,8 +342,9 @@ public class UtlFirebase {
 
     public static void enrollmentCodeListener(String companyID, final EnrollmentCodesObservable enrollmentCodesObservable) {
         Query query = TECHNICIAN_ENROLLMENT_CODES_REFERENCE.orderByChild(EnrollmentCode.ENROLLMENT_CODE_COMPANY_ID).equalTo(companyID);
+
         if (!EnrollmentCode.getEnrollmentCodeList().isEmpty()) {
-            EnrollmentCode.setenrollmentCodeList(Collections.EMPTY_LIST);
+            EnrollmentCode.clearEnrollmentCodeList();
         }
 
         ChildEventListener listener = new ChildEventListener() {
