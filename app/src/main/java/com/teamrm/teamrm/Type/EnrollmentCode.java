@@ -157,7 +157,7 @@ public class EnrollmentCode{
     }
 
     public static void changeEnrollmentCodeInList(EnrollmentCode enrollmentCode) {
-        //TODO:add method
+        enrollmentCodeList.set(enrollmentCodeList.indexOf(enrollmentCode), enrollmentCode);
     }
 
     public int getEnrollmentStatus() {
