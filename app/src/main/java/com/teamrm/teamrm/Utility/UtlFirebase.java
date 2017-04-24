@@ -575,7 +575,7 @@ public class UtlFirebase {
             pendingTech.setUserStatus(Users.STATUS_TECH);
         HashMap<String, Object> updates = new HashMap<>();
         updates.put(COMPANY_TECHNICIANS_ROOT_REFERENCE_STRING + "/" + pendingTech.getAssignedCompanyID() + "/" + pendingTech.getUserID(), new Technician(pendingTech));
-        updates.put(TECHNICIAN_ENROLLMENT_CODES_REFERENCE_STRING + "/" + enrollmentCode.getEnrollmentCodeID() + "/" + EnrollmentCode.ENROLLMENT_STATUS, EnrollmentCode.STATUS_FINALIZED);
+        updates.put(TECHNICIAN_ENROLLMENT_CODES_REFERENCE_STRING + "/" + enrollmentCode.getEnrollmentCodeID() + "/" + EnrollmentCode.ENROLLMENT_STATUS, EnrollmentCode.STATUS_ACCEPTED);
         GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
