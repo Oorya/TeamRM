@@ -134,27 +134,24 @@ public class UtlFirebase {
 
                                 case Users.STATUS_TECH:
                                     Log.d(LOGINTAG, "Stage 6b, found Tech");
-                                    Query techRef = COMPANY_TECHNICIANS_ROOT_REFERENCE                              //
-                                            .child(dataSnapshot.child(Users.ASSIGNED_COMPANY_ID).getValue().toString())   // get Technician from the corresponding path
-                                            .child(dataSnapshot.child(Users.USER_ID).getValue().toString());             //
+                                    Users tempUser = dataSnapshot.getValue(Client.class);
+                                    Query techRef = COMPANY_TECHNICIANS_ROOT_REFERENCE.child(tempUser.getAssignedCompanyID()).child(tempUser.getUserID());
                                     techRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                             if (dataSnapshot.exists()) {
-                                                fbHelper.resultUser(item.getValue(Technician.class));                 // acquire Technician from the new dataSnapshot
+                                                fbHelper.resultUser(dataSnapshot.getValue(Technician.class));       // push Technician to UserSingleton
                                             } else {
                                                 //TODO: error, notify user
                                                 Log.e(LOGINTAG, "Stage 6b, Tech validation error");
                                             }
                                         }
-
                                         @Override
                                         public void onCancelled(DatabaseError databaseError) {
                                             toastTheError(databaseError);
                                         }
                                     });
 
-                                    fbHelper.resultUser(techFromFirebase);                                          // push acquired Technician to the UserSingleton
                                     break;
                                 case Users.STATUS_ADMIN:
                                     Log.d(LOGINTAG, "Stage 6b, found Admin");
