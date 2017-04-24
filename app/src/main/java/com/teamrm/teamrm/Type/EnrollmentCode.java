@@ -41,17 +41,17 @@ public class EnrollmentCode {
     public static final String ENROLLED_TECH_USER_ID = "enrolledTechUserID";
 
     @Exclude
-    public static final int STATUS_ISSUED = 66379;
+    public static final int STATUS_ISSUED = 1000;
     @Exclude
-    public static final int STATUS_PENDING = 75236;
+    public static final int STATUS_PENDING = 2000;
     @Exclude
-    public static final int STATUS_ACCEPTED = 62344;
+    public static final int STATUS_ACCEPTED = 3000;
     @Exclude
-    public static final int STATUS_DECLINED = 98223;
+    public static final int STATUS_DECLINED = 4000;
     @Exclude
-    public static final int STATUS_CANCELLED = 28347;
+    public static final int STATUS_CANCELLED = 5000;
     @Exclude
-    public static final int STATUS_FINALIZED = 84863;
+    public static final int STATUS_FINALIZED = 6000;
 
     private String enrollmentCodeID;
     private String enrollmentCodeString;

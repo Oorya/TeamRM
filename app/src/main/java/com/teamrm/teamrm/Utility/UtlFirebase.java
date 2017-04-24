@@ -58,6 +58,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
+import java.util.Random;
 import java.util.UUID;
 
 import static com.teamrm.teamrm.Type.TicketState.STATELISTENERTAG;
@@ -289,7 +290,8 @@ public class UtlFirebase {
 ///////////////////////////// Technician -> EnrollmentCode /////////////////////////////
 
     public static void addEnrollmentCode() {
-        EnrollmentCode enrollmentCode = new EnrollmentCode(UserSingleton.getInstance().getAssignedCompanyID(), UUID.randomUUID().toString().substring(0, 4).toUpperCase());
+        //EnrollmentCode enrollmentCode = new EnrollmentCode(UserSingleton.getInstance().getAssignedCompanyID(), UUID.randomUUID().toString().substring(0, 4).toUpperCase());
+        EnrollmentCode enrollmentCode = new EnrollmentCode(UserSingleton.getInstance().getAssignedCompanyID(), Integer.toString((int)(Math.random()*10000)));
         DatabaseReference ref = TECHNICIAN_ENROLLMENT_CODES_REFERENCE.push();
         enrollmentCode.setEnrollmentCodeID(ref.getKey());
         ref.setValue(enrollmentCode, new DatabaseReference.CompletionListener() {
