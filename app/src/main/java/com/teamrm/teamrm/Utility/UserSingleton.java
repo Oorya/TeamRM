@@ -332,6 +332,7 @@ public class UserSingleton extends Users {
                         case EnrollmentCode.STATUS_ISSUED:
                         case EnrollmentCode.STATUS_PENDING:
                         case EnrollmentCode.STATUS_ACCEPTED:
+                        case EnrollmentCode.STATUS_CANCELLED:
                             EnrollmentCode.addEnrollmentCodeToList(enrollmentCode);
                             Log.d(TE_SEQ, "Admin: added enrollmentCode " + enrollmentCode.getEnrollmentCodeString());
                             if (ecAdapter != null) {
@@ -340,22 +341,9 @@ public class UserSingleton extends Users {
                             }
                             break;
 
-                        case EnrollmentCode.STATUS_CANCELLED:
-                            //TODO:notify Admin
-                            UtlFirebase.removeEnrollmentCode(enrollmentCode);
-                            Log.d(TE_SEQ, "List: removed  CANCELLED enrollmentCode " + enrollmentCode.toString());
-                            if (ecAdapter != null) {
-                                ecAdapter.notifyDataSetChanged();
-                            }
-                            break;
-
                         case EnrollmentCode.STATUS_FINALIZED:
-                            //TODO:notify Admin
                             UtlFirebase.removeEnrollmentCode(enrollmentCode);
                             Log.d(TE_SEQ, "List: removed  FINALIZED enrollmentCode " + enrollmentCode.toString());
-                            if (ecAdapter != null) {
-                                ecAdapter.notifyDataSetChanged();
-                            }
                             break;
                     }
 

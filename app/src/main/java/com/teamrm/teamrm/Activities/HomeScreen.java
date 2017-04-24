@@ -76,7 +76,6 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         if (UserSingleton.getLoadedUserType().equals(Users.STATUS_PENDING_TECH)) {
             if (EnrollmentCode.getEnrollmentCodeList().isEmpty()) {
                 new NiceToast(context, "Enrollment was deleted", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
-
                 // TODO: TE_SEQ roll back user to Client
                 // TODO: TE_SEQ Logout
 
@@ -104,7 +103,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
             }
         }
 
-
+        setContentView(R.layout.activity_home_screen);
         new NiceToast(this, "User " + UserSingleton.getInstance().getUserEmail() + "\n"
                 + "logged in as " + UserSingleton.getLoadedUserType(), NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
@@ -240,10 +239,6 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
             if (position > 1)
                 position += 2;
 
-        }else if(UserSingleton.getLoadedUserType().equals(Users.STATUS_TECH))
-        {
-            if (position > 2)
-                position += 1;
         }
 
         switch (position) {
