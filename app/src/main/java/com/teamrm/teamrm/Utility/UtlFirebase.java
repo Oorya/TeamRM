@@ -570,6 +570,7 @@ public class UtlFirebase {
 
     public static void acceptNewTechnician(EnrollmentCode enrollmentCode, final PendingTech pendingTech, final FireBaseBooleanCallback resultCallback) {
         if (pendingTech.getUserStatus().equals(Users.STATUS_PENDING_TECH) && null != pendingTech.getAssignedCompanyID()) {
+            pendingTech.setUserStatus(Users.STATUS_TECH);
         HashMap<String, Object> updates = new HashMap<>();
         updates.put(COMPANY_TECHNICIANS_ROOT_REFERENCE_STRING + "/" + pendingTech.getAssignedCompanyID() + "/" + pendingTech.getUserID(), new Technician(pendingTech));
         updates.put(TECHNICIAN_ENROLLMENT_CODES_REFERENCE_STRING + "/" + enrollmentCode.getEnrollmentCodeID() + "/" + EnrollmentCode.ENROLLMENT_STATUS, EnrollmentCode.STATUS_FINALIZED);
@@ -587,23 +588,23 @@ public class UtlFirebase {
 
 
     public static void ticketStateListener(final TicketStateObservable ticketStateObserver) {
-        DatabaseReference stateRef = null;
+        Query stateQuery = null;
 
         switch (UserSingleton.getLoadedUserType()) {
             case Users.STATUS_CLIENT:
-                stateRef = CLIENT_TICKET_STATES_REFERENCE.child(UserSingleton.getInstance().getUserID());
+                stateQuery = CLIENT_TICKET_STATES_REFERENCE.child(UserSingleton.getInstance().getUserID());
                 break;
 
             case Users.STATUS_ADMIN:
-                stateRef = COMPANY_TICKET_STATES_REFERENCE.child(UserSingleton.getInstance().getAssignedCompanyID());
+                stateQuery = COMPANY_TICKET_STATES_REFERENCE.child(UserSingleton.getInstance().getAssignedCompanyID());
                 break;
 
             case Users.STATUS_TECH:
-                stateRef = COMPANY_TICKET_STATES_REFERENCE.child(UserSingleton.getInstance().getAssignedCompanyID());
+                stateQuery = COMPANY_TICKET_STATES_REFERENCE.child(UserSingleton.getInstance().getAssignedCompanyID()).child(UserSingleton.getInstance().getUserID());
                 break;
 
             case Users.STATUS_PENDING_TECH:
-                stateRef = null;
+                stateQuery = null;
 
             case "undefined":
                 Log.e(TAG, "StateListener:::UserSingleton undefined");
@@ -646,8 +647,8 @@ public class UtlFirebase {
         };
 
         try {
-            stateRef.addChildEventListener(stateListener);
-            activeChildEventListeners.put(stateRef, stateListener);
+            stateQuery.addChildEventListener(stateListener);
+            activeChildEventListeners.put(stateQuery.getRef(), stateListener);
         } catch (Exception e) {
             Log.e(STATELISTENERTAG, "Could not attach stateListener");
             e.printStackTrace();

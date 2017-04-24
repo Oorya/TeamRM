@@ -348,15 +348,16 @@ public class UserSingleton extends Users {
         public void onEnrollmentCodeChanged(EnrollmentCode enrollmentCode) {
                 int theOldStatus = EnrollmentCode.getEnrollmentCodeList().get(EnrollmentCode.getEnrollmentCodeList().indexOf(enrollmentCode)).getEnrollmentStatus();
                 int theNewStatus = enrollmentCode.getEnrollmentStatus();
-                EnrollmentCode.changeEnrollmentCodeInList(enrollmentCode);
-                if (ecAdapter != null) {
-                    ecAdapter.notifyDataSetChanged();
-                }
+
                 switch (getLoadedUserType()) {
                     case Users.STATUS_ADMIN:
                         switch (theOldStatus) {
                             case (EnrollmentCode.STATUS_ISSUED):
                                 if (theNewStatus == EnrollmentCode.STATUS_PENDING) {
+                                    EnrollmentCode.changeEnrollmentCodeInList(enrollmentCode);
+                                    if (ecAdapter != null) {
+                                        ecAdapter.notifyDataSetChanged();
+                                    }
                                     //TODO: TE_SEQ notify admin -> PendingTech needs approval
                                 } else {
                                     // shouldn't happen
@@ -365,6 +366,10 @@ public class UserSingleton extends Users {
                             case (EnrollmentCode.STATUS_PENDING):
                                 switch (theNewStatus) {
                                     case (EnrollmentCode.STATUS_CANCELLED):
+                                        EnrollmentCode.changeEnrollmentCodeInList(enrollmentCode);
+                                        if (ecAdapter != null) {
+                                            ecAdapter.notifyDataSetChanged();
+                                        }
                                         // TODO: TE_SEQ notify admin -> PendingTech cancelled the enrollment
                                         break;
 
@@ -378,8 +383,15 @@ public class UserSingleton extends Users {
                                 }
                                 break;
                             case (EnrollmentCode.STATUS_ACCEPTED):
+                                if (theNewStatus == EnrollmentCode.STATUS_FINALIZED) {
+                                    Log.d(TE_SEQ, "removing Accepted -> Finalized code " + enrollmentCode.getEnrollmentCodeID() + ":" + enrollmentCode.getEnrollmentCodeString());
+                                    UtlFirebase.removeEnrollmentCode(enrollmentCode);
+                                }
+                                break;
+
                             case (EnrollmentCode.STATUS_DECLINED):
                                 if (theNewStatus == EnrollmentCode.STATUS_FINALIZED) {
+                                    Log.d(TE_SEQ, "removing Declined -> Finalized code " + enrollmentCode.getEnrollmentCodeID() + ":" + enrollmentCode.getEnrollmentCodeString());
                                     UtlFirebase.removeEnrollmentCode(enrollmentCode);
                                 }
                                 break;
@@ -393,6 +405,7 @@ public class UserSingleton extends Users {
                                 switch (theNewStatus) {
                                     case (EnrollmentCode.STATUS_ACCEPTED):
                                         //TODO: TE_SEQ notify PendingTech he was Accepted -> log out
+                                        Log.d(TE_SEQ, "promoting Client -> PendingTech " + enrollmentCode.getEnrollmentCodeID() + ":" + enrollmentCode.getEnrollmentCodeString());
                                         UtlFirebase.promotePendingTechToTechnician(enrollmentCode.getEnrollmentCodeID(), new FireBaseBooleanCallback() {
                                             @Override
                                             public void booleanCallback(boolean isTrue) {
@@ -405,6 +418,7 @@ public class UserSingleton extends Users {
 
                                     case (EnrollmentCode.STATUS_DECLINED):
                                         //TODO: TE_SEQ notify PendingTech he was Accepted -> log out
+                                        Log.d(TE_SEQ, "rolling back PendingTech -> Client " + enrollmentCode.getEnrollmentCodeID() + ":" + enrollmentCode.getEnrollmentCodeString());
                                         UtlFirebase.rollbackPendingTechToClient(enrollmentCode.getEnrollmentCodeID(), new FireBaseBooleanCallback() {
                                             @Override
                                             public void booleanCallback(boolean isTrue) {

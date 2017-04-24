@@ -201,6 +201,7 @@ public class EnrollmentCodeSection extends StatelessSection {
                         UtlFirebase.getPendingTechByID(ecListItem.getEnrolledTechUserID(), new PendingTechSingleCallback() {
                             @Override
                             public void pendingTechCallback(PendingTech _pendingTech) {
+                                Log.d(UserSingleton.TE_SEQ, "registering Technician from PendingTech " + _pendingTech.toString());
                                 UtlFirebase.acceptNewTechnician(ecListItem, _pendingTech, new FireBaseBooleanCallback() {
                                     @Override
                                     public void booleanCallback(boolean isTrue) {
@@ -265,8 +266,29 @@ public class EnrollmentCodeSection extends StatelessSection {
                 break;
 
             case (EnrollmentCode.STATUS_ACCEPTED):
+                ecHolder.ecCard.setBackgroundResource(R.color.material_bluegray_200);
+                ecHolder.ecStatusRow.setBackgroundResource(R.color.listRow_alt);
+                ecHolder.ecStatusLabel.setTextColor(ContextCompat.getColor(eContext, R.color.textColor_lighter));
+                ecHolder.ecStatusString.setTextColor(ContextCompat.getColor(eContext, R.color.textColor_primary));
+                ecHolder.pendingTechNameRow.setVisibility(View.GONE);
+                ecHolder.btnAcceptDeclineRow.setVisibility(View.GONE);
+                ecHolder.rowSetPendingTechDetails.setVisibility(View.GONE);
+                ecHolder.rowSetIssuedCode.setVisibility(View.GONE);
+                ecHolder.btnRemoveRow.setVisibility(View.GONE);
+                ecHolder.ecStatusString.setText("נרשם כטכנאי");
+
+
             case (EnrollmentCode.STATUS_DECLINED):
-                ecHolder.ecCard.setVisibility(View.GONE);
+                ecHolder.ecCard.setBackgroundResource(R.color.material_bluegray_200);
+                ecHolder.ecStatusRow.setBackgroundResource(R.color.listRow_alt);
+                ecHolder.ecStatusLabel.setTextColor(ContextCompat.getColor(eContext, R.color.textColor_lighter));
+                ecHolder.ecStatusString.setTextColor(ContextCompat.getColor(eContext, R.color.textColor_primary));
+                ecHolder.pendingTechNameRow.setVisibility(View.GONE);
+                ecHolder.btnAcceptDeclineRow.setVisibility(View.GONE);
+                ecHolder.rowSetPendingTechDetails.setVisibility(View.GONE);
+                ecHolder.rowSetIssuedCode.setVisibility(View.GONE);
+                ecHolder.btnRemoveRow.setVisibility(View.GONE);
+                ecHolder.ecStatusString.setText("נדחהי");
 
                 break;
         }
