@@ -74,8 +74,27 @@ public class UserSingleton extends Users {
 
                         case Users.STATUS_ADMIN:
                             UtlFirebase.AdminEnrollmentCodeListener(userHolder.getAssignedCompanyID(), enrollmentCodeObserver);
+                            Log.d(LOGINTAG, "::AsyncTask");
+                            UtlFirebase.ticketStateListener(ticketStateObserver);
+                            Log.d(LOGINTAG, "Calling getAllTicketLites");
+                            UtlFirebase.getAllTicketLites(fbHelper);
+                            Log.d(LOGINTAG, "Calling getAllCompanies");
+                            UtlFirebase.getAllCompanies(fbHelper);
+                            Log.d(LOGINTAG, "Calling getAllTickets");
+                            UtlFirebase.getAllTickets(fbHelper);
+                            break;
 
                         case Users.STATUS_TECH:
+                            Log.d(LOGINTAG, "::AsyncTask");
+                            UtlFirebase.ticketStateListener(ticketStateObserver);
+                            Log.d(LOGINTAG, "Calling getAllTicketLites");
+                            UtlFirebase.getAllTicketLites(fbHelper);
+                            Log.d(LOGINTAG, "Calling getAllCompanies");
+                            UtlFirebase.getAllCompanies(fbHelper);
+                            Log.d(LOGINTAG, "Calling getAllTickets");
+                            UtlFirebase.getAllTickets(fbHelper);
+                            break;
+
                         case Users.STATUS_CLIENT:
                             Log.d(LOGINTAG, "::AsyncTask");
                             UtlFirebase.ticketStateListener(ticketStateObserver);

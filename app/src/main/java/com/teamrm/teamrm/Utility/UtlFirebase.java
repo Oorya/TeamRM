@@ -134,7 +134,8 @@ public class UtlFirebase {
 
                                 case Users.STATUS_TECH:
                                     Log.d(LOGINTAG, "Stage 6b, found Tech");
-                                    Users tempUser = dataSnapshot.getValue(Client.class);
+                                    Users tempUser = item.getValue(Client.class);
+                                    Log.d(LOGINTAG, "Stage 6b " + tempUser.toString());
                                     Query techRef = COMPANY_TECHNICIANS_ROOT_REFERENCE.child(tempUser.getAssignedCompanyID()).child(tempUser.getUserID());
                                     techRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
