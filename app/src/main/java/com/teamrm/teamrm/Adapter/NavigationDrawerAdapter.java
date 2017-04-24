@@ -32,6 +32,9 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
         {
             data.remove(3);
             data.remove(2);
+        }else if(UserSingleton.getLoadedUserType().equals(Users.STATUS_TECH))
+        {
+            data.remove(3);
         }
         this.data = data;
     }
