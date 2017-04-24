@@ -70,7 +70,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_screen);
+
         context = this;
 
         if (UserSingleton.getLoadedUserType().equals(Users.STATUS_PENDING_TECH)) {
@@ -103,7 +103,40 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
             }
         }
 
+        if (UserSingleton.getLoadedUserType().equals(Users.STATUS_ADMIN)) {
+            if (!EnrollmentCode.getEnrollmentCodeList().isEmpty()) {
+                for (EnrollmentCode singleEnrollmentCode : EnrollmentCode.getEnrollmentCodeList()){
+                    switch (singleEnrollmentCode.getEnrollmentStatus()) {
 
+                        case (EnrollmentCode.STATUS_ISSUED):
+                        case (EnrollmentCode.STATUS_DECLINED):
+                            // do nothing
+                            break;
+
+                        case (EnrollmentCode.STATUS_PENDING):
+                            new NiceToast(context, "PendingTech waiting for approval", NiceToast.NICETOAST_WARNING, Toast.LENGTH_LONG).show();
+                            // TODO: TE_SEQ notify admin about PendingTech waiting for approval
+                            break;
+
+                        case (EnrollmentCode.STATUS_CANCELLED):
+                            new NiceToast(context, "PendingTech cancelled the enrollment", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
+                            //TODO: TE_SEQ notify admin that PendingTech cancelled the enrollment
+                            break;
+
+                        case (EnrollmentCode.STATUS_ACCEPTED):
+                        case (EnrollmentCode.STATUS_FINALIZED):
+                            // shouldn't happen
+                            break;
+
+                        default: //do nothing
+                    }
+                }
+
+
+            }
+        }
+
+        setContentView(R.layout.activity_home_screen);
         new NiceToast(this, "User " + UserSingleton.getInstance().getUserEmail() + "\n"
                 + "logged in as " + UserSingleton.getLoadedUserType(), NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);

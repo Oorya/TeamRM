@@ -3,10 +3,13 @@ package com.teamrm.teamrm.Adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.inputmethodservice.Keyboard;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -125,7 +128,31 @@ public class EnrollmentCodeSection extends StatelessSection {
                 }
             });
         }
+        switch (ecListItem.getEnrollmentStatus()){
+            case (EnrollmentCode.STATUS_CANCELLED):
+                //
+                break;
 
+            case (EnrollmentCode.STATUS_PENDING):
+                ecHolder.btnRemoveRow.setVisibility(View.GONE);
+                ecHolder.btnAcceptDeclineRow.setVisibility(View.VISIBLE);
+                ecHolder.btnAccept.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        HashMap<String, Object> updates = new HashMap<>();
+                        updates.put(EnrollmentCode.ENROLLMENT_STATUS, EnrollmentCode.STATUS_ACCEPTED);
+                        UtlFirebase.updateEnrollmentCode(ecListItem.getEnrollmentCodeID(), updates);
+                    }
+                });
+                ecHolder.btnDecline.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        HashMap<String, Object> updates = new HashMap<>();
+                        updates.put(EnrollmentCode.ENROLLMENT_STATUS, EnrollmentCode.STATUS_DECLINED);
+                        UtlFirebase.updateEnrollmentCode(ecListItem.getEnrollmentCodeID(), updates);
+                    }
+                });
+        }
         ecHolder.btnRemoveEC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -191,7 +218,12 @@ public class EnrollmentCodeSection extends StatelessSection {
         private TextView ecSentToPhone;
         private TextView ecSendPhoneAction;
 
+        private RowViewLayout btnRemoveRow;
         private View btnRemoveEC;
+
+        private RowViewLayout btnAcceptDeclineRow;
+        private View btnAccept, btnDecline;
+
         private ImageView expandBtn;
 
 
@@ -219,8 +251,12 @@ public class EnrollmentCodeSection extends StatelessSection {
             ecSentToPhone = (TextView) view.findViewById(R.id.enrollmentPhoneSentText);
             ecSendPhoneAction = (TextView) view.findViewById(R.id.enrollmentSendPhoneAction);
 
+            btnRemoveRow = (RowViewLayout)view.findViewById(R.id.btnRemoveRow);
             btnRemoveEC = view.findViewById(R.id.btnRemove);
 
+            btnAcceptDeclineRow = (RowViewLayout)view.findViewById(R.id.acceptOrDeclineRow);
+            btnAccept = view.findViewById(R.id.btnAccept);
+            btnDecline = view.findViewById(R.id.btnDecline);
 
         }
     }

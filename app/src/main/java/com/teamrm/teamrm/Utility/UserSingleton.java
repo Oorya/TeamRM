@@ -356,7 +356,10 @@ public class UserSingleton extends Users {
 
         @Override
         public void onEnrollmentCodeChanged(EnrollmentCode enrollmentCode) {
-
+            EnrollmentCode.changeEnrollmentCodeInList(enrollmentCode);
+            if (ecAdapter != null) {
+                ecAdapter.notifyDataSetChanged();
+            }
         }
 
         @Override
