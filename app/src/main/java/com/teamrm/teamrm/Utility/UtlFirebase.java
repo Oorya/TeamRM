@@ -340,6 +340,7 @@ public class UtlFirebase {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Log.d(TE_SEQ, "Admin: enrollmentCode onChildChanged  " + dataSnapshot.toString());
                     enrollmentCodesObservable.onEnrollmentCodeChanged(dataSnapshot.getValue(EnrollmentCode.class));
             }
 

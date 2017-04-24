@@ -286,9 +286,7 @@ public class UserSingleton extends Users {
             Log.d(TE_SEQ, "entered ecObserver");
             switch (getLoadedUserType()) {
                 case Users.STATUS_PENDING_TECH:
-                    HashMap<String, Object> update = new HashMap<>();
                     switch (enrollmentCode.getEnrollmentStatus()) {
-
 
                         case EnrollmentCode.STATUS_ISSUED:
                         case EnrollmentCode.STATUS_CANCELLED:
@@ -371,6 +369,7 @@ public class UserSingleton extends Users {
 
                                 case EnrollmentCode.STATUS_ACCEPTED:
                                 case EnrollmentCode.STATUS_DECLINED:
+                                    EnrollmentCode.changeEnrollmentCodeInList(enrollmentCode);
                                     if (ecAdapter != null) {
                                         Log.d(TE_SEQ, "notifying adapter with " + enrollmentCode.getEnrollmentCodeString() + " -> " + enrollmentCode.getEnrollmentStatus());
                                         ecAdapter.notifyDataSetChanged();
@@ -447,9 +446,6 @@ public class UserSingleton extends Users {
             EnrollmentCode.removeEnrollmentCodeFromList(enrollmentCode);
             if (ecAdapter != null) {
                 ecAdapter.notifyDataSetChanged();
-            }
-            if (getLoadedUserType().equals(Users.STATUS_PENDING_TECH)) {
-                //TODO: notify PendingTech that the enrollmentCode was deleted
             }
         }
     };

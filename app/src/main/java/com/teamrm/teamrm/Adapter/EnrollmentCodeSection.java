@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -266,7 +267,7 @@ public class EnrollmentCodeSection extends StatelessSection {
                 break;
 
             case (EnrollmentCode.STATUS_ACCEPTED):
-                ecHolder.ecCard.setBackgroundResource(R.color.material_bluegray_200);
+                ecHolder.ecCard.setCardBackgroundColor(Color.parseColor("#B0BEC5"));
                 ecHolder.ecStatusRow.setBackgroundResource(R.color.listRow_alt);
                 ecHolder.ecStatusLabel.setTextColor(ContextCompat.getColor(eContext, R.color.textColor_lighter));
                 ecHolder.ecStatusString.setTextColor(ContextCompat.getColor(eContext, R.color.textColor_primary));
@@ -279,7 +280,7 @@ public class EnrollmentCodeSection extends StatelessSection {
 
 
             case (EnrollmentCode.STATUS_DECLINED):
-                ecHolder.ecCard.setBackgroundResource(R.color.material_bluegray_200);
+                ecHolder.ecCard.setCardBackgroundColor(Color.parseColor("#B0BEC5"));
                 ecHolder.ecStatusRow.setBackgroundResource(R.color.listRow_alt);
                 ecHolder.ecStatusLabel.setTextColor(ContextCompat.getColor(eContext, R.color.textColor_lighter));
                 ecHolder.ecStatusString.setTextColor(ContextCompat.getColor(eContext, R.color.textColor_primary));
@@ -288,7 +289,7 @@ public class EnrollmentCodeSection extends StatelessSection {
                 ecHolder.rowSetPendingTechDetails.setVisibility(View.GONE);
                 ecHolder.rowSetIssuedCode.setVisibility(View.GONE);
                 ecHolder.btnRemoveRow.setVisibility(View.GONE);
-                ecHolder.ecStatusString.setText("נדחהי");
+                ecHolder.ecStatusString.setText("נדחה");
 
                 break;
         }
@@ -320,7 +321,7 @@ public class EnrollmentCodeSection extends StatelessSection {
 
     private class EnrollmentCodeHolder extends RecyclerView.ViewHolder {
 
-        private View ecCard;
+        private CardView ecCard;
 
         private RowSetLayout rowSetIssuedCode;
 
@@ -359,7 +360,7 @@ public class EnrollmentCodeSection extends StatelessSection {
             super(view);
             Log.d(TAG, "::: called viewholder");
 
-            ecCard = view.findViewById(R.id.ecCard);
+            ecCard = (CardView) view.findViewById(R.id.ecCard);
 
             rowSetIssuedCode = (RowSetLayout) view.findViewById(R.id.rowSetIssuedCode);
 
