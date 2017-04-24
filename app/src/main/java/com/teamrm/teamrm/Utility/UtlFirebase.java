@@ -340,11 +340,7 @@ public class UtlFirebase {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                try {
                     enrollmentCodesObservable.onEnrollmentCodeChanged(dataSnapshot.getValue(EnrollmentCode.class));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
 
             @Override

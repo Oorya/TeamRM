@@ -323,17 +323,13 @@ public class UserSingleton extends Users {
                         case EnrollmentCode.STATUS_PENDING:
                         case EnrollmentCode.STATUS_ACCEPTED:
                         case EnrollmentCode.STATUS_CANCELLED:
+                        case EnrollmentCode.STATUS_FINALIZED:
                             EnrollmentCode.addEnrollmentCodeToList(enrollmentCode);
-                            Log.d(TE_SEQ, "Admin: added enrollmentCode " + enrollmentCode.getEnrollmentCodeString());
+                            Log.d(TE_SEQ, "Admin: added enrollmentCode " + enrollmentCode.getEnrollmentCodeString() + ":" + enrollmentCode.getEnrollmentStatus());
                             if (ecAdapter != null) {
-                                Log.d(TE_SEQ, "notifying adapter with " + enrollmentCode.getEnrollmentCodeString());
+                                Log.d(TE_SEQ, "notifying adapter with " + enrollmentCode.getEnrollmentCodeString() + ":" + enrollmentCode.getEnrollmentStatus());
                                 ecAdapter.notifyDataSetChanged();
                             }
-                            break;
-
-                        case EnrollmentCode.STATUS_FINALIZED:
-                            UtlFirebase.removeEnrollmentCode(enrollmentCode);
-                            Log.d(TE_SEQ, "List: removed  FINALIZED enrollmentCode " + enrollmentCode.toString());
                             break;
                     }
 
@@ -346,104 +342,104 @@ public class UserSingleton extends Users {
 
         @Override
         public void onEnrollmentCodeChanged(EnrollmentCode enrollmentCode) {
-                int theOldStatus = EnrollmentCode.getEnrollmentCodeList().get(EnrollmentCode.getEnrollmentCodeList().indexOf(enrollmentCode)).getEnrollmentStatus();
-                int theNewStatus = enrollmentCode.getEnrollmentStatus();
+            int theOldStatus = EnrollmentCode.getEnrollmentCodeList().get(EnrollmentCode.getEnrollmentCodeList().indexOf(enrollmentCode)).getEnrollmentStatus();
+            int theNewStatus = enrollmentCode.getEnrollmentStatus();
 
-                switch (getLoadedUserType()) {
-                    case Users.STATUS_ADMIN:
-                        switch (theOldStatus) {
-                            case (EnrollmentCode.STATUS_ISSUED):
-                                if (theNewStatus == EnrollmentCode.STATUS_PENDING) {
+            switch (getLoadedUserType()) {
+                case Users.STATUS_ADMIN:
+                    switch (theOldStatus) {
+                        case (EnrollmentCode.STATUS_ISSUED):
+                            if (theNewStatus == EnrollmentCode.STATUS_PENDING) {
+                                EnrollmentCode.changeEnrollmentCodeInList(enrollmentCode);
+                                if (ecAdapter != null) {
+                                    ecAdapter.notifyDataSetChanged();
+                                }
+                                //TODO: TE_SEQ notify admin -> PendingTech needs approval
+                            } else {
+                                // shouldn't happen
+                            }
+                            break;
+                        case (EnrollmentCode.STATUS_PENDING):
+                            switch (theNewStatus) {
+                                case (EnrollmentCode.STATUS_CANCELLED):
                                     EnrollmentCode.changeEnrollmentCodeInList(enrollmentCode);
                                     if (ecAdapter != null) {
                                         ecAdapter.notifyDataSetChanged();
                                     }
-                                    //TODO: TE_SEQ notify admin -> PendingTech needs approval
-                                } else {
-                                    // shouldn't happen
-                                }
-                                break;
-                            case (EnrollmentCode.STATUS_PENDING):
-                                switch (theNewStatus) {
-                                    case (EnrollmentCode.STATUS_CANCELLED):
-                                        EnrollmentCode.changeEnrollmentCodeInList(enrollmentCode);
-                                        if (ecAdapter != null) {
-                                            ecAdapter.notifyDataSetChanged();
-                                        }
-                                        // TODO: TE_SEQ notify admin -> PendingTech cancelled the enrollment
-                                        break;
+                                    // TODO: TE_SEQ notify admin -> PendingTech cancelled the enrollment
+                                    break;
 
-                                    case EnrollmentCode.STATUS_ACCEPTED:
-                                    case EnrollmentCode.STATUS_DECLINED:
-                                        if (ecAdapter != null) {
-                                            Log.d(TE_SEQ, "notifying adapter with " + enrollmentCode.getEnrollmentCodeString() + " -> " + enrollmentCode.getEnrollmentStatus());
-                                            ecAdapter.notifyDataSetChanged();
-                                        }
-                                        break;
-                                }
-                                break;
-                            case (EnrollmentCode.STATUS_ACCEPTED):
-                                if (theNewStatus == EnrollmentCode.STATUS_FINALIZED) {
-                                    Log.d(TE_SEQ, "removing Accepted -> Finalized code " + enrollmentCode.getEnrollmentCodeID() + ":" + enrollmentCode.getEnrollmentCodeString());
-                                    UtlFirebase.removeEnrollmentCode(enrollmentCode);
-                                }
-                                break;
+                                case EnrollmentCode.STATUS_ACCEPTED:
+                                case EnrollmentCode.STATUS_DECLINED:
+                                    if (ecAdapter != null) {
+                                        Log.d(TE_SEQ, "notifying adapter with " + enrollmentCode.getEnrollmentCodeString() + " -> " + enrollmentCode.getEnrollmentStatus());
+                                        ecAdapter.notifyDataSetChanged();
+                                    }
+                                    break;
+                            }
+                            break;
+                        case (EnrollmentCode.STATUS_ACCEPTED):
+                            if (theNewStatus == EnrollmentCode.STATUS_FINALIZED) {
+                                Log.d(TE_SEQ, "removing Accepted -> Finalized code " + enrollmentCode.getEnrollmentCodeID() + ":" + enrollmentCode.getEnrollmentCodeString());
+                                UtlFirebase.removeEnrollmentCode(enrollmentCode);
+                            }
+                            break;
 
-                            case (EnrollmentCode.STATUS_DECLINED):
-                                if (theNewStatus == EnrollmentCode.STATUS_FINALIZED) {
-                                    Log.d(TE_SEQ, "removing Declined -> Finalized code " + enrollmentCode.getEnrollmentCodeID() + ":" + enrollmentCode.getEnrollmentCodeString());
-                                    UtlFirebase.removeEnrollmentCode(enrollmentCode);
-                                }
-                                break;
-                            default: //do nothing
-                        }
-                        break;
+                        case (EnrollmentCode.STATUS_DECLINED):
+                            if (theNewStatus == EnrollmentCode.STATUS_FINALIZED) {
+                                Log.d(TE_SEQ, "removing Declined -> Finalized code " + enrollmentCode.getEnrollmentCodeID() + ":" + enrollmentCode.getEnrollmentCodeString());
+                                UtlFirebase.removeEnrollmentCode(enrollmentCode);
+                            }
+                            break;
+                        default: //do nothing
+                    }
+                    break;
 
-                    case Users.STATUS_PENDING_TECH:
-                        switch (theOldStatus) {
-                            case (EnrollmentCode.STATUS_PENDING):
-                                switch (theNewStatus) {
-                                    case (EnrollmentCode.STATUS_ACCEPTED):
-                                        //TODO: TE_SEQ notify PendingTech he was Accepted -> log out
-                                        Log.d(TE_SEQ, "promoting Client -> PendingTech " + enrollmentCode.getEnrollmentCodeID() + ":" + enrollmentCode.getEnrollmentCodeString());
-                                        UtlFirebase.promotePendingTechToTechnician(enrollmentCode.getEnrollmentCodeID(), new FireBaseBooleanCallback() {
-                                            @Override
-                                            public void booleanCallback(boolean isTrue) {
-                                                if (isTrue) {
-                                                    App.getInstance().signOut();
-                                                }
+                case Users.STATUS_PENDING_TECH:
+                    switch (theOldStatus) {
+                        case (EnrollmentCode.STATUS_PENDING):
+                            switch (theNewStatus) {
+                                case (EnrollmentCode.STATUS_ACCEPTED):
+                                    //TODO: TE_SEQ notify PendingTech he was Accepted -> log out
+                                    Log.d(TE_SEQ, "promoting Client -> PendingTech " + enrollmentCode.getEnrollmentCodeID() + ":" + enrollmentCode.getEnrollmentCodeString());
+                                    UtlFirebase.promotePendingTechToTechnician(enrollmentCode.getEnrollmentCodeID(), new FireBaseBooleanCallback() {
+                                        @Override
+                                        public void booleanCallback(boolean isTrue) {
+                                            if (isTrue) {
+                                                App.getInstance().signOut();
                                             }
-                                        });
-                                        break;
+                                        }
+                                    });
+                                    break;
 
-                                    case (EnrollmentCode.STATUS_DECLINED):
-                                        //TODO: TE_SEQ notify PendingTech he was Accepted -> log out
-                                        Log.d(TE_SEQ, "rolling back PendingTech -> Client " + enrollmentCode.getEnrollmentCodeID() + ":" + enrollmentCode.getEnrollmentCodeString());
-                                        UtlFirebase.rollbackPendingTechToClient(enrollmentCode.getEnrollmentCodeID(), new FireBaseBooleanCallback() {
-                                            @Override
-                                            public void booleanCallback(boolean isTrue) {
-                                                if (isTrue) {
-                                                    App.getInstance().signOut();
-                                                }
+                                case (EnrollmentCode.STATUS_DECLINED):
+                                    //TODO: TE_SEQ notify PendingTech he was Accepted -> log out
+                                    Log.d(TE_SEQ, "rolling back PendingTech -> Client " + enrollmentCode.getEnrollmentCodeID() + ":" + enrollmentCode.getEnrollmentCodeString());
+                                    UtlFirebase.rollbackPendingTechToClient(enrollmentCode.getEnrollmentCodeID(), new FireBaseBooleanCallback() {
+                                        @Override
+                                        public void booleanCallback(boolean isTrue) {
+                                            if (isTrue) {
+                                                App.getInstance().signOut();
                                             }
-                                        });
-                                        break;
+                                        }
+                                    });
+                                    break;
 
-                                    default: //do nothing
-                                }
-                                break;
-                            default: //do nothing
-                        }
-                        break;
+                                default: //do nothing
+                            }
+                            break;
+                        default: //do nothing
+                    }
+                    break;
 
-                    case Users.STATUS_CLIENT:
-                    case Users.STATUS_TECH:
-                        //ignore
-                        break;
+                case Users.STATUS_CLIENT:
+                case Users.STATUS_TECH:
+                    //ignore
+                    break;
 
-                    default: //ignore
-                }
+                default: //ignore
             }
+        }
 
 
         @Override
