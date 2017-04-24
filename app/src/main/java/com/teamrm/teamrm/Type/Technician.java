@@ -21,7 +21,6 @@ public class Technician extends Users implements GenericKeyValueTypeable {
     private String techAssignedRegions;
     private String techEnrollmentCode;
 
-    private boolean isPending;
     private boolean isEdited;
 
     public Technician() {
@@ -35,14 +34,11 @@ public class Technician extends Users implements GenericKeyValueTypeable {
         this.techAssignedRegions = techAssignedRegions;
     }
 
-    public Technician(String enrollmentCode, String companyID, Users user) {
+    public Technician(Users user) {
         super(user);
-        this.setAssignedCompanyID(companyID);
-        this.techEnrollmentCode = enrollmentCode;
         this.techColor = "";
         this.techAssignedRegions = "";
         this.techAssignedShifts = "";
-        this.isPending = true;
         this.isEdited = false;
     }
 
@@ -76,14 +72,6 @@ public class Technician extends Users implements GenericKeyValueTypeable {
 
     public void setTechEnrollmentCode(String techEnrollmentCode) {
         this.techEnrollmentCode = techEnrollmentCode;
-    }
-
-    public boolean isPending() {
-        return isPending;
-    }
-
-    public void setPending(boolean pending) {
-        isPending = pending;
     }
 
     public boolean isEdited() {

@@ -3,27 +3,32 @@ package com.teamrm.teamrm.Adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.inputmethodservice.Keyboard;
-import android.os.Bundle;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.teamrm.teamrm.Interfaces.FireBaseBooleanCallback;
+import com.teamrm.teamrm.Interfaces.PendingTechSingleCallback;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.EnrollmentCode;
+import com.teamrm.teamrm.Type.PendingTech;
 import com.teamrm.teamrm.Utility.NiceToast;
+import com.teamrm.teamrm.Utility.RowSetLayout;
 import com.teamrm.teamrm.Utility.RowViewLayout;
+import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.HashMap;
+import java.util.List;
 
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 
@@ -76,72 +81,137 @@ public class EnrollmentCodeSection extends StatelessSection {
 
         ecHolder.ecString.setText(ecListItem.getEnrollmentCodeString());
 
+        switch (ecListItem.getEnrollmentStatus()) {
 
-        ecHolder.ecStatus.setText(getStatusString(ecListItem));
+            case (EnrollmentCode.STATUS_ISSUED):
+                ecHolder.ecStatusRow.setBackgroundResource(R.color.listRow_alt);
+                ecHolder.ecStatusLabel.setTextColor(ContextCompat.getColor(eContext, R.color.textColor_lighter));
+                ecHolder.ecStatusString.setTextColor(ContextCompat.getColor(eContext, R.color.textColor_primary));
+                ecHolder.pendingTechNameRow.setVisibility(View.GONE);
+                ecHolder.btnAcceptDeclineRow.setVisibility(View.GONE);
+                ecHolder.rowSetPendingTechDetails.setVisibility(View.GONE);
+                ecHolder.rowSetIssuedCode.setVisibility(View.VISIBLE);
+                ecHolder.btnRemoveRow.setVisibility(View.VISIBLE);
 
-        if (ecListItem.isSentToMail()) {
-            ecHolder.ecMailNotSentRow.setVisibility(View.GONE);
-            ecHolder.ecMailSentRow.setVisibility(View.VISIBLE);
-            ecHolder.ecSentToMail.setText(ecListItem.getEnrollmentCodeSentToMail());
-        } else {
-            ecHolder.ecMailSentRow.setVisibility(View.GONE);
-            ecHolder.ecMailNotSentRow.setVisibility(View.VISIBLE);
-            ecHolder.ecSendMailAction.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int resultCode = 0;
-                    //TODO: send mail and check if success
-                    //resultCode = ...
-                    if (resultCode == MAIL_SEND_SUCCESS) {
-                        HashMap<String, Object> ecItemUpdates = new HashMap<>();
-                        ecItemUpdates.put(EnrollmentCode.IS_SENT_TO_MAIL, true);
-                        ecItemUpdates.put(EnrollmentCode.ENROLLMENT_CODE_SENT_TO_MAIL, ecHolder.ecMailInput.getText().toString());
-                        UtlFirebase.updateEnrollmentCode(ecListItem.getEnrollmentCodeID(), ecItemUpdates);
-                    } else {
-                        new NiceToast(eContext, "Could not send mail", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
-                    }
+                String ecStatusString;
+                if (ecListItem.isSentToMail() && ecListItem.isSentToPhone()) {
+                    ecStatusString = "קוד נשלח בדואל וב-SMS";
+                } else if (ecListItem.isSentToMail()) {
+                    ecStatusString = "קוד נשלח בדואל";
+                } else if (ecListItem.isSentToPhone()) {
+                    ecStatusString = "קוד נשלח ב-SMS";
+                } else {
+                    ecStatusString = "קוד טרם נשלח";
                 }
-            });
-        }
+                ecHolder.ecStatusString.setText(ecStatusString);
 
-        if (ecListItem.isSentToPhone()) {
-            ecHolder.ecPhoneNotSentRow.setVisibility(View.GONE);
-            ecHolder.ecPhoneSentRow.setVisibility(View.VISIBLE);
-            ecHolder.ecSentToPhone.setText(ecListItem.getEnrollmentCodeSentToPhone());
-        } else {
-            ecHolder.ecPhoneSentRow.setVisibility(View.GONE);
-            ecHolder.ecPhoneNotSentRow.setVisibility(View.VISIBLE);
-            ecHolder.ecSendPhoneAction.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int resultCode = 0;
-                    //TODO: send SMS and check if success
-                    //resultCode = ...
-                    if (resultCode == PHONE_SEND_SUCCESS) {
-                        HashMap<String, Object> ecItemUpdates = new HashMap<>();
-                        ecItemUpdates.put(EnrollmentCode.IS_SENT_TO_PHONE, true);
-                        ecItemUpdates.put(EnrollmentCode.ENROLLMENT_CODE_SENT_TO_PHONE, ecHolder.ecPhoneInput.getText().toString());
-                        UtlFirebase.updateEnrollmentCode(ecListItem.getEnrollmentCodeID(), ecItemUpdates);
-                    } else {
-                        new NiceToast(eContext, "Could not send SMS", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
-                    }
+                if (ecListItem.isSentToMail()) {
+                    ecHolder.ecMailNotSentRow.setVisibility(View.GONE);
+                    ecHolder.ecMailSentRow.setVisibility(View.VISIBLE);
+                    ecHolder.ecSentToMail.setText(ecListItem.getEnrollmentCodeSentToMail());
+                } else {
+                    ecHolder.ecMailSentRow.setVisibility(View.GONE);
+                    ecHolder.ecMailNotSentRow.setVisibility(View.VISIBLE);
+                    ecHolder.ecSendMailAction.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int resultCode = 0;
+                            //TODO: send mail and check if success
+                            //resultCode = ...
+                            if (resultCode == MAIL_SEND_SUCCESS) {
+                                HashMap<String, Object> ecItemUpdates = new HashMap<>();
+                                ecItemUpdates.put(EnrollmentCode.IS_SENT_TO_MAIL, true);
+                                ecItemUpdates.put(EnrollmentCode.ENROLLMENT_CODE_SENT_TO_MAIL, ecHolder.ecMailInput.getText().toString());
+                                UtlFirebase.updateEnrollmentCode(ecListItem.getEnrollmentCodeID(), ecItemUpdates);
+                            } else {
+                                new NiceToast(eContext, "Could not send mail", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
                 }
-            });
-        }
-        switch (ecListItem.getEnrollmentStatus()){
-            case (EnrollmentCode.STATUS_CANCELLED):
-                //
+
+                if (ecListItem.isSentToPhone()) {
+                    ecHolder.ecPhoneNotSentRow.setVisibility(View.GONE);
+                    ecHolder.ecPhoneSentRow.setVisibility(View.VISIBLE);
+                    ecHolder.ecSentToPhone.setText(ecListItem.getEnrollmentCodeSentToPhone());
+                } else {
+                    ecHolder.ecPhoneSentRow.setVisibility(View.GONE);
+                    ecHolder.ecPhoneNotSentRow.setVisibility(View.VISIBLE);
+                    ecHolder.ecSendPhoneAction.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int resultCode = 0;
+                            //TODO: send SMS and check if success
+                            //resultCode = ...
+                            if (resultCode == PHONE_SEND_SUCCESS) {
+                                HashMap<String, Object> ecItemUpdates = new HashMap<>();
+                                ecItemUpdates.put(EnrollmentCode.IS_SENT_TO_PHONE, true);
+                                ecItemUpdates.put(EnrollmentCode.ENROLLMENT_CODE_SENT_TO_PHONE, ecHolder.ecPhoneInput.getText().toString());
+                                UtlFirebase.updateEnrollmentCode(ecListItem.getEnrollmentCodeID(), ecItemUpdates);
+                            } else {
+                                new NiceToast(eContext, "Could not send SMS", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                }
+
+                ecHolder.btnRemoveEC.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (ecListItem.isSentToMail() || ecListItem.isSentToPhone()) {
+                            new AlertDialog.Builder(eContext)
+                                    .setCancelable(true)
+                                    .setMessage("Code already sent \n still delete?")
+                                    .setPositiveButton("delete", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            UtlFirebase.removeEnrollmentCode(ecListItem);
+                                        }
+                                    })
+                                    .show();
+                        } else {
+                            UtlFirebase.removeEnrollmentCode(ecListItem);
+                        }
+                    }
+                });
                 break;
 
             case (EnrollmentCode.STATUS_PENDING):
-                ecHolder.btnRemoveRow.setVisibility(View.GONE);
+                ecHolder.ecStatusRow.setBackgroundResource(R.color.status_urgent);
+                ecHolder.ecStatusLabel.setTextColor(Color.parseColor("#AAFFFFFF"));
+                ecHolder.ecStatusString.setTextColor(Color.WHITE);
+                ecHolder.ecStatusString.setText("ממתין לאישור");
+                UtlFirebase.getPendingTechByID(ecListItem.getEnrolledTechUserID(), new PendingTechSingleCallback() {
+                    @Override
+                    public void pendingTechCallback(PendingTech _pendingTech) {
+                        ecHolder.pendingTechUserNameString.setText(_pendingTech.getUserNameString());
+                        ecHolder.pendingTechMailText.setText(_pendingTech.getUserEmail());
+                        ecHolder.pendingTechPhoneText.setText(_pendingTech.getUserPhone());
+                    }
+                });
+                ecHolder.rowSetPendingTechDetails.setVisibility(View.VISIBLE);
+                ecHolder.pendingTechNameRow.setVisibility(View.VISIBLE);
                 ecHolder.btnAcceptDeclineRow.setVisibility(View.VISIBLE);
+                ecHolder.rowSetIssuedCode.setVisibility(View.GONE);
+                ecHolder.btnRemoveRow.setVisibility(View.GONE);
+
                 ecHolder.btnAccept.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        HashMap<String, Object> updates = new HashMap<>();
-                        updates.put(EnrollmentCode.ENROLLMENT_STATUS, EnrollmentCode.STATUS_ACCEPTED);
-                        UtlFirebase.updateEnrollmentCode(ecListItem.getEnrollmentCodeID(), updates);
+                        UtlFirebase.getPendingTechByID(ecListItem.getEnrolledTechUserID(), new PendingTechSingleCallback() {
+                            @Override
+                            public void pendingTechCallback(PendingTech _pendingTech) {
+                                UtlFirebase.acceptNewTechnician(ecListItem, _pendingTech, new FireBaseBooleanCallback() {
+                                    @Override
+                                    public void booleanCallback(boolean isTrue) {
+                                        if (!isTrue){
+                                            new NiceToast(eContext, "Could not add Technician, try again later", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+
+                            }
+                        });
                     }
                 });
                 ecHolder.btnDecline.setOnClickListener(new View.OnClickListener() {
@@ -152,26 +222,55 @@ public class EnrollmentCodeSection extends StatelessSection {
                         UtlFirebase.updateEnrollmentCode(ecListItem.getEnrollmentCodeID(), updates);
                     }
                 });
+                break;
+
+            case (EnrollmentCode.STATUS_CANCELLED):
+                ecHolder.ecStatusRow.setBackgroundResource(R.color.status_error);
+                ecHolder.ecStatusLabel.setTextColor(Color.parseColor("#AAFFFFFF"));
+                ecHolder.ecStatusString.setTextColor(Color.WHITE);
+                ecHolder.ecStatusString.setText("הרשמה בוטלה עי הטכנאי");
+                UtlFirebase.getPendingTechByID(ecListItem.getEnrolledTechUserID(), new PendingTechSingleCallback() {
+                    @Override
+                    public void pendingTechCallback(PendingTech _pendingTech) {
+                        ecHolder.pendingTechUserNameString.setText(_pendingTech.getUserNameString());
+                        ecHolder.pendingTechMailText.setText(_pendingTech.getUserEmail());
+                        ecHolder.pendingTechPhoneText.setText(_pendingTech.getUserPhone());
+                    }
+                });
+                ecHolder.pendingTechNameRow.setVisibility(View.VISIBLE);
+                ecHolder.rowSetPendingTechDetails.setVisibility(View.VISIBLE);
+                ecHolder.btnRemoveRow.setVisibility(View.VISIBLE);
+                ecHolder.rowSetIssuedCode.setVisibility(View.GONE);
+                ecHolder.btnAcceptDeclineRow.setVisibility(View.GONE);
+
+                ecHolder.btnRemoveEC.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (ecListItem.isSentToMail() || ecListItem.isSentToPhone()) {
+                            new AlertDialog.Builder(eContext)
+                                    .setCancelable(true)
+                                    .setMessage("Code already sent \n still delete?")
+                                    .setPositiveButton("delete", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            UtlFirebase.removeEnrollmentCode(ecListItem);
+                                        }
+                                    })
+                                    .show();
+                        } else {
+                            UtlFirebase.removeEnrollmentCode(ecListItem);
+                        }
+                    }
+                });
+                break;
+
+            case (EnrollmentCode.STATUS_ACCEPTED):
+            case (EnrollmentCode.STATUS_DECLINED):
+                ecHolder.ecCard.setVisibility(View.GONE);
+
+                break;
         }
-        ecHolder.btnRemoveEC.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ecListItem.isSentToMail() || ecListItem.isSentToPhone()) {
-                    new AlertDialog.Builder(eContext)
-                            .setCancelable(true)
-                            .setMessage("Code already sent \n still delete?")
-                            .setPositiveButton("delete", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    UtlFirebase.removeEnrollmentCode(ecListItem);
-                                }
-                            })
-                            .show();
-                } else {
-                    UtlFirebase.removeEnrollmentCode(ecListItem);
-                }
-            }
-        });
+
 
     }
 
@@ -199,12 +298,17 @@ public class EnrollmentCodeSection extends StatelessSection {
 
     private class EnrollmentCodeHolder extends RecyclerView.ViewHolder {
 
+        private View ecCard;
+
+        private RowSetLayout rowSetIssuedCode;
+
         private ExpandableLayout expandableLayout;
         private View cardHeaderView;
 
         private TextView ecString;
 
-        private TextView ecStatus;
+        private RowViewLayout ecStatusRow;
+        private TextView ecStatusLabel, ecStatusString;
 
         private RowViewLayout ecMailSentRow;
         private RowViewLayout ecMailNotSentRow;
@@ -218,10 +322,12 @@ public class EnrollmentCodeSection extends StatelessSection {
         private TextView ecSentToPhone;
         private TextView ecSendPhoneAction;
 
-        private RowViewLayout btnRemoveRow;
         private View btnRemoveEC;
 
-        private RowViewLayout btnAcceptDeclineRow;
+        private RowViewLayout pendingTechNameRow, btnRemoveRow, btnAcceptDeclineRow;
+
+        private RowSetLayout rowSetPendingTechDetails;
+        private TextView pendingTechUserNameString, pendingTechMailText, pendingTechPhoneText;
         private View btnAccept, btnDecline;
 
         private ImageView expandBtn;
@@ -231,13 +337,19 @@ public class EnrollmentCodeSection extends StatelessSection {
             super(view);
             Log.d(TAG, "::: called viewholder");
 
+            ecCard = view.findViewById(R.id.ecCard);
+
+            rowSetIssuedCode = (RowSetLayout) view.findViewById(R.id.rowSetIssuedCode);
+
             expandableLayout = (ExpandableLayout) view.findViewById(R.id.expandableLayout);
             expandBtn = (ImageView) view.findViewById(R.id.expandButton);
             cardHeaderView = view.findViewById(R.id.enrollmentCodeRow);
 
             ecString = (TextView) view.findViewById(R.id.enrollmentCodeString);
 
-            ecStatus = (TextView) view.findViewById(R.id.enrollmentStatusText);
+            ecStatusRow = (RowViewLayout) view.findViewById(R.id.enrollmentStatusRow);
+            ecStatusLabel = (TextView) view.findViewById(R.id.enrollmentStatusLabel);
+            ecStatusString = (TextView) view.findViewById(R.id.enrollmentStatusText);
 
             ecMailNotSentRow = (RowViewLayout) view.findViewById(R.id.enrollmentSendMailRow);
             ecMailSentRow = (RowViewLayout) view.findViewById(R.id.enrollmentMailSentRow);
@@ -251,10 +363,18 @@ public class EnrollmentCodeSection extends StatelessSection {
             ecSentToPhone = (TextView) view.findViewById(R.id.enrollmentPhoneSentText);
             ecSendPhoneAction = (TextView) view.findViewById(R.id.enrollmentSendPhoneAction);
 
-            btnRemoveRow = (RowViewLayout)view.findViewById(R.id.btnRemoveRow);
             btnRemoveEC = view.findViewById(R.id.btnRemove);
 
-            btnAcceptDeclineRow = (RowViewLayout)view.findViewById(R.id.acceptOrDeclineRow);
+            pendingTechNameRow = (RowViewLayout) view.findViewById(R.id.pendingTechNameRow);
+            btnRemoveRow = (RowViewLayout) view.findViewById(R.id.btnRemoveRow);
+            btnAcceptDeclineRow = (RowViewLayout) view.findViewById(R.id.acceptOrDeclineRow);
+
+            rowSetPendingTechDetails = (RowSetLayout) view.findViewById(R.id.rowSetPendingTechDetails);
+
+            pendingTechUserNameString = (TextView) view.findViewById(R.id.pendingTechUserNameString);
+            pendingTechMailText = (TextView) view.findViewById(R.id.pendingTechMailText);
+            pendingTechPhoneText = (TextView) view.findViewById(R.id.pendingTechPhoneText);
+
             btnAccept = view.findViewById(R.id.btnAccept);
             btnDecline = view.findViewById(R.id.btnDecline);
 
@@ -265,8 +385,8 @@ public class EnrollmentCodeSection extends StatelessSection {
         expandBtn.animate().rotation(expandBtn.getRotation() - 180f).setInterpolator(new LinearInterpolator()).start();
     }
 
-    private String getStatusString(EnrollmentCode ec){
-        switch (ec.getEnrollmentStatus()){
+    private String getStatusString(EnrollmentCode ec) {
+        switch (ec.getEnrollmentStatus()) {
             case EnrollmentCode.STATUS_ISSUED:
                 return "Issued";
 
@@ -275,6 +395,15 @@ public class EnrollmentCodeSection extends StatelessSection {
 
             case EnrollmentCode.STATUS_CANCELLED:
                 return "Cancelled";
+
+            case EnrollmentCode.STATUS_DECLINED:
+                return "Declined";
+
+            case EnrollmentCode.STATUS_ACCEPTED:
+                return "Accepted";
+
+            case EnrollmentCode.STATUS_FINALIZED:
+                return "Finalized";
 
             default:
                 return ec.getEnrollmentStatus() + "";

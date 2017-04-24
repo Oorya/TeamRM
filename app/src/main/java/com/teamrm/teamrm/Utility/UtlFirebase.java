@@ -32,6 +32,7 @@ import com.teamrm.teamrm.Interfaces.EnrollmentCodeSingleCallback;
 import com.teamrm.teamrm.Interfaces.EnrollmentCodesObservable;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.FireBaseBooleanCallback;
+import com.teamrm.teamrm.Interfaces.PendingTechSingleCallback;
 import com.teamrm.teamrm.Interfaces.TechniciansObservable;
 import com.teamrm.teamrm.Interfaces.TicketStateObservable;
 import com.teamrm.teamrm.Interfaces.WorkShiftCallback;
@@ -56,6 +57,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 import java.util.UUID;
 
 import static com.teamrm.teamrm.Type.TicketState.STATELISTENERTAG;
@@ -138,9 +140,9 @@ public class UtlFirebase {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                             if (dataSnapshot.exists()) {
-                                                techFromFirebase = item.getValue(Technician.class);                 // acquire Technician from the new dataSnapshot
+                                                fbHelper.resultUser(item.getValue(Technician.class));                 // acquire Technician from the new dataSnapshot
                                             } else {
-                                                fbHelper.resultUser(item.getValue(Client.class));
+                                                //TODO: error, notify user
                                                 Log.e(LOGINTAG, "Stage 6b, Tech validation error");
                                             }
                                         }
@@ -322,26 +324,7 @@ public class UtlFirebase {
     }
 
 
-    public static void checkEnrollmentCodes(final String companyID, final FireBaseBooleanCallback fbCallback) {
-        TECHNICIAN_ENROLLMENT_CODES_REFERENCE.orderByChild(EnrollmentCode.ENROLLMENT_CODE_COMPANY_ID).equalTo(companyID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.hasChildren()) {
-                    fbCallback.booleanCallback(true);
-                } else {
-                    fbCallback.booleanCallback(false);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                fbCallback.booleanCallback(false);
-            }
-        });
-    }
-
-    public static void enrollmentCodeListener(String companyID, final EnrollmentCodesObservable enrollmentCodesObservable) {
-        Query query = TECHNICIAN_ENROLLMENT_CODES_REFERENCE.orderByChild(EnrollmentCode.ENROLLMENT_CODE_COMPANY_ID).equalTo(companyID);
+    public static void AdminEnrollmentCodeListener(String companyID, final EnrollmentCodesObservable enrollmentCodesObservable) {
 
         if (!EnrollmentCode.getEnrollmentCodeList().isEmpty()) {
             EnrollmentCode.clearEnrollmentCodeList();
@@ -350,6 +333,49 @@ public class UtlFirebase {
         ChildEventListener listener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                enrollmentCodesObservable.onEnrollmentCodeAdded(dataSnapshot.getValue(EnrollmentCode.class));
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                try {
+                    enrollmentCodesObservable.onEnrollmentCodeChanged(dataSnapshot.getValue(EnrollmentCode.class));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                enrollmentCodesObservable.onEnrollmentCodeRemoved(dataSnapshot.getValue(EnrollmentCode.class));
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                // irrelevant
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                toastTheError(databaseError);
+            }
+        };
+
+        Query query = TECHNICIAN_ENROLLMENT_CODES_REFERENCE.orderByChild(EnrollmentCode.ENROLLMENT_CODE_COMPANY_ID).equalTo(companyID);
+        query.addChildEventListener(listener);
+        activeChildEventListeners.put(query.getRef(), listener);
+    }
+
+    public static void PendingTechEnrollmentCodeListener(String enrollmentCodeID, final EnrollmentCodesObservable enrollmentCodesObservable) {
+
+        if (!EnrollmentCode.getEnrollmentCodeList().isEmpty()) {
+            EnrollmentCode.clearEnrollmentCodeList();
+        }
+
+        ChildEventListener listener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Log.d(TE_SEQ, "PendingTechEnrollmentCodeListener -> " + dataSnapshot.toString());
                 enrollmentCodesObservable.onEnrollmentCodeAdded(dataSnapshot.getValue(EnrollmentCode.class));
             }
 
@@ -374,6 +400,7 @@ public class UtlFirebase {
             }
         };
 
+        Query query = TECHNICIAN_ENROLLMENT_CODES_REFERENCE.orderByChild(enrollmentCodeID);
         query.addChildEventListener(listener);
         activeChildEventListeners.put(query.getRef(), listener);
     }
@@ -391,35 +418,81 @@ public class UtlFirebase {
         TECHNICIAN_ENROLLMENT_CODES_REFERENCE.child(enrollmentCode.getEnrollmentCodeID()).removeValue();
     }
 
-///////////////////////////// Technician -> Technician /////////////////////////////
+///////////////////////////// Technician -> PendingTech /////////////////////////////
 
-    public static void enrollPendingTechnician(final String enrollmentCodeString, final FireBaseBooleanCallback resultCallback) {
+    public static void enrollPendingTech(final String enrollmentCodeString, final FireBaseBooleanCallback resultCallback) {
 
         getEnrollmentCodeByString(enrollmentCodeString, new EnrollmentCodeSingleCallback() {
             @Override
             public void enrollmentCodeCallback(EnrollmentCode ecObject) {
                 if (null != ecObject && null != ecObject.getEnrollmentCodeID()) {
-                    Log.d(TE_SEQ, "enrollPendingTechnician" + ecObject.toString());
+                    Log.d(TE_SEQ, "enrollPendingTech" + ecObject.toString());
                     Map<String, Object> updates = new HashMap<>();
-                    updates.put(USERS_ROOT_REFERENCE_STRING + "/" + (UserSingleton.getInstance().getUserID()) + "/" + (Users.USER_STATUS), Users.STATUS_PENDING_TECH);
-                    updates.put(USERS_ROOT_REFERENCE_STRING + "/" + (UserSingleton.getInstance().getUserID()) + "/" + (Users.ASSIGNED_COMPANY_ID), (ecObject.getEnrollmentCodeCompanyId()));
+                    updates.put(USERS_ROOT_REFERENCE_STRING + "/" + (UserSingleton.getInstance().getUserID()) + "/" + (PendingTech.ENROLLMENT_CODE_ID), ecObject.getEnrollmentCodeID());
+                    updates.put(USERS_ROOT_REFERENCE_STRING + "/" + (UserSingleton.getInstance().getUserID()) + "/" + (PendingTech.USER_STATUS), PendingTech.STATUS_PENDING_TECH);
+                    updates.put(USERS_ROOT_REFERENCE_STRING + "/" + (UserSingleton.getInstance().getUserID()) + "/" + (PendingTech.ASSIGNED_COMPANY_ID), (ecObject.getEnrollmentCodeCompanyId()));
                     updates.put(TECHNICIAN_ENROLLMENT_CODES_REFERENCE_STRING + "/" + ecObject.getEnrollmentCodeID() + "/" + EnrollmentCode.ENROLLMENT_STATUS, EnrollmentCode.STATUS_PENDING);
                     updates.put(TECHNICIAN_ENROLLMENT_CODES_REFERENCE_STRING + "/" + ecObject.getEnrollmentCodeID() + "/" + EnrollmentCode.ENROLLED_TECH_USER_ID, UserSingleton.getInstance().getUserID());
-                    Log.d(TE_SEQ, "enrollPendingTechnician phase 2 " + updates.toString());
+                    Log.d(TE_SEQ, "enrollPendingTech phase 2 " + updates.toString());
                     GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                            toastSuccessOrError("Successfully registered as Technician", databaseError);
+                            toastSuccessOrError("Successfully enrolled as PendingTech", databaseError);
                             resultCallback.booleanCallback(true);
                         }
                     });
                 } else {
                     resultCallback.booleanCallback(false);
                 }
-                /*DatabaseReference companyTechRef = COMPANY_TECHNICIANS_ROOT_REFERENCE.child(ecObject.getEnrollmentCodeCompanyId()); // reference the company from EnrollmentCode
-                Users myUser = UserSingleton.getInstance();
-                companyTechRef.child(myUser.getUserID()).setValue(new Technician(enrollmentCodeString, ecObject.getEnrollmentCodeCompanyId(), UserSingleton.getLoadedUserObject())); //
-                TECHNICIAN_ENROLLMENT_CODES_REFERENCE.child(ecObject.getEnrollmentCodeID()).removeValue(); //*/
+            }
+        });
+    }
+
+    public static void rollbackPendingTechToClient(String enrollmentCodeID, final FireBaseBooleanCallback resultCallback) {
+        Map<String, Object> updates = new HashMap<>();
+        updates.put(USERS_ROOT_REFERENCE_STRING + "/" + (UserSingleton.getInstance().getUserID()) + "/" + (PendingTech.ENROLLMENT_CODE_ID), null);
+        updates.put(USERS_ROOT_REFERENCE_STRING + "/" + (UserSingleton.getInstance().getUserID()) + "/" + (PendingTech.USER_STATUS), PendingTech.STATUS_CLIENT);
+        updates.put(USERS_ROOT_REFERENCE_STRING + "/" + (UserSingleton.getInstance().getUserID()) + "/" + (PendingTech.ASSIGNED_COMPANY_ID), null);
+        updates.put(TECHNICIAN_ENROLLMENT_CODES_REFERENCE_STRING + "/" + enrollmentCodeID + "/" + EnrollmentCode.ENROLLMENT_STATUS, EnrollmentCode.STATUS_FINALIZED);
+        GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                toastSuccessOrError("Rollback to Client succeeded", databaseError);
+                if (null != databaseError) {
+                    resultCallback.booleanCallback(false);
+                } else
+                    resultCallback.booleanCallback(true);
+            }
+        });
+    }
+
+    public static void promotePendingTechToTechnician(String enrollmentCodeID, final FireBaseBooleanCallback resultCallback) {
+        Map<String, Object> updates = new HashMap<>();
+        updates.put(USERS_ROOT_REFERENCE_STRING + "/" + (UserSingleton.getInstance().getUserID()) + "/" + (PendingTech.ENROLLMENT_CODE_ID), null);
+        updates.put(USERS_ROOT_REFERENCE_STRING + "/" + (UserSingleton.getInstance().getUserID()) + "/" + (PendingTech.USER_STATUS), PendingTech.STATUS_TECH);
+        updates.put(TECHNICIAN_ENROLLMENT_CODES_REFERENCE_STRING + "/" + enrollmentCodeID + "/" + EnrollmentCode.ENROLLMENT_STATUS, EnrollmentCode.STATUS_FINALIZED);
+        GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                toastSuccessOrError("Promote to Tech succeeded", databaseError);
+                if (null != databaseError) {
+                    resultCallback.booleanCallback(false);
+                } else
+                    resultCallback.booleanCallback(true);
+            }
+        });
+    }
+
+    public static void getPendingTechByID(String pendingTechID, final PendingTechSingleCallback ptCallback) {
+        USERS_ROOT_REFERENCE.child(pendingTechID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ptCallback.pendingTechCallback(dataSnapshot.getValue(PendingTech.class));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                toastTheError(databaseError);
             }
         });
     }
@@ -427,6 +500,8 @@ public class UtlFirebase {
     public static void cancelPendingTechEnrollment(FireBaseBooleanCallback resultCallback) {
 
     }
+
+///////////////////////////// Technician -> Technician /////////////////////////////
 
    /* public static void getCompanyTechnicians(String companyID, TechnicianCallback technicianCallback) {
         final List<Technician> technicianList = new ArrayList<>();
@@ -493,31 +568,20 @@ public class UtlFirebase {
         });
     }
 
-    /*public static void addTechnician(String companyID, final Technician technician) {
-        USERS_ROOT_REFERENCE.child(user.getUserID()).setValue(user, new DatabaseReference.CompletionListener() {
+    public static void acceptNewTechnician(EnrollmentCode enrollmentCode, final PendingTech pendingTech, final FireBaseBooleanCallback resultCallback) {
+        if (pendingTech.getUserStatus().equals(Users.STATUS_PENDING_TECH) && null != pendingTech.getAssignedCompanyID()) {
+        HashMap<String, Object> updates = new HashMap<>();
+        updates.put(COMPANY_TECHNICIANS_ROOT_REFERENCE_STRING + "/" + pendingTech.getAssignedCompanyID() + "/" + pendingTech.getUserID(), new Technician(pendingTech));
+        updates.put(TECHNICIAN_ENROLLMENT_CODES_REFERENCE_STRING + "/" + enrollmentCode.getEnrollmentCodeID() + "/" + EnrollmentCode.ENROLLMENT_STATUS, EnrollmentCode.STATUS_FINALIZED);
+        GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                String addedUser = "Added user:\n";
-                addedUser += user.getUserEmail() + "\n";
-                addedUser += user.getUserNameString();
-                toastSuccessOrError(addedUser, databaseError);
+                toastSuccessOrError("Technician added successfully", databaseError);
+                resultCallback.booleanCallback(true);
             }
-
         });
-        Log.d("SET USER::", user.toString());
-        COMPANY_TECHNICIANS_ROOT_REFERENCE.child(companyID).child(technician.getUserID()).setValue(technician, new
-                DatabaseReference.CompletionListener() {
-                    @Override
-                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                        String addedUser = "Added tech:\n";
-                        addedUser += technician.getUserEmail() + "\n";
-                        addedUser += technician.getUserNameString();
-                        toastSuccessOrError(addedUser, databaseError);
-                    }
-                });
+        } else resultCallback.booleanCallback(false);
     }
-
-    }*/
 
 ///////////////////////////// Ticket /////////////////////////////
 

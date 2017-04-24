@@ -16,6 +16,7 @@ import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.Type.Category;
 import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.EnrollmentCode;
+import com.teamrm.teamrm.Type.PendingTech;
 import com.teamrm.teamrm.Type.Product;
 import com.teamrm.teamrm.Type.Region;
 import com.teamrm.teamrm.Type.Ticket;
@@ -67,26 +68,15 @@ public class UserSingleton extends Users {
                 protected Void doInBackground(Void... voids) {
                     switch (getLoadedUserType()) { // check which user type is loaded into the Singleton
                         case Users.STATUS_PENDING_TECH:
-                            Log.d(TE_SEQ, "Checking enrollmentCodes with companyID = " + userHolder.getAssignedCompanyID());
-                            UtlFirebase.checkEnrollmentCodes(userHolder.getAssignedCompanyID(), new FireBaseBooleanCallback() {
-                                @Override
-                                public void booleanCallback(boolean isTrue) {
-                                    if (isTrue) {
-                                    Log.d(TE_SEQ, "found enrollmentCodes, attaching listener");
-                                        UtlFirebase.enrollmentCodeListener(userHolder.getAssignedCompanyID(), enrollmentCodeObserver);
-
-                                    } else {
-                                        Log.d(TE_SEQ, "NOT found enrollmentCodes, signing out");
-                                    }
-                                }
-                            });
+                            PendingTech tempPendingTech = (PendingTech) user;
+                            UtlFirebase.PendingTechEnrollmentCodeListener(tempPendingTech.getEnrollmentCodeID(), enrollmentCodeObserver);
                             break;
 
                         case Users.STATUS_ADMIN:
-                            UtlFirebase.enrollmentCodeListener(userHolder.getAssignedCompanyID(), enrollmentCodeObserver);
+                            UtlFirebase.AdminEnrollmentCodeListener(userHolder.getAssignedCompanyID(), enrollmentCodeObserver);
 
-                        case Users.STATUS_CLIENT:
                         case Users.STATUS_TECH:
+                        case Users.STATUS_CLIENT:
                             Log.d(LOGINTAG, "::AsyncTask");
                             UtlFirebase.ticketStateListener(ticketStateObserver);
                             Log.d(LOGINTAG, "Calling getAllTicketLites");
@@ -356,11 +346,91 @@ public class UserSingleton extends Users {
 
         @Override
         public void onEnrollmentCodeChanged(EnrollmentCode enrollmentCode) {
-            EnrollmentCode.changeEnrollmentCodeInList(enrollmentCode);
-            if (ecAdapter != null) {
-                ecAdapter.notifyDataSetChanged();
+                int theOldStatus = EnrollmentCode.getEnrollmentCodeList().get(EnrollmentCode.getEnrollmentCodeList().indexOf(enrollmentCode)).getEnrollmentStatus();
+                int theNewStatus = enrollmentCode.getEnrollmentStatus();
+                EnrollmentCode.changeEnrollmentCodeInList(enrollmentCode);
+                if (ecAdapter != null) {
+                    ecAdapter.notifyDataSetChanged();
+                }
+                switch (getLoadedUserType()) {
+                    case Users.STATUS_ADMIN:
+                        switch (theOldStatus) {
+                            case (EnrollmentCode.STATUS_ISSUED):
+                                if (theNewStatus == EnrollmentCode.STATUS_PENDING) {
+                                    //TODO: TE_SEQ notify admin -> PendingTech needs approval
+                                } else {
+                                    // shouldn't happen
+                                }
+                                break;
+                            case (EnrollmentCode.STATUS_PENDING):
+                                switch (theNewStatus) {
+                                    case (EnrollmentCode.STATUS_CANCELLED):
+                                        // TODO: TE_SEQ notify admin -> PendingTech cancelled the enrollment
+                                        break;
+
+                                    case EnrollmentCode.STATUS_ACCEPTED:
+                                    case EnrollmentCode.STATUS_DECLINED:
+                                        if (ecAdapter != null) {
+                                            Log.d(TE_SEQ, "notifying adapter with " + enrollmentCode.getEnrollmentCodeString() + " -> " + enrollmentCode.getEnrollmentStatus());
+                                            ecAdapter.notifyDataSetChanged();
+                                        }
+                                        break;
+                                }
+                                break;
+                            case (EnrollmentCode.STATUS_ACCEPTED):
+                            case (EnrollmentCode.STATUS_DECLINED):
+                                if (theNewStatus == EnrollmentCode.STATUS_FINALIZED) {
+                                    UtlFirebase.removeEnrollmentCode(enrollmentCode);
+                                }
+                                break;
+                            default: //do nothing
+                        }
+                        break;
+
+                    case Users.STATUS_PENDING_TECH:
+                        switch (theOldStatus) {
+                            case (EnrollmentCode.STATUS_PENDING):
+                                switch (theNewStatus) {
+                                    case (EnrollmentCode.STATUS_ACCEPTED):
+                                        //TODO: TE_SEQ notify PendingTech he was Accepted -> log out
+                                        UtlFirebase.promotePendingTechToTechnician(enrollmentCode.getEnrollmentCodeID(), new FireBaseBooleanCallback() {
+                                            @Override
+                                            public void booleanCallback(boolean isTrue) {
+                                                if (isTrue) {
+                                                    App.getInstance().signOut();
+                                                }
+                                            }
+                                        });
+                                        break;
+
+                                    case (EnrollmentCode.STATUS_DECLINED):
+                                        //TODO: TE_SEQ notify PendingTech he was Accepted -> log out
+                                        UtlFirebase.rollbackPendingTechToClient(enrollmentCode.getEnrollmentCodeID(), new FireBaseBooleanCallback() {
+                                            @Override
+                                            public void booleanCallback(boolean isTrue) {
+                                                if (isTrue) {
+                                                    App.getInstance().signOut();
+                                                }
+                                            }
+                                        });
+                                        break;
+
+                                    default: //do nothing
+                                }
+                                break;
+                            default: //do nothing
+                        }
+                        break;
+
+                    case Users.STATUS_CLIENT:
+                    case Users.STATUS_TECH:
+                        //ignore
+                        break;
+
+                    default: //ignore
+                }
             }
-        }
+
 
         @Override
         public void onEnrollmentCodeRemoved(EnrollmentCode enrollmentCode) {

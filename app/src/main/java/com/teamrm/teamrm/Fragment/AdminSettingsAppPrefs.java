@@ -109,7 +109,7 @@ public class AdminSettingsAppPrefs extends Fragment implements CalendarHelper{
 
     void registerClientAsTech(){
         if (UserSingleton.getLoadedUserType().equals(Users.STATUS_CLIENT) && enrollmentCodeInput.length() > 3) {
-            UtlFirebase.enrollPendingTechnician(enrollmentCodeInput.getText().toString(), new FireBaseBooleanCallback() {
+            UtlFirebase.enrollPendingTech(enrollmentCodeInput.getText().toString(), new FireBaseBooleanCallback() {
                 @Override
                 public void booleanCallback(boolean isTrue) {
                     if (isTrue) {

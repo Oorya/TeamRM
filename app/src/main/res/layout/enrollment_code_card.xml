@@ -2,18 +2,18 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/userDetailCard"
+    android:id="@+id/ecCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="-8dp"
     android:layoutDirection="rtl"
     app:cardCornerRadius="10dp"
     app:cardElevation="5dp"
     app:cardUseCompatPadding="true"
-    android:layout_marginBottom="-8dp"
-    tools:paddingTop="25dp"
-    app:contentPaddingBottom="8dp">
+    tools:paddingTop="25dp">
 
     <com.teamrm.teamrm.Utility.RowSetLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -47,145 +47,246 @@
 
         </com.teamrm.teamrm.Utility.RowViewLayout>
 
+        <View style="@style/Separator1px" />
+
+        <com.teamrm.teamrm.Utility.RowViewLayout
+            android:id="@+id/enrollmentStatusRow"
+            style="@style/CardRow"
+            android:layout_height="36dp"
+            android:background="@color/listRow_alt"
+            android:gravity="center"
+            android:visibility="visible">
+
+
+            <TextView
+                android:id="@+id/enrollmentStatusLabel"
+                style="@style/CardRowLabel"
+                android:text="סטטוס קוד הרשמה:" />
+
+            <TextView
+                android:id="@+id/enrollmentStatusText"
+                style="@style/CardRowText"
+                android:layout_toEndOf="@id/enrollmentStatusLabel"
+                tools:text="ממתין לאישור" />
+
+        </com.teamrm.teamrm.Utility.RowViewLayout>
+
+        <!--if status STATUS_PENDING -> display user name string-->
+
+        <com.teamrm.teamrm.Utility.RowViewLayout
+            android:id="@+id/pendingTechNameRow"
+            style="@style/CardRow"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/pendingTechUserIcon"
+                style="@style/CardRowImageStart"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_icon_tech" />
+
+            <TextView
+                android:id="@+id/pendingTechUserNameLabel"
+                style="@style/CardRowLabel"
+                android:layout_toEndOf="@id/pendingTechUserIcon"
+                android:text="שם הטכנאי:" />
+
+            <TextView
+                android:id="@+id/pendingTechUserNameString"
+                style="@style/CardRowText"
+                android:layout_toEndOf="@id/pendingTechUserNameLabel"
+                android:textSize="16sp"
+                tools:text="ישראל ישראלי" />
+
+        </com.teamrm.teamrm.Utility.RowViewLayout>
+
+
         <net.cachapa.expandablelayout.ExpandableLayout
             android:id="@+id/expandableLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:el_expanded="true"
+            app:el_expanded="false"
             app:el_parallax="0.5">
 
+            <!--if status STATUS_ISSUED -> display sent or not-->
             <com.teamrm.teamrm.Utility.RowSetLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.teamrm.teamrm.Utility.RowViewLayout
-                    android:id="@+id/enrollmentStatusRow"
-                    style="@style/CardRow"
-                    android:visibility="visible">
+                <com.teamrm.teamrm.Utility.RowSetLayout
+                    android:id="@+id/rowSetIssuedCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    tools:visibility="visible">
 
-                    <ImageView
-                        android:id="@+id/enrollmentStatusIcon"
-                        style="@style/CardRowImageStart"
-                        android:src="@drawable/ic_icon_camera" />
+                    <com.teamrm.teamrm.Utility.RowViewLayout
+                        android:id="@+id/enrollmentMailSentRow"
+                        style="@style/CardRow"
+                        android:visibility="visible">
 
-                    <TextView
-                        android:id="@+id/enrollmentStatusLabel"
-                        style="@style/CardRowLabel"
-                        android:layout_toEndOf="@id/enrollmentStatusIcon"
-                        android:text="סטטוס קוד הרשמה" />
+                        <ImageView
+                            android:id="@+id/enrollmentMailSentIcon"
+                            style="@style/CardRowImageStart"
+                            android:src="@drawable/ic_icon_camera" />
 
-                    <TextView
-                        android:id="@+id/enrollmentStatusText"
-                        style="@style/CardRowText"
-                        android:layout_toEndOf="@id/enrollmentStatusLabel"
-                        tools:text="ממתין לאישור"/>
+                        <TextView
+                            android:id="@+id/enrollmentMailSentLabel"
+                            style="@style/CardRowLabel"
+                            android:layout_toEndOf="@id/enrollmentMailSentIcon"
+                            android:text="נשלח לדואל" />
 
-                </com.teamrm.teamrm.Utility.RowViewLayout>
+                        <TextView
+                            android:id="@+id/enrollmentMailSentText"
+                            style="@style/CardRowText"
+                            android:layout_toEndOf="@id/enrollmentMailSentLabel"
+                            tools:text="Text" />
 
-                <com.teamrm.teamrm.Utility.RowViewLayout
-                    android:id="@+id/enrollmentMailSentRow"
-                    style="@style/CardRow"
-                    android:background="@color/listRow_alt"
-                    android:visibility="visible">
 
-                    <ImageView
-                        android:id="@+id/enrollmentMailSentIcon"
-                        style="@style/CardRowImageStart"
-                        android:src="@drawable/ic_icon_camera" />
+                    </com.teamrm.teamrm.Utility.RowViewLayout>
 
-                    <TextView
-                        android:id="@+id/enrollmentMailSentLabel"
-                        style="@style/CardRowLabel"
-                        android:layout_toEndOf="@id/enrollmentMailSentIcon"
-                        android:text="נשלח לדואל" />
+                    <com.teamrm.teamrm.Utility.RowViewLayout
+                        android:id="@+id/enrollmentSendMailRow"
+                        style="@style/CardRow">
 
-                    <TextView
-                        android:id="@+id/enrollmentMailSentText"
-                        style="@style/CardRowText"
-                        android:layout_toEndOf="@id/enrollmentMailSentLabel"
-                        tools:text="Text" />
+                        <ImageView
+                            android:id="@+id/enrollmentSendMailIcon"
+                            style="@style/CardRowImageStart"
+                            android:src="@drawable/ic_icon_camera" />
 
-                </com.teamrm.teamrm.Utility.RowViewLayout>
+                        <EditText
+                            android:id="@+id/enrollmentSendMailInput"
+                            style="@style/CardRowEditText"
+                            android:layout_toEndOf="@id/enrollmentSendMailIcon"
+                            android:hint="הקלד דואל לשליחת הקוד" />
 
-                <com.teamrm.teamrm.Utility.RowViewLayout
-                    android:id="@+id/enrollmentSendMailRow"
-                    style="@style/CardRow"
-                    android:background="@color/listRow_alt">
+                        <TextView
+                            android:id="@+id/enrollmentSendMailAction"
+                            style="@style/CardRowText"
+                            android:layout_alignParentEnd="true"
+                            android:text="שלח קוד למייל" />
+                    </com.teamrm.teamrm.Utility.RowViewLayout>
 
-                    <ImageView
-                        android:id="@+id/enrollmentSendMailIcon"
-                        style="@style/CardRowImageStart"
-                        android:src="@drawable/ic_icon_camera" />
+                    <com.teamrm.teamrm.Utility.RowViewLayout
+                        android:id="@+id/enrollmentPhoneSentRow"
+                        style="@style/CardRow"
+                        android:visibility="visible">
 
-                    <EditText
-                        android:id="@+id/enrollmentSendMailInput"
-                        style="@style/CardRowEditText"
-                        android:layout_toEndOf="@id/enrollmentSendMailIcon"
-                        android:hint="הקלד דואל לשליחת הקוד" />
 
-                    <TextView
-                        android:id="@+id/enrollmentSendMailAction"
-                        style="@style/CardRowText"
-                        android:layout_alignParentEnd="true"
-                        android:text="שלח קוד למייל" />
-                </com.teamrm.teamrm.Utility.RowViewLayout>
+                        <ImageView
+                            android:id="@+id/enrollmentPhoneSentIcon"
+                            style="@style/CardRowImageStart"
+                            android:src="@drawable/ic_icon_camera" />
 
-                <com.teamrm.teamrm.Utility.RowViewLayout
-                    android:id="@+id/enrollmentPhoneSentRow"
-                    style="@style/CardRow"
-                    android:visibility="visible">
+                        <TextView
+                            android:id="@+id/enrollmentPhoneSentLabel"
+                            style="@style/CardRowLabel"
+                            android:layout_toEndOf="@id/enrollmentPhoneSentIcon"
+                            tools:text="Label" />
 
-                    <ImageView
-                        android:id="@+id/enrollmentPhoneSentIcon"
-                        style="@style/CardRowImageStart"
-                        android:src="@drawable/ic_icon_camera" />
+                        <TextView
+                            android:id="@+id/enrollmentPhoneSentText"
+                            style="@style/CardRowText"
+                            android:layout_toEndOf="@id/enrollmentPhoneSentLabel"
+                            tools:text="Text" />
 
-                    <TextView
-                        android:id="@+id/enrollmentPhoneSentLabel"
-                        style="@style/CardRowLabel"
-                        android:layout_toEndOf="@id/enrollmentPhoneSentIcon"
-                        tools:text="Label" />
+                        <ImageView
+                            android:id="@+id/enrollmentPhoneSentAction"
+                            style="@style/CardRowImageEnd"
+                            android:src="@drawable/ic_call_24px" />
+                    </com.teamrm.teamrm.Utility.RowViewLayout>
 
-                    <TextView
-                        android:id="@+id/enrollmentPhoneSentText"
-                        style="@style/CardRowText"
-                        android:layout_toEndOf="@id/enrollmentPhoneSentLabel"
-                        tools:text="Text" />
+                    <com.teamrm.teamrm.Utility.RowViewLayout
+                        android:id="@+id/enrollmentSendPhoneRow"
+                        style="@style/CardRow"
+                        >
 
-                    <ImageView
-                        android:id="@+id/enrollmentPhoneSentAction"
-                        style="@style/CardRowImageEnd"
-                        android:src="@drawable/ic_call_24px" />
-                </com.teamrm.teamrm.Utility.RowViewLayout>
+                        <ImageView
+                            android:id="@+id/enrollmentSendPhoneIcon"
+                            style="@style/CardRowImageStart"
+                            android:src="@drawable/ic_icon_camera" />
 
-                <com.teamrm.teamrm.Utility.RowViewLayout
-                    android:id="@+id/enrollmentSendPhoneRow"
-                    style="@style/CardRow"
-                    android:layout_marginBottom="8dp">
+                        <EditText
+                            android:id="@+id/enrollmentSendPhoneInput"
+                            style="@style/CardRowEditText"
+                            android:layout_toEndOf="@id/enrollmentSendPhoneIcon"
+                            android:hint="הקלד מספר נייד לשליחת הקוד" />
 
-                    <ImageView
-                        android:id="@+id/enrollmentSendPhoneIcon"
-                        style="@style/CardRowImageStart"
-                        android:src="@drawable/ic_icon_camera" />
+                        <TextView
+                            android:id="@+id/enrollmentSendPhoneAction"
+                            style="@style/CardRowText"
+                            android:layout_alignParentEnd="true"
+                            android:text="שלח קוד לנייד" />
+                    </com.teamrm.teamrm.Utility.RowViewLayout>
 
-                    <EditText
-                        android:id="@+id/enrollmentSendPhoneInput"
-                        style="@style/CardRowEditText"
-                        android:layout_toEndOf="@id/enrollmentSendPhoneIcon"
-                        android:hint="הקלד מספר נייד לשליחת הקוד" />
 
-                    <TextView
-                        android:id="@+id/enrollmentSendPhoneAction"
-                        style="@style/CardRowText"
-                        android:layout_alignParentEnd="true"
-                        android:text="שלח קוד לנייד" />
-                </com.teamrm.teamrm.Utility.RowViewLayout>
+                </com.teamrm.teamrm.Utility.RowSetLayout>
+
+                <!--if STATUS_PENDING -> display user details-->
+
+                <com.teamrm.teamrm.Utility.RowSetLayout
+                    android:id="@+id/rowSetPendingTechDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    tools:visibility="visible">
+
+                    <com.teamrm.teamrm.Utility.RowViewLayout
+                        android:id="@+id/pendingTechMailRow"
+                        style="@style/CardRow">
+
+                        <ImageView
+                            android:id="@+id/pendingTechMailIcon"
+                            style="@style/CardRowImageStart"
+                            android:src="@drawable/ic_icon_mail" />
+
+                        <TextView
+                            android:id="@+id/pendingTechMailLabel"
+                            style="@style/CardRowLabel"
+                            android:layout_toEndOf="@id/pendingTechMailIcon"
+                            android:text="@string/label_mail" />
+
+                        <TextView
+                            android:id="@+id/pendingTechMailText"
+                            style="@style/CardRowText"
+                            android:layout_toEndOf="@id/pendingTechMailLabel"
+                            tools:text="xxx@xxxx" />
+
+                    </com.teamrm.teamrm.Utility.RowViewLayout>
+
+                    <com.teamrm.teamrm.Utility.RowViewLayout
+                        android:id="@+id/pendingTechPhoneRow"
+                        style="@style/CardRow">
+
+                        <ImageView
+                            android:id="@+id/pendingTechPhoneIcon"
+                            style="@style/CardRowImageStart"
+                            android:src="@drawable/ic_icon_phone" />
+
+                        <TextView
+                            android:id="@+id/pendingTechPhoneLabel"
+                            style="@style/CardRowLabel"
+                            android:layout_toEndOf="@id/pendingTechPhoneIcon"
+                            android:text="@string/label_phone_number" />
+
+                        <TextView
+                            android:id="@+id/pendingTechPhoneText"
+                            style="@style/CardRowText"
+                            android:layout_toEndOf="@id/pendingTechPhoneLabel"
+                            tools:text="xxxxxxx" />
+
+                    </com.teamrm.teamrm.Utility.RowViewLayout>
+
+                </com.teamrm.teamrm.Utility.RowSetLayout>
 
                 <com.teamrm.teamrm.Utility.RowViewLayout
                     android:id="@+id/btnRemoveRow"
                     style="@style/CardRow"
-                    >
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:layout_marginBottom="16dp">
 
                     <android.support.v7.widget.CardView
                         android:id="@+id/btnRemove"
@@ -229,6 +330,8 @@
                 <com.teamrm.teamrm.Utility.RowViewLayout
                     android:id="@+id/acceptOrDeclineRow"
                     style="@style/CardRow"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="8dp"
                     android:visibility="gone"
                     tools:visibility="visible">
 
@@ -237,15 +340,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:text="Decline"/>
+                        android:text="Decline" />
 
                     <Button
-                        android:layout_alignParentEnd="true"
                         android:id="@+id/btnAccept"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Accept"/>
-
+                        android:layout_alignParentEnd="true"
+                        android:text="Accept" />
 
                 </com.teamrm.teamrm.Utility.RowViewLayout>
             </com.teamrm.teamrm.Utility.RowSetLayout>

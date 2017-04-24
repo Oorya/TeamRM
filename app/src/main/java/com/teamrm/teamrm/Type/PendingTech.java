@@ -13,12 +13,24 @@ import java.util.List;
  */
 public class PendingTech extends Users implements GenericKeyValueTypeable
 {
+    public static final String ENROLLMENT_CODE_ID = "enrollmentCodeID";
+
     private String enrollmentCodeID;
 
-    public PendingTech(){
+    public PendingTech(){}
+
+    public PendingTech(Users user, String _enrollmentCodeID){
+        super(user);
+        this.enrollmentCodeID = _enrollmentCodeID;
     }
 
+    public String getEnrollmentCodeID() {
+        return enrollmentCodeID;
+    }
 
+    public void setEnrollmentCodeID(String enrollmentCodeID) {
+        this.enrollmentCodeID = enrollmentCodeID;
+    }
 
     @Override
     @Exclude
@@ -30,5 +42,11 @@ public class PendingTech extends Users implements GenericKeyValueTypeable
     @Exclude
     public String getItemValue() {
         return super.getUserNameString();
+    }
+
+    @Override
+    public String toString() {
+        String out = ENROLLMENT_CODE_ID + " = " + this.enrollmentCodeID + "\n";
+        return super.toString() + out ;
     }
 }

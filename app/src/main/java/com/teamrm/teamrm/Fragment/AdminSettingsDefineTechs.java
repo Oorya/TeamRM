@@ -15,6 +15,7 @@ import android.view.animation.BounceInterpolator;
 
 import com.teamrm.teamrm.Adapter.EnrollmentCodeSection;
 import com.teamrm.teamrm.Interfaces.EnrollmentCodeCallback;
+import com.teamrm.teamrm.Interfaces.EnrollmentCodeSingleCallback;
 import com.teamrm.teamrm.Interfaces.FragmentHelper;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.EnrollmentCode;
@@ -55,53 +56,36 @@ public class AdminSettingsDefineTechs extends Fragment {
 
         tRecyclerView = (RecyclerView) view.findViewById(R.id.prefRecyclerView);
         tRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        //final EnrollmentCodeSection ecSection = new EnrollmentCodeSection(getContext(), EnrollmentCode.enrollmentCodeList);
         final EnrollmentCodeSection ecSection = new EnrollmentCodeSection(getContext());
         //final TechniciansSection techSection = new TechniciansSection(getContext(), Technician.getTechnicianList());
 
         tAdapter.addSection(ecSection);
-        ecSection.setVisible(false);
         //tAdapter.addSection(techSection);
 
-        //ecSection.setVisible(false);
-        //ecSection.setState(Section.State.LOADING);
         //techSection.setVisible(false);
-
-        /*UtlFirebase.enrollmentCodeListener(UserSingleton.getInstance().getAssignedCompanyID(), new EnrollmentCodeCallback() {
-            @Override
-            public void enrollmentCodeCallback(ArrayList<EnrollmentCode> enrollmentCodes) {
-                Log.d(":::ec callback", "BOOM");
-                if (!enrollmentCodes.isEmpty()) {
-                    EnrollmentCode.setenrollmentCodeList(enrollmentCodes);
-                    ecSection.setVisible(true);
-                    tAdapter.notifyDataSetChanged();
-               *//* if (!enrollmentCodes.isEmpty()) {
-                    //ecSection.setVisible(true);
-                }*//*
-                } else {
-                    tAdapter.notifyDataSetChanged();
-                    ecSection.setVisible(false);
-                }
-            }
-        });*/
-
-       /* UtlFirebase.getCompanyTechniciansForEdit(UserSingleton.getInstance().getAssignedCompanyID(), new TechnicianCallback() {
-            @Override
-            public void technicianCallback(ArrayList<Technician> technicianList) {
-                Log.d(":::tech callback", "BOOM");
-                Technician.setTechnicianList(technicianList);
-                if (!technicianList.isEmpty()) {
-                    techSection.setVisible(true);
-                }
-            }
-        });*/
 
 
         tRecyclerView.setAdapter(tAdapter);
+        tAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                String sss = Integer.toString(ecSection.getContentItemsTotal());
+                String ttt = Integer.toString(ecSection.getSectionItemsTotal());
+                String lf = "\n";
+                try {
+                    Log.d(UserSingleton.TE_SEQ, sss + lf + ttt);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (EnrollmentCode.getEnrollmentCodeList().isEmpty() || ecSection.getContentItemsTotal()<1) {
+                    ecSection.setVisible(false);
+                } else ecSection.setVisible(true);
 
-        if (!EnrollmentCode.getEnrollmentCodeList().isEmpty()) {
-            ecSection.setVisible(true);
-        }
+            }
+        });
+
+
 
         view.postDelayed(new Runnable() {
             @Override
@@ -143,5 +127,4 @@ public class AdminSettingsDefineTechs extends Fragment {
         ft.addToBackStack(FragmentHelper.STACK_FOR_BASIC_SETTINGS_NAVIGATION);
         ft.commit();
     }
-
 }
