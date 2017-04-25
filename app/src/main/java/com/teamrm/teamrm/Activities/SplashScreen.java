@@ -333,7 +333,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
     void startApp() {
 
-        Intent homeScreenIntent = new Intent(SplashScreen.this, HomeScreen.class);
+        Intent homeScreenIntent = new Intent(this, HomeScreen.class);
         startActivity(homeScreenIntent);
         finish();
     }
@@ -349,8 +349,9 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
     @Override
     public void onBackPressed() {
-
+        Log.d("onBackPressed", "onBackPressed");
         finish();
+        finishAffinity();
     }
 }
 
