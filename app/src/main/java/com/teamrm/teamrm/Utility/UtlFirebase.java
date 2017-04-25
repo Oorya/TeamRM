@@ -689,16 +689,16 @@ public class UtlFirebase {
 
     public static void getAllTickets(final FireBaseAble fbHelper) {
         switch (UserSingleton.getLoadedUserType()) {
-            case "Client":
+            case Users.STATUS_CLIENT:
                 getAllClientTickets(UserSingleton.getInstance().getUserID(), fbHelper);
                 break;
 
-            case "Admin":
+            case Users.STATUS_ADMIN:
                 getAllCompanyTickets(UserSingleton.getInstance().getAssignedCompanyID(), fbHelper);
                 break;
 
-            case "Technician":
-                getAllCompanyTickets(UserSingleton.getInstance().getAssignedCompanyID(), fbHelper);
+            case Users.STATUS_TECH:
+                getAllTechTickets(UserSingleton.getInstance().getAssignedCompanyID(), UserSingleton.getInstance().getUserID(), fbHelper);
                 break;
 
             case "undefined":
@@ -715,16 +715,16 @@ public class UtlFirebase {
     public static void getAllTicketLites(final FireBaseAble fbHelper) {
 
         switch (UserSingleton.getLoadedUserType()) {
-            case "Client":
+            case Users.STATUS_CLIENT:
                 getAllClientTicketLites(UserSingleton.getInstance().getUserID(), fbHelper);
                 break;
 
-            case "Admin":
+            case Users.STATUS_ADMIN:
                 getAllCompanyTicketLites(UserSingleton.getInstance().getAssignedCompanyID(), fbHelper);
                 break;
 
-            case "Technician":
-                getAllCompanyTicketLites(UserSingleton.getInstance().getAssignedCompanyID(), fbHelper);
+            case Users.STATUS_TECH:
+                getAllTechTicketLites(UserSingleton.getInstance().getAssignedCompanyID(), UserSingleton.getInstance().getUserID(), fbHelper);
                 break;
 
             case "undefined":
@@ -783,25 +783,6 @@ public class UtlFirebase {
         activeValueEventListeners.put(query, listener);
     }
 
-
-    public static void updateTicket(String ticketID, HashMap<String, String> updateFields) {
-        Map updates = new HashMap();
-        for (Map.Entry<String, String> field : updateFields.entrySet()) {
-            updates.put(TICKET_ROOT_REFERENCE_STRING + "/" + ticketID + "/" + field.getKey(), field.getValue());
-            updates.put(TICKET_LITE_ROOT_REFERENCE_STRING + "/" + ticketID + "/" + field.getKey(), field.getValue());
-
-
-        }
-        //Log.d("updateTicket", updates.toString());
-        GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                toastSuccessOrError("update successful", databaseError);
-            }
-        });
-    }
-
-
     private static void getAllCompanyTickets(String companyID, final FireBaseAble fbHelper) {
         Query query = TICKET_ROOT_REFERENCE.orderByChild(Ticket.COMPANY_ID).equalTo(companyID);
         ValueEventListener listener = new ValueEventListener() {
@@ -847,7 +828,7 @@ public class UtlFirebase {
     }
 
     public static void getAllTechTickets(String companyID, String techID, final FireBaseAble fbHelper) {
-        Query query = TICKET_ROOT_REFERENCE.orderByChild(Ticket.COMPANY_ID).equalTo(companyID).orderByChild(Ticket.TECH_ID).equalTo(techID);
+        Query query = TICKET_ROOT_REFERENCE.orderByChild(Ticket.TECH_ID).equalTo(techID);
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -869,7 +850,7 @@ public class UtlFirebase {
     }
 
     public static void getAllTechTicketLites(String companyID, String techID, final FireBaseAble fbHelper) {
-        Query query = TICKET_LITE_ROOT_REFERENCE.orderByChild(Ticket.COMPANY_ID).equalTo(companyID).orderByChild(Ticket.TECH_ID).equalTo(techID);
+        Query query = TICKET_LITE_ROOT_REFERENCE.orderByChild(Ticket.TECH_ID).equalTo(techID);
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -904,6 +885,23 @@ public class UtlFirebase {
         });
 
         return ticketStateString;
+    }
+
+    public static void updateTicket(String ticketID, HashMap<String, String> updateFields) {
+        Map updates = new HashMap();
+        for (Map.Entry<String, String> field : updateFields.entrySet()) {
+            updates.put(TICKET_ROOT_REFERENCE_STRING + "/" + ticketID + "/" + field.getKey(), field.getValue());
+            updates.put(TICKET_LITE_ROOT_REFERENCE_STRING + "/" + ticketID + "/" + field.getKey(), field.getValue());
+
+
+        }
+        //Log.d("updateTicket", updates.toString());
+        GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                toastSuccessOrError("update successful", databaseError);
+            }
+        });
     }
 
     public static void updateTicketPresentation(String ticketID, int status) {
