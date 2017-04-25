@@ -8,20 +8,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.teamrm.teamrm.Adapter.GenericPrefListAdapter;
 import com.teamrm.teamrm.Adapter.PhotoAdapter;
-import com.teamrm.teamrm.Adapter.RecyclerItemClickListener;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
 import com.teamrm.teamrm.Interfaces.TicketStateStringable;
@@ -42,7 +39,6 @@ import java.util.List;
 import java.util.UUID;
 
 import me.iwf.photopicker.PhotoPicker;
-import me.iwf.photopicker.PhotoPreview;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -50,6 +46,8 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
 
     public static final String FRAGMENT_TRANSACTION = "NewTicket";
     private Spinner selectCompany, selectProduct, selectCategory, selectRegion;
+    public static ImageView imageView1, imageView2;
+    public static int imgClick = 0;
     public static Uri imgUri1, imgUri2;
     private Company selectedCompany;
     private Product selectedProduct;
@@ -108,6 +106,8 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         ticketPhone = (EditText) view.findViewById(R.id.txtPhone);
         descriptionShort = (EditText) view.findViewById(R.id.descriptionShort);
         descriptionLong = (EditText) view.findViewById(R.id.descriptionLong);
+        imageView1 = (ImageView)view.findViewById(R.id.photoChooser1);
+        imageView2 = (ImageView)view.findViewById(R.id.photoChooser2);
 
         selectCompany = (Spinner) view.findViewById(R.id.selectCompanySpinner);
         selectProduct = (Spinner) view.findViewById(R.id.selectProductSpinner);
@@ -136,7 +136,29 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
             }
         });
 
-        RecyclerView recyclerViewPhotos = (RecyclerView) view.findViewById(R.id.recycler_view_photos);
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imgClick = 1;
+                PhotoPicker.builder()
+                        .setPhotoCount(PhotoAdapter.MAX)
+                        .setShowCamera(true)
+                        .setPreviewEnabled(false)
+                        .start(getActivity());
+            }
+        });
+        imageView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imgClick = 2;
+                PhotoPicker.builder()
+                        .setPhotoCount(PhotoAdapter.MAX)
+                        .setShowCamera(true)
+                        .setPreviewEnabled(false)
+                        .start(getActivity());
+            }
+        });
+        /*RecyclerView recyclerViewPhotos = (RecyclerView) view.findViewById(R.id.recycler_view_photos);
         photoAdapter = new PhotoAdapter(getContext(), selectedPhotos);
 
         recyclerViewPhotos.setLayoutManager(new StaggeredGridLayoutManager(4, OrientationHelper.VERTICAL));
@@ -160,7 +182,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
                                     .start(getActivity());
                         }
                     }
-                }));
+                }));*/
         return view;
     }
 
@@ -244,11 +266,11 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
 
     private void uploadPicture(String uid) {
         if (imgUri1 != null) {
-            UtlFirebase.uploadFile(uid + "/pic1.jpg", imgUri1);
+            UtlFirebase.uploadFile(uid + "/pic1.jpg", imgUri1, getContext());
             imgUri1 = null;
         }
         if (imgUri2 != null) {
-            UtlFirebase.uploadFile(uid + "/pic2.jpg", imgUri2);
+            UtlFirebase.uploadFile(uid + "/pic2.jpg", imgUri2, getContext());
             imgUri2 = null;
         }
     }

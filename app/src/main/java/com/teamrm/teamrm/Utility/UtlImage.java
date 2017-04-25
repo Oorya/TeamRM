@@ -11,7 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 /**
- * Created by אוריה on 24/07/2016.
+ * Created by Oorya on 24/07/2016.
  */
 public class UtlImage
 {
@@ -46,10 +46,17 @@ public class UtlImage
     public static Uri fileToUri(File file, Context context)
     {
         Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        myBitmap.compress(Bitmap.CompressFormat.JPEG,0,baos);
-
+        myBitmap.compress(Bitmap.CompressFormat.JPEG,0,new ByteArrayOutputStream());
         String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), myBitmap,null, null);
+
         return Uri.parse(path);
+    }
+
+    public static Bitmap fileToBitmap(File file)
+    {
+        Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+        myBitmap.compress(Bitmap.CompressFormat.JPEG,0,new ByteArrayOutputStream());
+
+        return myBitmap;
     }
 }

@@ -47,6 +47,7 @@ import com.teamrm.teamrm.Utility.NiceToast;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 import com.teamrm.teamrm.Utility.UtlImage;
+import com.teamrm.teamrm.Utility.UtlNotification;
 
 import java.io.File;
 import java.util.List;
@@ -90,16 +91,22 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
                             case (EnrollmentCode.STATUS_PENDING):
                                 new NiceToast(context, "PendingTech waiting for approval", NiceToast.NICETOAST_WARNING, Toast.LENGTH_LONG).show();
+                                UtlNotification notificationPending = new UtlNotification("הרשמתך בתהליך","הרשמתך כטכנאי מחכה לאישור");
+                                notificationPending.sendNotification();
                                 // TODO: TE_SEQ notify admin about PendingTech waiting for approval
                                 break;
 
                             case (EnrollmentCode.STATUS_CANCELLED):
                                 new NiceToast(context, "PendingTech cancelled the enrollment", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
+                                UtlNotification notificationCancel = new UtlNotification("הרשמתך בוטלה","בוטלה הרשמתך כטכנאי");
+                                notificationCancel.sendNotification();
                                 //TODO: TE_SEQ notify admin that PendingTech cancelled the enrollment
                                 break;
 
                             case (EnrollmentCode.STATUS_ACCEPTED):
                             case (EnrollmentCode.STATUS_FINALIZED):
+                                UtlNotification notificationAccepted = new UtlNotification("הרשמתך אושרה","אושרה הרשמתך כטכנאי");
+                                notificationAccepted.sendNotification();
                                 // shouldn't happen
                                 break;
 
@@ -226,11 +233,17 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
             TicketView ticketListFragment = (TicketView) getSupportFragmentManager().findFragmentByTag(TicketView.FRAGMENT_TRANSACTION);
             ticketListFragment.openPhoneDialog();
         } else if (requestCode == FROM_PHOTO_ADAPTER) {
-            PhotoPicker.builder()
+            /*PhotoPicker.builder()
                     .setPhotoCount(PhotoAdapter.MAX)
                     .setShowCamera(true)
                     .setPreviewEnabled(false)
                     .setSelected(NewTicket.selectedPhotos)
+                    .start(this);*/
+
+            PhotoPicker.builder()
+                    .setPhotoCount(PhotoAdapter.MAX)
+                    .setShowCamera(true)
+                    .setPreviewEnabled(false)
                     .start(this);
         }
     }
@@ -242,8 +255,28 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         if (resultCode == RESULT_OK &&
                 (requestCode == PhotoPicker.REQUEST_CODE || requestCode == PhotoPreview.REQUEST_CODE)) {
 
-            List<String> photos = null;
 
+            List<String> photos = null;
+            if (data != null && data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS) != null && requestCode == 233) {
+                photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+
+                if(NewTicket.imgClick == 1)
+                {
+                    NewTicket.imageView1.setImageBitmap(UtlImage.fileToBitmap(new File(photos.get(0))));
+                    NewTicket.imgUri1 = UtlImage.fileToUri(new File(photos.get(0)), this);
+                    NewTicket.imgClick = 0;
+                }
+                else
+                {
+                    NewTicket.imageView2.setImageBitmap(UtlImage.fileToBitmap(new File(photos.get(0))));
+                    NewTicket.imgUri2 = UtlImage.fileToUri(new File(photos.get(0)), this);
+                    NewTicket.imgClick = 0;
+                }
+            }
+            /*else if(data != null && data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS) != null && requestCode == 666)
+            {
+                photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+            }
             if (data != null && data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS) != null && requestCode == 233) {
                 photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
 
@@ -264,7 +297,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
             if (photos != null) {
                 NewTicket.selectedPhotos.addAll(photos);
             }
-            NewTicket.photoAdapter.notifyDataSetChanged();
+            NewTicket.photoAdapter.notifyDataSetChanged();*/
         }
     }
 
@@ -357,7 +390,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
     @Override
     public void onBackPressed() {
-        NewTicket.selectedPhotos.clear();
+
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (!drawerLayout.isDrawerOpen(GravityCompat.START)) {
 

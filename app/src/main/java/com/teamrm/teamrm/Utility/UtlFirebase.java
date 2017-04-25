@@ -53,13 +53,9 @@ import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Type.WorkShift;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Random;
-import java.util.UUID;
 
 import static com.teamrm.teamrm.Type.TicketState.STATELISTENERTAG;
 import static com.teamrm.teamrm.Utility.UserSingleton.LOGINTAG;
@@ -1400,12 +1396,12 @@ public class UtlFirebase {
 ///////////////////////////////// Storage /////////////////////////////
 
     //this method will upload the file
-    public static void uploadFile(String path, Uri uriPic) {
+    public static void uploadFile(String path, Uri uriPic, Context context) {
 
         //if there is a file to upload
         if (uriPic != null) {
             //displaying a progress dialog while upload is going on
-            final ProgressDialog progressDialog = new ProgressDialog(getAppContext());
+            final ProgressDialog progressDialog = new ProgressDialog(context);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 

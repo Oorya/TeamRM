@@ -235,8 +235,7 @@
                     android:id="@+id/txtPhone"
                     style="@style/RegularRowItem.EditText"
                     android:layout_toEndOf="@id/phoneLabel"
-                    android:inputType="phone"
-                    />
+                    android:inputType="phone" />
             </com.teamrm.teamrm.Utility.RowViewLayout>
 
             <com.teamrm.teamrm.Utility.RowViewLayout
@@ -315,7 +314,8 @@
 
             <com.teamrm.teamrm.Utility.RowViewLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:id="@+id/photosRow">
 
                 <RelativeLayout
                     android:id="@+id/photos"
@@ -339,11 +339,54 @@
                         android:text="צירוף תמונות" />
                 </RelativeLayout>
 
+                <com.teamrm.teamrm.Utility.RowViewLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/photos"
+                    android:id="@+id/photoChooserRow">
+
+                    <LinearLayout
+                        android:id="@+id/photoChooser"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/photos"
+                        android:orientation="horizontal"
+                        android:paddingBottom="24dp"
+                        android:paddingEnd="24dp"
+                        android:paddingStart="24dp"
+                        android:weightSum="2.1">
+
+                        <ImageView
+                            android:id="@+id/photoChooser1"
+                            android:layout_width="1dp"
+                            android:layout_height="120dp"
+                            android:layout_weight="1"
+                            android:background="#e7e7e7"
+                            android:src="@drawable/ic_image_black_24dp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight=".1" />
+
+                        <ImageView
+                            android:id="@+id/photoChooser2"
+                            android:layout_width="1dp"
+                            android:layout_height="120dp"
+                            android:layout_toEndOf="@id/photoChooser1"
+                            android:layout_weight="1"
+                            android:background="#e7e7e7"
+                            android:src="@drawable/ic_image_black_24dp" />
+
+                    </LinearLayout>
+                </com.teamrm.teamrm.Utility.RowViewLayout>
+
                 <LinearLayout
                     android:id="@+id/photoList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/photos">
+                    android:visibility="gone"
+                    android:layout_below="@+id/photoChooserRow">
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recycler_view_photos"
@@ -359,10 +402,10 @@
             <Button
                 android:id="@+id/btnSubmitTicket"
                 style="@style/paddedBtn"
-                android:layout_below="@id/photoList"
+                android:layout_below="@id/photoChooser"
+                android:layout_gravity="center_horizontal"
                 android:backgroundTint="@color/status_ok"
-                android:text="פתח קריאה"
-                android:layout_gravity="center_horizontal"/>
+                android:text="פתח קריאה" />
 
             <View
                 android:layout_width="match_parent"

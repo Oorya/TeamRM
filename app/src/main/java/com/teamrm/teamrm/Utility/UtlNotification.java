@@ -35,7 +35,7 @@ public class UtlNotification {
         Intent homeScreen = new Intent(context,SplashScreen.class);
 
         notificationID=++notificationCounter;
-        this.icon= R.drawable.new_msg_icon;
+        this.icon= R.drawable.ic_logo_white;
         this.title=title;
         this.text=text;
         this.context = context;
@@ -71,7 +71,7 @@ public class UtlNotification {
         Intent homeScreen = new Intent(FirebaseBackgroundService.context, SplashScreen.class);
 
         notificationID=++notificationCounter;
-        this.icon= R.drawable.new_msg_icon;
+        this.icon= R.drawable.ic_logo_white;
         this.title=title;
         this.text=text;
         this.context= FirebaseBackgroundService.context;
