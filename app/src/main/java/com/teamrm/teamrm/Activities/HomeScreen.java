@@ -456,7 +456,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     }
 
     private void exitApp() {
-        super.onBackPressed();
+       finish();
     }
 
     private void signOut() {
