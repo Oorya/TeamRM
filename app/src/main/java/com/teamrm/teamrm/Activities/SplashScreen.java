@@ -159,7 +159,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
             resume = false;
         } else if (ServiceChecker.isServiceStarted(this, FirebaseBackgroundService.class) && UserSingleton.isUserLoaded()) {
             Log.d(LOGINTAG, "App is ready = true");
-            startApp(0);
+            startApp();
         } else {
             Log.d(LOGINTAG, "App is ready = false");
             String svc = Boolean.toString(ServiceChecker.isServiceStarted(this, FirebaseBackgroundService.class));
@@ -287,7 +287,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
                 if (null != user) {
                     Log.d(LOGINTAG, user.toString());
                     UserSingleton.init(user);       //LOGIN STAGE 7 -> init the UserSingleton with  user fetched from FireBase
-                    startApp(3000);
+                    startApp();
                 } else {
                     Log.e(LOGINTAG, "Received empty user from callback");
                 }
@@ -331,16 +331,11 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         });
     }
 
-    void startApp(int delay) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Log.w("start app ", "method");
-                Intent homeScreenIntent = new Intent(SplashScreen.this, HomeScreen.class);
-                startActivity(homeScreenIntent);
-                finish();
-            }
-        }, delay);
+    void startApp() {
+
+        Intent homeScreenIntent = new Intent(SplashScreen.this, HomeScreen.class);
+        startActivity(homeScreenIntent);
+        finish();
     }
 
     public void permissionToDrawOverlays() {
@@ -350,6 +345,12 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
                 startActivityForResult(intent, PERM_REQUEST_CODE_DRAW_OVERLAYS);
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        finish();
     }
 }
 
