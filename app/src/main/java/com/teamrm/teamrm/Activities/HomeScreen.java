@@ -289,14 +289,16 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         TicketList ticketList = new TicketList();
-        if (!UserSingleton.getInstance().isUserIsAdmin()) {
+        if (UserSingleton.getLoadedUserType().equals(Users.STATUS_CLIENT)) {
             if (position > 1)
                 position += 2;
 
-        }else if(UserSingleton.getLoadedUserType().equals(Users.STATUS_TECH))
+        }else if(UserSingleton.getLoadedUserType().equals("Technician"))
         {
-            if (position > 2)
-                position += 1;
+            Log.d("user", "position = "+position);
+
+                if(position==4)
+                    position+=1;
         }
 
         switch (position) {

@@ -135,7 +135,6 @@ public class UtlFirebase {
                                 case Users.STATUS_TECH:
                                     Log.d(LOGINTAG, "Stage 6b, found Tech");
                                     Users tempUser = item.getValue(Client.class);
-                                    Log.d(LOGINTAG, "Stage 6b " + tempUser.toString());
                                     Query techRef = COMPANY_TECHNICIANS_ROOT_REFERENCE.child(tempUser.getAssignedCompanyID()).child(tempUser.getUserID());
                                     techRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
@@ -1007,7 +1006,7 @@ public class UtlFirebase {
 
 ///////////////////////////// Company /////////////////////////////
 
-    public static void getAllCompanies(final FireBaseAble fbHelper) {
+    public static List<Company> getAllCompanies(final FireBaseAble fbHelper) {
 
         final List<Company> companyList = new ArrayList<>();
 
@@ -1019,12 +1018,8 @@ public class UtlFirebase {
                     Company retrieveCompany = item.getValue(Company.class);
                     companyList.add(retrieveCompany);
                 }
-                try {
-                    Log.d("LIST SIZE COMPANIES: ", companyList.size() + "");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
                 fbHelper.companyListCallback(companyList);
+                //Log.e("LIST SIZE COMPANIES: ", companyList.size() + "");
             }
 
             @Override
@@ -1032,6 +1027,8 @@ public class UtlFirebase {
                 toastTheError(databaseError);
             }
         });
+        //Log.e("ALL", "COMPANIES LIST");
+        return companyList;
     }
 
     public static void getAllClientCompanies(final FireBaseAble fbHelper) {
