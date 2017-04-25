@@ -30,11 +30,20 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
         inflater = LayoutInflater.from(context);
         if (!UserSingleton.getLoadedUserType().equals(Users.STATUS_ADMIN))
         {
-            data.remove(3);
-            data.remove(2);
-        }else if(UserSingleton.getLoadedUserType().equals(Users.STATUS_TECH))
-        {
-            data.remove(3);
+            Log.d("user", UserSingleton.getLoadedUserType());
+            if(UserSingleton.getLoadedUserType().equals("Technician"))
+            {
+                Log.d("user", UserSingleton.getLoadedUserType()+" tech");
+
+                data.remove(3);
+
+            }else if(UserSingleton.getLoadedUserType().equals("Technician")){
+                Log.d("user", UserSingleton.getLoadedUserType()+" tech");
+
+                data.remove(3);
+                data.remove(2);
+            }
+
         }
         this.data = data;
     }
