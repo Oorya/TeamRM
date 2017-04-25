@@ -37,7 +37,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
 
                 data.remove(3);
 
-            }else if(UserSingleton.getLoadedUserType().equals("Technician")){
+            }else if(UserSingleton.getLoadedUserType().equals(Users.STATUS_CLIENT)){
                 Log.d("user", UserSingleton.getLoadedUserType()+" tech");
 
                 data.remove(3);
