@@ -3,10 +3,13 @@ package com.teamrm.teamrm.Adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -18,6 +21,8 @@ import android.widget.Toast;
 import com.teamrm.teamrm.Interfaces.FireBaseBooleanCallback;
 import com.teamrm.teamrm.Interfaces.PendingTechSingleCallback;
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Type.Client;
+import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.EnrollmentCode;
 import com.teamrm.teamrm.Type.PendingTech;
 import com.teamrm.teamrm.Utility.NiceToast;
@@ -118,15 +123,17 @@ public class EnrollmentCodeSection extends StatelessSection {
                         public void onClick(View v) {
                             int resultCode = 0;
                             //TODO: send mail and check if success
-                            //resultCode = ...
-                            if (resultCode == MAIL_SEND_SUCCESS) {
+
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                Uri data = Uri.parse("mailto:?to=" + ecHolder.ecMailInput.getText().toString() );
+                                intent.putExtra(Intent.EXTRA_TEXT, ecListItem.getEnrollmentCodeString());
+                                intent.setData(data);
+                                eContext.startActivity(intent);
                                 HashMap<String, Object> ecItemUpdates = new HashMap<>();
                                 ecItemUpdates.put(EnrollmentCode.IS_SENT_TO_MAIL, true);
                                 ecItemUpdates.put(EnrollmentCode.ENROLLMENT_CODE_SENT_TO_MAIL, ecHolder.ecMailInput.getText().toString());
                                 UtlFirebase.updateEnrollmentCode(ecListItem.getEnrollmentCodeID(), ecItemUpdates);
-                            } else {
-                                new NiceToast(eContext, "Could not send mail", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
-                            }
+
                         }
                     });
                 }
@@ -141,17 +148,18 @@ public class EnrollmentCodeSection extends StatelessSection {
                     ecHolder.ecSendPhoneAction.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            int resultCode = 0;
-                            //TODO: send SMS and check if success
+
+
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + ecHolder.ecPhoneInput.getText().toString()));
+                            intent.putExtra("sms_body", ecListItem.getEnrollmentCodeString());
+                            eContext.startActivity(intent);
+
                             //resultCode = ...
-                            if (resultCode == PHONE_SEND_SUCCESS) {
                                 HashMap<String, Object> ecItemUpdates = new HashMap<>();
                                 ecItemUpdates.put(EnrollmentCode.IS_SENT_TO_PHONE, true);
                                 ecItemUpdates.put(EnrollmentCode.ENROLLMENT_CODE_SENT_TO_PHONE, ecHolder.ecPhoneInput.getText().toString());
                                 UtlFirebase.updateEnrollmentCode(ecListItem.getEnrollmentCodeID(), ecItemUpdates);
-                            } else {
-                                new NiceToast(eContext, "Could not send SMS", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
-                            }
+
                         }
                     });
                 }
