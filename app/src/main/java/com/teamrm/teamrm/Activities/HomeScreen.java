@@ -75,6 +75,8 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
         context = this;
 
+        Log.d(UserSingleton.LOGINTAG, "UserSingleton.getLoadedUserType = " + UserSingleton.getLoadedUserType());
+
         switch (UserSingleton.getLoadedUserType()) {
             case (Users.STATUS_ADMIN):
                 if (!EnrollmentCode.getEnrollmentCodeList().isEmpty()) {

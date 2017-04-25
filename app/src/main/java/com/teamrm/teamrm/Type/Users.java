@@ -5,7 +5,7 @@ package com.teamrm.teamrm.Type;
  */
 public abstract class Users {
     public static final String STATUS_ADMIN = "Admin";
-    public static final String STATUS_TECH = "Tech";
+    public static final String STATUS_TECH = "Technician";
     public static final String STATUS_PENDING_TECH = "PendingTech";
     public static final String STATUS_CLIENT = "Client";
 
