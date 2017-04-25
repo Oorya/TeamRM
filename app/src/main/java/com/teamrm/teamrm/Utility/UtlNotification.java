@@ -16,7 +16,7 @@ import com.teamrm.teamrm.R;
 
 public class UtlNotification {
 
-    private Context context;
+    private Context nContext = App.getInstance().getApplicationContext();
     private static int notificationCounter = 0;
     private int notificationID;
     private int icon;
@@ -30,18 +30,17 @@ public class UtlNotification {
     public UtlNotification() {
     }
 
-    public UtlNotification(CharSequence title, String text, Context context)
+    /*public UtlNotification(CharSequence title, String text, Context nContext)
     {
-        Intent homeScreen = new Intent(context,SplashScreen.class);
+        Intent homeScreen = new Intent(nContext, SplashScreen.class);
 
         notificationID=++notificationCounter;
         this.icon= R.drawable.ic_logo_white;
         this.title=title;
         this.text=text;
-        this.context = context;
 
-        resultPendingIntent = PendingIntent.getActivity(context, 0, homeScreen, PendingIntent.FLAG_UPDATE_CURRENT);
-    }
+        resultPendingIntent = PendingIntent.getActivity(nContext, 0, homeScreen, PendingIntent.FLAG_UPDATE_CURRENT);
+    }*/
 
     public UtlNotification(int icon, CharSequence title, String text, Intent intent) {
         notificationID = ++notificationCounter;
@@ -49,39 +48,35 @@ public class UtlNotification {
         this.title = title;
         this.text = text;
         this.intent = intent;
-        this.context = SplashScreen.context;
 
-        resultPendingIntent = PendingIntent.getActivity(context, 0, this.intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        resultPendingIntent = PendingIntent.getActivity(nContext, 0, this.intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public UtlNotification(int icon, CharSequence title, String text)
     {
-        Intent homeScreen = new Intent(SplashScreen.context,HomeScreen.class);
+        Intent homeScreen = new Intent(nContext,HomeScreen.class);
         notificationID=++notificationCounter;
         this.icon=icon;
         this.title=title;
         this.text=text;
-        this.context= SplashScreen.context;
 
-        resultPendingIntent = PendingIntent.getActivity(context, 0, homeScreen, PendingIntent.FLAG_UPDATE_CURRENT);
+        resultPendingIntent = PendingIntent.getActivity(nContext, 0, homeScreen, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public UtlNotification(CharSequence title, String text)
     {
-        Intent homeScreen = new Intent(FirebaseBackgroundService.context, SplashScreen.class);
+        Intent homeScreen = new Intent(nContext, SplashScreen.class);
 
         notificationID=++notificationCounter;
         this.icon= R.drawable.ic_logo_white;
         this.title=title;
         this.text=text;
-        this.context= FirebaseBackgroundService.context;
-
-        resultPendingIntent = PendingIntent.getActivity(context, 0, homeScreen, PendingIntent.FLAG_UPDATE_CURRENT);
+        resultPendingIntent = PendingIntent.getActivity(nContext, 0, homeScreen, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public void sendNotification() {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        builder = (NotificationCompat.Builder) new NotificationCompat.Builder(context)
+        builder = (NotificationCompat.Builder) new NotificationCompat.Builder(nContext)
                 .setSmallIcon(icon)
                 .setContentTitle(title)
                 .setContentText(text)
@@ -91,7 +86,7 @@ public class UtlNotification {
                 .setSound(alarmSound)
                 .setContentIntent(resultPendingIntent);
 
-        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager = (NotificationManager) nContext.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(001, builder.build());
     }
 }

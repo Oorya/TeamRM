@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_bg"
-    tools:context="com.teamrm.teamrm.Fragment.TicketView"
+    tools:nContext="com.teamrm.teamrm.Fragment.TicketView"
     tools:paddingTop="25dp">
 
 

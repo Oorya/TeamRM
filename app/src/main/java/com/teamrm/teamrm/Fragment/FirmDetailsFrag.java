@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.Users;
+import com.teamrm.teamrm.Utility.App;
 import com.teamrm.teamrm.Utility.NiceToast;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
@@ -53,6 +54,7 @@ public class FirmDetailsFrag extends Fragment {
                 UtlFirebase.addCompany(company);
 
                 new NiceToast(getContext(), "נדרש אתחול כדי לעדכן את ההגדרות החדשות", NiceToast.NICETOAST_WARNING, Toast.LENGTH_SHORT).show();
+                App.getInstance().signOut();
             }
         });
 

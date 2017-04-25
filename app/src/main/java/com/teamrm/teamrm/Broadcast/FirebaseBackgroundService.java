@@ -94,7 +94,7 @@ public class FirebaseBackgroundService extends Service {
                 });
             }
         }
-        return super.onStartCommand(intent, flags, startId);
+        return Service.START_STICKY;
     }
 
     @Override

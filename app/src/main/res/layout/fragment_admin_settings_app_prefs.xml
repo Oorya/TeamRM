@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.teamrm.teamrm.Fragment.AdminSettingsAppPrefs"
+    tools:nContext="com.teamrm.teamrm.Fragment.AdminSettingsAppPrefs"
     android:orientation="vertical">
 
     <Button

@@ -267,7 +267,7 @@ public class EnrollmentCodeSection extends StatelessSection {
                 break;
 
             case (EnrollmentCode.STATUS_ACCEPTED):
-                ecHolder.ecCard.setCardBackgroundColor(Color.parseColor("#B0BEC5"));
+                ecHolder.ecCard.setCardBackgroundColor(Color.parseColor("#66bb6a"));
                 ecHolder.ecStatusRow.setBackgroundResource(R.color.listRow_alt);
                 ecHolder.ecStatusLabel.setTextColor(ContextCompat.getColor(eContext, R.color.textColor_lighter));
                 ecHolder.ecStatusString.setTextColor(ContextCompat.getColor(eContext, R.color.textColor_primary));
@@ -277,7 +277,7 @@ public class EnrollmentCodeSection extends StatelessSection {
                 ecHolder.rowSetIssuedCode.setVisibility(View.GONE);
                 ecHolder.btnRemoveRow.setVisibility(View.GONE);
                 ecHolder.ecStatusString.setText("נרשם כטכנאי");
-
+                break;
 
             case (EnrollmentCode.STATUS_DECLINED):
                 ecHolder.ecCard.setCardBackgroundColor(Color.parseColor("#B0BEC5"));
@@ -290,7 +290,6 @@ public class EnrollmentCodeSection extends StatelessSection {
                 ecHolder.rowSetIssuedCode.setVisibility(View.GONE);
                 ecHolder.btnRemoveRow.setVisibility(View.GONE);
                 ecHolder.ecStatusString.setText("נדחה");
-
                 break;
         }
 

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_bg"
-    tools:context="com.teamrm.teamrm.Fragment.TicketList"
+    tools:nContext="com.teamrm.teamrm.Fragment.TicketList"
     tools:paddingTop="25dp"
     android:id="@+id/ticket_list_fragment"
     xmlns:app="http://schemas.android.com/apk/res-auto">

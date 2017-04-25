@@ -37,6 +37,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.teamrm.teamrm.Broadcast.FirebaseBackgroundService;
+import com.teamrm.teamrm.Broadcast.ServiceChecker;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Category;
@@ -58,10 +60,8 @@ import static com.teamrm.teamrm.Utility.UserSingleton.LOGINTAG;
 
 public class SplashScreen extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
-    private ImageView iconWait;
-    private TextView loadingStatus;
-    private static final String TAG = "SplashScreen";
-    public static Context context;
+    private static final String TAG = ":::SplashScreen";
+    private Context context;
 
     private static final String PREF_ACCOUNT_NAME = "accountName";
 
@@ -87,6 +87,8 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // getSupportActionBar().hide();
+
+
         setContentView(R.layout.activity_splashscreen);
         mGoogleApiClient = App.getGoogleApiHelper().getGoogleApiClient();
         gso = App.getGoogleApiHelper().getGso();
@@ -100,13 +102,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         permissionToDrawOverlays();
         context = this;
 
-        if (UserSingleton.isUserLoaded()) {
-            //test
-            DatabaseReference test = FirebaseDatabase.getInstance().getReference("test");
-            test.push().setValue("on create service");
-            Log.d(TAG, "on create service");
-            startApp(null);
-        }
+
         //Toast.makeText(this, UserSingleton.getInstance().getUserNameString() + " user exist", Toast.LENGTH_SHORT).show();
 
 
@@ -123,13 +119,15 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         super.onStart();
         Log.d(TAG, "onStart: ");
 
+
         if (!UserSingleton.isUserLoaded()) {
+
             OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient); //LOGIN STAGE 1
-            Log.d(TAG, "Stage 1, checking Google login");
+            Log.d(LOGINTAG, "Stage 1, checking Google login");
             if (opr.isDone()) {
                 // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
                 // and the GoogleSignInResult will be available instantly.
-                Log.d(TAG, "Stage 1a, logging in with cached Google login");
+                Log.d(LOGINTAG, "Stage 1a, logging in with cached Google login");
                 GoogleSignInResult result = opr.get();
                 handleSignInResult(result); //LOGIN STAGE 2 ->
                 linearLayout.setVisibility(View.VISIBLE);
@@ -138,7 +136,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
                 // this asynchronous branch will attempt to sign in the user silently.  Cross-device
                 // single sign-on will occur in this branch.
                 // showProgressDialog();
-                Log.d(TAG, "else Got cached sign-in");
+                Log.d(LOGINTAG, "else Got cached sign-in");
 
                 opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                     @Override
@@ -159,6 +157,14 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
             signInButton.setVisibility(View.VISIBLE);
             //linearLayout.setVisibility(View.GONE);
             resume = false;
+        } else if (ServiceChecker.isServiceStarted(this, FirebaseBackgroundService.class) && UserSingleton.isUserLoaded()) {
+            Log.d(LOGINTAG, "App is ready = true");
+            startApp(0);
+        } else {
+            Log.d(LOGINTAG, "App is ready = false");
+            String svc = Boolean.toString(ServiceChecker.isServiceStarted(this, FirebaseBackgroundService.class));
+            String sngltn = Boolean.toString(UserSingleton.isUserLoaded());
+            Log.d(LOGINTAG, "Service = " + svc + "; isUserLoaded = " + sngltn);
         }
     }
 
@@ -181,14 +187,14 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     }
 
     public void rotateWaitingIcon() {
-        iconWait = (ImageView) findViewById(R.id.iconWait);
+        ImageView iconWait = (ImageView) findViewById(R.id.iconWait);
         iconWait.clearAnimation();
         Animation rotateClockwise = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.clockwise);
         iconWait.startAnimation(rotateClockwise);
     }
 
     public void updateLoadingStatus(String newStatus) {
-        loadingStatus = (TextView) findViewById(R.id.loadingStatus);
+        TextView loadingStatus = (TextView) findViewById(R.id.loadingStatus);
         loadingStatus.setText(newStatus);
     }
 
@@ -281,7 +287,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
                 if (null != user) {
                     Log.d(LOGINTAG, user.toString());
                     UserSingleton.init(user);       //LOGIN STAGE 7 -> init the UserSingleton with  user fetched from FireBase
-                    startApp(null);
+                    startApp(3000);
                 } else {
                     Log.e(LOGINTAG, "Received empty user from callback");
                 }
@@ -325,19 +331,16 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         });
     }
 
-    void startApp(@Nullable final Bundle bundle) {
+    void startApp(int delay) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 Log.w("start app ", "method");
                 Intent homeScreenIntent = new Intent(SplashScreen.this, HomeScreen.class);
-                if (null != bundle){
-                    homeScreenIntent.putExtras(bundle);
-                }
                 startActivity(homeScreenIntent);
                 finish();
             }
-        }, 3000);
+        }, delay);
     }
 
     public void permissionToDrawOverlays() {

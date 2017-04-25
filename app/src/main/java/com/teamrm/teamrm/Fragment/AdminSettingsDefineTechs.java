@@ -14,11 +14,13 @@ import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
 
 import com.teamrm.teamrm.Adapter.EnrollmentCodeSection;
+import com.teamrm.teamrm.Adapter.TechniciansSection;
 import com.teamrm.teamrm.Interfaces.EnrollmentCodeCallback;
 import com.teamrm.teamrm.Interfaces.EnrollmentCodeSingleCallback;
 import com.teamrm.teamrm.Interfaces.FragmentHelper;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.EnrollmentCode;
+import com.teamrm.teamrm.Type.Technician;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
@@ -57,7 +59,7 @@ public class AdminSettingsDefineTechs extends Fragment {
         tRecyclerView = (RecyclerView) view.findViewById(R.id.prefRecyclerView);
         tRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         final EnrollmentCodeSection ecSection = new EnrollmentCodeSection(getContext());
-        //final TechniciansSection techSection = new TechniciansSection(getContext(), Technician.getTechnicianList());
+        final TechniciansSection techSection = new TechniciansSection(getContext(), Technician.getTechnicianList());
 
         tAdapter.addSection(ecSection);
         //tAdapter.addSection(techSection);
