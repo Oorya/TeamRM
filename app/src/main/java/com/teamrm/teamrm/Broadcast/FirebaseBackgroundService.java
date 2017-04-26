@@ -28,9 +28,6 @@ import java.util.List;
 
 public class FirebaseBackgroundService extends Service {
 
-    public static Context context;
-
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -40,7 +37,6 @@ public class FirebaseBackgroundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(this, "FROM SERVICE ", Toast.LENGTH_SHORT).show();
 
-        context = this;
         Log.w("from service", "create ");
         if (!UserSingleton.isUserLoaded()) {
             if (FirebaseAuth.getInstance().getCurrentUser() != null) {
@@ -92,6 +88,9 @@ public class FirebaseBackgroundService extends Service {
 
                     }
                 });
+            } else {
+                Log.d(":::Service", "Stopping");
+               stopSelf();
             }
         }
         return Service.START_STICKY;
