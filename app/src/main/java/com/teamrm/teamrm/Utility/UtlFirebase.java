@@ -1396,7 +1396,7 @@ public class UtlFirebase {
 ///////////////////////////////// Storage /////////////////////////////
 
     //this method will upload the file
-    public static void uploadFile(String path, Uri uriPic, Context context) {
+    public static void uploadFile(String path, Uri uriPic, Context context , final FireBaseBooleanCallback fireBaseBooleanCallback) {
 
         //if there is a file to upload
         if (uriPic != null) {
@@ -1415,6 +1415,7 @@ public class UtlFirebase {
 
                             //and displaying a success toast
                             new NiceToast(getAppContext(), "File uploaded!", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_SHORT).show();
+                            fireBaseBooleanCallback.booleanCallback(true);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

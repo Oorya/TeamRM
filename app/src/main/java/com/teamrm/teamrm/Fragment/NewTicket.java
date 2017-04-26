@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import com.teamrm.teamrm.Adapter.GenericPrefListAdapter;
 import com.teamrm.teamrm.Adapter.PhotoAdapter;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
+import com.teamrm.teamrm.Interfaces.FireBaseBooleanCallback;
 import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
 import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 import com.teamrm.teamrm.R;
@@ -250,29 +251,44 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
 
     private void submitTicket(View view) {
         String uid = UUID.randomUUID().toString();
-        Ticket newTicket = new Ticket(UserSingleton.getInstance().getUserID(), this.ticketPhone.getText().toString(), this.ticketAddress.getText().toString(), uid,
-                selectedCompany.getCompanyId(), selectedCompany.getCompanyName(),
-                this.selectedProduct, this.selectedCategory, this.selectedRegion, this.descriptionShort.getText().toString(), this.descriptionLong.getText().toString(),
-                imgUri1 != null ? uid + "/pic1.jpg" : "error", imgUri2 != null ? uid + "/pic2.jpg" : "error", startTime);
         uploadPicture(uid);
-        UtlFirebase.addTicket(newTicket);
-        newTicket.updateTicketStateString(TicketStateStringable.STATE_A01, newTicket);
-        //Toast.makeText(getContext(), "Success opening ticket " + newTicket.getTicketNumber(), Toast.LENGTH_LONG).show();
-        //((HomeScreen) getActivity()).onDrawerItemSelected(view, 0);
-        selectedPhotos.clear();
-        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-        getActivity().getSupportFragmentManager().popBackStack();
+
     }
 
     private void uploadPicture(String uid) {
+
+        final Ticket newTicket = new Ticket(UserSingleton.getInstance().getUserID(), this.ticketPhone.getText().toString(), this.ticketAddress.getText().toString(), uid,
+                selectedCompany.getCompanyId(), selectedCompany.getCompanyName(),
+                this.selectedProduct, this.selectedCategory, this.selectedRegion, this.descriptionShort.getText().toString(), this.descriptionLong.getText().toString(),
+                imgUri1 != null ? uid + "/pic1.jpg" : "error", imgUri2 != null ? uid + "/pic2.jpg" : "error", startTime);
         if (imgUri1 != null) {
-            UtlFirebase.uploadFile(uid + "/pic1.jpg", imgUri1, getContext());
+            UtlFirebase.uploadFile(uid + "/pic1.jpg", imgUri1, getContext(), new FireBaseBooleanCallback() {
+                @Override
+                public void booleanCallback(boolean isTrue) {
+                    UtlFirebase.addTicket(newTicket);
+                    newTicket.updateTicketStateString(TicketStateStringable.STATE_A01, newTicket);
+                    //Toast.makeText(getContext(), "Success opening ticket " + newTicket.getTicketNumber(), Toast.LENGTH_LONG).show();
+                    //((HomeScreen) getActivity()).onDrawerItemSelected(view, 0);
+                    selectedPhotos.clear();
+                }
+            });
             imgUri1 = null;
         }
         if (imgUri2 != null) {
-            UtlFirebase.uploadFile(uid + "/pic2.jpg", imgUri2, getContext());
+            UtlFirebase.uploadFile(uid + "/pic2.jpg", imgUri2, getContext(), new FireBaseBooleanCallback() {
+                @Override
+                public void booleanCallback(boolean isTrue) {
+                    UtlFirebase.addTicket(newTicket);
+                    newTicket.updateTicketStateString(TicketStateStringable.STATE_A01, newTicket);
+                    //Toast.makeText(getContext(), "Success opening ticket " + newTicket.getTicketNumber(), Toast.LENGTH_LONG).show();
+                    //((HomeScreen) getActivity()).onDrawerItemSelected(view, 0);
+                    selectedPhotos.clear();
+                }
+            });
             imgUri2 = null;
         }
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 
     @Override
