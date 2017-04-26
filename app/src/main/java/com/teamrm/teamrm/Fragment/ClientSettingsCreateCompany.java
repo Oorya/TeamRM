@@ -23,12 +23,12 @@ import java.util.UUID;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FirmDetailsFrag extends Fragment {
+public class ClientSettingsCreateCompany extends Fragment {
 
     EditText address, phone, company;
     Button btnCreateCompany;
 
-    public FirmDetailsFrag() {
+    public ClientSettingsCreateCompany() {
         // Required empty public constructor
     }
 

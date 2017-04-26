@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
 
     android:layoutDirection="rtl"
-    tools:nContext="com.teamrm.teamrm.Fragment.FirmDetailsFrag"
+    tools:nContext="com.teamrm.teamrm.Fragment.ClientSettingsCreateCompany"
     tools:paddingTop="25dp">
 
 
@@ -32,7 +32,7 @@
                     android:layout_height="24dp"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="12dp"
-                    android:src="@drawable/ic_icon_location" />
+                    android:src="@drawable/ic_logo_blue" />
 
                 <TextView
                     android:id="@+id/companyLabel"
@@ -117,13 +117,47 @@
                 </EditText>
             </com.teamrm.teamrm.Utility.RowViewLayout>
 
-            <Button
-                android:id="@+id/btnUpdateUser"
-                style="@style/paddedBtn"
-                android:layout_below="@id/phoneRow"
-                android:backgroundTint="@color/status_ok"
-                android:layout_marginBottom="700dp"
-                android:text="צור חברה" />
+            <com.teamrm.teamrm.Utility.RowViewLayout
+                android:id="@+id/companyMailRow"
+                style="@style/RegularRow"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/companyMailIcon"
+                    style="@style/CardRowImageStart"
+                    android:src="@drawable/ic_icon_mail" />
+
+                <TextView
+                    android:id="@+id/companyMailLabel"
+                    style="@style/CardRowLabel"
+                    android:layout_toEndOf="@id/companyMailIcon"
+                    android:text="דואל:" />
+
+                <EditText
+
+                    android:id="@+id/companyMailText"
+                    android:hint="mail"
+                    style="@style/RegularRowItem.EditText"
+                    android:layout_toEndOf="@id/companyMailLabel"
+                     />
+
+            </com.teamrm.teamrm.Utility.RowViewLayout>
+
+<com.teamrm.teamrm.Utility.RowViewLayout
+   style="@style/RegularRow"
+    >
+
+    <Button
+        android:id="@+id/btnUpdateUser"
+        style="@style/paddedBtn"
+        android:layout_below="@id/phoneRow"
+        android:backgroundTint="@color/status_ok"
+        android:layout_marginBottom="700dp"
+        android:text="צור חברה" />
+
+
+</com.teamrm.teamrm.Utility.RowViewLayout>
+
 
 
         </com.teamrm.teamrm.Utility.RowSetLayout>
