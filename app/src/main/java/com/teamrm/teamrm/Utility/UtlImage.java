@@ -9,6 +9,8 @@ import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * Created by Oorya on 24/07/2016.
@@ -45,8 +47,30 @@ public class UtlImage
 
     public static Uri fileToUri(File file, Context context)
     {
-        Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-        myBitmap.compress(Bitmap.CompressFormat.JPEG,0,new ByteArrayOutputStream());
+        Bitmap myBitmap = null;
+        try {
+            // Decode image size
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(new FileInputStream(file), null, o);
+
+            // The new size we want to scale to
+            final int REQUIRED_SIZE=700;
+
+            // Find the correct scale value. It should be the power of 2.
+            int scale = 1;
+            while(o.outWidth / scale / 2 >= REQUIRED_SIZE &&
+                    o.outHeight / scale / 2 >= REQUIRED_SIZE) {
+                scale *= 2;
+            }
+
+            // Decode with inSampleSize
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize = scale;
+            myBitmap = BitmapFactory.decodeStream(new FileInputStream(file), null, o2);
+        } catch (FileNotFoundException e) {}
+
+
         String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), myBitmap,null, null);
 
         return Uri.parse(path);
@@ -55,7 +79,7 @@ public class UtlImage
     public static Bitmap fileToBitmap(File file)
     {
         Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-        myBitmap.compress(Bitmap.CompressFormat.JPEG,0,new ByteArrayOutputStream());
+        myBitmap.compress(Bitmap.CompressFormat.JPEG, 0, new ByteArrayOutputStream());
 
         return myBitmap;
     }

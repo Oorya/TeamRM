@@ -3,7 +3,6 @@ package com.teamrm.teamrm.Fragment;
 
 import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -12,12 +11,10 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -31,8 +28,6 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.Barcode.GeoPoint;
 import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Interfaces.ClientCallback;
 import com.teamrm.teamrm.Interfaces.CompanyCallback;
@@ -289,7 +284,16 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             fragmentManager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
             fragmentManager.replace(R.id.container_body, calendarView).addToBackStack(CalendarView.FRAGMENT_TRANSACTION).commit();
             ((HomeScreen) getActivity()).setTitle("יומן");
-        } else if (view.getId() == cancel.getId()) {
+        }
+        else if(view.getId() == img1.getId())
+        {
+
+        }
+        else if(view.getId() == img2.getId())
+        {
+
+        }
+        else if (view.getId() == cancel.getId()) {
             switch (ticket.getTicketStateString()) {
                 case TicketStateStringable.STATE_A00: {
                     ticket.updateTicketStateString(TicketStateStringable.STATE_E00, ticket);
@@ -524,6 +528,8 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
         navigateToAddressTicketDetailsCardOpen.setOnClickListener(this);
         callNumberTicketDetailsCardOpen.setOnClickListener(this);
+        img1.setOnClickListener(this);
+        img2.setOnClickListener(this);
         dateTimeChange.setOnClickListener(this);
         userDetailCard.setOnClickListener(this);
         userDetailOpen.setOnClickListener(this);
