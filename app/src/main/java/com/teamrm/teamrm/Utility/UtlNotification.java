@@ -30,18 +30,6 @@ public class UtlNotification {
     public UtlNotification() {
     }
 
-    /*public UtlNotification(CharSequence title, String text, Context nContext)
-    {
-        Intent homeScreen = new Intent(nContext, SplashScreen.class);
-
-        notificationID=++notificationCounter;
-        this.icon= R.drawable.ic_logo_white;
-        this.title=title;
-        this.text=text;
-
-        resultPendingIntent = PendingIntent.getActivity(nContext, 0, homeScreen, PendingIntent.FLAG_UPDATE_CURRENT);
-    }*/
-
     public UtlNotification(int icon, CharSequence title, String text, Intent intent) {
         notificationID = ++notificationCounter;
         this.icon = icon;

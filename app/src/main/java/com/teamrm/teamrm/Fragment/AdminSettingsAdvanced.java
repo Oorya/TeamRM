@@ -54,7 +54,7 @@ public class AdminSettingsAdvanced extends Fragment {
             public void onClick(View v) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
-                ft.replace(R.id.container_body, new FirmDetailsFrag(), null);
+                ft.replace(R.id.container_body, new ClientSettingsCreateCompany(), null);
                 ft.addToBackStack(null);
                 ft.commit();
             }
