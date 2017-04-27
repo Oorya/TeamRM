@@ -227,9 +227,9 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         if (selectedCompany == null) {
             selectedCompany = (Company) companiesList.get(0);
         }
-        UtlFirebase.getProducts(selectedCompany.getCompanyId(), this);
-        UtlFirebase.getCategories(selectedCompany.getCompanyId(), this);
-        UtlFirebase.getRegions(selectedCompany.getCompanyId(), this);
+        UtlFirebase.getProducts(selectedCompany.getCompanyID(), this);
+        UtlFirebase.getCategories(selectedCompany.getCompanyID(), this);
+        UtlFirebase.getRegions(selectedCompany.getCompanyID(), this);
         selectProduct.setEnabled(true);
         selectCategory.setEnabled(true);
         selectRegion.setEnabled(true);
@@ -258,7 +258,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     private void uploadPicture(String uid) {
 
         final Ticket newTicket = new Ticket(UserSingleton.getInstance().getUserID(), this.ticketPhone.getText().toString(), this.ticketAddress.getText().toString(), uid,
-                selectedCompany.getCompanyId(), selectedCompany.getCompanyName(),
+                selectedCompany.getCompanyID(), selectedCompany.getCompanyName(),
                 this.selectedProduct, this.selectedCategory, this.selectedRegion, this.descriptionShort.getText().toString(), this.descriptionLong.getText().toString(),
                 imgUri1 != null ? uid + "/pic1.jpg" : "error", imgUri2 != null ? uid + "/pic2.jpg" : "error", startTime);
         if (imgUri1 != null) {

@@ -47,7 +47,7 @@
                     android:id="@+id/txtcompany"
                     style="@style/RegularRowItem.EditText"
                     android:layout_toEndOf="@id/companyLabel"
-                    android:maxLength="20">
+                    android:maxLength="48">
 
                 </EditText>
             </com.teamrm.teamrm.Utility.RowViewLayout>
@@ -79,7 +79,7 @@
                     android:id="@+id/txtAddress"
                     style="@style/RegularRowItem.EditText"
                     android:layout_toEndOf="@id/addressLabel"
-                    android:maxLength="20">
+                    android:maxLength="120">
 
                     <requestFocus></requestFocus>
                 </EditText>

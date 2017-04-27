@@ -56,6 +56,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static com.teamrm.teamrm.Type.TicketState.STATELISTENERTAG;
 import static com.teamrm.teamrm.Utility.UserSingleton.LOGINTAG;
@@ -81,6 +82,7 @@ public class UtlFirebase {
     private static final String TICKET_LITE_ROOT_REFERENCE_STRING = "TicketLites";
     private static final String CLIENT_TICKET_STATES_REFERENCE_STRING = "TicketStatesClient";
     private static final String COMPANY_TICKET_STATES_REFERENCE_STRING = "TicketStatesCompany";
+    private static final String TECH_TICKET_STATES_REFERENCE_STRING = "TicketStatesTech";
     private static final String USERS_ROOT_REFERENCE_STRING = "Users";
     private static final String CLIENT_COMPANIES_ROOT_REFERENCE_STRING = "ClientCompanies";
 
@@ -96,6 +98,7 @@ public class UtlFirebase {
     private static final DatabaseReference TICKET_LITE_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(TICKET_LITE_ROOT_REFERENCE_STRING);
     private static final DatabaseReference CLIENT_TICKET_STATES_REFERENCE = FirebaseDatabase.getInstance().getReference(CLIENT_TICKET_STATES_REFERENCE_STRING);
     private static final DatabaseReference COMPANY_TICKET_STATES_REFERENCE = FirebaseDatabase.getInstance().getReference(COMPANY_TICKET_STATES_REFERENCE_STRING);
+    private static final DatabaseReference TECH_TICKET_STATES_REFERENCE = FirebaseDatabase.getInstance().getReference(TECH_TICKET_STATES_REFERENCE_STRING);
     private static final DatabaseReference USERS_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(USERS_ROOT_REFERENCE_STRING);
     private static final DatabaseReference CLIENT_COMPANIES_ROOT_REFERENCE = FirebaseDatabase.getInstance().getReference(CLIENT_COMPANIES_ROOT_REFERENCE_STRING);
     private static final StorageReference STORAGE_REFERENCE = FirebaseStorage.getInstance().getReferenceFromUrl("gs://teamrm-b1c06.appspot.com");
@@ -580,23 +583,23 @@ public class UtlFirebase {
 
 
     public static void ticketStateListener(final TicketStateObservable ticketStateObserver) {
-        Query stateQuery = null;
+        DatabaseReference stateRef = null;
 
         switch (UserSingleton.getLoadedUserType()) {
             case Users.STATUS_CLIENT:
-                stateQuery = CLIENT_TICKET_STATES_REFERENCE.child(UserSingleton.getInstance().getUserID());
+                stateRef = CLIENT_TICKET_STATES_REFERENCE.child(UserSingleton.getInstance().getUserID());
                 break;
 
             case Users.STATUS_ADMIN:
-                stateQuery = COMPANY_TICKET_STATES_REFERENCE.child(UserSingleton.getInstance().getAssignedCompanyID());
+                stateRef = COMPANY_TICKET_STATES_REFERENCE.child(UserSingleton.getInstance().getAssignedCompanyID());
                 break;
 
             case Users.STATUS_TECH:
-                stateQuery = COMPANY_TICKET_STATES_REFERENCE.child(UserSingleton.getInstance().getAssignedCompanyID()).child(UserSingleton.getInstance().getUserID());
+                stateRef = TECH_TICKET_STATES_REFERENCE.child(UserSingleton.getInstance().getUserID());
                 break;
 
             case Users.STATUS_PENDING_TECH:
-                stateQuery = null;
+                stateRef = null;
 
             case "undefined":
                 Log.e(TAG, "StateListener:::UserSingleton undefined");
@@ -639,8 +642,8 @@ public class UtlFirebase {
         };
 
         try {
-            stateQuery.addChildEventListener(stateListener);
-            activeChildEventListeners.put(stateQuery.getRef(), stateListener);
+            stateRef.addChildEventListener(stateListener);
+            activeChildEventListeners.put(stateRef.getRef(), stateListener);
         } catch (Exception e) {
             Log.e(STATELISTENERTAG, "Could not attach stateListener");
             e.printStackTrace();
@@ -1046,22 +1049,25 @@ public class UtlFirebase {
         });
     }
 
-    public static void addCompany(final @NonNull Company company) {
-        COMPANY_ROOT_REFERENCE.child(company.getCompanyId()).setValue(company, new DatabaseReference.CompletionListener() {
+    public static void addCompany(final @NonNull Company newCompany, final FireBaseBooleanCallback resultCallback) {
+        String companyID = UUID.randomUUID().toString();
+        String companyUserId = UserSingleton.getInstance().getUserID();
+        newCompany.setCompanyID(companyID);
+        newCompany.setCompanyAdminID(UserSingleton.getInstance().getUserID());
+        Map updates = new HashMap();
+        updates.put(USERS_ROOT_REFERENCE_STRING + "/" + companyUserId + "/" + Users.USER_STATUS, Users.STATUS_ADMIN);
+        updates.put(USERS_ROOT_REFERENCE_STRING + "/" + companyUserId + "/" + Users.USER_IS_ADMIN, true);
+        updates.put(USERS_ROOT_REFERENCE_STRING + "/" + companyUserId + "/" + Users.ASSIGNED_COMPANY_ID, companyID);
+        updates.put(COMPANY_ROOT_REFERENCE_STRING + "/" + companyID, newCompany);
+        GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                DatabaseReference userRef = USERS_ROOT_REFERENCE.child(UserSingleton.getInstance().getUserID());
-                Map update = new HashMap();
-                update.put(Users.ASSIGNED_COMPANY_ID, company.getCompanyId());
-                userRef.updateChildren(update, new DatabaseReference.CompletionListener() {
-                    @Override
-                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                        new NiceToast(getAppContext(), "Created company " + company.getCompanyName() + "for Admin" + UserSingleton.getInstance().getUserEmail(), NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG);
-
-                        new NiceToast(getAppContext(), "נדרש אתחול כדי לעדכן את ההגדרות החדשות", NiceToast.NICETOAST_WARNING, Toast.LENGTH_SHORT).show();
-                        App.getInstance().signOut();
-                    }
-                });
+                if (databaseError != null) {
+                    resultCallback.booleanCallback(false);
+                } else {
+                    new NiceToast(getAppContext(), "Created company " + newCompany.getCompanyName() + "for Admin" + UserSingleton.getInstance().getUserEmail(), NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG);
+                    resultCallback.booleanCallback(true);
+                }
             }
         });
     }
@@ -1460,11 +1466,9 @@ public class UtlFirebase {
                 switch (imgNum) {
                     case 1:
                         TicketView.img1.setImageBitmap(bitmap);
-                        TicketView.bitmapImg1 = bitmap;
                         break;
                     case 2:
                         TicketView.img2.setImageBitmap(bitmap);
-                        TicketView.bitmapImg2 = bitmap;
                         break;
                     default:
                         TicketView.img1.setImageBitmap(bitmap);

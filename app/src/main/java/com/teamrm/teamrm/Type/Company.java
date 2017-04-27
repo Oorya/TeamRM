@@ -13,24 +13,24 @@ import java.util.List;
  * Created by Oorya on 15/12/2016.
  */
 
-public class Company implements GenericKeyValueTypeable
-{
+public class Company implements GenericKeyValueTypeable {
     private String companyName;
-    private String companyId;
-    private String adminId;
+    private String companyID;
+    private String companyAdminID;
     private String companyPhone;
     private String companyAddress;
+    private String companyMail;
     private String companyCreationTime;
     private static List<Company> companyList = new ArrayList<>();
 
-    public Company(){}
+    public Company() {
+    }
 
-    public Company(String companyId, String companyName, String adminId, String companyAddress, String companyPhone) {
-        this.companyId = companyId;
+    public Company(String companyName, String companyAddress, String companyPhone, String companyMail) {
         this.companyName = companyName;
-        this.adminId = adminId;
         this.companyAddress = companyAddress;
         this.companyPhone = companyPhone;
+        this.companyMail = companyMail;
         this.companyCreationTime = getCurrentTime();
     }
 
@@ -42,14 +42,9 @@ public class Company implements GenericKeyValueTypeable
         Company.companyList = companyList;
     }
 
-    private String getCurrentTime()
-    {
-        //Calendar calendar=Calendar.getInstance();
+    private String getCurrentTime() {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss - dd/MM/yyyy");
-        //get current date ticketOpenDateTime with Date()
         Date date = new Date();
-
-        //return dateFormat.format(cal.getCompanyCreationTime()));
         return dateFormat.format(date);
     }
 
@@ -57,28 +52,51 @@ public class Company implements GenericKeyValueTypeable
         return companyName;
     }
 
-    public String getCompanyId() {
-        return companyId;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
-    public String getAdminId() {
-        return adminId;
+    public String getCompanyID() {
+        return companyID;
+    }
+
+    public void setCompanyID(String companyID) {
+        this.companyID = companyID;
+    }
+
+    public String getCompanyAdminID() {
+        return companyAdminID;
+    }
+
+    public void setCompanyAdminID(String companyAdminID) {
+        this.companyAdminID = companyAdminID;
     }
 
     public String getCompanyPhone() {
         return companyPhone;
     }
 
+    public void setCompanyPhone(String companyPhone) {
+        this.companyPhone = companyPhone;
+    }
+
     public String getCompanyAddress() {
         return companyAddress;
     }
 
-    public String getCompanyCreationTime() {
-        return companyCreationTime;
+    public void setCompanyAddress(String companyAddress) {
+        this.companyAddress = companyAddress;
     }
 
-    public String toString()
-    {
+    public String getCompanyMail() {
+        return companyMail;
+    }
+
+    public void setCompanyMail(String companyMail) {
+        this.companyMail = companyMail;
+    }
+
+    public String toString() {
         return companyName;
     }
 
@@ -86,7 +104,7 @@ public class Company implements GenericKeyValueTypeable
     @Override
     @Exclude
     public String getItemKey() {
-        return this.companyId;
+        return this.companyID;
     }
 
     @Override
