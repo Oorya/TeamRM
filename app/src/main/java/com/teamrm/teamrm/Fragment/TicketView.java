@@ -5,6 +5,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Address;
@@ -82,6 +83,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     Fragment stateActionButtons;
     UtlAlarmManager utlAlarmManager;
     private Object userDitaile;
+    public static Bitmap bitmapImg1, bitmapImg2;
 
     public TicketView() {
         // Required empty public constructor
@@ -287,11 +289,29 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         }
         else if(view.getId() == img1.getId())
         {
-
+            if(null != bitmapImg1)
+            {
+                FullScreenImage fullScreenImage = new FullScreenImage();
+                fullScreenImage.setBitmap(bitmapImg1);
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
+                ft.replace(R.id.container_body, fullScreenImage, FullScreenImage.FRAGMENT_TRANSACTION);
+                ft.addToBackStack(FullScreenImage.FRAGMENT_TRANSACTION);
+                ft.commit();
+            }
         }
         else if(view.getId() == img2.getId())
         {
-
+            if(null != bitmapImg2)
+            {
+                FullScreenImage fullScreenImage = new FullScreenImage();
+                fullScreenImage.setBitmap(bitmapImg2);
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
+                ft.replace(R.id.container_body, fullScreenImage, FullScreenImage.FRAGMENT_TRANSACTION);
+                ft.addToBackStack(FullScreenImage.FRAGMENT_TRANSACTION);
+                ft.commit();
+            }
         }
         else if (view.getId() == cancel.getId()) {
             switch (ticket.getTicketStateString()) {

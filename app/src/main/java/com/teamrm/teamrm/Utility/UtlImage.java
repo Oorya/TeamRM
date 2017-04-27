@@ -55,7 +55,7 @@ public class UtlImage
             BitmapFactory.decodeStream(new FileInputStream(file), null, o);
 
             // The new size we want to scale to
-            final int REQUIRED_SIZE=700;
+            final int REQUIRED_SIZE=1000;
 
             // Find the correct scale value. It should be the power of 2.
             int scale = 1;

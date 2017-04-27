@@ -269,7 +269,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
                     newTicket.updateTicketStateString(TicketStateStringable.STATE_A01, newTicket);
                     //Toast.makeText(getContext(), "Success opening ticket " + newTicket.getTicketNumber(), Toast.LENGTH_LONG).show();
                     //((HomeScreen) getActivity()).onDrawerItemSelected(view, 0);
-                    selectedPhotos.clear();
+                    //selectedPhotos.clear();
                 }
             });
             imgUri1 = null;
@@ -282,7 +282,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
                     newTicket.updateTicketStateString(TicketStateStringable.STATE_A01, newTicket);
                     //Toast.makeText(getContext(), "Success opening ticket " + newTicket.getTicketNumber(), Toast.LENGTH_LONG).show();
                     //((HomeScreen) getActivity()).onDrawerItemSelected(view, 0);
-                    selectedPhotos.clear();
+                    //selectedPhotos.clear();
                 }
             });
             imgUri2 = null;

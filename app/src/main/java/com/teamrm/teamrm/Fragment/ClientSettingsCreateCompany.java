@@ -8,13 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.Users;
-import com.teamrm.teamrm.Utility.App;
-import com.teamrm.teamrm.Utility.NiceToast;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
@@ -53,8 +50,7 @@ public class ClientSettingsCreateCompany extends Fragment {
                 Company company = new Company(companyID, companyName, USER_ID, address.getText().toString(),phone.getText().toString());
                 UtlFirebase.addCompany(company);
 
-                new NiceToast(getContext(), "נדרש אתחול כדי לעדכן את ההגדרות החדשות", NiceToast.NICETOAST_WARNING, Toast.LENGTH_SHORT).show();
-                App.getInstance().signOut();
+
             }
         });
 

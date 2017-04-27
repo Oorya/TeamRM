@@ -1,0 +1,16 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.teamrm.teamrm.Fragment.FullScreenImage">
+
+    <!-- TODO: Update blank fragment layout -->
+    <me.iwf.photopicker.widget.TouchImageView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/__picker_ic_photo_black_48dp"
+        android:id="@+id/full_image"/>
+
+</FrameLayout>
