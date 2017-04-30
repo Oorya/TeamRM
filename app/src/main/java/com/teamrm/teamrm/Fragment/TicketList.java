@@ -27,7 +27,6 @@ import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.teamrm.teamrm.Adapter.TicketListAdapter;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
-import com.teamrm.teamrm.Interfaces.FragmentHelper;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Category;
 import com.teamrm.teamrm.Type.Company;
@@ -114,6 +113,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                sortByQuery(newText);
                 return false;
             }
 
@@ -380,52 +380,52 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
         List<TicketLite> tempticketLiteList = new ArrayList<>();
         for (TicketLite ticketLiteItem : ticketLiteList)
         {
-            if (ticketLiteItem.getCategoryName()!=null&&ticketLiteItem.getCategoryName().equals(Query))
+            if (ticketLiteItem.getCategoryName()!=null&&ticketLiteItem.getCategoryName().contains(Query))
             {
                 tempticketLiteList.add(ticketLiteItem);
-            }else if (ticketLiteItem.getTechNameString()!=null&&ticketLiteItem.getTechNameString().equals(Query))
+            }else if (ticketLiteItem.getTechNameString()!=null&&ticketLiteItem.getTechNameString().contains(Query))
             {
                 tempticketLiteList.add(ticketLiteItem);
-            }else if (ticketLiteItem.getDescriptionLong()!=null&&ticketLiteItem.getDescriptionLong().equals(Query))
+            }else if (ticketLiteItem.getDescriptionLong()!=null&&ticketLiteItem.getDescriptionLong().contains(Query))
             {
                 tempticketLiteList.add(ticketLiteItem);
-            }else if (ticketLiteItem.getDescriptionShort()!=null&&ticketLiteItem.getDescriptionShort().equals(Query))
+            }else if (ticketLiteItem.getDescriptionShort()!=null&&ticketLiteItem.getDescriptionShort().contains(Query))
             {
                 tempticketLiteList.add(ticketLiteItem);
-            }else if (ticketLiteItem.getCategoryName()!=null&&ticketLiteItem.getCategoryName().equals(Query))
+            }else if (ticketLiteItem.getCategoryName()!=null&&ticketLiteItem.getCategoryName().contains(Query))
             {
                 tempticketLiteList.add(ticketLiteItem);
-            }else if (ticketLiteItem.getClientNameString()!=null&&ticketLiteItem.getClientNameString().equals(Query))
+            }else if (ticketLiteItem.getClientNameString()!=null&&ticketLiteItem.getClientNameString().contains(Query))
             {
                 tempticketLiteList.add(ticketLiteItem);
-            }else if (ticketLiteItem.getProductName()!=null&&ticketLiteItem.getProductName().equals(Query))
+            }else if (ticketLiteItem.getProductName()!=null&&ticketLiteItem.getProductName().contains(Query))
             {
                 tempticketLiteList.add(ticketLiteItem);
-            }else if (ticketLiteItem.getRegionName()!=null&&ticketLiteItem.getRegionName().equals(Query))
+            }else if (ticketLiteItem.getRegionName()!=null&&ticketLiteItem.getRegionName().contains(Query))
             {
                 tempticketLiteList.add(ticketLiteItem);
-            }else if (ticketLiteItem.getTicketAddress()!=null&&ticketLiteItem.getTicketAddress().equals(Query))
+            }else if (ticketLiteItem.getTicketAddress()!=null&&ticketLiteItem.getTicketAddress().contains(Query))
             {
                 tempticketLiteList.add(ticketLiteItem);
-            }else if (ticketLiteItem.getTicketID()!=null&&ticketLiteItem.getTicketID().equals(Query))
-            {
-                tempticketLiteList.add(ticketLiteItem);
-            }
-            else if (ticketLiteItem.getTicketCloseDateTime()!=null&&ticketLiteItem.getTicketCloseDateTime().equals(Query))
-            {
-                tempticketLiteList.add(ticketLiteItem);
-            }else if (ticketLiteItem.getTicketNumber()!=null&&ticketLiteItem.getTicketNumber().equals(Query))
+            }else if (ticketLiteItem.getTicketID()!=null&&ticketLiteItem.getTicketID().contains(Query))
             {
                 tempticketLiteList.add(ticketLiteItem);
             }
-            else if (ticketLiteItem.getTicketOpenDateTime()!=null&&ticketLiteItem.getTicketOpenDateTime().equals(Query))
+            else if (ticketLiteItem.getTicketCloseDateTime()!=null&&ticketLiteItem.getTicketCloseDateTime().contains(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getTicketNumber()!=null&&ticketLiteItem.getTicketNumber().contains(Query))
             {
                 tempticketLiteList.add(ticketLiteItem);
             }
-            else if (ticketLiteItem.getCompanyName()!=null&&ticketLiteItem.getCompanyName().equals(Query))
+            else if (ticketLiteItem.getTicketOpenDateTime()!=null&&ticketLiteItem.getTicketOpenDateTime().contains(Query))
             {
                 tempticketLiteList.add(ticketLiteItem);
-            }else if (ticketLiteItem.getTicketStateString()!=null&&ticketLiteItem.getTicketStateString().equals(Query))
+            }
+            else if (ticketLiteItem.getCompanyName()!=null&&ticketLiteItem.getCompanyName().contains(Query))
+            {
+                tempticketLiteList.add(ticketLiteItem);
+            }else if (ticketLiteItem.getTicketStateString()!=null&&ticketLiteItem.getTicketStateString().contains(Query))
             {
                 tempticketLiteList.add(ticketLiteItem);
             }

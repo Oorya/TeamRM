@@ -1466,9 +1466,11 @@ public class UtlFirebase {
                 switch (imgNum) {
                     case 1:
                         TicketView.img1.setImageBitmap(bitmap);
+                        TicketView.bitmapImg1 = bitmap;
                         break;
                     case 2:
                         TicketView.img2.setImageBitmap(bitmap);
+                        TicketView.bitmapImg2 = bitmap;
                         break;
                     default:
                         TicketView.img1.setImageBitmap(bitmap);
