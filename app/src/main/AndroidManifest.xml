@@ -35,7 +35,7 @@
         android:name=".Utility.App"
         android:largeHeap="true"
         android:allowBackup="true"
-        android:icon="@drawable/ic_logo_blue"
+        android:icon="@drawable/temp_logo4"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"

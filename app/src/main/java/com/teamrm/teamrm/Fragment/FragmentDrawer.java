@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.teamrm.teamrm.Adapter.NavigationDrawerAdapter;
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.NavDrawerItem;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlBitmapUrl;
@@ -39,10 +40,12 @@ public class FragmentDrawer extends Fragment {
     private DrawerLayout mDrawerLayout;
     private NavigationDrawerAdapter adapter;
     private View containerView;
-    private TextView userName;
+    private TextView userName, userStatus;
     private  static String[] titles = null;
     private FragmentDrawerListener drawerListener;
     public static ImageView imageAvatar;
+    private String userStatusString;
+
 
     public FragmentDrawer() {
 
@@ -71,6 +74,26 @@ public class FragmentDrawer extends Fragment {
 
         // drawer labels
         titles = getActivity().getResources().getStringArray(R.array.nav_list);
+
+        switch (UserSingleton.getLoadedUserType()){
+            case Users.STATUS_ADMIN:
+                userStatusString = this.getString(R.string.label_admin);
+                break;
+
+            case Users.STATUS_PENDING_TECH:
+                userStatusString = this.getString(R.string.label_pending_tech);
+                break;
+
+            case Users.STATUS_TECH:
+                userStatusString = this.getString(R.string.label_tech);
+                break;
+
+            case Users.STATUS_CLIENT:
+                userStatusString =  this.getString(R.string.label_client);
+                break;
+
+            default: userStatusString = "";
+        }
     }
 
     @Override
@@ -84,6 +107,8 @@ public class FragmentDrawer extends Fragment {
         adapter = new NavigationDrawerAdapter(getActivity(), getData());
         userName = (TextView)layout.findViewById(R.id.userNameString);
         userName.setText(UserSingleton.getInstance().getUserNameString());
+        userStatus = (TextView) layout.findViewById(R.id.userStatus);
+        userStatus.setText(userStatusString);
         imageAvatar = (ImageView)layout.findViewById(R.id.userAvatar);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

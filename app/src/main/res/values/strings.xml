@@ -195,6 +195,10 @@
     <string name="label_workshift_input_name">הקלד שם למשמרת</string>
     <string name="label_workshift_input_label">שם:</string>
     <string name="label_enrollment_code">קוד הרשמה לטכנאי:</string>
+    <string name="label_admin">מנהל</string>
+    <string name="label_tech">טכנאי</string>
+    <string name="label_pending_tech">מועמד לטכנאי</string>
+    <string name="label_client">לקוח</string>
 
 
     <!--/labels-->

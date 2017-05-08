@@ -5,45 +5,67 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
     android:layoutDirection="rtl"
-    tools:nContext=".Activities.HomeScreen">
+    android:paddingTop="25dp"
+    tools:nContext=".Activities.HomeScreen"
+    android:clickable="true"
+    >
 
 
-
-    <RelativeLayout
+    <com.teamrm.teamrm.Utility.RowSetLayout
         android:id="@+id/nav_header_container"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:paddingTop="50dp"
         android:background="@color/colorPrimary"
-        >
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/userAvatar"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="24dp"
-            android:layout_centerVertical="true"
-            android:background="@drawable/ic_icon_person_white" />
-
-        <TextView
-            android:id="@+id/userNameString"
-            android:layout_width="wrap_content"
+        <com.teamrm.teamrm.Utility.RowViewLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_toEndOf="@id/userAvatar"
-            android:text="ישראל ישראלי"
-            android:textAlignment="center"
-            android:layout_centerVertical="true"
-            android:textColor="#fff"
-            android:textSize="24sp"
-            />
-    </RelativeLayout>
+            android:layout_marginStart="24dp">
+
+            <ImageView
+                android:id="@+id/userAvatar"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/ic_icon_person_white" />
+
+            <TextView
+                android:id="@+id/userNameString"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+                android:layout_toEndOf="@id/userAvatar"
+                android:text="ישראל ישראלי"
+                android:textAlignment="center"
+                android:textColor="#fff"
+                android:textSize="24sp" />
+        </com.teamrm.teamrm.Utility.RowViewLayout>
+
+        <com.teamrm.teamrm.Utility.RowViewLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="82dp"
+            >
+
+            <TextView
+                android:id="@+id/userStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="#80ffffff"
+                tools:text="Admin" />
+
+        </com.teamrm.teamrm.Utility.RowViewLayout>
+    </com.teamrm.teamrm.Utility.RowSetLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/drawerList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_below="@id/nav_header_container" />
+        android:layout_below="@id/nav_header_container"
+        android:layout_marginTop="24dp" />
 
 </RelativeLayout>
