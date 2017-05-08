@@ -150,7 +150,9 @@ public class EnrollmentCodeSection extends StatelessSection {
                         public void onClick(View v) {
 
 
-                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + ecHolder.ecPhoneInput.getText().toString()));
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            Uri data = Uri.parse("sms:" + ecHolder.ecPhoneInput.getText().toString());
+                            intent.setData(data);
                             intent.putExtra("sms_body", ecListItem.getEnrollmentCodeString());
                             eContext.startActivity(intent);
 
