@@ -78,96 +78,6 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
         Log.d(UserSingleton.LOGINTAG, "UserSingleton.getLoadedUserType = " + UserSingleton.getLoadedUserType());
 
-        switch (UserSingleton.getLoadedUserType()) {
-            case (Users.STATUS_ADMIN):
-                if (!EnrollmentCode.getEnrollmentCodeList().isEmpty()) {
-                    for (EnrollmentCode singleEnrollmentCode : EnrollmentCode.getEnrollmentCodeList()){
-                        switch (singleEnrollmentCode.getEnrollmentStatus()) {
-
-                            case (EnrollmentCode.STATUS_ISSUED):
-                            case (EnrollmentCode.STATUS_DECLINED):
-                                // do nothing
-                                break;
-
-                            case (EnrollmentCode.STATUS_PENDING):
-                                new NiceToast(context, "PendingTech waiting for approval", NiceToast.NICETOAST_WARNING, Toast.LENGTH_LONG).show();
-                                UtlNotification notificationPending = new UtlNotification("הרשמתך בתהליך","הרשמתך כטכנאי מחכה לאישור");
-                                notificationPending.sendNotification();
-                                // TODO: TE_SEQ notify admin about PendingTech waiting for approval
-                                break;
-
-                            case (EnrollmentCode.STATUS_CANCELLED):
-                                new NiceToast(context, "PendingTech cancelled the enrollment", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
-                                UtlNotification notificationCancel = new UtlNotification("הרשמתך בוטלה","בוטלה הרשמתך כטכנאי");
-                                notificationCancel.sendNotification();
-                                //TODO: TE_SEQ notify admin that PendingTech cancelled the enrollment
-                                break;
-
-                            case (EnrollmentCode.STATUS_ACCEPTED):
-                            case (EnrollmentCode.STATUS_FINALIZED):
-                                UtlNotification notificationAccepted = new UtlNotification("הרשמתך אושרה","אושרה הרשמתך כטכנאי");
-                                notificationAccepted.sendNotification();
-                                // shouldn't happen
-                                break;
-
-                            default: //do nothing
-                        }
-                    }
-                }
-                break;
-
-            case (Users.STATUS_PENDING_TECH):
-                if (EnrollmentCode.getEnrollmentCodeList().isEmpty()){
-                    new NiceToast(context, "Error getting enrollmentCode", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
-                } else {
-                    EnrollmentCode pendingTechEnrollmentCode = EnrollmentCode.getEnrollmentCodeList().get(0);
-                    switch (pendingTechEnrollmentCode.getEnrollmentStatus()) {
-
-                        case (EnrollmentCode.STATUS_PENDING):
-                            // TODO: TE_SEQ display message "waiting for Admin approval of Enrollment"
-                            break;
-
-                        case (EnrollmentCode.STATUS_DECLINED):
-                            // TODO: TE_SEQ notify enrollment declined
-                            new NiceToast(context, "Enrollment was declined", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
-                            UtlFirebase.rollbackPendingTechToClient(pendingTechEnrollmentCode.getEnrollmentCodeID(), new FireBaseBooleanCallback() {
-                                @Override
-                                public void booleanCallback(boolean isTrue) {
-                                    if (isTrue) {
-                                        App.getInstance().signOut();
-                                    }
-                                }
-                            });
-                            // TODO: TE_SEQ roll back user to Client
-                            // TODO: TE_SEQ Logout
-                            break;
-
-                        case (EnrollmentCode.STATUS_ACCEPTED):
-                            // TODO: TE_SEQ notify enrollment accepted
-                            new NiceToast(context, "Enrollment was accepted", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
-                            UtlFirebase.promotePendingTechToTechnician(pendingTechEnrollmentCode.getEnrollmentCodeID(), new FireBaseBooleanCallback() {
-                                @Override
-                                public void booleanCallback(boolean isTrue) {
-                                    if (isTrue) {
-                                        App.getInstance().signOut();
-                                    }
-                                }
-                            });
-                            break;
-
-                        default: //do nothing
-                    }
-                }
-                break;
-
-            case (Users.STATUS_CLIENT):
-            case (Users.STATUS_TECH):
-                //do nothing
-                break;
-
-            default: //do nothing
-        }
-
         setContentView(R.layout.activity_home_screen);
         new NiceToast(this, "User " + UserSingleton.getInstance().getUserEmail() + "\n"
                 + "logged in as " + UserSingleton.getLoadedUserType(), NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
@@ -227,6 +137,12 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         if (null != fireBaseAuthStateListener) {
             firebaseAuth.removeAuthStateListener(fireBaseAuthStateListener);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        enrollmentCodeActionSelector();
     }
 
     @Override
@@ -472,9 +388,100 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
     }
 
-
     public Context getContext() {
         return this.context;
+    }
+
+    public void enrollmentCodeActionSelector(){
+        switch (UserSingleton.getLoadedUserType()) {
+            case (Users.STATUS_ADMIN):
+                if (!EnrollmentCode.getEnrollmentCodeList().isEmpty()) {
+                    for (EnrollmentCode singleEnrollmentCode : EnrollmentCode.getEnrollmentCodeList()){
+                        switch (singleEnrollmentCode.getEnrollmentStatus()) {
+
+                            case (EnrollmentCode.STATUS_ISSUED):
+                            case (EnrollmentCode.STATUS_DECLINED):
+                                // do nothing
+                                break;
+
+                            case (EnrollmentCode.STATUS_PENDING):
+                                new NiceToast(context, "PendingTech waiting for approval", NiceToast.NICETOAST_WARNING, Toast.LENGTH_LONG).show();
+                                UtlNotification notificationPending = new UtlNotification("הרשמתך בתהליך","הרשמתך כטכנאי מחכה לאישור");
+                                notificationPending.sendNotification();
+                                // TODO: TE_SEQ notify admin about PendingTech waiting for approval
+                                break;
+
+                            case (EnrollmentCode.STATUS_CANCELLED):
+                                new NiceToast(context, "PendingTech cancelled the enrollment", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
+                                UtlNotification notificationCancel = new UtlNotification("הרשמתך בוטלה","בוטלה הרשמתך כטכנאי");
+                                notificationCancel.sendNotification();
+                                //TODO: TE_SEQ notify admin that PendingTech cancelled the enrollment
+                                break;
+
+                            case (EnrollmentCode.STATUS_ACCEPTED):
+                            case (EnrollmentCode.STATUS_FINALIZED):
+                                UtlNotification notificationAccepted = new UtlNotification("הרשמתך אושרה","אושרה הרשמתך כטכנאי");
+                                notificationAccepted.sendNotification();
+                                // shouldn't happen
+                                break;
+
+                            default: //do nothing
+                        }
+                    }
+                }
+                break;
+
+            case (Users.STATUS_PENDING_TECH):
+                if (EnrollmentCode.getEnrollmentCodeList().isEmpty()){
+                    new NiceToast(context, "Error getting enrollmentCode", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
+                } else {
+                    EnrollmentCode pendingTechEnrollmentCode = EnrollmentCode.getEnrollmentCodeList().get(0);
+                    switch (pendingTechEnrollmentCode.getEnrollmentStatus()) {
+
+                        case (EnrollmentCode.STATUS_PENDING):
+                            // TODO: TE_SEQ display message "waiting for Admin approval of Enrollment"
+                            break;
+
+                        case (EnrollmentCode.STATUS_DECLINED):
+                            // TODO: TE_SEQ notify enrollment declined
+                            new NiceToast(context, "Enrollment was declined", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
+                            UtlFirebase.rollbackPendingTechToClient(pendingTechEnrollmentCode.getEnrollmentCodeID(), new FireBaseBooleanCallback() {
+                                @Override
+                                public void booleanCallback(boolean isTrue) {
+                                    if (isTrue) {
+                                        App.getInstance().signOut();
+                                    }
+                                }
+                            });
+                            // TODO: TE_SEQ roll back user to Client
+                            // TODO: TE_SEQ Logout
+                            break;
+
+                        case (EnrollmentCode.STATUS_ACCEPTED):
+                            // TODO: TE_SEQ notify enrollment accepted
+                            new NiceToast(context, "Enrollment was accepted", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
+                            UtlFirebase.promotePendingTechToTechnician(pendingTechEnrollmentCode.getEnrollmentCodeID(), new FireBaseBooleanCallback() {
+                                @Override
+                                public void booleanCallback(boolean isTrue) {
+                                    if (isTrue) {
+                                        App.getInstance().signOut();
+                                    }
+                                }
+                            });
+                            break;
+
+                        default: //do nothing
+                    }
+                }
+                break;
+
+            case (Users.STATUS_CLIENT):
+            case (Users.STATUS_TECH):
+                //do nothing
+                break;
+
+            default: //do nothing
+        }
     }
 
 }
