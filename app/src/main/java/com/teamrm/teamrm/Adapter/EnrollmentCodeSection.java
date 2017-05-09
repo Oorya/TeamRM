@@ -166,8 +166,8 @@ public class EnrollmentCodeSection extends StatelessSection {
 
                                 Intent sendIntent = new Intent(Intent.ACTION_SEND);
                                 sendIntent.setType("text/plain");
-                                sendIntent.putExtra(Intent.EXTRA_TEXT, "text");
-
+                                sendIntent.putExtra(Intent.EXTRA_TEXT, ecListItem.getEnrollmentCodeString());
+                                sendIntent.putExtra(Intent.ACTION_SENDTO, ecHolder.ecPhoneInput.getText().toString());
                                 if (defaultSmsPackageName != null)// Can be null in case that there is no default, then the user would be able to choose
                                 // any app that support this intent.
                                 {
