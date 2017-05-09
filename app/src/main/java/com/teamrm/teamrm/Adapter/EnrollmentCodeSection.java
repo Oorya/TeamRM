@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
+import android.provider.Telephony;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -150,11 +152,66 @@ public class EnrollmentCodeSection extends StatelessSection {
                         public void onClick(View v) {
 
 
-                            Intent intent = new Intent(Intent.ACTION_VIEW);
-                            Uri data = Uri.parse("sms:" + ecHolder.ecPhoneInput.getText().toString());
-                            intent.setData(data);
-                            intent.putExtra("sms_body", ecListItem.getEnrollmentCodeString());
-                            eContext.startActivity(intent);
+
+
+
+
+
+
+
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) // At least KitKat
+                            {
+                                String defaultSmsPackageName = Telephony.Sms.getDefaultSmsPackage(eContext); // Need to change the build to API 19
+
+                                Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                                sendIntent.setType("text/plain");
+                                sendIntent.putExtra(Intent.EXTRA_TEXT, "text");
+
+                                if (defaultSmsPackageName != null)// Can be null in case that there is no default, then the user would be able to choose
+                                // any app that support this intent.
+                                {
+                                    sendIntent.setPackage(defaultSmsPackageName);
+                                }
+                                eContext.startActivity(sendIntent);
+
+                            }
+                            else // For early versions, do what worked for you before.
+                            {
+
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                Uri data = Uri.parse("sms:" + ecHolder.ecPhoneInput.getText().toString());
+                                intent.setData(data);
+                                intent.putExtra("sms_body", ecListItem.getEnrollmentCodeString());
+                                eContext.startActivity(intent);
+
+/*
+                                Intent smsIntent = new Intent(android.content.Intent.ACTION_VIEW);
+                                smsIntent.setType("vnd.android-dir/mms-sms");
+                                smsIntent.putExtra("address","phoneNumber");
+                                smsIntent.putExtra("sms_body","message");
+                                eContext.startActivity(smsIntent);
+*/                            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                             //resultCode = ...
                                 HashMap<String, Object> ecItemUpdates = new HashMap<>();
