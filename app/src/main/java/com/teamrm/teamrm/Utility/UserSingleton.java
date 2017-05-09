@@ -68,6 +68,7 @@ public class UserSingleton extends Users {
                 protected Void doInBackground(Void... voids) {
                     switch (getLoadedUserType()) { // check which user type is loaded into the Singleton
                         case Users.STATUS_PENDING_TECH:
+                            Log.d("::AsyncTask", "PendingTech");
                             PendingTech tempPendingTech = (PendingTech) user;
                             UtlFirebase.PendingTechEnrollmentCodeListener(tempPendingTech.getEnrollmentCodeID(), enrollmentCodeObserver);
                             break;
@@ -322,7 +323,7 @@ public class UserSingleton extends Users {
                         case EnrollmentCode.STATUS_PENDING:
                         case EnrollmentCode.STATUS_ACCEPTED:
                         case EnrollmentCode.STATUS_DECLINED:
-                            Log.d(TE_SEQ, "PENDING_TECH: Adding to listener STATUS_PENDING enrollmentCode");
+                            Log.d(TE_SEQ, "PENDING_TECH: Adding to listener STATUS_" + enrollmentCode.getEnrollmentStatus() + " enrollmentCode");
                             EnrollmentCode.addEnrollmentCodeToList(enrollmentCode);
                             break;
                     }

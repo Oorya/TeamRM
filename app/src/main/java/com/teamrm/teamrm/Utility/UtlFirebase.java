@@ -362,8 +362,9 @@ public class UtlFirebase {
     }
 
     public static void PendingTechEnrollmentCodeListener(String enrollmentCodeID, final EnrollmentCodesObservable enrollmentCodesObservable) {
-
+        Log.d(TE_SEQ, "called PendingTechEnrollmentCodeListener");
         if (!EnrollmentCode.getEnrollmentCodeList().isEmpty()) {
+            Log.d(TE_SEQ, "Clearing EnrollmentCode list");
             EnrollmentCode.clearEnrollmentCodeList();
         }
 
@@ -394,10 +395,10 @@ public class UtlFirebase {
                 toastTheError(databaseError);
             }
         };
-
-        Query query = TECHNICIAN_ENROLLMENT_CODES_REFERENCE.orderByChild(enrollmentCodeID);
+        Query query = TECHNICIAN_ENROLLMENT_CODES_REFERENCE.orderByChild(EnrollmentCode.ENROLLMENT_CODE_ID).equalTo(enrollmentCodeID);
         query.addChildEventListener(listener);
-        activeChildEventListeners.put(query.getRef(), listener);
+        Log.d(TE_SEQ, "PendingTechEnrollmentCodeListener query ref = " + query.getRef().toString());
+        //activeChildEventListeners.put(query.getRef(), listener);
     }
 
     public static void updateEnrollmentCode(final String enrollmentCodeID, HashMap<String, Object> updateFields) {

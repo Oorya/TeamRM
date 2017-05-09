@@ -117,42 +117,46 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 break;
 
             case (Users.STATUS_PENDING_TECH):
-                EnrollmentCode pendingTechEnrollmentCode = EnrollmentCode.getEnrollmentCodeList().get(0);
-                switch (pendingTechEnrollmentCode.getEnrollmentStatus()) {
+                if (EnrollmentCode.getEnrollmentCodeList().isEmpty()){
+                    new NiceToast(context, "Error getting enrollmentCode", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
+                } else {
+                    EnrollmentCode pendingTechEnrollmentCode = EnrollmentCode.getEnrollmentCodeList().get(0);
+                    switch (pendingTechEnrollmentCode.getEnrollmentStatus()) {
 
-                    case (EnrollmentCode.STATUS_PENDING):
-                        // TODO: TE_SEQ display message "waiting for Admin approval of Enrollment"
-                        break;
+                        case (EnrollmentCode.STATUS_PENDING):
+                            // TODO: TE_SEQ display message "waiting for Admin approval of Enrollment"
+                            break;
 
-                    case (EnrollmentCode.STATUS_DECLINED):
-                        // TODO: TE_SEQ notify enrollment declined
-                        new NiceToast(context, "Enrollment was declined", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
-                        UtlFirebase.rollbackPendingTechToClient(pendingTechEnrollmentCode.getEnrollmentCodeID(), new FireBaseBooleanCallback() {
-                            @Override
-                            public void booleanCallback(boolean isTrue) {
-                                if (isTrue) {
-                                    App.getInstance().signOut();
+                        case (EnrollmentCode.STATUS_DECLINED):
+                            // TODO: TE_SEQ notify enrollment declined
+                            new NiceToast(context, "Enrollment was declined", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
+                            UtlFirebase.rollbackPendingTechToClient(pendingTechEnrollmentCode.getEnrollmentCodeID(), new FireBaseBooleanCallback() {
+                                @Override
+                                public void booleanCallback(boolean isTrue) {
+                                    if (isTrue) {
+                                        App.getInstance().signOut();
+                                    }
                                 }
-                            }
-                        });
-                        // TODO: TE_SEQ roll back user to Client
-                        // TODO: TE_SEQ Logout
-                        break;
+                            });
+                            // TODO: TE_SEQ roll back user to Client
+                            // TODO: TE_SEQ Logout
+                            break;
 
-                    case (EnrollmentCode.STATUS_ACCEPTED):
-                        // TODO: TE_SEQ notify enrollment accepted
-                        new NiceToast(context, "Enrollment was accepted", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
-                        UtlFirebase.promotePendingTechToTechnician(pendingTechEnrollmentCode.getEnrollmentCodeID(), new FireBaseBooleanCallback() {
-                            @Override
-                            public void booleanCallback(boolean isTrue) {
-                                if (isTrue) {
-                                    App.getInstance().signOut();
+                        case (EnrollmentCode.STATUS_ACCEPTED):
+                            // TODO: TE_SEQ notify enrollment accepted
+                            new NiceToast(context, "Enrollment was accepted", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
+                            UtlFirebase.promotePendingTechToTechnician(pendingTechEnrollmentCode.getEnrollmentCodeID(), new FireBaseBooleanCallback() {
+                                @Override
+                                public void booleanCallback(boolean isTrue) {
+                                    if (isTrue) {
+                                        App.getInstance().signOut();
+                                    }
                                 }
-                            }
-                        });
-                        break;
+                            });
+                            break;
 
-                    default: //do nothing
+                        default: //do nothing
+                    }
                 }
                 break;
 
