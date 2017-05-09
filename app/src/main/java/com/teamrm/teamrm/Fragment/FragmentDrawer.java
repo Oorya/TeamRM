@@ -43,8 +43,8 @@ public class FragmentDrawer extends Fragment {
     private TextView userName, userStatus;
     private  static String[] titles = null;
     private FragmentDrawerListener drawerListener;
-    public static ImageView imageAvatar;
     private String userStatusString;
+    private ImageView imageAvatar;
 
 
     public FragmentDrawer() {
@@ -98,7 +98,7 @@ public class FragmentDrawer extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) 
+                             Bundle savedInstanceState)
     {
         // Inflating view layout
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
@@ -128,7 +128,7 @@ public class FragmentDrawer extends Fragment {
 
        if(UserSingleton.getInstance().getUserImgPath() != null)
        {
-            UtlBitmapUrl bitmapUrl = new UtlBitmapUrl();
+            UtlBitmapUrl bitmapUrl = new UtlBitmapUrl(imageAvatar);
             bitmapUrl.execute(UserSingleton.getInstance().getUserImgPath().toString());
        }
 

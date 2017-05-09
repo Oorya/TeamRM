@@ -151,13 +151,18 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
         holder.descriptionLong.setText((item.getDescriptionLong().isEmpty() ? "ל\"ת" : item.getDescriptionLong()));
         holder.ticketNumber.setText(item.getTicketNumber());
         holder.ticketOpenDateTime.setText(item.getTicketOpenDateTime());
+        /*
+        UtlBitmapUrl utlBitmapUrl = new UtlBitmapUrl(holder.clientIcon);
+        utlBitmapUrl.execute("path");  //TODO Add user path image to ticket object
+        */
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Bundle bundle = new Bundle();
                 bundle.putString("ticketID", item.getTicketID());
-
+                TicketView.bitmapImg1 = null;
+                TicketView.bitmapImg2 = null;
                 FragmentTransaction fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager()
                         .beginTransaction();
                 TicketView ticketView = new TicketView();
@@ -201,6 +206,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
         protected RelativeLayout clientNameSpan;
         protected RelativeLayout companyNameSpan;
         protected ImageView editIcon;
+        protected ImageView clientIcon;
 
 
         public CustomViewHolder(View view, int viewNum) {
@@ -237,7 +243,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
             this.ticketStatusString = (TextView) view.findViewById(R.id.ticketStatusString);
             this.clientNameString = (TextView) view.findViewById(R.id.clientName);
             this.companyNameString = (TextView) view.findViewById(R.id.companyName);
-
+            this.clientIcon = (ImageView)view.findViewById(R.id.clientIcon);
             this.technicianNameString = (TextView) view.findViewById(R.id.technicianName);
             this.technicianColorView = (CardView) view.findViewById(R.id.technicianColorView);
 

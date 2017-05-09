@@ -10,8 +10,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.AsyncTask;
 import android.util.Log;
-
-import com.teamrm.teamrm.Fragment.FragmentDrawer;
+import android.widget.ImageView;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -24,11 +23,12 @@ import java.net.URL;
 
 public class UtlBitmapUrl extends AsyncTask<String, String, Bitmap>
 {
-    Bitmap myBitmap;
+    private Bitmap myBitmap;
+    private ImageView imageView;
 
-    public UtlBitmapUrl()
+    public UtlBitmapUrl(ImageView imageView)
     {
-
+        this.imageView = imageView;
     }
     @Override
     protected Bitmap doInBackground(String... url)
@@ -50,7 +50,7 @@ public class UtlBitmapUrl extends AsyncTask<String, String, Bitmap>
     @Override
     protected void onPostExecute(Bitmap bitmap) {
         super.onPostExecute(bitmap);
-        FragmentDrawer.imageAvatar.setImageBitmap(getRoundedCornerBitmap(bitmap,300));
+        imageView.setImageBitmap(getRoundedCornerBitmap(bitmap,300));
         Log.w("On post img: ", bitmap==null?"null":bitmap.toString());
     }
 
