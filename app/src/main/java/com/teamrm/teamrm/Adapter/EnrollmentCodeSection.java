@@ -127,9 +127,9 @@ public class EnrollmentCodeSection extends StatelessSection {
                             //TODO: send mail and check if success
 
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                                Uri data = Uri.parse("mailto:?to=" + ecHolder.ecMailInput.getText().toString() );
+                                //Uri data = Uri.parse("mailto:?to=" + ecHolder.ecMailInput.getText().toString() );
                                 intent.putExtra(Intent.EXTRA_TEXT, ecListItem.getEnrollmentCodeString());
-                                intent.setData(data);
+                                //intent.setData(data);
                                 eContext.startActivity(intent);
                                 HashMap<String, Object> ecItemUpdates = new HashMap<>();
                                 ecItemUpdates.put(EnrollmentCode.IS_SENT_TO_MAIL, true);
@@ -167,7 +167,6 @@ public class EnrollmentCodeSection extends StatelessSection {
                                 Intent sendIntent = new Intent(Intent.ACTION_SEND);
                                 sendIntent.setType("text/plain");
                                 sendIntent.putExtra(Intent.EXTRA_TEXT, ecListItem.getEnrollmentCodeString());
-                                sendIntent.putExtra(Intent.ACTION_SENDTO, ecHolder.ecPhoneInput.getText().toString());
                                 if (defaultSmsPackageName != null)// Can be null in case that there is no default, then the user would be able to choose
                                 // any app that support this intent.
                                 {
