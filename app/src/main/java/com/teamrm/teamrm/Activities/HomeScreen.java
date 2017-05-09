@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -100,8 +101,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         frameLayout = (FrameLayout) findViewById(R.id.container_body);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        if(!ServiceChecker.isServiceStarted(this, FirebaseBackgroundService.class))
-        {
+        if (!ServiceChecker.isServiceStarted(this, FirebaseBackgroundService.class)) {
             App.getInstance().startService();
         }
         TextView appIcon = (TextView) findViewById(R.id.appIcon);
@@ -142,7 +142,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     @Override
     protected void onResume() {
         super.onResume();
-        enrollmentCodeActionSelector();
+        enrollmentCodeActionSelector(0);
     }
 
     @Override
@@ -180,14 +180,11 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
             if (data != null && data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS) != null && requestCode == 233) {
                 photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
 
-                if(NewTicket.imgClick == 1)
-                {
+                if (NewTicket.imgClick == 1) {
                     NewTicket.imageView1.setImageBitmap(UtlImage.fileToBitmap(new File(photos.get(0))));
                     NewTicket.imgUri1 = UtlImage.fileToUri(new File(photos.get(0)), this);
                     NewTicket.imgClick = 0;
-                }
-                else
-                {
+                } else {
                     NewTicket.imageView2.setImageBitmap(UtlImage.fileToBitmap(new File(photos.get(0))));
                     NewTicket.imgUri2 = UtlImage.fileToUri(new File(photos.get(0)), this);
                     NewTicket.imgClick = 0;
@@ -246,12 +243,11 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
             if (position > 1)
                 position += 2;
 
-        }else if(UserSingleton.getLoadedUserType().equals("Technician"))
-        {
-            Log.d("user", "position = "+position);
+        } else if (UserSingleton.getLoadedUserType().equals("Technician")) {
+            Log.d("user", "position = " + position);
 
-                if(position==4)
-                    position+=1;
+            if (position == 4)
+                position += 1;
         }
 
         switch (position) {
@@ -376,7 +372,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     }
 
     private void exitApp() {
-       finish();
+        finish();
     }
 
     private void signOut() {
@@ -392,49 +388,57 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         return this.context;
     }
 
-    public void enrollmentCodeActionSelector(){
-        switch (UserSingleton.getLoadedUserType()) {
-            case (Users.STATUS_ADMIN):
-                if (!EnrollmentCode.getEnrollmentCodeList().isEmpty()) {
-                    for (EnrollmentCode singleEnrollmentCode : EnrollmentCode.getEnrollmentCodeList()){
-                        switch (singleEnrollmentCode.getEnrollmentStatus()) {
+    public void enrollmentCodeActionSelector(final int counter) {
+        if (counter > 3) {
+            new NiceToast(context, "Error getting enrollmentCode", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
+        } else if (EnrollmentCode.getEnrollmentCodeList().isEmpty()) {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    enrollmentCodeActionSelector(counter + 1);
+                }
+            }, 1000);
+        } else {
+            switch (UserSingleton.getLoadedUserType()) {
+                case (Users.STATUS_ADMIN):
+                    if (!EnrollmentCode.getEnrollmentCodeList().isEmpty()) {
+                        for (EnrollmentCode singleEnrollmentCode : EnrollmentCode.getEnrollmentCodeList()) {
+                            switch (singleEnrollmentCode.getEnrollmentStatus()) {
 
-                            case (EnrollmentCode.STATUS_ISSUED):
-                            case (EnrollmentCode.STATUS_DECLINED):
-                                // do nothing
-                                break;
+                                case (EnrollmentCode.STATUS_ISSUED):
+                                case (EnrollmentCode.STATUS_DECLINED):
+                                    // do nothing
+                                    break;
 
-                            case (EnrollmentCode.STATUS_PENDING):
-                                new NiceToast(context, "PendingTech waiting for approval", NiceToast.NICETOAST_WARNING, Toast.LENGTH_LONG).show();
-                                UtlNotification notificationPending = new UtlNotification("הרשמתך בתהליך","הרשמתך כטכנאי מחכה לאישור");
-                                notificationPending.sendNotification();
-                                // TODO: TE_SEQ notify admin about PendingTech waiting for approval
-                                break;
+                                case (EnrollmentCode.STATUS_PENDING):
+                                    new NiceToast(context, "PendingTech waiting for approval", NiceToast.NICETOAST_WARNING, Toast.LENGTH_LONG).show();
+                                    UtlNotification notificationPending = new UtlNotification("הרשמתך בתהליך", "הרשמתך כטכנאי מחכה לאישור");
+                                    notificationPending.sendNotification();
+                                    // TODO: TE_SEQ notify admin about PendingTech waiting for approval
+                                    break;
 
-                            case (EnrollmentCode.STATUS_CANCELLED):
-                                new NiceToast(context, "PendingTech cancelled the enrollment", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
-                                UtlNotification notificationCancel = new UtlNotification("הרשמתך בוטלה","בוטלה הרשמתך כטכנאי");
-                                notificationCancel.sendNotification();
-                                //TODO: TE_SEQ notify admin that PendingTech cancelled the enrollment
-                                break;
+                                case (EnrollmentCode.STATUS_CANCELLED):
+                                    new NiceToast(context, "PendingTech cancelled the enrollment", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
+                                    UtlNotification notificationCancel = new UtlNotification("הרשמתך בוטלה", "בוטלה הרשמתך כטכנאי");
+                                    notificationCancel.sendNotification();
+                                    //TODO: TE_SEQ notify admin that PendingTech cancelled the enrollment
+                                    break;
 
-                            case (EnrollmentCode.STATUS_ACCEPTED):
-                            case (EnrollmentCode.STATUS_FINALIZED):
-                                UtlNotification notificationAccepted = new UtlNotification("הרשמתך אושרה","אושרה הרשמתך כטכנאי");
-                                notificationAccepted.sendNotification();
-                                // shouldn't happen
-                                break;
+                                case (EnrollmentCode.STATUS_ACCEPTED):
+                                case (EnrollmentCode.STATUS_FINALIZED):
+                                    UtlNotification notificationAccepted = new UtlNotification("הרשמתך אושרה", "אושרה הרשמתך כטכנאי");
+                                    notificationAccepted.sendNotification();
+                                    // shouldn't happen
+                                    break;
 
-                            default: //do nothing
+                                default: //do nothing
+                            }
                         }
                     }
-                }
-                break;
+                    break;
 
-            case (Users.STATUS_PENDING_TECH):
-                if (EnrollmentCode.getEnrollmentCodeList().isEmpty()){
-                    new NiceToast(context, "Error getting enrollmentCode", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
-                } else {
+                case (Users.STATUS_PENDING_TECH):
                     EnrollmentCode pendingTechEnrollmentCode = EnrollmentCode.getEnrollmentCodeList().get(0);
                     switch (pendingTechEnrollmentCode.getEnrollmentStatus()) {
 
@@ -472,15 +476,15 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
                         default: //do nothing
                     }
-                }
-                break;
+                    break;
 
-            case (Users.STATUS_CLIENT):
-            case (Users.STATUS_TECH):
-                //do nothing
-                break;
+                case (Users.STATUS_CLIENT):
+                case (Users.STATUS_TECH):
+                    //do nothing
+                    break;
 
-            default: //do nothing
+                default: //do nothing
+            }
         }
     }
 
