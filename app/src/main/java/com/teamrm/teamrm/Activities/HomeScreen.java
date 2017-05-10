@@ -407,7 +407,9 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                             switch (singleEnrollmentCode.getEnrollmentStatus()) {
 
                                 case (EnrollmentCode.STATUS_ISSUED):
+                                case (EnrollmentCode.STATUS_ACCEPTED):
                                 case (EnrollmentCode.STATUS_DECLINED):
+                                case (EnrollmentCode.STATUS_FINALIZED):
                                     // do nothing
                                     break;
 
@@ -423,13 +425,6 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                                     UtlNotification notificationCancel = new UtlNotification("הרשמתך בוטלה", "בוטלה הרשמתך כטכנאי");
                                     notificationCancel.sendNotification();
                                     //TODO: TE_SEQ notify admin that PendingTech cancelled the enrollment
-                                    break;
-
-                                case (EnrollmentCode.STATUS_ACCEPTED):
-                                case (EnrollmentCode.STATUS_FINALIZED):
-                                    UtlNotification notificationAccepted = new UtlNotification("הרשמתך אושרה", "אושרה הרשמתך כטכנאי");
-                                    notificationAccepted.sendNotification();
-                                    // shouldn't happen
                                     break;
 
                                 default: //do nothing

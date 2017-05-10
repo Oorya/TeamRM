@@ -83,7 +83,7 @@ public class EnrollmentCodeSection extends StatelessSection {
             @Override
             public void onClick(View v) {
                 ecHolder.expandableLayout.toggle();
-                rotateButtonOnToggle(ecHolder.expandableLayout, ecHolder.expandBtn);
+                rotateButtonOnToggle(ecHolder.expandBtn);
             }
         });
 
@@ -151,15 +151,6 @@ public class EnrollmentCodeSection extends StatelessSection {
                         @Override
                         public void onClick(View v) {
 
-
-
-
-
-
-
-
-
-
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) // At least KitKat
                             {
                                 String defaultSmsPackageName = Telephony.Sms.getDefaultSmsPackage(eContext); // Need to change the build to API 19
@@ -191,25 +182,6 @@ public class EnrollmentCodeSection extends StatelessSection {
                                 smsIntent.putExtra("sms_body","message");
                                 eContext.startActivity(smsIntent);
 */                            }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                             //resultCode = ...
@@ -333,10 +305,9 @@ public class EnrollmentCodeSection extends StatelessSection {
                 break;
 
             case (EnrollmentCode.STATUS_ACCEPTED):
-                ecHolder.ecCard.setCardBackgroundColor(Color.parseColor("#66bb6a"));
-                ecHolder.ecStatusRow.setBackgroundResource(R.color.listRow_alt);
-                ecHolder.ecStatusLabel.setTextColor(ContextCompat.getColor(eContext, R.color.textColor_lighter));
-                ecHolder.ecStatusString.setTextColor(ContextCompat.getColor(eContext, R.color.textColor_primary));
+                ecHolder.ecStatusRow.setBackgroundResource(R.color.status_ok);
+                ecHolder.ecStatusLabel.setTextColor(Color.parseColor("#AAFFFFFF"));
+                ecHolder.ecStatusString.setTextColor(Color.WHITE);
                 ecHolder.pendingTechNameRow.setVisibility(View.GONE);
                 ecHolder.btnAcceptDeclineRow.setVisibility(View.GONE);
                 ecHolder.rowSetPendingTechDetails.setVisibility(View.GONE);
@@ -346,10 +317,9 @@ public class EnrollmentCodeSection extends StatelessSection {
                 break;
 
             case (EnrollmentCode.STATUS_DECLINED):
-                ecHolder.ecCard.setCardBackgroundColor(Color.parseColor("#B0BEC5"));
-                ecHolder.ecStatusRow.setBackgroundResource(R.color.listRow_alt);
-                ecHolder.ecStatusLabel.setTextColor(ContextCompat.getColor(eContext, R.color.textColor_lighter));
-                ecHolder.ecStatusString.setTextColor(ContextCompat.getColor(eContext, R.color.textColor_primary));
+                ecHolder.ecStatusRow.setBackgroundResource(R.color.icon_gray);
+                ecHolder.ecStatusLabel.setTextColor(Color.parseColor("#AAFFFFFF"));
+                ecHolder.ecStatusString.setTextColor(Color.WHITE);
                 ecHolder.pendingTechNameRow.setVisibility(View.GONE);
                 ecHolder.btnAcceptDeclineRow.setVisibility(View.GONE);
                 ecHolder.rowSetPendingTechDetails.setVisibility(View.GONE);
@@ -385,8 +355,6 @@ public class EnrollmentCodeSection extends StatelessSection {
     }
 
     private class EnrollmentCodeHolder extends RecyclerView.ViewHolder {
-
-        private CardView ecCard;
 
         private RowSetLayout rowSetIssuedCode;
 
@@ -424,8 +392,6 @@ public class EnrollmentCodeSection extends StatelessSection {
         EnrollmentCodeHolder(View view) {
             super(view);
             Log.d(TAG, "::: called viewholder");
-
-            ecCard = (CardView) view.findViewById(R.id.ecCard);
 
             rowSetIssuedCode = (RowSetLayout) view.findViewById(R.id.rowSetIssuedCode);
 
@@ -469,11 +435,11 @@ public class EnrollmentCodeSection extends StatelessSection {
         }
     }
 
-    void rotateButtonOnToggle(ExpandableLayout expandableLayout, ImageView expandBtn) {
+    void rotateButtonOnToggle(ImageView expandBtn) {
         expandBtn.animate().rotation(expandBtn.getRotation() - 180f).setInterpolator(new LinearInterpolator()).start();
     }
 
-    private String getStatusString(EnrollmentCode ec) {
+   /* private String getStatusString(EnrollmentCode ec) {
         switch (ec.getEnrollmentStatus()) {
             case EnrollmentCode.STATUS_ISSUED:
                 return "Issued";
@@ -497,6 +463,6 @@ public class EnrollmentCodeSection extends StatelessSection {
                 return ec.getEnrollmentStatus() + "";
 
         }
-    }
+    }*/
 
 }
