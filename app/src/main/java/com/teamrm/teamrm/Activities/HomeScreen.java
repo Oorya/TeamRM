@@ -33,6 +33,7 @@ import com.teamrm.teamrm.Broadcast.FirebaseBackgroundService;
 import com.teamrm.teamrm.Broadcast.ServiceChecker;
 import com.teamrm.teamrm.Fragment.AdminSettingsAdvanced;
 import com.teamrm.teamrm.Fragment.AdminSettingsBasic;
+import com.teamrm.teamrm.Fragment.AdminSettingsDefineTechs;
 import com.teamrm.teamrm.Fragment.CalendarView;
 import com.teamrm.teamrm.Fragment.FragmentDrawer;
 import com.teamrm.teamrm.Fragment.NewTicket;
@@ -123,6 +124,23 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         fragmentTransaction.add(R.id.container_body, new TicketList(), TicketList.FRAGMENT_TRANSACTION).disallowAddToBackStack();
         fragmentTransaction.commit();
         setTitle(getResources().getStringArray(R.array.nav_list)[0]);
+        try
+        {
+            if(SplashScreen.notifyEnrollmentAdmin)
+            {
+                fragmentTransaction.replace(R.id.container_body, new AdminSettingsDefineTechs())
+                        .addToBackStack(AdminSettingsDefineTechs.FRAGMENT_TRANSACTION).commit();
+                setTitle("הגדרת טכנאים");
+                //findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
+                SplashScreen.notifyEnrollmentAdmin = false;
+            }
+        }
+        catch (Exception e)
+        {
+            Log.w("notify",e.getMessage());
+        }
+
+
     }
 
     @Override
@@ -291,7 +309,9 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 break;
 
             case 5:
-                signOut();
+                UtlNotification notificationPending = new UtlNotification("רישום בתהליך", "הרשמת טכנאי מחכה לאישור",true);
+                notificationPending.sendNotification();
+                //signOut();
                 break;
 
             default:
@@ -415,14 +435,15 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
                                 case (EnrollmentCode.STATUS_PENDING):
                                     new NiceToast(context, "PendingTech waiting for approval", NiceToast.NICETOAST_WARNING, Toast.LENGTH_LONG).show();
-                                    UtlNotification notificationPending = new UtlNotification("הרשמה בתהליך", "טכנאי מחכה לאישור");
+                                    UtlNotification notificationPending = new UtlNotification("רישום בתהליך", "הרשמת טכנאי מחכה לאישור",true);
                                     notificationPending.sendNotification();
                                     // TODO: TE_SEQ notify admin about PendingTech waiting for approval
                                     break;
 
                                 case (EnrollmentCode.STATUS_CANCELLED):
                                     new NiceToast(context, "PendingTech cancelled the enrollment", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
-
+                                    UtlNotification notificationCancel = new UtlNotification("רישום בוטל", "טכנאי ביטל הרשמה",true);
+                                    notificationCancel.sendNotification();
                                     //TODO: TE_SEQ notify admin that PendingTech cancelled the enrollment
                                     break;
 
@@ -437,10 +458,14 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                     switch (pendingTechEnrollmentCode.getEnrollmentStatus()) {
 
                         case (EnrollmentCode.STATUS_PENDING):
+                            UtlNotification notificationPending = new UtlNotification("רישום בתהליך", "הרשמתך כטכנאי מחכה לאישור");
+                            notificationPending.sendNotification();
                             // TODO: TE_SEQ display message "waiting for Admin approval of Enrollment"
                             break;
 
                         case (EnrollmentCode.STATUS_DECLINED):
+                            UtlNotification notificationCancel = new UtlNotification("רישום בוטל", "הרשמתך כטכנאי בוטלה");
+                            notificationCancel.sendNotification();
                             // TODO: TE_SEQ notify enrollment declined
                             new NiceToast(context, "Enrollment was declined", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
                             UtlFirebase.rollbackPendingTechToClient(pendingTechEnrollmentCode.getEnrollmentCodeID(), new FireBaseBooleanCallback() {
@@ -456,6 +481,8 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                             break;
 
                         case (EnrollmentCode.STATUS_ACCEPTED):
+                            UtlNotification notificationAccepted = new UtlNotification("רישום אושר", "הרשמתך טכנאי אושרה בהצלחה");
+                            notificationAccepted.sendNotification();
                             // TODO: TE_SEQ notify enrollment accepted
                             new NiceToast(context, "Enrollment was accepted", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
                             UtlFirebase.promotePendingTechToTechnician(pendingTechEnrollmentCode.getEnrollmentCodeID(), new FireBaseBooleanCallback() {

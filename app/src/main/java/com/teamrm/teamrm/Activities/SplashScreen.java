@@ -5,10 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -35,8 +33,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.teamrm.teamrm.Broadcast.FirebaseBackgroundService;
 import com.teamrm.teamrm.Broadcast.ServiceChecker;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
@@ -75,7 +71,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
     private static final int RC_SIGN_IN = 9001;
     private SignInButton signInButton;
-    public static boolean resume = false;
+    public static boolean resume = false, notifyEnrollmentAdmin;
     private SharedPreferences prefUser;
     private SharedPreferences.Editor editorUser;
     private LinearLayout linearLayout;
@@ -112,6 +108,10 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         //signInButton.setScopes(gso.getScopeArray()); //deprecated - not needed
         signInButton.setOnClickListener(this);
         signInButton.setVisibility(View.GONE);
+        if(getIntent().getBooleanExtra("enrollmentFrag", false))
+        {
+            notifyEnrollmentAdmin = true;
+        }
     }
 
     @Override

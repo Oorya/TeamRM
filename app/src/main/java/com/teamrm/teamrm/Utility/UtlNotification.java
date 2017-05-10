@@ -12,7 +12,6 @@ import android.support.v7.app.NotificationCompat;
 
 import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Activities.SplashScreen;
-import com.teamrm.teamrm.Broadcast.FirebaseBackgroundService;
 import com.teamrm.teamrm.R;
 
 public class UtlNotification {
@@ -31,14 +30,16 @@ public class UtlNotification {
     public UtlNotification() {
     }
 
-    public UtlNotification(int icon, CharSequence title, String text, Intent intent) {
+    public UtlNotification(CharSequence title, String text, boolean isAdmin) {
+        Intent enrollmentFragment = new Intent(nContext, SplashScreen.class);
+        enrollmentFragment.putExtra("enrollmentFrag", true);
+
         notificationID = ++notificationCounter;
-        this.icon = icon;
+        this.icon = R.drawable.ic_logo_white;
         this.title = title;
         this.text = text;
-        this.intent = intent;
 
-        resultPendingIntent = PendingIntent.getActivity(nContext, 0, this.intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        resultPendingIntent = PendingIntent.getActivity(nContext, 0, enrollmentFragment, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public UtlNotification(int icon, CharSequence title, String text) {
