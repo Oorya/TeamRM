@@ -15,17 +15,11 @@ import android.view.animation.BounceInterpolator;
 
 import com.teamrm.teamrm.Adapter.EnrollmentCodeSection;
 import com.teamrm.teamrm.Adapter.TechniciansSection;
-import com.teamrm.teamrm.Interfaces.EnrollmentCodeCallback;
-import com.teamrm.teamrm.Interfaces.EnrollmentCodeSingleCallback;
 import com.teamrm.teamrm.Interfaces.FragmentHelper;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.EnrollmentCode;
-import com.teamrm.teamrm.Type.Technician;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
-
-import java.util.ArrayList;
-import java.util.UUID;
 
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
@@ -37,7 +31,7 @@ public class AdminSettingsDefineTechs extends Fragment {
     public RecyclerView tRecyclerView;
     SectionedRecyclerViewAdapter tAdapter;
     private FloatingActionButton floatBtn;
-
+    public static final String FRAGMENT_TRANSACTION = "AdminSettingsDefineTechs";
 
     public AdminSettingsDefineTechs() {
         // Required empty public constructor

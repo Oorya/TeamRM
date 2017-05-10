@@ -64,8 +64,6 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
     private FragmentDrawer drawerFragment;
     private FrameLayout frameLayout;
     private Context context;
-    private FragmentManager fragmentManager;
-    private FragmentTransaction fragmentTransaction;
     private static final int ACTION_OVERLAY = 300, FROM_PHOTO_ADAPTER = 2;
     private final static String[] TAG_FRAGMENT = {"NEW_TICKET", "CALENDER", "TICKET_LIST", "COMPANY_SEATING", "COMPANY_SEATING_ADVANCED"};
     private GoogleApiClient mGoogleApiClient;
@@ -118,29 +116,24 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
         drawerFragment.setDrawerListener(this);
 
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //fragmentTransaction.add(R.id.container_body, new TicketList()).addToBackStack(TAG_FRAGMENT[2]);
         fragmentTransaction.add(R.id.container_body, new TicketList(), TicketList.FRAGMENT_TRANSACTION).disallowAddToBackStack();
         fragmentTransaction.commit();
         setTitle(getResources().getStringArray(R.array.nav_list)[0]);
-        try
-        {
-            if(SplashScreen.notifyEnrollmentAdmin)
-            {
-                fragmentTransaction.replace(R.id.container_body, new AdminSettingsDefineTechs())
-                        .addToBackStack(AdminSettingsDefineTechs.FRAGMENT_TRANSACTION).commit();
-                setTitle("הגדרת טכנאים");
-                //findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
-                SplashScreen.notifyEnrollmentAdmin = false;
-            }
-        }
-        catch (Exception e)
-        {
-            Log.w("notify",e.getMessage());
-        }
 
-
+        if(SplashScreen.notifyEnrollmentAdmin)
+        {
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            AdminSettingsDefineTechs settingsDefineTechs = new AdminSettingsDefineTechs();
+            ft.replace(R.id.container_body, settingsDefineTechs)
+                    .addToBackStack(AdminSettingsDefineTechs.FRAGMENT_TRANSACTION).commit();
+            setTitle("הגדרת טכנאים");
+            //findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
+            SplashScreen.notifyEnrollmentAdmin = false;
+        }
     }
 
     @Override
@@ -309,9 +302,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 break;
 
             case 5:
-                UtlNotification notificationPending = new UtlNotification("רישום בתהליך", "הרשמת טכנאי מחכה לאישור",true);
-                notificationPending.sendNotification();
-                //signOut();
+                signOut();
                 break;
 
             default:
@@ -481,7 +472,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                             break;
 
                         case (EnrollmentCode.STATUS_ACCEPTED):
-                            UtlNotification notificationAccepted = new UtlNotification("רישום אושר", "הרשמתך טכנאי אושרה בהצלחה");
+                            UtlNotification notificationAccepted = new UtlNotification("רישום אושר", "הרשמתך כטכנאי אושרה בהצלחה");
                             notificationAccepted.sendNotification();
                             // TODO: TE_SEQ notify enrollment accepted
                             new NiceToast(context, "Enrollment was accepted", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();

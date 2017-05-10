@@ -387,6 +387,8 @@ public class UserSingleton extends Users {
                                 if (ecTechAdapter != null) {
                                     ecTechAdapter.notifyDataSetChanged();
                                 }
+                                UtlNotification notificationPending = new UtlNotification("רישום בתהליך", "הרשמת טכנאי מחכה לאישור",true);
+                                notificationPending.sendNotification();
                                 //TODO: TE_SEQ notify admin -> PendingTech needs approval
                             } else {
                                 // shouldn't happen
@@ -399,6 +401,8 @@ public class UserSingleton extends Users {
                                     if (ecTechAdapter != null) {
                                         ecTechAdapter.notifyDataSetChanged();
                                     }
+                                    UtlNotification notificationCancel = new UtlNotification("רישום בוטל", "טכנאי ביטל הרשמה",true);
+                                    notificationCancel.sendNotification();
                                     // TODO: TE_SEQ notify admin -> PendingTech cancelled the enrollment
                                     break;
 
@@ -434,6 +438,8 @@ public class UserSingleton extends Users {
                         case (EnrollmentCode.STATUS_PENDING):
                             switch (theNewStatus) {
                                 case (EnrollmentCode.STATUS_ACCEPTED):
+                                    UtlNotification notificationAccepted = new UtlNotification("רישום אושר", "הרשמתך כטכנאי אושרה בהצלחה");
+                                    notificationAccepted.sendNotification();
                                     //TODO: TE_SEQ notify PendingTech he was Accepted -> log out
                                     Log.d(TE_SEQ, "promoting Client -> PendingTech " + enrollmentCode.getEnrollmentCodeID() + ":" + enrollmentCode.getEnrollmentCodeString());
                                     UtlFirebase.promotePendingTechToTechnician(enrollmentCode.getEnrollmentCodeID(), new FireBaseBooleanCallback() {
@@ -447,7 +453,9 @@ public class UserSingleton extends Users {
                                     break;
 
                                 case (EnrollmentCode.STATUS_DECLINED):
-                                    //TODO: TE_SEQ notify PendingTech he was Accepted -> log out
+                                    //TODO: TE_SEQ notify PendingTech he was Canceled -> log out
+                                    UtlNotification notificationCancel = new UtlNotification("רישום בוטל", "הרשמתך כטכנאי בוטלה");
+                                    notificationCancel.sendNotification();
                                     Log.d(TE_SEQ, "rolling back PendingTech -> Client " + enrollmentCode.getEnrollmentCodeID() + ":" + enrollmentCode.getEnrollmentCodeString());
                                     UtlFirebase.rollbackPendingTechToClient(enrollmentCode.getEnrollmentCodeID(), new FireBaseBooleanCallback() {
                                         @Override
