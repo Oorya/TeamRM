@@ -64,7 +64,7 @@ public class UtlNotification {
     public void sendNotification() {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         builder = (NotificationCompat.Builder) new NotificationCompat.Builder(nContext)
-                .setColor(ContextCompat.getColor(nContext, R.color.colorPrimary))
+                .setColor(ContextCompat.getColor(nContext, R.color.colorAccent))
                 .setSmallIcon(icon)
                 .setContentTitle(title)
                 .setContentText(text)
