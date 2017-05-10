@@ -415,15 +415,14 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
                                 case (EnrollmentCode.STATUS_PENDING):
                                     new NiceToast(context, "PendingTech waiting for approval", NiceToast.NICETOAST_WARNING, Toast.LENGTH_LONG).show();
-                                    UtlNotification notificationPending = new UtlNotification("הרשמתך בתהליך", "הרשמתך כטכנאי מחכה לאישור");
+                                    UtlNotification notificationPending = new UtlNotification("הרשמה בתהליך", "טכנאי מחכה לאישור");
                                     notificationPending.sendNotification();
                                     // TODO: TE_SEQ notify admin about PendingTech waiting for approval
                                     break;
 
                                 case (EnrollmentCode.STATUS_CANCELLED):
                                     new NiceToast(context, "PendingTech cancelled the enrollment", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
-                                    UtlNotification notificationCancel = new UtlNotification("הרשמתך בוטלה", "בוטלה הרשמתך כטכנאי");
-                                    notificationCancel.sendNotification();
+
                                     //TODO: TE_SEQ notify admin that PendingTech cancelled the enrollment
                                     break;
 

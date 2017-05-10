@@ -125,7 +125,23 @@ public class EnrollmentCodeSection extends StatelessSection {
                         public void onClick(View v) {
                             int resultCode = 0;
                             //TODO: send mail and check if success
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            Uri data = Uri.parse("mailto:?to=" +"" );
+                            intent.putExtra(Intent.EXTRA_TEXT, ecListItem.getEnrollmentCodeString());
+                            intent.setData(data);
+                            eContext.startActivity(intent);
 
+
+
+
+
+
+
+
+
+
+
+/*
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 //Uri data = Uri.parse("mailto:?to=" + ecHolder.ecMailInput.getText().toString() );
                                 intent.putExtra(Intent.EXTRA_TEXT, ecListItem.getEnrollmentCodeString());
@@ -136,7 +152,7 @@ public class EnrollmentCodeSection extends StatelessSection {
                                 ecItemUpdates.put(EnrollmentCode.ENROLLMENT_CODE_SENT_TO_MAIL, ecHolder.ecMailInput.getText().toString());
                                 UtlFirebase.updateEnrollmentCode(ecListItem.getEnrollmentCodeID(), ecItemUpdates);
 
-                        }
+                   */     }
                     });
                 }
 
