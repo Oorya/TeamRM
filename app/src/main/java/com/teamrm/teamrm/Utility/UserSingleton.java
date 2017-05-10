@@ -11,6 +11,7 @@ import com.teamrm.teamrm.Adapter.TicketListAdapter;
 import com.teamrm.teamrm.Interfaces.EnrollmentCodesObservable;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.FireBaseBooleanCallback;
+import com.teamrm.teamrm.Interfaces.TechnicianCallback;
 import com.teamrm.teamrm.Interfaces.TicketStateObservable;
 import com.teamrm.teamrm.TicketStates.TicketFactory;
 import com.teamrm.teamrm.Type.Category;
@@ -19,12 +20,13 @@ import com.teamrm.teamrm.Type.EnrollmentCode;
 import com.teamrm.teamrm.Type.PendingTech;
 import com.teamrm.teamrm.Type.Product;
 import com.teamrm.teamrm.Type.Region;
+import com.teamrm.teamrm.Type.Technician;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.TicketState;
 import com.teamrm.teamrm.Type.Users;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
@@ -44,7 +46,7 @@ public class UserSingleton extends Users {
 
     private static Users userHolder;
 
-    private static SectionedRecyclerViewAdapter ecAdapter;
+    private static SectionedRecyclerViewAdapter ecTechAdapter;
 
     private static class SingletonLoader {
         private static final UserSingleton INSTANCE = new UserSingleton();
@@ -83,6 +85,8 @@ public class UserSingleton extends Users {
                             UtlFirebase.getAllCompanies(fbHelper);
                             Log.d(LOGINTAG, "Calling getAllTickets");
                             UtlFirebase.getAllTickets(fbHelper);
+                            Log.d(LOGINTAG, "Calling getAllCompanyTechs");
+                            UtlFirebase.getAllCompanyTechs(technicianCallback);
                             break;
 
                         case Users.STATUS_TECH:
@@ -243,6 +247,17 @@ public class UserSingleton extends Users {
     };
 
 
+    private static TechnicianCallback technicianCallback = new TechnicianCallback() {
+        @Override
+        public void technicianCallback(ArrayList<Technician> technicianList) {
+            Technician.setTechnicianList(technicianList);
+            if (ecTechAdapter != null) {
+                Log.d(TE_SEQ, "notifying adapter with technicianList");
+                ecTechAdapter.notifyDataSetChanged();
+            }
+        }
+    };
+
     @Override
     public String getUserID() {
         return userHolder.getUserID();
@@ -294,9 +309,9 @@ public class UserSingleton extends Users {
 
 
     public static void setECAdapter(SectionedRecyclerViewAdapter _ecAdapter) {
-        ecAdapter = _ecAdapter;
-        if (null != ecAdapter) {
-            Log.d(TE_SEQ, "Adapter = " + ecAdapter.toString());
+        ecTechAdapter = _ecAdapter;
+        if (null != ecTechAdapter) {
+            Log.d(TE_SEQ, "Adapter = " + ecTechAdapter.toString());
         }
     }
 
@@ -344,9 +359,9 @@ public class UserSingleton extends Users {
                         case EnrollmentCode.STATUS_FINALIZED:
                             EnrollmentCode.addEnrollmentCodeToList(enrollmentCode);
                             Log.d(TE_SEQ, "Admin: added enrollmentCode " + enrollmentCode.getEnrollmentCodeString() + ":" + enrollmentCode.getEnrollmentStatus());
-                            if (ecAdapter != null) {
+                            if (ecTechAdapter != null) {
                                 Log.d(TE_SEQ, "notifying adapter with " + enrollmentCode.getEnrollmentCodeString() + ":" + enrollmentCode.getEnrollmentStatus());
-                                ecAdapter.notifyDataSetChanged();
+                                ecTechAdapter.notifyDataSetChanged();
                             }
                             break;
                     }
@@ -369,8 +384,8 @@ public class UserSingleton extends Users {
                         case (EnrollmentCode.STATUS_ISSUED):
                             if (theNewStatus == EnrollmentCode.STATUS_PENDING) {
                                 EnrollmentCode.changeEnrollmentCodeInList(enrollmentCode);
-                                if (ecAdapter != null) {
-                                    ecAdapter.notifyDataSetChanged();
+                                if (ecTechAdapter != null) {
+                                    ecTechAdapter.notifyDataSetChanged();
                                 }
                                 //TODO: TE_SEQ notify admin -> PendingTech needs approval
                             } else {
@@ -381,8 +396,8 @@ public class UserSingleton extends Users {
                             switch (theNewStatus) {
                                 case (EnrollmentCode.STATUS_CANCELLED):
                                     EnrollmentCode.changeEnrollmentCodeInList(enrollmentCode);
-                                    if (ecAdapter != null) {
-                                        ecAdapter.notifyDataSetChanged();
+                                    if (ecTechAdapter != null) {
+                                        ecTechAdapter.notifyDataSetChanged();
                                     }
                                     // TODO: TE_SEQ notify admin -> PendingTech cancelled the enrollment
                                     break;
@@ -390,9 +405,9 @@ public class UserSingleton extends Users {
                                 case EnrollmentCode.STATUS_ACCEPTED:
                                 case EnrollmentCode.STATUS_DECLINED:
                                     EnrollmentCode.changeEnrollmentCodeInList(enrollmentCode);
-                                    if (ecAdapter != null) {
+                                    if (ecTechAdapter != null) {
                                         Log.d(TE_SEQ, "notifying adapter with " + enrollmentCode.getEnrollmentCodeString() + " -> " + enrollmentCode.getEnrollmentStatus());
-                                        ecAdapter.notifyDataSetChanged();
+                                        ecTechAdapter.notifyDataSetChanged();
                                     }
                                     break;
                             }
@@ -464,8 +479,8 @@ public class UserSingleton extends Users {
         @Override
         public void onEnrollmentCodeRemoved(EnrollmentCode enrollmentCode) {
             EnrollmentCode.removeEnrollmentCodeFromList(enrollmentCode);
-            if (ecAdapter != null) {
-                ecAdapter.notifyDataSetChanged();
+            if (ecTechAdapter != null) {
+                ecTechAdapter.notifyDataSetChanged();
             }
         }
     };

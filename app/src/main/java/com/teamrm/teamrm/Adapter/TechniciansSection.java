@@ -7,10 +7,15 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Technician;
+
+import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,17 +29,15 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 public class TechniciansSection extends StatelessSection {
 
     Context tContext;
-    List<Technician> techniciansList = new ArrayList<>();
 
-    public TechniciansSection(Context context, List<Technician> techniciansList){
+    public TechniciansSection(Context context){
         super(R.layout.technician_enrollment_section_header, R.layout.technician_expand_card);
         this.tContext = context;
-        this.techniciansList = techniciansList;
     }
 
     @Override
     public int getContentItemsTotal() {
-        return techniciansList.size();
+        return Technician.getTechnicianList().size();
     }
 
 
@@ -47,13 +50,22 @@ public class TechniciansSection extends StatelessSection {
     @Override
     public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
         final TechnicianViewHolder techHolder = (TechnicianViewHolder) holder;
-        Technician technician = techniciansList.get(position);
+        Technician technician = Technician.getTechnicianList().get(position);
+
+        techHolder.technicianNameRow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                techHolder.expandableLayout.toggle();
+                rotateButtonOnToggle(techHolder.expandBtn);
+            }
+        });
+
         techHolder.userName.setText(technician.getUserNameString() == null ? "" : technician.getUserNameString());
         techHolder.userEmail.setText(technician.getUserEmail() == null ? "" : technician.getUserEmail());
         techHolder.userPhone.setText(technician.getUserPhone() == null ? "" : technician.getUserPhone());
         techHolder.techAssignedRegions.setText(technician.getTechAssignedRegions() == null ? "" : technician.getTechAssignedRegions());
         techHolder.techShifts.setText(technician.getTechAssignedShifts() == null ? "" : technician.getTechAssignedShifts());
-        techHolder.techColorView.setCardBackgroundColor(technician.getTechColor() == null ? Color.RED : Color.parseColor(technician.getTechColor()));
+        //techHolder.techColorView.setCardBackgroundColor(technician.getTechColor() == null ? Color.RED : Color.parseColor(technician.getTechColor()));
         techHolder.userAddress.setText(technician.getUserAddress() == null ? "" : technician.getUserAddress());
     }
 
@@ -89,6 +101,12 @@ public class TechniciansSection extends StatelessSection {
 
     public class TechnicianViewHolder extends RecyclerView.ViewHolder {
 
+        private ExpandableLayout expandableLayout;
+
+        private ImageView expandBtn;
+
+        private View technicianNameRow;
+
         protected View view;
         //protected String userID, calendarID;
         protected TextView userName, userEmail, userPhone, techShifts, techAssignedRegions, userAddress;
@@ -97,6 +115,14 @@ public class TechniciansSection extends StatelessSection {
 
         public TechnicianViewHolder(View view){
             super(view);
+
+
+
+            expandableLayout = (ExpandableLayout) view.findViewById(R.id.expandableLayout);
+            expandBtn = (ImageView) view.findViewById(R.id.expandButton);
+
+            this.technicianNameRow = view.findViewById(R.id.technicianNameRow);
+
             this.userName = (TextView)view.findViewById(R.id.technicianNameText);
             this.userEmail = (TextView)view.findViewById(R.id.technicianMailText);
             this.userPhone = (TextView)view.findViewById(R.id.technicianPhoneText);
@@ -111,5 +137,9 @@ public class TechniciansSection extends StatelessSection {
     private int convertDpToPx(int dp) {
         float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().getDisplayMetrics());
         return Math.round(pixels);
+    }
+
+    void rotateButtonOnToggle(ImageView expandBtn) {
+        expandBtn.animate().rotation(expandBtn.getRotation() - 180f).setInterpolator(new LinearInterpolator()).start();
     }
 }

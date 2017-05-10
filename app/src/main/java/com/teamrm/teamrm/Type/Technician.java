@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import com.google.firebase.database.Exclude;
 import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  */
 public class Technician extends Users implements GenericKeyValueTypeable {
 
-    private static List<Technician> technicianList = Collections.EMPTY_LIST;
+    private static List<Technician> technicianList = new ArrayList<>();
 
     // inherited from Users -> userID, clientNameString, userEmail, ticketPhone, ticketAddress, companyName
     private String techColor;
@@ -90,19 +91,11 @@ public class Technician extends Users implements GenericKeyValueTypeable {
         Technician.technicianList = technicianList;
     }
 
-    public static void addTechnicianToList(Technician technician) {
-        technicianList.add(technician);
+    public static void clearTechnicianList(){
+        if (null != technicianList){
+            technicianList.clear();
+        }
     }
-
-    public static void removeTechnicianFromList(Technician technician) {
-        //TODO:add method
-
-    }
-
-    public static void changeTechnician(Technician technician) {
-        //TODO:Add method
-    }
-
 
     @Override
     @Exclude

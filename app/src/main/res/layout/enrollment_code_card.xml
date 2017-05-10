@@ -8,7 +8,7 @@
     android:layout_marginBottom="-8dp"
     android:layoutDirection="rtl"
     app:cardCornerRadius="10dp"
-    app:cardElevation="5dp"
+    app:cardElevation="@dimen/card_elevation_default"
     app:cardUseCompatPadding="true"
     tools:paddingTop="25dp">
 
@@ -348,6 +348,22 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:text="Accept" />
+
+                </com.teamrm.teamrm.Utility.RowViewLayout>
+                <com.teamrm.teamrm.Utility.RowViewLayout
+                    android:id="@+id/DeclineRow"
+                    style="@style/CardRow"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="8dp"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <Button
+                        android:id="@+id/btnDecline2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="בטל אישור" />
 
                 </com.teamrm.teamrm.Utility.RowViewLayout>
             </com.teamrm.teamrm.Utility.RowSetLayout>

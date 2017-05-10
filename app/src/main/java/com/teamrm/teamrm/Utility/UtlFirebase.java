@@ -33,6 +33,7 @@ import com.teamrm.teamrm.Interfaces.EnrollmentCodesObservable;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.FireBaseBooleanCallback;
 import com.teamrm.teamrm.Interfaces.PendingTechSingleCallback;
+import com.teamrm.teamrm.Interfaces.TechnicianCallback;
 import com.teamrm.teamrm.Interfaces.TechniciansObservable;
 import com.teamrm.teamrm.Interfaces.TicketStateObservable;
 import com.teamrm.teamrm.Interfaces.WorkShiftCallback;
@@ -499,61 +500,24 @@ public class UtlFirebase {
 
 ///////////////////////////// Technician -> Technician /////////////////////////////
 
-   /* public static void getCompanyTechnicians(String companyID, TechnicianCallback technicianCallback) {
+    public static void getAllCompanyTechs(final TechnicianCallback technicianCallback) {
         final List<Technician> technicianList = new ArrayList<>();
-        getEnrollmentCodes();
-        if ()
-        COMPANY_TECHNICIANS_ROOT_REFERENCE.addListenerForSingleValueEvent(new ValueEventListener() {
+        COMPANY_TECHNICIANS_ROOT_REFERENCE.child(UserSingleton.getInstance().getAssignedCompanyID()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                enrollmentCodeList.clear();
-                for (DataSnapshot enrollmentcode : dataSnapshot.getChildren()) {
-                    enrollmentCodeList.add(enrollmentcode.getValue(EnrollmentCode.class));
+                technicianList.clear();
+                for (DataSnapshot singleTech : dataSnapshot.getChildren()) {
+                    technicianList.add(singleTech.getValue(Technician.class));
                 }
-                enrollmentCodeCallback.enrollmentCodeCallback((ArrayList<EnrollmentCode>) enrollmentCodeCallback);
+                technicianCallback.technicianCallback((ArrayList<Technician>) technicianList);
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
-    }*/
-
-    public static void getCompanyTechniciansForEdit(String companyID, final TechniciansObservable techniciansObservable) {
-        final List<Technician> techicianList = new ArrayList<>();
-        DatabaseReference ref = COMPANY_TECHNICIANS_ROOT_REFERENCE.child(companyID);
-
-        ChildEventListener cListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                techniciansObservable.onTechnicianAdded(dataSnapshot.getValue(Technician.class));
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                techniciansObservable.onTechnicianChanged(dataSnapshot.getValue(Technician.class));
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                techniciansObservable.onTechnicianRemoved(dataSnapshot.getValue(Technician.class));
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                toastTheError(databaseError);
-            }
-        };
-
-        ref.addChildEventListener(cListener);
-        activeChildEventListeners.put(ref, cListener);
     }
+
+
 
     public void updateTechnician(String companyID, String technicianID, HashMap<String, Object> updates) {
         COMPANY_TECHNICIANS_ROOT_REFERENCE.child(companyID).child(technicianID).updateChildren(updates, new DatabaseReference.CompletionListener() {

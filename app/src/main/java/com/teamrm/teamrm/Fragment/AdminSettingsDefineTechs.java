@@ -59,13 +59,10 @@ public class AdminSettingsDefineTechs extends Fragment {
         tRecyclerView = (RecyclerView) view.findViewById(R.id.prefRecyclerView);
         tRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         final EnrollmentCodeSection ecSection = new EnrollmentCodeSection(getContext());
-        final TechniciansSection techSection = new TechniciansSection(getContext(), Technician.getTechnicianList());
+        final TechniciansSection techSection = new TechniciansSection(getContext());
 
         tAdapter.addSection(ecSection);
-        //tAdapter.addSection(techSection);
-
-        //techSection.setVisible(false);
-
+        tAdapter.addSection(techSection);
 
         tRecyclerView.setAdapter(tAdapter);
         tAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
