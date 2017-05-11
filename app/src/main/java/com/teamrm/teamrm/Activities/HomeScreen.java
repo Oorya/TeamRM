@@ -254,11 +254,12 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
             if (position > 1)
                 position += 2;
 
-        } else if (UserSingleton.getLoadedUserType().equals("Technician")) {
-            Log.d("user", "position = " + position);
+        } else if (UserSingleton.getLoadedUserType().equals(Users.STATUS_TECH)) {
+            Log.d("user tech", "position = " + position);
 
-            if (position == 4)
+            if (position >= 3)
                 position += 1;
+
         }
 
         switch (position) {
