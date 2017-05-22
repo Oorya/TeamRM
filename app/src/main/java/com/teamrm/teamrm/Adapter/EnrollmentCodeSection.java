@@ -130,29 +130,7 @@ public class EnrollmentCodeSection extends StatelessSection {
                             intent.putExtra(Intent.EXTRA_TEXT, ecListItem.getEnrollmentCodeString());
                             intent.setData(data);
                             eContext.startActivity(intent);
-
-
-
-
-
-
-
-
-
-
-
-/*
-                                Intent intent = new Intent(Intent.ACTION_VIEW);
-                                //Uri data = Uri.parse("mailto:?to=" + ecHolder.ecMailInput.getText().toString() );
-                                intent.putExtra(Intent.EXTRA_TEXT, ecListItem.getEnrollmentCodeString());
-                                //intent.setData(data);
-                                eContext.startActivity(intent);
-                                HashMap<String, Object> ecItemUpdates = new HashMap<>();
-                                ecItemUpdates.put(EnrollmentCode.IS_SENT_TO_MAIL, true);
-                                ecItemUpdates.put(EnrollmentCode.ENROLLMENT_CODE_SENT_TO_MAIL, ecHolder.ecMailInput.getText().toString());
-                                UtlFirebase.updateEnrollmentCode(ecListItem.getEnrollmentCodeID(), ecItemUpdates);
-
-                   */     }
+                        }
                     });
                 }
 

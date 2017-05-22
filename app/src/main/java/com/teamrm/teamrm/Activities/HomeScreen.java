@@ -119,7 +119,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //fragmentTransaction.add(R.id.container_body, new TicketList()).addToBackStack(TAG_FRAGMENT[2]);
-        fragmentTransaction.add(R.id.container_body, new TicketList(), TicketList.FRAGMENT_TRANSACTION).disallowAddToBackStack();
+        fragmentTransaction.add(R.id.container_body, new TicketList(), TicketList.FRAGMENT_TRANSACTION).addToBackStack(TicketList.FRAGMENT_TRANSACTION);
         fragmentTransaction.commit();
         setTitle(getResources().getStringArray(R.array.nav_list)[0]);
 
@@ -268,6 +268,9 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                         .addToBackStack(TicketList.FRAGMENT_TRANSACTION).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[0]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
+
+
+
                 break;
 
             case 1:
@@ -322,18 +325,26 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (!drawerLayout.isDrawerOpen(GravityCompat.START)) {
 
-            if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-                String tag;
-                if (getSupportFragmentManager().getBackStackEntryCount() - 2 >= 0)
-                    tag = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 2).getName();
-                else
-                    tag = TicketList.FRAGMENT_TRANSACTION;
+            if (getSupportFragmentManager().getBackStackEntryCount() > 1&&
+                    !getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName().equals(TicketList.FRAGMENT_TRANSACTION))
+            {
+               // Log.d("onBackPressed", "case TicketList = " + TicketList.FRAGMENT_TRANSACTION);
+                 String tag = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
+                if (getSupportFragmentManager().getBackStackEntryCount() - 2 >= 0&&tag!=null)
+
+
                 switch (tag) {
                     case CalendarView.FRAGMENT_TRANSACTION:
                         Log.d("onBackPressed", "case CalendarView = " + CalendarView.FRAGMENT_TRANSACTION);
                         setTitle(getResources().getStringArray(R.array.nav_list)[2]);
                         break;
                     case TicketList.FRAGMENT_TRANSACTION:
+
+                        for(int i = 0; i < getSupportFragmentManager().getBackStackEntryCount(); ++i) {
+                            if(getSupportFragmentManager().getBackStackEntryAt(i).getName()!=TicketList.FRAGMENT_TRANSACTION);
+                                getSupportFragmentManager().popBackStack();
+                        }
+
                         Log.d("onBackPressed", "case TicketList = " + TicketList.FRAGMENT_TRANSACTION);
                         setTitle(getResources().getStringArray(R.array.nav_list)[0]);
                         break;
