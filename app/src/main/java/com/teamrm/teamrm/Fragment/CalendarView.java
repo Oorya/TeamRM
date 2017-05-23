@@ -76,6 +76,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
     private static Calendar pickerTime;
     private static Bundle bundel;
     private GenericPrefListAdapter listTechAdapter;
+    public static final String TAG = ":::CalendarView";
 
 
     public CalendarView() {
@@ -288,10 +289,10 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
             Spinner tech = (Spinner) dialog.findViewById(R.id.SelectTech);
             listTechAdapter = new GenericPrefListAdapter(getContext(), Technician.getTechnicianList());
             tech.setAdapter(listTechAdapter);
-            new AdapterView.OnItemSelectedListener() {
+            tech.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                    Log.d(TAG, "selected " + Technician.getTechnicianList().get(position).toString());
                     UtlFirebase.assignTechToTicket(
                             Ticket.getTickeyById(ticketID),
                             (Technician.getTechnicianList().get(position)).getUserID(),
@@ -302,7 +303,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
                 public void onNothingSelected(AdapterView<?> parent) {
 
                 }
-            };
+            });
 
             final TextView startTime = (TextView) dialog.findViewById(R.id.startTimeTxt);
             SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");

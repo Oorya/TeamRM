@@ -50,11 +50,14 @@ public class Ticket {
     @Exclude
     private String ticketImage2; //TODO:use Storage
     private String ticketStateString;
+
     @Exclude
     private TicketStateAble ticketStateObj;
 
     private String ticketOpenDateTime;
-    private String  ticketCloseDateTime;
+    private String ticketAssignedDateTime;
+    private String ticketAssignedDuration;
+    private String ticketCloseDateTime;
 
     private int alarmID; //TODO:change to String
     private int alarmTechStartWorkOnTicketID; //TODO:change to String
@@ -131,8 +134,11 @@ public class Ticket {
         this.ticketStateString = TicketStateStringable.STATE_A00;
         this.ticketPresentation = TicketStateAble.TICKET_LIST_PRESENTATION_URGENT;
         this.ticketOpenDateTime = startTime==null?getCurrentTime():startTime;
+
+        this.ticketAssignedDateTime = "";
+        this.ticketAssignedDuration = "";
+
         this.ticketCloseDateTime = "";
-        this.ticketCalendarID = (new Date()).getTime();
         this.isTicketDone = false;
         this.ticketIsClosed = false;
         this.techID = "";
