@@ -295,7 +295,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                 fullScreenImage.setBitmap(bitmapImg1);
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
-                ft.replace(R.id.container_body, fullScreenImage, FullScreenImage.FRAGMENT_TRANSACTION);
+                ft.add(R.id.container_body, fullScreenImage, FullScreenImage.FRAGMENT_TRANSACTION);
                 ft.addToBackStack(FullScreenImage.FRAGMENT_TRANSACTION);
                 ft.commit();
             }
@@ -308,7 +308,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                 fullScreenImage.setBitmap(bitmapImg2);
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
-                ft.replace(R.id.container_body, fullScreenImage, FullScreenImage.FRAGMENT_TRANSACTION);
+                ft.add(R.id.container_body, fullScreenImage, FullScreenImage.FRAGMENT_TRANSACTION);
                 ft.addToBackStack(FullScreenImage.FRAGMENT_TRANSACTION);
                 ft.commit();
             }
@@ -371,7 +371,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     private void openGpsDialog(String addres) {
 
         Address formataddres=null;
-        String title = "בחר תוכנת ניוות";
+        String title = "בחר תוכנת ניווט";
         formataddres = getLocationFromAddress(addres);
         if(formataddres!=null) {
             double longitude = formataddres.getLongitude();
@@ -429,7 +429,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     private void openGpsDialog() {
 
         Address addres;
-        String title = "בחר לנוות עם...";
+        String title = "בחר לנווט עם...";
         if(getLocationFromAddress(ticket.getTicketAddress())!=null) {
             if(userDitaile instanceof Client)
                 addres = getLocationFromAddress(((Client)userDitaile).getUserAddress());
