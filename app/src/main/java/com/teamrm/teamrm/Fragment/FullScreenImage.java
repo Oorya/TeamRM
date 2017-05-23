@@ -33,6 +33,12 @@ public class FullScreenImage extends Fragment {
         View view = inflater.inflate(R.layout.fragment_full_screen_image, container, false);
         touchImageView = (TouchImageView)view.findViewById(R.id.full_image);
         touchImageView.setImageBitmap(bitmap);
+        view.findViewById(R.id.closeImage).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().popBackStack();
+            }
+        });
         return view;
     }
 

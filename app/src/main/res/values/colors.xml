@@ -13,6 +13,8 @@
     <color name="accent">#FF9800</color>
     <color name="title">#039be5</color>
     <color name="white">#ffffff</color>
+    <color name="white_transparent">#c8b7b7b7</color>
+    <color name="transparent">#00ffffff</color>
     <color name="menu_bg">#3F51B5</color> <!--Indigo 500-->
     <color name="app_bg">#ECEFF1</color>
     <color name="status_error">#ef5350</color> <!--Red 400-->
@@ -28,5 +30,6 @@
     <color name="material_bluegray_200">#B0BEC5</color>
     <color name="colorHighlight">#ffffff</color>
     <color name="red">#ff0000</color>
+    <color name="black">#000000</color>
     
 </resources>
