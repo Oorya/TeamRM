@@ -562,6 +562,17 @@ public class Ticket {
         return techColor;
     }
 
+    public void setTicketPresentation(int ticketPresentation) {
+        this.ticketPresentation = ticketPresentation;
+    }
+
+    public void setTicketDone(boolean ticketDone) {
+        isTicketDone = ticketDone;
+    }
+
+    public void setTicketIsClosed(boolean ticketIsClosed) {
+        this.ticketIsClosed = ticketIsClosed;
+    }
 
     public static List<Ticket> getTicketList() {
         return ticketList;
@@ -570,6 +581,7 @@ public class Ticket {
     public static void setTicketList(List<Ticket> ticketList) {
         Ticket.ticketList = ticketList;
     }
+
     public static Ticket getTickeyById(String ticketId) {
 
         for (Ticket item:ticketList)

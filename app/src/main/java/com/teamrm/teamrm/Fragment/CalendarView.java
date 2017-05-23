@@ -292,7 +292,10 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                    UtlFirebase.assignTechToTicket(Ticket.getTickeyById(ticketID), (Technician.getTechnicianList().get(position)).getUserID(), Technician.getTechnicianList().get(position).getUserNameString());
+                    UtlFirebase.assignTechToTicket(
+                            Ticket.getTickeyById(ticketID),
+                            (Technician.getTechnicianList().get(position)).getUserID(),
+                            Technician.getTechnicianList().get(position).getUserNameString());
                 }
 
                 @Override

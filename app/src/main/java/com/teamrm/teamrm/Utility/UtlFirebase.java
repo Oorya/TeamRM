@@ -653,6 +653,7 @@ public class UtlFirebase {
     }
 
     public static void assignTechToTicket(@NonNull Ticket ticket, @NonNull String techID, @NonNull String techNameString){
+        Log.d(TAG, "assigning tech " + techID + " to ticket " + ticket.toString());
         Map updates = new HashMap();
         updates.put(TICKET_ROOT_REFERENCE_STRING + "/" + ticket.getTicketID() + "/" + Ticket.TECH_ID, techID);
         updates.put(TICKET_ROOT_REFERENCE_STRING + "/" + ticket.getTicketID() + "/" + Ticket.TECH_NAME_STRING, techNameString);
@@ -927,6 +928,7 @@ public class UtlFirebase {
         TICKET_LITE_ROOT_REFERENCE.removeValue();
         CLIENT_TICKET_STATES_REFERENCE.removeValue();
         COMPANY_TICKET_STATES_REFERENCE.removeValue();
+        TECH_TICKET_STATES_REFERENCE.removeValue();
     }
 
     public static void getTicketByKey(final String key, final FireBaseAble fbHelper) {
