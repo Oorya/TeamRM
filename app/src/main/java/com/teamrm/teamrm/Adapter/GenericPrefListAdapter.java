@@ -22,10 +22,10 @@ import java.util.List;
 public class GenericPrefListAdapter extends BaseAdapter implements SpinnerAdapter {
 
 
-    private List<GenericKeyValueTypeable> itemList;
+    private List<? extends GenericKeyValueTypeable> itemList;
     private Context aContext;
 
-    public GenericPrefListAdapter(Context context, List<GenericKeyValueTypeable> itemList) {
+    public GenericPrefListAdapter(Context context, List<? extends GenericKeyValueTypeable> itemList) {
         this.aContext = context;
         this.itemList = itemList;
     }

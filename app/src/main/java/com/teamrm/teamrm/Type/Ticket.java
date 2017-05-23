@@ -86,6 +86,7 @@ public class Ticket {
     public static final String COMPANY_NAME = "companyName";
     public static final String TICKET_STATE_STRING = "ticketStateString";
     public static final String TECH_ID = "techID";
+    public static final String TECH_NAME_STRING = "techNameString";
     public static final String TICKET_PRESENTATION = "ticketPresentation";
 
     public static void clearList()
@@ -103,7 +104,8 @@ public class Ticket {
     public Ticket(String clientID,
                   String ticketPhone, String ticketAddress,
                   String ticketID, String companyID, String companyName,
-                  Product product, Category category, Region region, String descriptionShort, String descriptionLong, String ticketImage1, String ticketImage2,String startTime) {
+                  Product product, Category category, Region region, String descriptionShort, String descriptionLong, String ticketImage1, String ticketImage2, String startTime,
+                  String techID, String techNameString) {
         this.clientID = clientID;
         this.clientEmail = UserSingleton.getInstance().getUserEmail();
         this.clientNameString = UserSingleton.getInstance().getUserNameString();
@@ -133,6 +135,8 @@ public class Ticket {
         this.ticketCalendarID = (new Date()).getTime();
         this.isTicketDone = false;
         this.ticketIsClosed = false;
+        this.techID = "";
+        this.techNameString = "";
         // this.ticketStateObj = TicketFactory.getNewState(UserSingleton.getInstance().getStatus(),TicketStateStringable.STATE_A00,this);
     }
     public void setTicketCloseDateTime(String ticketCloseDateTime) {
@@ -445,6 +449,119 @@ public class Ticket {
     public boolean isTicketIsClosed() {
         return ticketIsClosed;
     }
+
+    public void setClientID(String clientID) {
+        this.clientID = clientID;
+    }
+
+    public void setClientEmail(String clientEmail) {
+        this.clientEmail = clientEmail;
+    }
+
+    public void setClientNameString(String clientNameString) {
+        this.clientNameString = clientNameString;
+    }
+
+    public void setTicketPhone(String ticketPhone) {
+        this.ticketPhone = ticketPhone;
+    }
+
+    public void setTicketAddress(String ticketAddress) {
+        this.ticketAddress = ticketAddress;
+    }
+
+    public void setTicketID(String ticketID) {
+        this.ticketID = ticketID;
+    }
+
+    public void setTicketNumber(String ticketNumber) {
+        this.ticketNumber = ticketNumber;
+    }
+
+    public void setCompanyID(String companyID) {
+        this.companyID = companyID;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public void setProductID(String productID) {
+        this.productID = productID;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public void setCategoryID(String categoryID) {
+        this.categoryID = categoryID;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public void setRegionID(String regionID) {
+        this.regionID = regionID;
+    }
+
+    public void setRegionName(String regionName) {
+        this.regionName = regionName;
+    }
+
+    public void setDescriptionShort(String descriptionShort) {
+        this.descriptionShort = descriptionShort;
+    }
+
+    public void setDescriptionLong(String descriptionLong) {
+        this.descriptionLong = descriptionLong;
+    }
+
+    public void setTicketImage1(String ticketImage1) {
+        this.ticketImage1 = ticketImage1;
+    }
+
+    public void setTicketImage2(String ticketImage2) {
+        this.ticketImage2 = ticketImage2;
+    }
+
+    public void setTicketStateString(String ticketStateString) {
+        this.ticketStateString = ticketStateString;
+    }
+
+    public void setTicketOpenDateTime(String ticketOpenDateTime) {
+        this.ticketOpenDateTime = ticketOpenDateTime;
+    }
+
+    public void setAlarmTechStartWorkOnTicketID(int alarmTechStartWorkOnTicketID) {
+        this.alarmTechStartWorkOnTicketID = alarmTechStartWorkOnTicketID;
+    }
+
+    public void setTechID(String techID) {
+        this.techID = techID;
+    }
+
+    public void setTechNameString(String techNameString) {
+        this.techNameString = techNameString;
+    }
+
+    public void setTechColor(String techColor) {
+        this.techColor = techColor;
+    }
+
+    public void setTicketCalendarID(long ticketCalendarID) {
+        this.ticketCalendarID = ticketCalendarID;
+    }
+
+    public void setTicketEventID(String ticketEventID) {
+        this.ticketEventID = ticketEventID;
+    }
+
+    public String getTechColor() {
+        return techColor;
+    }
+
 
     public static List<Ticket> getTicketList() {
         return ticketList;

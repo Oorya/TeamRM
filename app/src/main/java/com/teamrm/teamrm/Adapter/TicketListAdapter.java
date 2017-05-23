@@ -129,19 +129,20 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
         final TicketLite item = mTicketLiteList.get(position);
         holder.clientNameString.setText(item.getClientNameString());
         holder.companyNameString.setText(item.getCompanyName());
-        if (item.getTechNameString() == null) {
-            holder.technicianNameString.setText(R.string.label_no_assigned_tech);
-            holder.techFirstLetter.setText("?");
-        } else {
+        if (null != item.getTechID() && item.getTechID().length() > 0 && null != item.getTechNameString() && item.getTechNameString().length() > 0) {
+            Log.d(TAG, "ticket " + item.getTicketID() + "has a tech assigned " + item.getTechID());
             String assignedTechNameString = item.getTechNameString();
-            String assignedTechColor = item.getTechColor();
+            //String assignedTechColor = item.getTechColor();
             Log.d(TAG, "tech name = " + assignedTechNameString);
-            Log.d(TAG, "tech colorString = " + assignedTechColor);
+            //Log.d(TAG, "tech colorString = " + assignedTechColor);
             holder.technicianNameString.setText(assignedTechNameString);
             holder.techFirstLetter.setText("T");
             //holder.techFirstLetter.setText(assignedTechNameString.substring(0,1));
-            holder.technicianColorView.setCardBackgroundColor(Color.parseColor(item.getTechColor()));
+            //holder.technicianColorView.setCardBackgroundColor(Color.parseColor(item.getTechColor()));
             holder.technicianNameString.setTextColor(ContextCompat.getColor(mContext, R.color.textColor_lighter));
+        } else {
+            holder.technicianNameString.setText(R.string.label_no_assigned_tech);
+            holder.techFirstLetter.setText("?");
         }
         holder.productName.setText(item.getProductName());
         holder.ticketAddress.setText(item.getTicketAddress());
@@ -243,7 +244,7 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
             this.ticketStatusString = (TextView) view.findViewById(R.id.ticketStatusString);
             this.clientNameString = (TextView) view.findViewById(R.id.clientName);
             this.companyNameString = (TextView) view.findViewById(R.id.companyName);
-            this.clientIcon = (ImageView)view.findViewById(R.id.clientIcon);
+            this.clientIcon = (ImageView) view.findViewById(R.id.clientIcon);
             this.technicianNameString = (TextView) view.findViewById(R.id.technicianName);
             this.technicianColorView = (CardView) view.findViewById(R.id.technicianColorView);
 

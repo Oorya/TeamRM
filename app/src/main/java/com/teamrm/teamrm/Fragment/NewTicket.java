@@ -260,7 +260,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         final Ticket newTicket = new Ticket(UserSingleton.getInstance().getUserID(), this.ticketPhone.getText().toString(), this.ticketAddress.getText().toString(), uid,
                 selectedCompany.getCompanyID(), selectedCompany.getCompanyName(),
                 this.selectedProduct, this.selectedCategory, this.selectedRegion, this.descriptionShort.getText().toString(), this.descriptionLong.getText().toString(),
-                imgUri1 != null ? uid + "/pic1.jpg" : "error", imgUri2 != null ? uid + "/pic2.jpg" : "error", startTime);
+                imgUri1 != null ? uid + "/pic1.jpg" : "error", imgUri2 != null ? uid + "/pic2.jpg" : "error", startTime, "", "" );
 
         if(imgUri1 != null && imgUri2 != null)
         {

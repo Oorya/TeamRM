@@ -9,14 +9,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.Telephony;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,8 +21,6 @@ import android.widget.Toast;
 import com.teamrm.teamrm.Interfaces.FireBaseBooleanCallback;
 import com.teamrm.teamrm.Interfaces.PendingTechSingleCallback;
 import com.teamrm.teamrm.R;
-import com.teamrm.teamrm.Type.Client;
-import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.EnrollmentCode;
 import com.teamrm.teamrm.Type.PendingTech;
 import com.teamrm.teamrm.Utility.NiceToast;
@@ -37,7 +32,6 @@ import com.teamrm.teamrm.Utility.UtlFirebase;
 import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.HashMap;
-import java.util.List;
 
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 

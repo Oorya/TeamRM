@@ -35,6 +35,7 @@ public class TicketLite {
     private String ticketOpenDateTime;
     private String ticketCloseDateTime;
 
+    private String techID;
     private String techNameString;
     private String techColor;
 
@@ -80,7 +81,9 @@ public class TicketLite {
         this.ticketOpenDateTime = ticket.getTicketOpenDateTime();
         this.ticketCloseDateTime = ticket.getTicketCloseDateTime();
 
+        this.techID = ticket.getTechID();
         this.techNameString = ticket.getTechNameString();
+        this.techColor = ticket.getTechColor();
         //this.techAvatar=ticket.
 
         this.ticketPresentation = ticket.getTicketPresentation();
@@ -276,6 +279,14 @@ public class TicketLite {
 
     public void setCompanyID(String companyID) {
         this.companyID = companyID;
+    }
+
+    public String getTechID() {
+        return techID;
+    }
+
+    public void setTechID(String techID) {
+        this.techID = techID;
     }
 
     @Override

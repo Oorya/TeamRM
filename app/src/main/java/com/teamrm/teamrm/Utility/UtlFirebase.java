@@ -652,11 +652,14 @@ public class UtlFirebase {
         });
     }
 
-    public static void assignTechToTicket(Ticket ticket, String techID){
+    public static void assignTechToTicket(@NonNull Ticket ticket, @NonNull String techID, @NonNull String techNameString){
         Map updates = new HashMap();
         updates.put(TICKET_ROOT_REFERENCE_STRING + "/" + ticket.getTicketID() + "/" + Ticket.TECH_ID, techID);
+        updates.put(TICKET_ROOT_REFERENCE_STRING + "/" + ticket.getTicketID() + "/" + Ticket.TECH_NAME_STRING, techNameString);
         updates.put(TICKET_LITE_ROOT_REFERENCE_STRING + "/" + ticket.getTicketID() + "/" + Ticket.TECH_ID, techID);
+        updates.put(TICKET_LITE_ROOT_REFERENCE_STRING + "/" + ticket.getTicketID() + "/" + Ticket.TECH_NAME_STRING, techNameString);
         updates.put(TECH_TICKET_STATES_REFERENCE_STRING + "/" + techID + "/" + ticket.getTicketID(), ticket.getTicketStateString());
+        Log.d(TAG, updates.toString());
         GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
