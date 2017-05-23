@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -28,13 +29,17 @@ import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
+import com.teamrm.teamrm.Adapter.GenericPrefListAdapter;
 import com.teamrm.teamrm.Interfaces.CalendarHelper;
+import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Type.Technician;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Type.WeekViewEventCustom;
 import com.teamrm.teamrm.Utility.CalendarUtil;
 import com.teamrm.teamrm.Utility.UserSingleton;
+import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,7 +58,8 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
     CalendarHelper,
     WeekView.EventLongPressListener,
     WeekView.EmptyViewLongPressListener,
-    WeekView.EmptyViewClickListener//WeekView.ScrollListener
+    WeekView.EmptyViewClickListener
+    //WeekView.ScrollListener
         {
 
     public static final String FRAGMENT_TRANSACTION = "CalendarView";
@@ -69,6 +75,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
     public static TimePicker timePicker;
     private static Calendar pickerTime;
     private static Bundle bundel;
+    private GenericPrefListAdapter listTechAdapter;
 
 
     public CalendarView() {
@@ -279,8 +286,21 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
             Button cancel = (Button) dialog.findViewById(R.id.cancel);
             Button enter = (Button) dialog.findViewById(R.id.enter);
             Spinner tech = (Spinner) dialog.findViewById(R.id.SelectTech);
-            /*ArrayList tschList = *///TODO ADD TECH LIST IN USER SINGLETON
+            final ArrayList tschList = (ArrayList) Technician.getTechnicianList();
+            listTechAdapter = new GenericPrefListAdapter(getContext(), tschList);
+            tech.setAdapter(listTechAdapter);
+            new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+                    UtlFirebase.assignTechToTicket(Ticket.getTickeyById(ticketID),((GenericKeyValueTypeable)tschList.get(position)).getItemKey());
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            };
 
             final TextView startTime = (TextView) dialog.findViewById(R.id.startTimeTxt);
             SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
