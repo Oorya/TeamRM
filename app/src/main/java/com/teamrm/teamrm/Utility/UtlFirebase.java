@@ -639,6 +639,9 @@ public class UtlFirebase {
             updates.put(CLIENT_TICKET_STATES_REFERENCE_STRING + "/" + UserSingleton.getInstance().getUserID() + "/" + ticket.getTicketID(), ticketStateString);
         }
         updates.put(COMPANY_TICKET_STATES_REFERENCE_STRING + "/" + ticket.getCompanyID() + "/" + ticket.getTicketID(), ticketStateString);
+        if (null != ticket.getTechID()){
+            updates.put(TECH_TICKET_STATES_REFERENCE_STRING + "/" + ticket.getTechID() + "/" + ticket.getTicketID(), ticketStateString);
+        }
         GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -649,6 +652,20 @@ public class UtlFirebase {
         });
     }
 
+    public static void assignTechToTicket(Ticket ticket, String techID){
+        Map updates = new HashMap();
+        updates.put(TICKET_ROOT_REFERENCE_STRING + "/" + ticket.getTicketID() + "/" + Ticket.TECH_ID, techID);
+        updates.put(TICKET_LITE_ROOT_REFERENCE_STRING + "/" + ticket.getTicketID() + "/" + Ticket.TECH_ID, techID);
+        updates.put(TECH_TICKET_STATES_REFERENCE_STRING + "/" + techID + "/" + ticket.getTicketID(), ticket.getTicketStateString());
+        GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (databaseError != null) {
+                    toastTheError(databaseError);
+                }
+            }
+        });
+    }
 
     public static void getAllTickets(final FireBaseAble fbHelper) {
         switch (UserSingleton.getLoadedUserType()) {
@@ -855,8 +872,6 @@ public class UtlFirebase {
         for (Map.Entry<String, String> field : updateFields.entrySet()) {
             updates.put(TICKET_ROOT_REFERENCE_STRING + "/" + ticketID + "/" + field.getKey(), field.getValue());
             updates.put(TICKET_LITE_ROOT_REFERENCE_STRING + "/" + ticketID + "/" + field.getKey(), field.getValue());
-
-
         }
         //Log.d("updateTicket", updates.toString());
         GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
