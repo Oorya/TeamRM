@@ -199,6 +199,9 @@
     <string name="label_tech">טכנאי</string>
     <string name="label_pending_tech">מועמד לטכנאי</string>
     <string name="label_client">לקוח</string>
+    <string name="label_accept_tech_btn">אשר הרשמה</string>
+    <string name="label_decline_tech_btn">דחה הרשמה</string>
+
 
 
     <!--/labels-->

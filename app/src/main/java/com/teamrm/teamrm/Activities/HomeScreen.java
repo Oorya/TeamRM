@@ -413,7 +413,9 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
     public void enrollmentCodeActionSelector(final int counter) {
         if (counter > 3) {
-            new NiceToast(context, "Error getting enrollmentCode", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
+            if (UserSingleton.getLoadedUserType() == Users.STATUS_PENDING_TECH) {
+                new NiceToast(context, "Error getting enrollmentCode", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
+            }
         } else if (EnrollmentCode.getEnrollmentCodeList().isEmpty()) {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {

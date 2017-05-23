@@ -11,8 +11,15 @@ import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.teamrm.teamrm.Activities.SplashScreen;
 import com.teamrm.teamrm.Broadcast.FirebaseBackgroundService;
+import com.teamrm.teamrm.Type.Company;
+import com.teamrm.teamrm.Type.EnrollmentCode;
+import com.teamrm.teamrm.Type.Product;
+import com.teamrm.teamrm.Type.Technician;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Oorya on 13/12/2016.
@@ -64,6 +71,9 @@ public class App extends Application {
                         //Toast.makeText(context,"logout OK home",Toast.LENGTH_LONG).show();
                         Ticket.clearList();
                         TicketLite.clearList();
+                        EnrollmentCode.clearEnrollmentCodeList();
+                        Technician.clearTechnicianList();
+                        Company.clearCompanyList();
 
                         SplashScreen.resume = true;
                     }

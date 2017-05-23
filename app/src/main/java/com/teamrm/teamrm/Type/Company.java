@@ -42,6 +42,12 @@ public class Company implements GenericKeyValueTypeable {
         Company.companyList = companyList;
     }
 
+    public static void clearCompanyList(){
+        if (null != companyList){
+            companyList.clear();
+        }
+    }
+
     private String getCurrentTime() {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss - dd/MM/yyyy");
         Date date = new Date();

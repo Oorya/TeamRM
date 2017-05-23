@@ -37,16 +37,21 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+
     <style name="paddedBtn" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:paddingStart">16dp</item>
-        <item name="android:paddingEnd">16dp</item>
+        <item name="android:padding">8dp</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:layout_centerInParent">true</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">#fff</item>
-        <item name="android:background">@drawable/rect_round_corners</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:minWidth">32dp</item>
+        <item name="android:minHeight">24dp</item>
+        <item name="android:bottomLeftRadius">@dimen/padded_button_corner_radius</item>
+        <item name="android:topLeftRadius">@dimen/padded_button_corner_radius</item>
+        <item name="android:topRightRadius">@dimen/padded_button_corner_radius</item>
+        <item name="android:bottomRightRadius">@dimen/padded_button_corner_radius</item>
+        <!--<item name="android:background">@drawable/rect_round_corners</item>-->
     </style>
 
     <style name="myStyleNoTitle" parent="AppTheme">

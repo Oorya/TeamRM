@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="NiceButton">
+        <attr name="bgColor" format="color"/>
+        <attr name="cornerRadius" format="dimension"/>
+        <attr name="btnElevation" format="dimension"/>
+        <attr name="extraPaddingSides" format="dimension"/>
+        <attr name="extraPaddingTopBottom" format="dimension"/>
+        <attr name="iconResource" format="reference"/>
+    </declare-styleable>
+
+
+</resources>

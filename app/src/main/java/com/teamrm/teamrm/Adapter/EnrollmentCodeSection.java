@@ -15,6 +15,7 @@ import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -95,6 +96,7 @@ public class EnrollmentCodeSection extends StatelessSection {
                 ecHolder.ecStatusRow.setBackgroundResource(R.color.listRow_alt);
                 ecHolder.ecStatusLabel.setTextColor(ContextCompat.getColor(eContext, R.color.textColor_lighter));
                 ecHolder.ecStatusString.setTextColor(ContextCompat.getColor(eContext, R.color.textColor_primary));
+                ecHolder.ecSendCodeRow.setVisibility(View.VISIBLE);
                 ecHolder.pendingTechNameRow.setVisibility(View.GONE);
                 ecHolder.btnAcceptDeclineRow.setVisibility(View.GONE);
                 ecHolder.rowSetPendingTechDetails.setVisibility(View.GONE);
@@ -113,80 +115,59 @@ public class EnrollmentCodeSection extends StatelessSection {
                 }
                 ecHolder.ecStatusString.setText(ecStatusString);
 
-                if (ecListItem.isSentToMail()) {
-                    ecHolder.ecMailNotSentRow.setVisibility(View.GONE);
-                    ecHolder.ecMailSentRow.setVisibility(View.VISIBLE);
-                    ecHolder.ecSentToMail.setText(ecListItem.getEnrollmentCodeSentToMail());
-                } else {
-                    ecHolder.ecMailSentRow.setVisibility(View.GONE);
-                    ecHolder.ecMailNotSentRow.setVisibility(View.VISIBLE);
-                    ecHolder.ecSendMailAction.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            int resultCode = 0;
-                            //TODO: send mail and check if success
+                ecHolder.ecSendMailAction.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        Uri data = Uri.parse("mailto:?to=" + "");
+                        intent.putExtra(Intent.EXTRA_TEXT, ecListItem.getEnrollmentCodeString());
+                        intent.setData(data);
+                        eContext.startActivity(intent);
+                        HashMap<String, Object> ecItemUpdates = new HashMap<>();
+                        ecItemUpdates.put(EnrollmentCode.IS_SENT_TO_MAIL, true);
+                        UtlFirebase.updateEnrollmentCode(ecListItem.getEnrollmentCodeID(), ecItemUpdates);
+
+                    }
+                });
+
+
+                ecHolder.ecSendPhoneAction.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) // At least KitKat
+                        {
+                            String defaultSmsPackageName = Telephony.Sms.getDefaultSmsPackage(eContext); // Need to change the build to API 19
+
+                            Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                            sendIntent.setType("text/plain");
+                            sendIntent.putExtra(Intent.EXTRA_TEXT, ecListItem.getEnrollmentCodeString());
+                            if (defaultSmsPackageName != null)// Can be null in case that there is no default, then the user would be able to choose
+                            // any app that support this intent.
+                            {
+                                sendIntent.setPackage(defaultSmsPackageName);
+                            }
+                            eContext.startActivity(sendIntent);
+
+                        } else // For early versions, do what worked for you before.
+                        {
+
                             Intent intent = new Intent(Intent.ACTION_VIEW);
-                            Uri data = Uri.parse("mailto:?to=" +"" );
-                            intent.putExtra(Intent.EXTRA_TEXT, ecListItem.getEnrollmentCodeString());
+                            //Uri data = Uri.parse("sms:" + ecHolder.ecPhoneInput.getText().toString());
+                            Uri data = Uri.parse("sms:" + "");
                             intent.setData(data);
+                            intent.putExtra("sms_body", ecListItem.getEnrollmentCodeString());
                             eContext.startActivity(intent);
                         }
-                    });
-                }
 
-                if (ecListItem.isSentToPhone()) {
-                    ecHolder.ecPhoneNotSentRow.setVisibility(View.GONE);
-                    ecHolder.ecPhoneSentRow.setVisibility(View.VISIBLE);
-                    ecHolder.ecSentToPhone.setText(ecListItem.getEnrollmentCodeSentToPhone());
-                } else {
-                    ecHolder.ecPhoneSentRow.setVisibility(View.GONE);
-                    ecHolder.ecPhoneNotSentRow.setVisibility(View.VISIBLE);
-                    ecHolder.ecSendPhoneAction.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+                        HashMap<String, Object> ecItemUpdates = new HashMap<>();
+                        ecItemUpdates.put(EnrollmentCode.IS_SENT_TO_PHONE, true);
+                        UtlFirebase.updateEnrollmentCode(ecListItem.getEnrollmentCodeID(), ecItemUpdates);
 
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) // At least KitKat
-                            {
-                                String defaultSmsPackageName = Telephony.Sms.getDefaultSmsPackage(eContext); // Need to change the build to API 19
+                    }
+                });
 
-                                Intent sendIntent = new Intent(Intent.ACTION_SEND);
-                                sendIntent.setType("text/plain");
-                                sendIntent.putExtra(Intent.EXTRA_TEXT, ecListItem.getEnrollmentCodeString());
-                                if (defaultSmsPackageName != null)// Can be null in case that there is no default, then the user would be able to choose
-                                // any app that support this intent.
-                                {
-                                    sendIntent.setPackage(defaultSmsPackageName);
-                                }
-                                eContext.startActivity(sendIntent);
-
-                            }
-                            else // For early versions, do what worked for you before.
-                            {
-
-                                Intent intent = new Intent(Intent.ACTION_VIEW);
-                                Uri data = Uri.parse("sms:" + ecHolder.ecPhoneInput.getText().toString());
-                                intent.setData(data);
-                                intent.putExtra("sms_body", ecListItem.getEnrollmentCodeString());
-                                eContext.startActivity(intent);
-
-/*
-                                Intent smsIntent = new Intent(android.content.Intent.ACTION_VIEW);
-                                smsIntent.setType("vnd.android-dir/mms-sms");
-                                smsIntent.putExtra("address","phoneNumber");
-                                smsIntent.putExtra("sms_body","message");
-                                eContext.startActivity(smsIntent);
-*/                            }
-
-
-                            //resultCode = ...
-                                HashMap<String, Object> ecItemUpdates = new HashMap<>();
-                                ecItemUpdates.put(EnrollmentCode.IS_SENT_TO_PHONE, true);
-                                ecItemUpdates.put(EnrollmentCode.ENROLLMENT_CODE_SENT_TO_PHONE, ecHolder.ecPhoneInput.getText().toString());
-                                UtlFirebase.updateEnrollmentCode(ecListItem.getEnrollmentCodeID(), ecItemUpdates);
-
-                        }
-                    });
-                }
 
                 ecHolder.btnRemoveEC.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -225,6 +206,7 @@ public class EnrollmentCodeSection extends StatelessSection {
                 ecHolder.rowSetPendingTechDetails.setVisibility(View.VISIBLE);
                 ecHolder.pendingTechNameRow.setVisibility(View.VISIBLE);
                 ecHolder.btnAcceptDeclineRow.setVisibility(View.VISIBLE);
+                ecHolder.ecSendCodeRow.setVisibility(View.GONE);
                 ecHolder.rowSetIssuedCode.setVisibility(View.GONE);
                 ecHolder.btnRemoveRow.setVisibility(View.GONE);
 
@@ -238,7 +220,7 @@ public class EnrollmentCodeSection extends StatelessSection {
                                 UtlFirebase.acceptNewTechnician(ecListItem, _pendingTech, new FireBaseBooleanCallback() {
                                     @Override
                                     public void booleanCallback(boolean isTrue) {
-                                        if (!isTrue){
+                                        if (!isTrue) {
                                             new NiceToast(eContext, "Could not add Technician, try again later", NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
                                         }
                                     }
@@ -360,17 +342,9 @@ public class EnrollmentCodeSection extends StatelessSection {
         private RowViewLayout ecStatusRow;
         private TextView ecStatusLabel, ecStatusString;
 
-        private RowViewLayout ecMailSentRow;
-        private RowViewLayout ecMailNotSentRow;
-        private EditText ecMailInput;
-        private TextView ecSentToMail;
-        private TextView ecSendMailAction;
-
-        private RowViewLayout ecPhoneSentRow;
-        private RowViewLayout ecPhoneNotSentRow;
-        private EditText ecPhoneInput;
-        private TextView ecSentToPhone;
-        private TextView ecSendPhoneAction;
+        private RowViewLayout ecSendCodeRow;
+        private Button ecSendMailAction;
+        private Button ecSendPhoneAction;
 
         private View btnRemoveEC;
 
@@ -399,17 +373,10 @@ public class EnrollmentCodeSection extends StatelessSection {
             ecStatusLabel = (TextView) view.findViewById(R.id.enrollmentStatusLabel);
             ecStatusString = (TextView) view.findViewById(R.id.enrollmentStatusText);
 
-            ecMailNotSentRow = (RowViewLayout) view.findViewById(R.id.enrollmentSendMailRow);
-            ecMailSentRow = (RowViewLayout) view.findViewById(R.id.enrollmentMailSentRow);
-            ecMailInput = (EditText) view.findViewById(R.id.enrollmentSendMailInput);
-            ecSentToMail = (TextView) view.findViewById(R.id.enrollmentMailSentText);
-            ecSendMailAction = (TextView) view.findViewById(R.id.enrollmentSendMailAction);
+            ecSendCodeRow = (RowViewLayout) view.findViewById(R.id.ecSendCodeRow);
+            ecSendMailAction = (Button) view.findViewById(R.id.btnSendMail);
+            ecSendPhoneAction = (Button) view.findViewById(R.id.btnSendPhone);
 
-            ecPhoneNotSentRow = (RowViewLayout) view.findViewById(R.id.enrollmentSendPhoneRow);
-            ecPhoneSentRow = (RowViewLayout) view.findViewById(R.id.enrollmentPhoneSentRow);
-            ecPhoneInput = (EditText) view.findViewById(R.id.enrollmentSendPhoneInput);
-            ecSentToPhone = (TextView) view.findViewById(R.id.enrollmentPhoneSentText);
-            ecSendPhoneAction = (TextView) view.findViewById(R.id.enrollmentSendPhoneAction);
 
             btnRemoveEC = view.findViewById(R.id.btnRemove);
 

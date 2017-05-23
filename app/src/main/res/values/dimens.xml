@@ -6,4 +6,5 @@
     <dimen name="card_elevation_default">4dp</dimen>
     <dimen name="card_button_radius_default">5dp</dimen>
     <dimen name="item_elevation_default">1dp</dimen>
+    <dimen name="padded_button_corner_radius">6dp</dimen>
 </resources>
