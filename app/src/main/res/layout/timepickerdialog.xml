@@ -6,32 +6,9 @@
 
     >
 
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:id="@+id/SelectFormat">
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:text="ארוע יומי"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="viewStart"
-            android:checked="true"
-            android:id="@+id/allDayEvent"/>
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="viewStart"
-            android:text="ארוע לפי זמן"
-            android:id="@+id/timeRange"/>
-    </RadioGroup>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/SelectFormat"
         android:padding="10dp"
         android:orientation="horizontal"
         android:id="@+id/startTime">
@@ -40,7 +17,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingEnd="40dp"
-            android:text="זמן התחלת תיפול"/>
+            android:text="זמן התחלת תיפול"
+            android:textAlignment="textEnd" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -90,11 +68,14 @@
         android:id="@+id/pikTech"
         android:padding="10dp"
         >
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tech"
-        android:text="בחר טכנאי"/>
+
+        <TextView
+            android:id="@+id/tech"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:text="בחר טכנאי"
+            android:textAlignment="textEnd" />
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -104,19 +85,62 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pikTech"
+        android:padding="5dp"
+        android:text="משך התיפול בתקלה"
+        android:textAlignment="center" />
+
+    <LinearLayout
+        android:id="@+id/durationTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"
+        android:orientation="horizontal">
+
+        <NumberPicker
+            android:id="@+id/minitPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:lineSpacingExtra="18sp"
+            android:paddingTop="75dp"
+            android:text=":"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <NumberPicker
+            android:id="@+id/HoursPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
+
     <Button
+        android:id="@+id/cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="בטל"
-        android:layout_below="@id/pikTech"
-        android:id="@+id/cancel"/>
+        android:layout_below="@+id/durationTime"
+        android:text="בטל" />
+
     <Button
+        android:id="@+id/enter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:text="אשר"
-        android:layout_below="@id/pikTech"
-        android:id="@+id/enter"/>
+        android:layout_below="@+id/durationTime"
+        android:text="אשר" />
 
 </RelativeLayout>

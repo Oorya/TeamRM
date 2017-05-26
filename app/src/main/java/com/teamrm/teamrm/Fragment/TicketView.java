@@ -60,6 +60,8 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 
+
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -115,28 +117,9 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                 if(Ticket.getTickeyById(ticketId)!=null) {
                     this.ticket = Ticket.getTickeyById(ticketId);
 
-                }
-                else
+                } else
                 UtlFirebase.getTicketByKey(ticketID, this);
 
-
-                if (bundle.getLong("ticketOpenDateTime", 0) != 0) {
-                    Log.w("TICKET_ID Bundle:  ", bundle.getLong("ticketOpenDateTime", 0) + "");
-
-                    bundleEndTime = bundle.getLong("ticketOpenDateTime", 0);
-                    endTime = Calendar.getInstance();
-                    endTime.setTime(new Date(bundleEndTime));
-                    SimpleDateFormat format1;
-                    if (endTime.get(Calendar.HOUR_OF_DAY) > 0)
-                        format1 = new SimpleDateFormat("HH:mm:ss - dd-MM-yyyy");
-                    else
-                        format1 = new SimpleDateFormat("dd-MM-yyyy");
-                    timeFormated = format1.format(endTime.getTime());
-                    Log.w(" Bundle_timeFormated:  ", timeFormated);
-                    Map<String, String> updates = new HashMap<>();
-                    updates.put("ticketCloseDateTime", timeFormated);
-                    UtlFirebase.updateTicket(ticketID, (HashMap<String, String>) updates);
-                }
             }
 
         }
@@ -572,6 +555,12 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
     private void initializeUserDitile()
     {
         if(UserSingleton.getInstance().isUserIsAdmin())
@@ -604,7 +593,13 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
 
         ticketNumber.setText("מספר קריאה "+ticket.getTicketNumber());
-        dateTimeOpen.setText(ticket.getTicketOpenDateTime().split(" ")[ticket.getTicketOpenDateTime().split(" ").length-1]);
+
+        Log.d("initializeTicket", ticket.getTicketAssignedDateTime());
+
+
+
+        //if(ticket.getTicketAssignedDateTime()!=null&&ticket.getTicketAssignedDateTime().length()!=0)
+        dateTimeOpen.setText((ticket.getTicketOpenDateTime().split("-"))[1]);
 
         if(userDitaile instanceof Client) {
 
@@ -645,8 +640,8 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         {
             UtlFirebase.downloadFile(ticket.getTicketID()+"/pic2.jpg",2);
         }
-        if(ticket.getTicketCloseDateTime().length()>0)
-            dateTimeChange.setText(ticket.getTicketCloseDateTime());
+        if(ticket.getTicketAssignedDateTime().length()>0)
+            dateTimeChange.setText(ticket.getTicketAssignedDateTime());
 
         mProgress.hide();
 
@@ -656,9 +651,9 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     {
         SimpleDateFormat format1;
         if(date.getHours()> 0)
-            format1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         else
-            format1 = new SimpleDateFormat("dd-MM-yyyy");
+            format1 = new SimpleDateFormat("dd/MM/yyyy");
 
         String timeFormated = format1.format(date);
         return timeFormated;

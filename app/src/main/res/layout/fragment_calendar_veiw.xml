@@ -11,27 +11,29 @@
         android:id="@+id/weekView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/thechList"
+        app:columnGap="8dp"
+        app:dayBackgroundColor="#05000000"
         app:eventTextColor="@android:color/white"
-        app:textSize="12sp"
-        app:hourHeight="60dp"
+        app:headerColumnBackground="#ffffffff"
         app:headerColumnPadding="8dp"
         app:headerColumnTextColor="#8f000000"
-        app:headerRowPadding="12dp"
-        app:columnGap="8dp"
-        app:noOfVisibleDays="3"
         app:headerRowBackgroundColor="#ffefefef"
-        app:dayBackgroundColor="#05000000"
-        app:todayBackgroundColor="#1848adff"
-        app:headerColumnBackground="#ffffffff"
+        app:headerRowPadding="12dp"
         app:horizontalFlingEnabled="true"
-        />
-    <TimePicker
-        android:layout_width="wrap_content"
+        app:hourHeight="60dp"
+        app:noOfVisibleDays="3"
+        app:textSize="12sp"
+        app:todayBackgroundColor="#1848adff" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/thechList"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/timePicker"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="66dp"
-        android:visibility="gone"/>
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+
+        android:scrollbars="horizontal" />
+
 
 </RelativeLayout>

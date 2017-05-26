@@ -603,6 +603,22 @@ public class Ticket {
 
     }
 
+    public String getTicketAssignedDateTime() {
+        return ticketAssignedDateTime;
+    }
+
+    public void setTicketAssignedDateTime(String ticketAssignedDateTime) {
+        this.ticketAssignedDateTime = ticketAssignedDateTime;
+    }
+
+    public String getTicketAssignedDuration() {
+        return ticketAssignedDuration;
+    }
+
+    public void setTicketAssignedDuration(String ticketAssignedDuration) {
+        this.ticketAssignedDuration = ticketAssignedDuration;
+    }
+
     @Override
     public int hashCode() {
         return this.ticketID.hashCode();
