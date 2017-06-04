@@ -72,8 +72,9 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
     private static String ticketID;
     private static Bundle bundel;
     private GenericPrefListAdapter listTechAdapter;
-    private int ticketAssignedDurationHours ,ticketAssignedDurationMin;
-    private RecyclerView  techListView;
+    private int ticketAssignedDurationHours, ticketAssignedDurationMin;
+    private RecyclerView techListView;
+
     public CalendarView() {
         // Required empty public constructor
     }
@@ -115,12 +116,11 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
         // setupDateTimeInterpreter(false);
 
 
-        LinearLayoutManager layoutManager= new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         techListView = (RecyclerView) view.findViewById(R.id.thechList);
         techListView.setLayoutManager(layoutManager);
         TechAdpter techAdpter = new TechAdpter((ArrayList<Technician>) Technician.getTechnicianList(), getContext());
         techListView.setAdapter(techAdpter);
-
 
 
         return view;
@@ -191,7 +191,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
         mWeeViewEvent.clear();
         long id = 0;
         for (Ticket EVENT : mEvent) {
-            if (EVENT.getTicketAssignedDateTime()!=null && EVENT.getTicketAssignedDateTime().length() > 0) {
+            if (EVENT.getTicketAssignedDateTime() != null && EVENT.getTicketAssignedDateTime().length() > 0) {
                 WeekViewEventCustom weekViewEventCustom = new WeekViewEventCustom(EVENT.getTicketID()
                         , id++, EVENT.getDescriptionShort(), convertStart(EVENT), convertEnd(EVENT));
 
@@ -226,24 +226,24 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
 
         Date start = null;
         try {
-                start = DATE_FORMAT_WITH_TIME.parse(event.getTicketAssignedDateTime());
-                calendar.setTime(start);
-                Log.d("convert Start1", calendar.get(Calendar.HOUR_OF_DAY)+"");
-                Log.d("convert Start1", calendar.get(Calendar.MINUTE)+"");
+            start = DATE_FORMAT_WITH_TIME.parse(event.getTicketAssignedDateTime());
+            calendar.setTime(start);
+            Log.d("convert Start1", calendar.get(Calendar.HOUR_OF_DAY) + "");
+            Log.d("convert Start1", calendar.get(Calendar.MINUTE) + "");
         } catch (ParseException e) {
             Log.d("convertStart Exception", e.getMessage());
             Log.d("convertStart event", event.getTicketAssignedDateTime());
-                try {
-                    start = DATE_FORMAT_NO_TIME.parse(event.getTicketAssignedDateTime());
-                    Log.d("convertStart all day", start.toString());
-                } catch (ParseException e1) {
-                    Log.d("convertStart all day", e1.getMessage());
-                    Log.d("convertStart event ", event.getTicketAssignedDateTime());
-                }
-                calendar.setTime(start);
+            try {
+                start = DATE_FORMAT_NO_TIME.parse(event.getTicketAssignedDateTime());
+                Log.d("convertStart all day", start.toString());
+            } catch (ParseException e1) {
+                Log.d("convertStart all day", e1.getMessage());
+                Log.d("convertStart event ", event.getTicketAssignedDateTime());
+            }
+            calendar.setTime(start);
         }
-        Log.d("convert Start2", calendar.get(Calendar.HOUR_OF_DAY)+"");
-        Log.d("convert Start2", calendar.get(Calendar.MINUTE)+"");
+        Log.d("convert Start2", calendar.get(Calendar.HOUR_OF_DAY) + "");
+        Log.d("convert Start2", calendar.get(Calendar.MINUTE) + "");
         return calendar;
     }
 
@@ -254,21 +254,21 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
         if (event.getTicketCloseDateTime() != null) {
             try {
                 calendar.setTime(DATE_FORMAT_WITH_TIME.parse(event.getTicketCloseDateTime()));
-                Log.d("convertEnd event1 ", calendar.get(Calendar.HOUR_OF_DAY)+"");
-                Log.d("convertEnd event1 ", calendar.get(Calendar.MINUTE)+"");
+                Log.d("convertEnd event1 ", calendar.get(Calendar.HOUR_OF_DAY) + "");
+                Log.d("convertEnd event1 ", calendar.get(Calendar.MINUTE) + "");
             } catch (ParseException e) {
-               // Log.d("convertEnd1 Exception", e.getMessage());
+                // Log.d("convertEnd1 Exception", e.getMessage());
                 try {
                     calendar.setTime(DATE_FORMAT_NO_TIME.parse(event.getTicketCloseDateTime()));
-                  //  Log.d("convertEnd event god ", event.getTicketCloseDateTime());
+                    //  Log.d("convertEnd event god ", event.getTicketCloseDateTime());
                 } catch (ParseException e1) {
-                  //  Log.d("convertEnd1 Exception2", e.getMessage());
+                    //  Log.d("convertEnd1 Exception2", e.getMessage());
 
                 }
             }
         }
-        Log.d("convertEnd event2 ", calendar.get(Calendar.HOUR_OF_DAY)+"");
-        Log.d("convertEnd event2 ", calendar.get(Calendar.MINUTE)+"");
+        Log.d("convertEnd event2 ", calendar.get(Calendar.HOUR_OF_DAY) + "");
+        Log.d("convertEnd event2 ", calendar.get(Calendar.MINUTE) + "");
         return calendar;
     }
 
@@ -307,7 +307,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
                 public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
 
                     ticketAssignedDurationMin = newVal;
-                    Log.d("onValueChange", "ticketAssignedDurationMin: "+  ticketAssignedDurationMin );
+                    Log.d("onValueChange", "ticketAssignedDurationMin: " + ticketAssignedDurationMin);
                 }
             });
 
@@ -316,7 +316,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
                 public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
 
                     ticketAssignedDurationHours = newVal;
-                    Log.d("onValueChange", "ticketAssignedDurationHours: "+ticketAssignedDurationHours);
+                    Log.d("onValueChange", "ticketAssignedDurationHours: " + ticketAssignedDurationHours);
                 }
             });
 
@@ -359,7 +359,8 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
                     startTime.setText(formatted);
                 }
             });
-*/            cancel.setOnClickListener(new View.OnClickListener() {
+*/
+            cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
@@ -369,22 +370,22 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
                 @Override
                 public void onClick(View v) {
 
-                    Log.d("onValueChange", "onClick1: "+endTime.get(Calendar.HOUR_OF_DAY));
-                    endTime.add(Calendar.HOUR_OF_DAY,ticketAssignedDurationHours);
-                    endTime.add(Calendar.MINUTE,ticketAssignedDurationMin);
-                    Log.d("onValueChange", "onClick2: "+endTime.get(Calendar.HOUR_OF_DAY));
+                    Log.d("onValueChange", "onClick1: " + endTime.get(Calendar.HOUR_OF_DAY));
+                    endTime.add(Calendar.HOUR_OF_DAY, ticketAssignedDurationHours);
+                    endTime.add(Calendar.MINUTE, ticketAssignedDurationMin);
+                    Log.d("onValueChange", "onClick2: " + endTime.get(Calendar.HOUR_OF_DAY));
                     String endTimeformatted = DATE_FORMAT_WITH_TIME.format(endTime.getTime());
-                    final String ticketAssignedDuration = ticketAssignedDurationHours+":"+ticketAssignedDurationMin+"";
+                    final String ticketAssignedDuration = ticketAssignedDurationHours + ":" + ticketAssignedDurationMin + "";
                     //if (timeRange.isChecked()) {
 
 
-                        Map<String, String> updates = new HashMap<>();
-                        updates.put("ticketAssignedDuration", ticketAssignedDuration);
-                        updates.put("ticketAssignedDateTime", startTime.getText().toString());
-                        updates.put("ticketCloseDateTime", endTimeformatted);
-                        UtlFirebase.updateTicket(ticketID, (HashMap<String, String>) updates);
-                        getActivity().getSupportFragmentManager().popBackStack();
-                      dialog.dismiss();
+                    Map<String, String> updates = new HashMap<>();
+                    updates.put("ticketAssignedDuration", ticketAssignedDuration);
+                    updates.put("ticketAssignedDateTime", startTime.getText().toString());
+                    updates.put("ticketCloseDateTime", endTimeformatted);
+                    UtlFirebase.updateTicket(ticketID, (HashMap<String, String>) updates);
+                    getActivity().getSupportFragmentManager().popBackStack();
+                    dialog.dismiss();
                    /* } else if (allDay.isChecked()) {
                         time.set(Calendar.HOUR_OF_DAY, 0);
                         time.set(Calendar.MINUTE, 0);
@@ -440,16 +441,6 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
         * */
 
 
-
-
-
-
-
-
-
-
-
-
         Bundle bundel = new Bundle();
         bundel.putString("ticketID", ((WeekViewEventCustom) event).getEventId());
         FragmentTransaction fragmentManager = (getActivity().getSupportFragmentManager())
@@ -467,17 +458,6 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
 
 
-    }
-
-
-
-    @Override
-    public void getEventList(List<Event> eventUtil) {
-        mEvent.clear();
-
-        // mEvent = eventUtil;
-        Log.d("list getEventList", mEvent.size() + "");
-        mWeekView.notifyDatasetChanged();
     }
 
     private void setupDateTimeInterpreter(final boolean shortDate) {
@@ -501,10 +481,5 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
                 return hour > 11 ? (hour - 12) + " PM" : (hour == 0 ? "12 AM" : hour + " AM");
             }
         });
-    }
-
-    @Override
-    public void getCalendar(com.google.api.services.calendar.model.Calendar calendar) {
-
     }
 }
