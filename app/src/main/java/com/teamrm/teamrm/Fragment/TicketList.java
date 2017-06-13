@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Adapter.TicketListAdapter;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.R;
@@ -199,6 +200,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
     public void onResume() {
 
         super.onResume();
+        TicketListAdapter.getInstance().notifyDataSetChanged();
 
     }
 

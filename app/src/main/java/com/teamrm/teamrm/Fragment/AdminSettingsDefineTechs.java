@@ -28,6 +28,7 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapt
  */
 public class AdminSettingsDefineTechs extends Fragment {
 
+
     public RecyclerView tRecyclerView;
     SectionedRecyclerViewAdapter tAdapter;
     private FloatingActionButton floatBtn;
@@ -43,7 +44,7 @@ public class AdminSettingsDefineTechs extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_admin_settings_define_generic, container, false);
-
+        getActivity().setTitle(getResources().getStringArray(R.array.setting_title_advance)[1]);
         tAdapter = new SectionedRecyclerViewAdapter();
 
         floatBtn = (FloatingActionButton) view.findViewById(R.id.floatBtn);

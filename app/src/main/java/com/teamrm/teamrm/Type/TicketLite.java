@@ -37,7 +37,7 @@ public class TicketLite {
 
     private String techID;
     private String techNameString;
-    private String techColor;
+    private int techColor;
 
     //private Image techAvatar;
 
@@ -257,11 +257,11 @@ public class TicketLite {
         this.ticketPresentation = ticketPresentation;
     }
 
-    public String getTechColor() {
+    public int getTechColor() {
         return techColor;
     }
 
-    public void setTechColor(String techColor) {
+    public void setTechColor(int techColor) {
         this.techColor = techColor;
     }
 

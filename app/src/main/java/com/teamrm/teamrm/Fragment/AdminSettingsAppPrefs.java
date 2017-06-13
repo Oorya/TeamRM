@@ -34,6 +34,8 @@ import java.util.List;
  */
 public class AdminSettingsAppPrefs extends Fragment implements CalendarHelper{
 
+    public static final String FRAGMENT_TRANSACTION = "AdminSettingsAppPrefs";
+
     Context context;
     Button button,delitCal,delTickets, registerAsTech;
     CalendarUtil calendarUtil;
@@ -50,6 +52,8 @@ public class AdminSettingsAppPrefs extends Fragment implements CalendarHelper{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View V = inflater.inflate(R.layout.fragment_admin_settings_app_prefs, container, false);
+        getActivity().setTitle(getResources().getStringArray(R.array.setting_title_basic)[3]);
+
         delTickets = (Button) V.findViewById(R.id.delTickets);
         delTickets.setOnClickListener(new View.OnClickListener() {
             @Override

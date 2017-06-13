@@ -38,6 +38,8 @@ import java.util.List;
  */
 public class AdminSettingsDefineProducts extends Fragment implements FireBaseAble{
 
+    public static final String FRAGMENT_TRANSACTION = "AdminSettingsDefineProducts";
+
     final static String TAG = ":::Settings:Products:::";
     List<Product> productList = new ArrayList<>();
     public RecyclerView productView;
@@ -60,6 +62,10 @@ public class AdminSettingsDefineProducts extends Fragment implements FireBaseAbl
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_admin_settings_define_generic, container, false);
+
+        getActivity().setTitle(getResources().getStringArray(R.array.setting_title_advance)[2]);
+
+
         floatBtn = (FloatingActionButton) view.findViewById(R.id.floatBtn);
         floatBtn.hide();
         productView = (RecyclerView) view.findViewById(R.id.prefRecyclerView);

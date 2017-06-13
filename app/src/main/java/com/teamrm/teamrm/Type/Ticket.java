@@ -64,7 +64,7 @@ public class Ticket {
 
     private String techID;
     private String techNameString;
-    private String techColor;
+    private int techColor;
 
     private long ticketCalendarID;
 
@@ -552,7 +552,7 @@ public class Ticket {
         this.techNameString = techNameString;
     }
 
-    public void setTechColor(String techColor) {
+    public void setTechColor(int techColor) {
         this.techColor = techColor;
     }
 
@@ -564,7 +564,7 @@ public class Ticket {
         this.ticketEventID = ticketEventID;
     }
 
-    public String getTechColor() {
+    public int getTechColor() {
         return techColor;
     }
 

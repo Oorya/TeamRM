@@ -41,6 +41,8 @@ import java.util.List;
  */
 public class AdminSettingsDefineWorkShifts extends Fragment implements WorkShiftCallback {
 
+    public static final String FRAGMENT_TRANSACTION = "AdminSettingsDefineWorkShifts";
+
     final static String TAG = "WorkShiftFrag";
     List<WorkShift> workShiftList = new ArrayList<>();
     public RecyclerView workShiftView;
@@ -66,6 +68,7 @@ public class AdminSettingsDefineWorkShifts extends Fragment implements WorkShift
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_admin_settings_define_generic, container, false);
+        getActivity().setTitle(getResources().getStringArray(R.array.setting_title_advance)[5]);
 
         hoursArray = getActivity().getResources().getStringArray(R.array.hour_array);
         Log.d(TAG, Arrays.toString(hoursArray));

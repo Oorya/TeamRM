@@ -313,9 +313,9 @@
             </com.teamrm.teamrm.Utility.RowViewLayout>
 
             <com.teamrm.teamrm.Utility.RowViewLayout
+                android:id="@+id/photosRow"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/photosRow">
+                android:layout_height="wrap_content">
 
                 <RelativeLayout
                     android:id="@+id/photos"
@@ -340,10 +340,10 @@
                 </RelativeLayout>
 
                 <com.teamrm.teamrm.Utility.RowViewLayout
+                    android:id="@+id/photoChooserRow"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@id/photos"
-                    android:id="@+id/photoChooserRow">
+                    android:layout_below="@id/photos">
 
                     <LinearLayout
                         android:id="@+id/photoChooser"
@@ -385,8 +385,8 @@
                     android:id="@+id/photoList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:layout_below="@+id/photoChooserRow">
+                    android:layout_below="@+id/photoChooserRow"
+                    android:visibility="gone">
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recycler_view_photos"

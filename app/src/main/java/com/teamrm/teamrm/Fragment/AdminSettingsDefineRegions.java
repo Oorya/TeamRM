@@ -38,6 +38,8 @@ import java.util.List;
  */
 public class AdminSettingsDefineRegions extends Fragment implements FireBaseAble{
 
+    public static final String FRAGMENT_TRANSACTION = "AdminSettingsDefineRegions";
+
     final static String TAG = ":::Settings:Regions:::";
     List<Region> regionList = new ArrayList<>();
     public RecyclerView regionView;
@@ -60,6 +62,9 @@ public class AdminSettingsDefineRegions extends Fragment implements FireBaseAble
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_admin_settings_define_generic, container, false);
+
+        getActivity().setTitle(getResources().getStringArray(R.array.setting_title_advance)[4]);
+
         floatBtn = (FloatingActionButton) view.findViewById(R.id.floatBtn);
         floatBtn.hide();
         regionView = (RecyclerView) view.findViewById(R.id.prefRecyclerView);

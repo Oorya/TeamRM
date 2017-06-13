@@ -108,6 +108,28 @@
         <item>התנתק/החלף משתמש</item>
     </string-array>
 
+
+    <string-array name="setting_title_basic">
+        <item>פרטים אישיים</item>
+        <item>יצירת חברה</item>
+        <item>התקשרות לחברה</item>
+        <item>תצורת האפליקציה</item>
+        <item>צור קשר</item>
+        <item>שתף</item>
+        <item>אודות</item>
+    </string-array>
+
+    <string-array name="setting_title_advance">
+        <item>נתוני חברה</item>
+        <item>הגדרת טכנאי</item>
+        <item>הגדרת מוצרים</item>
+        <item>הגדרת סיווג לקריאות</item>
+        <item>הגדרת אזורים</item>
+        <item>הגדרת משמרות</item>
+        <item>תצורת אפליקציה</item>
+    </string-array>
+
+
     <string-array name="dialog_filter_list">
         <item>סינון1</item>
         <item>סינון2</item>

@@ -16,6 +16,7 @@ import com.teamrm.teamrm.Utility.RowViewLayout;
  */
 public class AdminSettingsAdvanced extends Fragment {
 
+    public static final String FRAGMENT_TRANSACTION = "AdminSettingsAdvanced";
     RowViewLayout userDetails,
             createCompany,
             appPrefs;
@@ -55,7 +56,7 @@ public class AdminSettingsAdvanced extends Fragment {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
                 ft.replace(R.id.container_body, new ClientSettingsCreateCompany(), null);
-                ft.addToBackStack(null);
+                ft.addToBackStack(ClientSettingsCreateCompany.FRAGMENT_TRANSACTION);
                 ft.commit();
             }
         });
@@ -66,7 +67,7 @@ public class AdminSettingsAdvanced extends Fragment {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
                 ft.replace(R.id.container_body, new AdminSettingsAppPrefs(), null);
-                ft.addToBackStack(null);
+                ft.addToBackStack(AdminSettingsAppPrefs.FRAGMENT_TRANSACTION);
                 ft.commit();
             }
         });

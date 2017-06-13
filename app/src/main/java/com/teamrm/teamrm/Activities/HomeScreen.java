@@ -119,7 +119,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //fragmentTransaction.add(R.id.container_body, new TicketList()).addToBackStack(TAG_FRAGMENT[2]);
-        fragmentTransaction.add(R.id.container_body, new TicketList(), TicketList.FRAGMENT_TRANSACTION).addToBackStack(TicketList.FRAGMENT_TRANSACTION);
+        fragmentTransaction.replace(R.id.container_body, new TicketList(), TicketList.FRAGMENT_TRANSACTION).addToBackStack(TicketList.FRAGMENT_TRANSACTION);
         fragmentTransaction.commit();
         setTitle(getResources().getStringArray(R.array.nav_list)[0]);
 
@@ -274,10 +274,20 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 break;
 
             case 1:
-                NewTicket ticket = new NewTicket();
-                fragmentTransaction.replace(R.id.container_body, ticket).addToBackStack(NewTicket.FRAGMENT_TRANSACTION).commit();
+                //NewTicket ticket = new NewTicket();
+                //fragmentTransaction.replace(R.id.container_body, ticket).commit();
+                //setTitle(getResources().getStringArray(R.array.nav_list)[1]);
+                //findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
+
+
+
+                //fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
+                fragmentTransaction.replace(R.id.container_body, new NewTicket(), NewTicket.FRAGMENT_TRANSACTION);
+                fragmentTransaction.addToBackStack(NewTicket.FRAGMENT_TRANSACTION);
+                fragmentTransaction.commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[1]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
+
                 break;
 
             case 2:
@@ -292,7 +302,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
             case 3:
                 AdminSettingsBasic adminSettingsBasic = new AdminSettingsBasic();
                 fragmentTransaction.replace(R.id.container_body, adminSettingsBasic)
-                        .addToBackStack(FragmentHelper.STACK_FOR_BASIC_SETTINGS_NAVIGATION).commit();
+                        .addToBackStack(AdminSettingsBasic.FRAGMENT_TRANSACTION).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[3]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
                 break;
@@ -300,7 +310,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
             case 4:
                 AdminSettingsAdvanced adminSettingsAdvanced = new AdminSettingsAdvanced();
                 fragmentTransaction.replace(R.id.container_body, adminSettingsAdvanced)
-                        .addToBackStack(FragmentHelper.STACK_FOR_GENERAL_NAVIGATION).commit();
+                        .addToBackStack(AdminSettingsAdvanced.FRAGMENT_TRANSACTION).commit();
                 setTitle(getResources().getStringArray(R.array.nav_list)[4]);
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
                 break;
@@ -317,6 +327,8 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                 findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
 
         }
+
+
     }
 
     @Override
@@ -326,46 +338,43 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
         if (!drawerLayout.isDrawerOpen(GravityCompat.START)) {
 
             if (getSupportFragmentManager().getBackStackEntryCount() > 1&&
-                    !getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName().equals(TicketList.FRAGMENT_TRANSACTION))
-            {
-               // Log.d("onBackPressed", "case TicketList = " + TicketList.FRAGMENT_TRANSACTION);
-                 String tag = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
-                if (getSupportFragmentManager().getBackStackEntryCount() - 2 >= 0&&tag!=null)
+                    !getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
+                            .equals(TicketList.FRAGMENT_TRANSACTION)) {
 
+                 String tag = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 2).getName();
 
-                switch (tag) {
-                    case CalendarView.FRAGMENT_TRANSACTION:
-                        Log.d("onBackPressed", "case CalendarView = " + CalendarView.FRAGMENT_TRANSACTION);
-                        setTitle(getResources().getStringArray(R.array.nav_list)[2]);
-                        break;
-                    case TicketList.FRAGMENT_TRANSACTION:
+                if (getSupportFragmentManager().getBackStackEntryCount() - 2 >= 0&&tag!=null) {
 
-                        for(int i = 0; i < getSupportFragmentManager().getBackStackEntryCount(); ++i) {
-                            if(getSupportFragmentManager().getBackStackEntryAt(i).getName()!=TicketList.FRAGMENT_TRANSACTION);
-                                getSupportFragmentManager().popBackStack();
-                        }
+                    Log.d("onBackPressed", "case tag = " + tag);
+                    switch (tag) {
+                        case CalendarView.FRAGMENT_TRANSACTION:
+                            Log.d("onBackPressed", "case CalendarView = " + CalendarView.FRAGMENT_TRANSACTION);
+                            setTitle(getResources().getStringArray(R.array.nav_list)[2]);
+                            break;
+                        case TicketList.FRAGMENT_TRANSACTION:
+                            Log.d("onBackPressed", "case TicketList = " + TicketList.FRAGMENT_TRANSACTION);
+                            setTitle(getResources().getStringArray(R.array.nav_list)[0]);
+                            break;
+                        case NewTicket.FRAGMENT_TRANSACTION:
+                            Log.d("onBackPressed", "case NewTicket = " + NewTicket.FRAGMENT_TRANSACTION);
+                            setTitle(getResources().getStringArray(R.array.nav_list)[1]);
+                            //getSupportFragmentManager().popBackStack();
+                            break;
+                        case AdminSettingsAdvanced.FRAGMENT_TRANSACTION:
+                            Log.d("onBackPressed", "case FragmentHelper = " + AdminSettingsAdvanced.FRAGMENT_TRANSACTION);
+                            setTitle(getResources().getStringArray(R.array.nav_list)[4]);
+                            break;
+                        case AdminSettingsBasic.FRAGMENT_TRANSACTION:
+                            Log.d("onBackPressed", "case FragmentHelper = " + AdminSettingsBasic.FRAGMENT_TRANSACTION);
+                            setTitle(getResources().getStringArray(R.array.nav_list)[3]);
 
-                        Log.d("onBackPressed", "case TicketList = " + TicketList.FRAGMENT_TRANSACTION);
-                        setTitle(getResources().getStringArray(R.array.nav_list)[0]);
-                        break;
-                    case NewTicket.FRAGMENT_TRANSACTION:
-                        Log.d("onBackPressed", "case NewTicket = " + NewTicket.FRAGMENT_TRANSACTION);
-                        setTitle(getResources().getStringArray(R.array.nav_list)[1]);
-                        break;
-                    case FragmentHelper.STACK_FOR_GENERAL_NAVIGATION:
-                        Log.d("onBackPressed", "case FragmentHelper = " + FragmentHelper.STACK_FOR_GENERAL_NAVIGATION);
-                        setTitle(getResources().getStringArray(R.array.nav_list)[3]);
-                        break;
-                    case FragmentHelper.STACK_FOR_BASIC_SETTINGS_NAVIGATION:
-                        Log.d("onBackPressed", "case FragmentHelper = " + FragmentHelper.STACK_FOR_BASIC_SETTINGS_NAVIGATION);
-                        setTitle(getResources().getStringArray(R.array.nav_list)[4]);
-                        break;
+                            break;
+                    }
+
+                    findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
+                    super.onBackPressed();
                 }
-                findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
-                super.onBackPressed();
-
             } else {
-
                 TicketList ticketListFragment = (TicketList) getSupportFragmentManager().findFragmentByTag(TicketList.FRAGMENT_TRANSACTION);
                 if (!ticketListFragment.closeSearch()) {
                     new MaterialDialog.Builder(this)

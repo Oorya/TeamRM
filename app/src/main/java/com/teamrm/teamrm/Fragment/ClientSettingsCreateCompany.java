@@ -25,6 +25,8 @@ import java.util.UUID;
  */
 public class ClientSettingsCreateCompany extends Fragment {
 
+    public static final String FRAGMENT_TRANSACTION = "ClientSettingsCreateCompany";
+
     EditText companyAddressInput, companyPhoneInput, companyNameInput, companyMailInput;
     Button btnCreateCompany;
 
@@ -37,6 +39,8 @@ public class ClientSettingsCreateCompany extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_firm_details, container, false);
+        getActivity().setTitle(getResources().getStringArray(R.array.setting_title_basic)[1]);
+
         companyAddressInput = (EditText)view.findViewById(R.id.txtAddress);
         companyPhoneInput = (EditText)view.findViewById(R.id.txtPhone);
         companyMailInput = (EditText)view.findViewById(R.id.companyMailText);
