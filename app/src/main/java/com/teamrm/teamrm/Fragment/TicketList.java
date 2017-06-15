@@ -191,7 +191,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
             }
         });
 
-
+        TicketListAdapter.getInstance().notifyDataSetChanged();
 
         return view;
     }
