@@ -156,7 +156,9 @@ public class UserSingleton extends Users {
 
     public static void refreshTicketLites(@Nullable TicketListAdapter tlAdapter) {
         UtlFirebase.getAllTicketLites(fbHelper);
+
         if (null != tlAdapter){
+            Log.d("refreshTicketLites", "tlAdapter not  nul");
             tlAdapter.notifyDataSetChanged();
         }
     }

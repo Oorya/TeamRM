@@ -444,10 +444,8 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
             filter.setVisibility(View.VISIBLE);
             order.setVisibility(View.VISIBLE);
             search.setVisibility(View.VISIBLE);
-            ticketListAdapter = null;
-            ticketListAdapter = new TicketListAdapter(getContext(), orderList(TicketLite.getTicketLiteList()));
-            mRecyclerView.setAdapter(ticketListAdapter);
-
+            TicketListAdapter.getInstance().notifyDataSetChanged();
+            searchView.onActionViewCollapsed();
             searchView.setIconified(true);
             return true;
         }else {
