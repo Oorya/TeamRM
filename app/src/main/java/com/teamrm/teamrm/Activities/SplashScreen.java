@@ -33,6 +33,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.teamrm.teamrm.Adapter.TicketListAdapter;
 import com.teamrm.teamrm.Broadcast.FirebaseBackgroundService;
 import com.teamrm.teamrm.Broadcast.ServiceChecker;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
@@ -300,7 +301,11 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
             @Override
             public void ticketLiteListCallback(List<TicketLite> ticketLites) {
+                Log.d("ticketLiteListCallback", "ticketLiteListCallback: "+ticketLites.size());
                 TicketLite.setTicketLiteList(ticketLites);
+                TicketListAdapter.setAdpterList(TicketLite.getTicketLiteList());
+                if(null!= TicketListAdapter.getInstance())
+                TicketListAdapter.getInstance().notifyDataSetChanged();
                 startApp();
             }
 

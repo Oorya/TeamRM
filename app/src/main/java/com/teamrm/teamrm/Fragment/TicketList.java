@@ -80,7 +80,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
         //ticketLiteList.addAll();
         //orderList(TicketLite.getTicketLiteList());
         Log.d("tiket", "onStart: "+TicketLite.getTicketLiteList().size());
-
+        Log.d("ticketLiteListCallback", "onStart: "+TicketLite.getTicketLiteList().size());
     }
 
 
@@ -91,7 +91,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
         View view = inflater.inflate(R.layout.fragment_list_ticket, container, false);
         Typeface SEMI_BOLD = Typeface.createFromAsset(this.getContext().getAssets(), "Assistant-SemiBold.ttf");
 
-
+        Log.d("ticketLiteListCallback", "onCreateView: "+TicketLite.getTicketLiteList().size());
         filter = (LinearLayout) view.findViewById(R.id.filter);//TODO:add visual effects for buttons
         search = (LinearLayout) view.findViewById(R.id.search);
         order = (LinearLayout) view.findViewById(R.id.sort);
@@ -147,6 +147,10 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView);
         mRecyclerView.setLayoutManager(recyclerViewManager);
+
+
+
+        Log.d("ticketLiteListCallback", "onCreateView: "+TicketLite.getTicketLiteList().size());
 
         ticketListAdapter = new TicketListAdapter(getContext(), TicketLite.getTicketLiteList());
         mRecyclerView.setAdapter(ticketListAdapter);
@@ -350,6 +354,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
     @Override
     public void ticketLiteListCallback(List<TicketLite> ticketLites) {
 
+        Log.d("ticketLiteListCallback", "onCreateView: "+ticketLites.size());
 
     }
 
