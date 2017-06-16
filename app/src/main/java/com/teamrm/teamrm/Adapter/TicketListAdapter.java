@@ -45,14 +45,14 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
     private Context mContext;
     private static TicketListAdapter ticketListAdapter;
     private static final String TAG = ":::TicketListAdapter:::";
-
+/*
     public static void setAdpterList(List<TicketLite> ticketLiteList) {
         if (mTicketLiteList != null) {
             TicketListAdapter.mTicketLiteList.clear();
             TicketListAdapter.mTicketLiteList.addAll(ticketLiteList);
         }
     }
-
+*/
     public static TicketListAdapter getInstance() {
         return ticketListAdapter;
     }

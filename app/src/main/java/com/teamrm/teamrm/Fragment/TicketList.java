@@ -74,13 +74,12 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
     @Override
     public void onStart() {
         super.onStart();
-        if(ticketLiteList!=null)
-        ticketLiteList.clear();
-        ticketLiteList.addAll(TicketLite.getTicketLiteList());
-        orderList(ticketLiteList);
+        //if(ticketLiteList!=null)
+        //ticketLiteList.clear();
+        //ticketLiteList.addAll();
+        //orderList(TicketLite.getTicketLiteList());
         Log.d("tiket", "onStart: "+TicketLite.getTicketLiteList().size());
-        if(Ticket.getTicketList()!=null)
-        Log.d("tiket", "onStart: "+Ticket.getTicketList().size());
+
     }
 
 
@@ -129,9 +128,9 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
                 order.setVisibility(View.VISIBLE);
                 search.setVisibility(View.VISIBLE);
                 ticketListAdapter = null;
-                ticketListAdapter = new TicketListAdapter(getContext(), ticketLiteList);
+                ticketListAdapter = new TicketListAdapter(getContext(), orderList(TicketLite.getTicketLiteList()));
                 mRecyclerView.setAdapter(ticketListAdapter);
-                orderList(ticketLiteList);
+
 
             }
         });
@@ -148,9 +147,9 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
         mRecyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView);
         mRecyclerView.setLayoutManager(recyclerViewManager);
 
-        ticketListAdapter = new TicketListAdapter(getContext(), ticketLiteList);
+        ticketListAdapter = new TicketListAdapter(getContext(), TicketLite.getTicketLiteList());
         mRecyclerView.setAdapter(ticketListAdapter);
-        orderList(ticketLiteList);
+        //orderList(ticketLiteList);
 
 
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefresh);
@@ -260,7 +259,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
             {
 
                 Toast.makeText(getContext(),"sort",Toast.LENGTH_LONG).show();
-                ticketListAdapter = new TicketListAdapter(getContext(), sortList(ticketLiteList));
+                ticketListAdapter = new TicketListAdapter(getContext(), sortList(TicketLite.getTicketLiteList()));
                 mRecyclerView.setAdapter(ticketListAdapter);
 
 
@@ -271,7 +270,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
     private List<TicketLite> filterList(Integer which)
     {
         ArrayList<TicketLite> temp = new ArrayList<>();
-        for (TicketLite item:ticketLiteList)
+        for (TicketLite item:TicketLite.getTicketLiteList())
         {
             if (item.getUrgency()==which){
                 temp.add(item);
@@ -380,7 +379,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
     private void sortByQuery(String Query)
     {
         List<TicketLite> tempticketLiteList = new ArrayList<>();
-        for (TicketLite ticketLiteItem : ticketLiteList)
+        for (TicketLite ticketLiteItem : TicketLite.getTicketLiteList())
         {
             if (ticketLiteItem.getCategoryName()!=null&&ticketLiteItem.getCategoryName().contains(Query))
             {
@@ -445,9 +444,9 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
             order.setVisibility(View.VISIBLE);
             search.setVisibility(View.VISIBLE);
             ticketListAdapter = null;
-            ticketListAdapter = new TicketListAdapter(getContext(), ticketLiteList);
+            ticketListAdapter = new TicketListAdapter(getContext(), orderList(TicketLite.getTicketLiteList()));
             mRecyclerView.setAdapter(ticketListAdapter);
-            orderList(ticketLiteList);
+
             searchView.setIconified(true);
             return true;
         }else {
