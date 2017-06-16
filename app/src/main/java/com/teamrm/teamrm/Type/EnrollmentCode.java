@@ -6,10 +6,7 @@ import android.support.annotation.Nullable;
 import com.google.firebase.database.Exclude;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Created by Oorya on 13/01/2017.
@@ -28,13 +25,13 @@ public class EnrollmentCode {
     @Exclude
     public static final String ENROLLMENT_CODE_COMPANY_ID = "enrollmentCodeCompanyId";
     @Exclude
-    public static final String IS_SENT_TO_PHONE = "isSentToPhone";
+    public static final String IS_SENT_TO_PHONE = "sentToPhone";
+    //@Exclude
+    //public static final String ENROLLMENT_CODE_SENT_TO_PHONE = "enrollmentCodeSentToPhone";
     @Exclude
-    public static final String ENROLLMENT_CODE_SENT_TO_PHONE = "enrollmentCodeSentToPhone";
-    @Exclude
-    public static final String IS_SENT_TO_MAIL = "isSentToMail";
-    @Exclude
-    public static final String ENROLLMENT_CODE_SENT_TO_MAIL = "enrollmentCodeSentToMail";
+    public static final String IS_SENT_TO_MAIL = "sentToMail";
+    //@Exclude
+    //public static final String ENROLLMENT_CODE_SENT_TO_MAIL = "enrollmentCodeSentToMail";
     @Exclude
     public static final String ENROLLMENT_STATUS = "enrollmentStatus";
     @Exclude
@@ -56,10 +53,10 @@ public class EnrollmentCode {
     private String enrollmentCodeID;
     private String enrollmentCodeString;
     private String enrollmentCodeCompanyId;
-    private boolean isSentToPhone;
-    private String enrollmentCodeSentToPhone;
-    private boolean isSentToMail;
-    private String enrollmentCodeSentToMail;
+    private boolean sentToPhone;
+    //private String enrollmentCodeSentToPhone;
+    private boolean sentToMail;
+    //private String enrollmentCodeSentToMail;
     private int enrollmentStatus;
     private String enrolledTechUserID;
 
@@ -69,10 +66,10 @@ public class EnrollmentCode {
     public EnrollmentCode(@NonNull String companyID, @NonNull String enrollmentCodeString) {
         this.enrollmentCodeString = enrollmentCodeString;
         this.enrollmentCodeCompanyId = companyID;
-        this.isSentToMail = false;
-        this.isSentToPhone = false;
-        this.enrollmentCodeSentToMail = "";
-        this.enrollmentCodeSentToPhone = "";
+        this.sentToMail = false;
+        this.sentToPhone = false;
+        //this.enrollmentCodeSentToMail = "";
+        //this.enrollmentCodeSentToPhone = "";
         this.enrollmentStatus = STATUS_ISSUED;
         this.enrolledTechUserID = "";
     }
@@ -81,20 +78,20 @@ public class EnrollmentCode {
                           boolean isSentToPhone, @Nullable String enrollmentCodeSentToPhone, boolean isSentToMail, @Nullable String enrollmentCodeSentToMail) {
         this.enrollmentCodeID = enrollmentCodeID;
         this.enrollmentCodeString = enrollmentCodeString;
-        this.isSentToPhone = isSentToPhone;
-        this.enrollmentCodeSentToPhone = enrollmentCodeSentToPhone;
-        this.isSentToMail = isSentToMail;
-        this.enrollmentCodeSentToMail = enrollmentCodeSentToMail;
+        this.sentToPhone = isSentToPhone;
+        //this.enrollmentCodeSentToPhone = enrollmentCodeSentToPhone;
+        this.sentToMail = isSentToMail;
+        //this.enrollmentCodeSentToMail = enrollmentCodeSentToMail;
     }
 
     public EnrollmentCode(EnrollmentCode other) {
         this.enrollmentCodeID = other.enrollmentCodeID;
         this.enrollmentCodeString = other.enrollmentCodeString;
         this.enrollmentCodeCompanyId = other.enrollmentCodeCompanyId;
-        this.isSentToPhone = other.isSentToPhone;
-        this.enrollmentCodeSentToPhone = other.enrollmentCodeSentToPhone;
-        this.isSentToMail = other.isSentToMail;
-        this.enrollmentCodeSentToMail = other.enrollmentCodeSentToMail;
+        this.sentToPhone = other.sentToPhone;
+        //this.enrollmentCodeSentToPhone = other.enrollmentCodeSentToPhone;
+        this.sentToMail = other.sentToMail;
+        //this.enrollmentCodeSentToMail = other.enrollmentCodeSentToMail;
         this.enrollmentStatus = other.enrollmentStatus;
         this.enrolledTechUserID = other.enrolledTechUserID;
     }
@@ -124,36 +121,36 @@ public class EnrollmentCode {
     }
 
     public boolean isSentToPhone() {
-        return isSentToPhone;
+        return sentToPhone;
     }
 
     public void setSentToPhone(boolean sentToPhone) {
-        isSentToPhone = sentToPhone;
+        this.sentToPhone = sentToPhone;
     }
 
-    public String getEnrollmentCodeSentToPhone() {
+    /*public String getEnrollmentCodeSentToPhone() {
         return enrollmentCodeSentToPhone;
     }
 
     public void setEnrollmentCodeSentToPhone(String enrollmentCodeSentToPhone) {
         this.enrollmentCodeSentToPhone = enrollmentCodeSentToPhone;
-    }
+    }*/
 
     public boolean isSentToMail() {
-        return isSentToMail;
+        return sentToMail;
     }
 
     public void setSentToMail(boolean sentToMail) {
-        isSentToMail = sentToMail;
+        this.sentToMail = sentToMail;
     }
 
-    public String getEnrollmentCodeSentToMail() {
+   /* public String getEnrollmentCodeSentToMail() {
         return enrollmentCodeSentToMail;
     }
 
     public void setEnrollmentCodeSentToMail(String enrollmentCodeSentToMail) {
         this.enrollmentCodeSentToMail = enrollmentCodeSentToMail;
-    }
+    }*/
 
     public static List<EnrollmentCode> getEnrollmentCodeList() {
         return enrollmentCodeList;
@@ -195,8 +192,11 @@ public class EnrollmentCode {
     @Override
     public String toString() {
         return this.enrollmentCodeID + "\n" + this.enrollmentCodeString + "\n" +
-                "Mail: " + this.isSentToMail() + " : " + this.enrollmentCodeSentToMail + "\n" +
-                "Phone: " + this.isSentToMail() + " : " + this.enrollmentCodeSentToPhone;
+                "Sent to phone: " + Boolean.toString(this.sentToPhone) + "\n" +
+                "Sent to mail: " + Boolean.toString(this.sentToMail);
+
+                //"Mail: " + this.sentToMail() + " : " + this.enrollmentCodeSentToMail + "\n" +
+                //"Phone: " + this.sentToMail() + " : " + this.enrollmentCodeSentToPhone;
     }
 
     @Override

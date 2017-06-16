@@ -713,6 +713,9 @@ public class UtlFirebase {
                 getAllTechTicketLites(UserSingleton.getInstance().getAssignedCompanyID(), UserSingleton.getInstance().getUserID(), fbHelper);
                 break;
 
+            case Users.STATUS_PENDING_TECH:
+                //do nothing
+
             case "undefined":
                 Log.e(TAG, "getAllTicketlites:::UserSingleton undefined");
                 break;

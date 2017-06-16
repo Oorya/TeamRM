@@ -1,13 +1,17 @@
 package com.teamrm.teamrm.Type;
 
+import android.content.res.Resources;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 
 import com.google.firebase.database.Exclude;
 import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
+import com.teamrm.teamrm.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Oorya on 10/08/2016.
@@ -37,7 +41,9 @@ public class Technician extends Users implements GenericKeyValueTypeable {
 
     public Technician(Users user) {
         super(user);
-        this.techColor = "";
+        String[] colorsArr = Resources.getSystem().getStringArray(R.array.tech_colors);
+        String randomColor = colorsArr[new Random().nextInt(colorsArr.length)];
+        this.techColor = getRandomColor();
         this.techAssignedRegions = "";
         this.techAssignedShifts = "";
         this.isEdited = false;
@@ -91,8 +97,8 @@ public class Technician extends Users implements GenericKeyValueTypeable {
         Technician.technicianList = technicianList;
     }
 
-    public static void clearTechnicianList(){
-        if (null != technicianList){
+    public static void clearTechnicianList() {
+        if (null != technicianList) {
             technicianList.clear();
         }
     }
@@ -107,5 +113,22 @@ public class Technician extends Users implements GenericKeyValueTypeable {
     @Exclude
     public String getItemValue() {
         return super.getUserNameString();
+    }
+
+    private String getRandomColor() {
+        String[] colorsArr = Resources.getSystem().getStringArray(R.array.tech_colors);
+        String randomColor = colorsArr[new Random().nextInt(colorsArr.length)];
+        if (null != Technician.getTechnicianList()) {
+            List<String> currentColorsList = new ArrayList<>();
+            for (Technician tech : Technician.getTechnicianList()) {
+                currentColorsList.add(tech.getTechColor());
+            }
+
+            if (!currentColorsList.contains(randomColor)) {
+                return randomColor;
+            } else {
+                return getRandomColor();
+            }
+        } else return randomColor;
     }
 }

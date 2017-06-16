@@ -46,9 +46,9 @@ public class Ticket {
     private String descriptionShort;
     private String descriptionLong;
     @Exclude
-    private String ticketImage1; //TODO:use Storage
+    private String ticketImage1;
     @Exclude
-    private String ticketImage2; //TODO:use Storage
+    private String ticketImage2;
     private String ticketStateString;
 
     @Exclude

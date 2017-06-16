@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:nContext="com.teamrm.teamrm.Fragment.AdminSettingsAppPrefs"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/app_bg">
 
     <Button
     android:layout_width="wrap_content"

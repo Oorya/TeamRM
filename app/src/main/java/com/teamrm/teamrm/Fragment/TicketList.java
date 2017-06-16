@@ -74,6 +74,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
     @Override
     public void onStart() {
         super.onStart();
+        UserSingleton.refreshTicketLites(ticketListAdapter);
         //if(ticketLiteList!=null)
         //ticketLiteList.clear();
         //ticketLiteList.addAll();
@@ -159,7 +160,7 @@ public class TicketList extends Fragment implements FireBaseAble,View.OnClickLis
                 mRecyclerView.post(new Runnable() {
                     @Override
                     public void run() {
-                        UserSingleton.refreshTicketLites();
+                        UserSingleton.refreshTicketLites(ticketListAdapter);
                         swipeContainer.setRefreshing(false);
                     }
                 });

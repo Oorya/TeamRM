@@ -1,6 +1,7 @@
 package com.teamrm.teamrm.Utility;
 
 import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -79,8 +80,8 @@ public class UserSingleton extends Users {
                             UtlFirebase.AdminEnrollmentCodeListener(userHolder.getAssignedCompanyID(), enrollmentCodeObserver);
                             Log.d(LOGINTAG, "::AsyncTask");
                             UtlFirebase.ticketStateListener(ticketStateObserver);
-                            Log.d(LOGINTAG, "Calling getAllTicketLites");
-                            UtlFirebase.getAllTicketLites(fbHelper);
+                            //Log.d(LOGINTAG, "Calling getAllTicketLites");
+                            //UtlFirebase.getAllTicketLites(fbHelper);
                             Log.d(LOGINTAG, "Calling getAllCompanies");
                             UtlFirebase.getAllCompanies(fbHelper);
                             Log.d(LOGINTAG, "Calling getAllTickets");
@@ -153,8 +154,11 @@ public class UserSingleton extends Users {
         }
     }
 
-    public static void refreshTicketLites() {
+    public static void refreshTicketLites(@Nullable TicketListAdapter tlAdapter) {
         UtlFirebase.getAllTicketLites(fbHelper);
+        if (null != tlAdapter){
+            tlAdapter.notifyDataSetChanged();
+        }
     }
 
     private static FireBaseAble fbHelper = new FireBaseAble() {
@@ -176,6 +180,8 @@ public class UserSingleton extends Users {
         @Override
         public void ticketLiteListCallback(List<TicketLite> ticketLites) {
             TicketLite.setTicketLiteList(ticketLites);
+
+           /* TicketLite.setTicketLiteList(ticketLites);
             TicketListAdapter.setAdpterList(ticketLites);
             if (TicketListAdapter.getInstance() != null)
                 TicketListAdapter.getInstance().notifyDataSetChanged();
@@ -183,7 +189,7 @@ public class UserSingleton extends Users {
                 Log.d(TAG, TicketLite.getTicketLiteList().toString());
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }*/
         }
 
         @Override
@@ -216,6 +222,7 @@ public class UserSingleton extends Users {
         @Override
         public void onTicketAdded(TicketState ticketState) {
             TicketState.ticketStatesAddTicketState(ticketState);
+            refreshTicketLites(null);
             Log.d(STATELISTENERTAG, "Added state " + ticketState.toString());
         }
 
@@ -387,11 +394,11 @@ public class UserSingleton extends Users {
                                 if (ecTechAdapter != null) {
                                     ecTechAdapter.notifyDataSetChanged();
                                 }
-                                UtlNotification notificationPending = new UtlNotification("רישום בתהליך", "הרשמת טכנאי מחכה לאישור",true);
+                                UtlNotification notificationPending = new UtlNotification("רישום בתהליך", "הרשמת טכנאי מחכה לאישור", true);
                                 notificationPending.sendNotification();
                                 //TODO: TE_SEQ notify admin -> PendingTech needs approval
                             } else {
-                                // shouldn't happen
+                                Log.e(TE_SEQ, "shouldn't happen");
                             }
                             break;
                         case (EnrollmentCode.STATUS_PENDING):
@@ -401,7 +408,7 @@ public class UserSingleton extends Users {
                                     if (ecTechAdapter != null) {
                                         ecTechAdapter.notifyDataSetChanged();
                                     }
-                                    UtlNotification notificationCancel = new UtlNotification("רישום בוטל", "טכנאי ביטל הרשמה",true);
+                                    UtlNotification notificationCancel = new UtlNotification("רישום בוטל", "טכנאי ביטל הרשמה", true);
                                     notificationCancel.sendNotification();
                                     // TODO: TE_SEQ notify admin -> PendingTech cancelled the enrollment
                                     break;
@@ -429,7 +436,12 @@ public class UserSingleton extends Users {
                                 UtlFirebase.removeEnrollmentCode(enrollmentCode);
                             }
                             break;
-                        default: //do nothing
+                        default:
+                            if (ecTechAdapter != null) {
+                                EnrollmentCode.changeEnrollmentCodeInList(enrollmentCode);
+                                Log.d(TE_SEQ, "notifying adapter about code " + enrollmentCode.getEnrollmentCodeID());
+                                ecTechAdapter.notifyDataSetChanged();
+                            }
                     }
                     break;
 
@@ -480,6 +492,11 @@ public class UserSingleton extends Users {
                     break;
 
                 default: //ignore
+            }
+            if (ecTechAdapter != null) {
+                EnrollmentCode.changeEnrollmentCodeInList(enrollmentCode);
+                Log.d(TE_SEQ, "notifying adapter about code " + enrollmentCode.getEnrollmentCodeID());
+                ecTechAdapter.notifyDataSetChanged();
             }
         }
 

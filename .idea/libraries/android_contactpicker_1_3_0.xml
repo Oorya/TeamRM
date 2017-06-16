@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="android-contactpicker-1.3.0">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.android/build-cache/3f6433d5b11f80a9a56920d8b411d693981ca179/output/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.android/build-cache/3f6433d5b11f80a9a56920d8b411d693981ca179/output/res" />
+      <root url="file://$USER_HOME$/.android/build-cache/ed9d260d1e6341da577a152738077ef83e04efd3/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/ed9d260d1e6341da577a152738077ef83e04efd3/output/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

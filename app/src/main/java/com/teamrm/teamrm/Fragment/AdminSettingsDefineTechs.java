@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.teamrm.teamrm.Adapter.TechniciansSection;
 import com.teamrm.teamrm.Interfaces.FragmentHelper;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.EnrollmentCode;
+import com.teamrm.teamrm.Utility.LinearLayoutManagerWithSmoothScroll;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
@@ -52,9 +54,10 @@ public class AdminSettingsDefineTechs extends Fragment {
 
 
         tRecyclerView = (RecyclerView) view.findViewById(R.id.prefRecyclerView);
-        tRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        tRecyclerView.setLayoutManager(new LinearLayoutManagerWithSmoothScroll(getContext()));
+
         final EnrollmentCodeSection ecSection = new EnrollmentCodeSection(getContext());
-        final TechniciansSection techSection = new TechniciansSection(getContext());
+        final TechniciansSection techSection = new TechniciansSection(getContext(), tRecyclerView);
 
         tAdapter.addSection(ecSection);
         tAdapter.addSection(techSection);

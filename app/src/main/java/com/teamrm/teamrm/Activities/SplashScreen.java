@@ -61,8 +61,6 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
     private static final String PREF_ACCOUNT_NAME = "accountName";
 
-    private static ArrayList<Ticket> tickets = new ArrayList<>();
-
     private FirebaseAuth firebaseAuth;
 
     private GoogleSignInOptions gso;
@@ -287,7 +285,8 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
                 if (null != user) {
                     Log.d(LOGINTAG, user.toString());
                     UserSingleton.init(user);       //LOGIN STAGE 7 -> init the UserSingleton with  user fetched from FireBase
-                    startApp();
+                    Log.d(LOGINTAG, "getting TicketLites...");
+                    UtlFirebase.getAllTicketLites(this);
                 } else {
                     Log.e(LOGINTAG, "Received empty user from callback");
                 }
@@ -301,7 +300,8 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
             @Override
             public void ticketLiteListCallback(List<TicketLite> ticketLites) {
-
+                TicketLite.setTicketLiteList(ticketLites);
+                startApp();
             }
 
             @Override

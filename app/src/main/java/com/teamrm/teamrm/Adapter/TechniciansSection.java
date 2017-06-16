@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -20,6 +21,7 @@ import net.cachapa.expandablelayout.ExpandableLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 
 /**
@@ -29,10 +31,12 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 public class TechniciansSection extends StatelessSection {
 
     Context tContext;
+    RecyclerView scrollContainer;
 
-    public TechniciansSection(Context context){
+    public TechniciansSection(Context context, RecyclerView _scrollContainer){
         super(R.layout.technician_enrollment_section_header, R.layout.technician_expand_card);
         this.tContext = context;
+        this.scrollContainer = _scrollContainer;
     }
 
     @Override
@@ -48,7 +52,7 @@ public class TechniciansSection extends StatelessSection {
     }
 
     @Override
-    public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindItemViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final TechnicianViewHolder techHolder = (TechnicianViewHolder) holder;
         Technician technician = Technician.getTechnicianList().get(position);
 
@@ -57,6 +61,9 @@ public class TechniciansSection extends StatelessSection {
             public void onClick(View v) {
                 techHolder.expandableLayout.toggle();
                 rotateButtonOnToggle(techHolder.expandBtn);
+                if (techHolder.expandableLayout.isExpanded()){
+                    scrollToView(position);
+                }
             }
         });
 
@@ -65,7 +72,7 @@ public class TechniciansSection extends StatelessSection {
         techHolder.userPhone.setText(technician.getUserPhone() == null ? "" : technician.getUserPhone());
         techHolder.techAssignedRegions.setText(technician.getTechAssignedRegions() == null ? "" : technician.getTechAssignedRegions());
         techHolder.techShifts.setText(technician.getTechAssignedShifts() == null ? "" : technician.getTechAssignedShifts());
-        //techHolder.techColorView.setCardBackgroundColor(technician.getTechColor() == null ? Color.RED : Color.parseColor(technician.getTechColor()));
+        techHolder.techColorView.setCardBackgroundColor(technician.getTechColor() == null ? Color.RED : Color.parseColor(technician.getTechColor()));
         techHolder.userAddress.setText(technician.getUserAddress() == null ? "" : technician.getUserAddress());
     }
 
@@ -141,5 +148,17 @@ public class TechniciansSection extends StatelessSection {
 
     void rotateButtonOnToggle(ImageView expandBtn) {
         expandBtn.animate().rotation(expandBtn.getRotation() - 180f).setInterpolator(new LinearInterpolator()).start();
+    }
+
+    private void scrollToView(final int position) {
+
+        //Log.d(":::Focusing", v.toString());
+        scrollContainer.post(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(":::TechSection", "Smooth scrolling to " + position);
+                scrollContainer.getLayoutManager().smoothScrollToPosition(scrollContainer, null, position);
+            }
+        });
     }
 }

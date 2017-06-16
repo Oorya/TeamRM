@@ -4,6 +4,7 @@ package com.teamrm.teamrm.Fragment;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,6 @@ import me.iwf.photopicker.widget.TouchImageView;
  */
 public class FullScreenImage extends Fragment {
 
-    private TouchImageView touchImageView;
     private Bitmap bitmap;
     public static final String FRAGMENT_TRANSACTION = "FullScreenImage";
 
@@ -31,7 +31,7 @@ public class FullScreenImage extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_full_screen_image, container, false);
-        touchImageView = (TouchImageView)view.findViewById(R.id.full_image);
+        TouchImageView touchImageView = (TouchImageView)view.findViewById(R.id.full_image);
         touchImageView.setImageBitmap(bitmap);
         view.findViewById(R.id.closeImage).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,9 +42,10 @@ public class FullScreenImage extends Fragment {
         return view;
     }
 
-    public void setBitmap(Bitmap bitmap)
+    public void setBitmap(Bitmap _bitmap)
     {
-        this.bitmap = bitmap;
+        Log.d(":::Setting bitmap", "bitmap size + " + _bitmap.getByteCount());
+        this.bitmap = _bitmap;
     }
 
 }
