@@ -57,6 +57,8 @@ import java.util.List;
 import me.iwf.photopicker.PhotoPicker;
 import me.iwf.photopicker.PhotoPreview;
 
+import static com.teamrm.teamrm.Utility.UserSingleton.TE_SEQ;
+
 
 public class HomeScreen extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener, GoogleApiClient.OnConnectionFailedListener {
 
@@ -495,6 +497,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
                             break;
 
                         case (EnrollmentCode.STATUS_ACCEPTED):
+                            Log.d(TE_SEQ, "@HomeScreen: found EnrollmentCode -> Accepted");
                             UtlNotification notificationAccepted = new UtlNotification("רישום אושר", "הרשמתך כטכנאי אושרה בהצלחה");
                             notificationAccepted.sendNotification();
                             // TODO: TE_SEQ notify enrollment accepted

@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import com.google.firebase.database.Exclude;
 import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Utility.App;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,8 +42,6 @@ public class Technician extends Users implements GenericKeyValueTypeable {
 
     public Technician(Users user) {
         super(user);
-        String[] colorsArr = Resources.getSystem().getStringArray(R.array.tech_colors);
-        String randomColor = colorsArr[new Random().nextInt(colorsArr.length)];
         this.techColor = getRandomColor();
         this.techAssignedRegions = "";
         this.techAssignedShifts = "";
@@ -116,7 +115,7 @@ public class Technician extends Users implements GenericKeyValueTypeable {
     }
 
     private String getRandomColor() {
-        String[] colorsArr = Resources.getSystem().getStringArray(R.array.tech_colors);
+        String[] colorsArr = App.getInstance().getApplicationContext().getResources().getStringArray(R.array.tech_colors);
         String randomColor = colorsArr[new Random().nextInt(colorsArr.length)];
         if (null != Technician.getTechnicianList()) {
             List<String> currentColorsList = new ArrayList<>();

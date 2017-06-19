@@ -107,8 +107,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         //signInButton.setScopes(gso.getScopeArray()); //deprecated - not needed
         signInButton.setOnClickListener(this);
         signInButton.setVisibility(View.GONE);
-        if(getIntent().getBooleanExtra("enrollmentFrag", false))
-        {
+        if (getIntent().getBooleanExtra("enrollmentFrag", false)) {
             notifyEnrollmentAdmin = true;
         }
     }
@@ -287,7 +286,11 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
                     Log.d(LOGINTAG, user.toString());
                     UserSingleton.init(user);       //LOGIN STAGE 7 -> init the UserSingleton with  user fetched from FireBase
                     Log.d(LOGINTAG, "getting TicketLites...");
-                    UtlFirebase.getAllTicketLites(this);
+                    if (UserSingleton.getLoadedUserType().equals(Users.STATUS_PENDING_TECH)) {
+                        startApp();
+                    } else {
+                        UtlFirebase.getAllTicketLites(this);
+                    }
                 } else {
                     Log.e(LOGINTAG, "Received empty user from callback");
                 }
@@ -301,11 +304,11 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
             @Override
             public void ticketLiteListCallback(List<TicketLite> ticketLites) {
-                Log.d("ticketLiteListCallback", "ticketLiteListCallback: "+ticketLites.size());
+                Log.d("ticketLiteListCallback", "ticketLiteListCallback: " + ticketLites.size());
                 TicketLite.setTicketLiteList(ticketLites);
                 TicketListAdapter.setAdpterList(TicketLite.getTicketLiteList());
-                if(null!= TicketListAdapter.getInstance())
-                TicketListAdapter.getInstance().notifyDataSetChanged();
+                if (null != TicketListAdapter.getInstance())
+                    TicketListAdapter.getInstance().notifyDataSetChanged();
                 startApp();
             }
 

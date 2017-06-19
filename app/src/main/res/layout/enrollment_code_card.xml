@@ -260,6 +260,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_toEndOf="@id/userIconBtn"
+                                android:textColor="@color/icon_gray"
                                 android:text="מחק קוד הרשמה"
                                 android:textSize="14sp" />
                         </RelativeLayout>
