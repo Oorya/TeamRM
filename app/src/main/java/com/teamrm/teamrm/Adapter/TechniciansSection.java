@@ -61,9 +61,9 @@ public class TechniciansSection extends StatelessSection {
             public void onClick(View v) {
                 techHolder.expandableLayout.toggle();
                 rotateButtonOnToggle(techHolder.expandBtn);
-                if (techHolder.expandableLayout.isExpanded()){
+                /*if (techHolder.expandableLayout.isExpanded()){
                     scrollToView(position);
-                }
+                }*/
             }
         });
 
@@ -72,7 +72,7 @@ public class TechniciansSection extends StatelessSection {
         techHolder.userPhone.setText(technician.getUserPhone() == null ? "" : technician.getUserPhone());
         techHolder.techAssignedRegions.setText(technician.getTechAssignedRegions() == null ? "" : technician.getTechAssignedRegions());
         techHolder.techShifts.setText(technician.getTechAssignedShifts() == null ? "" : technician.getTechAssignedShifts());
-        techHolder.techColorView.setCardBackgroundColor(technician.getTechColor() == null ? Color.RED : Color.parseColor(technician.getTechColor()));
+        techHolder.techColorView.setCardBackgroundColor(technician.getTechColor().length()<3 ? Color.RED : Color.parseColor(technician.getTechColor()));
         techHolder.userAddress.setText(technician.getUserAddress() == null ? "" : technician.getUserAddress());
     }
 
