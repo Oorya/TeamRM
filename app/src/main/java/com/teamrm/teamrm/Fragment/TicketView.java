@@ -277,7 +277,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
                     ft.add(R.id.container_body, fullScreenImage, FullScreenImage.FRAGMENT_TRANSACTION);
-                    //ft.addToBackStack(FullScreenImage.FRAGMENT_TRANSACTION);
+                    ft.addToBackStack(FullScreenImage.FRAGMENT_TRANSACTION);
                     ft.commit();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -294,7 +294,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
                     ft.add(R.id.container_body, fullScreenImage, FullScreenImage.FRAGMENT_TRANSACTION);
-                    //ft.addToBackStack(FullScreenImage.FRAGMENT_TRANSACTION);
+                    ft.addToBackStack(FullScreenImage.FRAGMENT_TRANSACTION);
                     ft.commit();
                 } catch (Exception e) {
                     e.printStackTrace();
