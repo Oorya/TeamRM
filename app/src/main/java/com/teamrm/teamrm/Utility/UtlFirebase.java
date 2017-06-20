@@ -148,7 +148,7 @@ public class UtlFirebase {
                                         }
                                         @Override
                                         public void onCancelled(DatabaseError databaseError) {
-                                            toastTheError(databaseError);
+                                            toastTheError("Err_01", databaseError);
                                         }
                                     });
 
@@ -189,7 +189,7 @@ public class UtlFirebase {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(databaseError);
+                toastTheError("Err_02",databaseError);
             }
         });
     }
@@ -203,7 +203,7 @@ public class UtlFirebase {
                 String addedUser = "Added user:\n";
                 addedUser += user.getUserEmail() + "\n";
                 addedUser += user.getUserNameString();
-                toastSuccessOrError(addedUser, databaseError);
+                toastSuccessOrError(addedUser, "Err_03", databaseError);
             }
 
         });
@@ -243,7 +243,7 @@ public class UtlFirebase {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(databaseError);
+                toastTheError("Err_04",databaseError);
             }
         });
     }
@@ -256,7 +256,7 @@ public class UtlFirebase {
         USERS_ROOT_REFERENCE.child(userId).updateChildren(updates, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                toastSuccessOrError(updates.toString(), databaseError);
+                toastSuccessOrError(updates.toString(), "Err_05", databaseError);
             }
         });
     }
@@ -270,7 +270,7 @@ public class UtlFirebase {
             USERS_ROOT_REFERENCE.child(userID).updateChildren(updates, new DatabaseReference.CompletionListener() {
                 @Override
                 public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                    toastSuccessOrError("User set as admin", databaseError);
+                    toastSuccessOrError("User set as admin", "Err_06", databaseError);
                 }
             });
         }
@@ -295,7 +295,7 @@ public class UtlFirebase {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 Log.d(TE_SEQ, "Stage 01+02");
-                toastSuccessOrError("Enrollment code added successfully", databaseError);
+                toastSuccessOrError("Enrollment code added successfully", "Err_07", databaseError);
             }
         });
     }
@@ -317,7 +317,7 @@ public class UtlFirebase {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(databaseError);
+                toastTheError("Err_08", databaseError);
             }
         });
     }
@@ -353,7 +353,7 @@ public class UtlFirebase {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(databaseError);
+                toastTheError("Err_09", databaseError);
             }
         };
 
@@ -393,7 +393,7 @@ public class UtlFirebase {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(databaseError);
+                toastTheError("Err_10", databaseError);
             }
         };
         Query query = TECHNICIAN_ENROLLMENT_CODES_REFERENCE.orderByChild(EnrollmentCode.ENROLLMENT_CODE_ID).equalTo(enrollmentCodeID);
@@ -406,7 +406,7 @@ public class UtlFirebase {
         TECHNICIAN_ENROLLMENT_CODES_REFERENCE.child(enrollmentCodeID).updateChildren(updateFields, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                toastSuccessOrError("enrollmentCode " + enrollmentCodeID + " update successful", databaseError);
+                toastSuccessOrError("enrollmentCode " + enrollmentCodeID + " update successful", "Err_11", databaseError);
             }
         });
     }
@@ -434,7 +434,7 @@ public class UtlFirebase {
                     GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                            toastSuccessOrError("Successfully enrolled as PendingTech", databaseError);
+                            toastSuccessOrError("Successfully enrolled as PendingTech", "Err_12", databaseError);
                             resultCallback.booleanCallback(true);
                         }
                     });
@@ -454,7 +454,7 @@ public class UtlFirebase {
         GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                toastSuccessOrError("Rollback to Client succeeded", databaseError);
+                toastSuccessOrError("Rollback to Client succeeded", "Err_13", databaseError);
                 if (null != databaseError) {
                     resultCallback.booleanCallback(false);
                 } else
@@ -471,7 +471,7 @@ public class UtlFirebase {
         GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                toastSuccessOrError("Promote to Tech succeeded", databaseError);
+                toastSuccessOrError("Promote to Tech succeeded", "Err_14", databaseError);
                 if (null != databaseError) {
                     resultCallback.booleanCallback(false);
                 } else
@@ -489,7 +489,7 @@ public class UtlFirebase {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(databaseError);
+                toastTheError("Err_15", databaseError);
             }
         });
     }
@@ -523,7 +523,7 @@ public class UtlFirebase {
         COMPANY_TECHNICIANS_ROOT_REFERENCE.child(companyID).child(technicianID).updateChildren(updates, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                toastSuccessOrError("Successfully updated technician", databaseError);
+                toastSuccessOrError("Successfully updated technician", "Err_16", databaseError);
             }
         });
     }
@@ -537,7 +537,7 @@ public class UtlFirebase {
         GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                toastSuccessOrError("Technician added successfully", databaseError);
+                toastSuccessOrError("Technician added successfully", "Err_17", databaseError);
                 resultCallback.booleanCallback(true);
             }
         });
@@ -602,7 +602,7 @@ public class UtlFirebase {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(databaseError);
+                toastTheError("Err_18", databaseError);
             }
         };
 
@@ -626,7 +626,7 @@ public class UtlFirebase {
         GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                toastSuccessOrError("Added ticket " + ticket.getTicketNumber(), databaseError);
+                toastSuccessOrError("Added ticket " + ticket.getTicketNumber(), "Err_19", databaseError);
             }
         });
     }
@@ -646,7 +646,7 @@ public class UtlFirebase {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError != null) {
-                    toastTheError(databaseError);
+                    toastTheError("Err_20", databaseError);
                 }
             }
         });
@@ -667,7 +667,7 @@ public class UtlFirebase {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError != null) {
-                    toastTheError(databaseError);
+                    toastTheError("Err_21", databaseError);
                 }
             }
         });
@@ -743,7 +743,7 @@ public class UtlFirebase {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(databaseError);
+                toastTheError("Err_22", databaseError);
             }
         };
         query.addValueEventListener(listener);
@@ -765,7 +765,7 @@ public class UtlFirebase {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(databaseError);
+                toastTheError("Err_23", databaseError);
             }
         };
         query.addValueEventListener(listener);
@@ -787,7 +787,7 @@ public class UtlFirebase {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(databaseError);
+                toastTheError("Err_24", databaseError);
             }
         };
         query.addValueEventListener(listener);
@@ -809,7 +809,7 @@ public class UtlFirebase {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(databaseError);
+                toastTheError("Err_25", databaseError);
             }
         };
         query.addValueEventListener(listener);
@@ -831,7 +831,7 @@ public class UtlFirebase {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(databaseError);
+                toastTheError("Err_26", databaseError);
             }
         };
         query.addValueEventListener(listener);
@@ -853,7 +853,7 @@ public class UtlFirebase {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(databaseError);
+                toastTheError("Err_27", databaseError);
             }
         };
         query.addValueEventListener(listener);
@@ -869,7 +869,7 @@ public class UtlFirebase {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(databaseError);
+                toastTheError("Err_28", databaseError);
             }
         });
 
@@ -886,7 +886,7 @@ public class UtlFirebase {
         GLOBAL_ROOT_REFERENCE.updateChildren(updates, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                toastSuccessOrError("update successful", databaseError);
+                toastSuccessOrError("update successful", "Err_29", databaseError);
             }
         });
     }
@@ -899,7 +899,7 @@ public class UtlFirebase {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError != null) {
-                    toastTheError(databaseError);
+                    toastTheError("Err_30", databaseError);
                 }
             }
         });
@@ -948,7 +948,7 @@ public class UtlFirebase {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(databaseError);
+                toastTheError("Err_31", databaseError);
             }
         });
     }
@@ -979,7 +979,7 @@ public class UtlFirebase {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(databaseError);
+                toastTheError("Err_32", databaseError);
             }
 
         };
@@ -1013,7 +1013,7 @@ public class UtlFirebase {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(databaseError);
+                toastTheError("Err_33", databaseError);
             }
         });
         //Log.e("ALL", "COMPANIES LIST");
@@ -1034,7 +1034,7 @@ public class UtlFirebase {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(databaseError);
+                toastTheError("Err_34", databaseError);
             }
         });
     }
@@ -1071,7 +1071,7 @@ public class UtlFirebase {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                toastTheError(databaseError);
+                toastTheError("Err_35", databaseError);
             }
         });
     }
@@ -1084,7 +1084,7 @@ public class UtlFirebase {
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 //Log.w("Firebase util ", "productName key " + databaseReference.getKey());
                 if (databaseError != null) {
-                    toastTheError(databaseError);
+                    toastTheError("Err_36", databaseError);
                 }
             }
         });
@@ -1139,7 +1139,7 @@ public class UtlFirebase {
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 //Log.d(TAG, "Updated productName " + productUpdatedName);
                 if (databaseError != null) {
-                    toastTheError(databaseError);
+                    toastTheError("Err_37", databaseError);
                 }
             }
         });
@@ -1150,7 +1150,7 @@ public class UtlFirebase {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError != null) {
-                    toastTheError(databaseError);
+                    toastTheError("Err_38", databaseError);
                 }
             }
         });
@@ -1217,7 +1217,7 @@ public class UtlFirebase {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError != null) {
-                    toastTheError(databaseError);
+                    toastTheError("Err_39", databaseError);
                 }
             }
         });
@@ -1228,7 +1228,7 @@ public class UtlFirebase {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError != null) {
-                    toastTheError(databaseError);
+                    toastTheError("Err_40", databaseError);
                 }
             }
         });
@@ -1242,7 +1242,7 @@ public class UtlFirebase {
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 //Log.w("Firebase util ", "region key " + databaseReference.getKey());
                 if (databaseError != null) {
-                    toastTheError(databaseError);
+                    toastTheError("Err_41", databaseError);
                 }
             }
         });
@@ -1295,7 +1295,7 @@ public class UtlFirebase {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError != null) {
-                    toastTheError(databaseError);
+                    toastTheError("Err_42", databaseError);
                 }
             }
         });
@@ -1306,7 +1306,7 @@ public class UtlFirebase {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError != null) {
-                    toastTheError(databaseError);
+                    toastTheError("Err_43", databaseError);
                 }
             }
         });
@@ -1321,7 +1321,7 @@ public class UtlFirebase {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError != null) {
-                    toastTheError(databaseError);
+                    toastTheError("Err_44", databaseError);
                 }
             }
         });
@@ -1375,7 +1375,7 @@ public class UtlFirebase {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError != null) {
-                    toastTheError(databaseError);
+                    toastTheError("Err_45", databaseError);
                 }
             }
         });
@@ -1386,7 +1386,7 @@ public class UtlFirebase {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError != null) {
-                    toastTheError(databaseError);
+                    toastTheError("Err_46", databaseError);
                 }
             }
         });
@@ -1502,15 +1502,15 @@ public class UtlFirebase {
         }
     }
 
-    static void toastTheError(DatabaseError dbError) {
-        new NiceToast(getAppContext(), "FireBase failed with error \n" + dbError.getCode() + "\n" + dbError.getMessage(), NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
+    static void toastTheError(String index, DatabaseError dbError) {
+        new NiceToast(getAppContext(), "FireBase failed with error \n" + index + "\n" + dbError.getCode() + "\n" + dbError.getMessage(), NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
     }
 
-    static void toastSuccessOrError(String positiveMessage, @Nullable DatabaseError dbError) {
+    static void toastSuccessOrError(String positiveMessage, @Nullable String index, @Nullable DatabaseError dbError) {
         if (dbError == null) {
             new NiceToast(getAppContext(), positiveMessage, NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_SHORT).show();
         } else {
-            new NiceToast(getAppContext(), "FireBase failed with error \n" + dbError.getCode() + "\n" + dbError.getMessage(), NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
+            new NiceToast(getAppContext(), "FireBase failed with error \n" + index + "\n" + dbError.getCode() + "\n" + dbError.getMessage(), NiceToast.NICETOAST_ERROR, Toast.LENGTH_LONG).show();
         }
     }
 }

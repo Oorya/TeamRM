@@ -604,8 +604,6 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
         Log.d("initializeTicket", ticket.getTicketAssignedDateTime());
 
-
-
         //if(ticket.getTicketAssignedDateTime()!=null&&ticket.getTicketAssignedDateTime().length()!=0)
         dateTimeOpen.setText((ticket.getTicketOpenDateTime().split("-"))[1]);
 
@@ -626,7 +624,6 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                     userAddCardOpen.setText(((Company)userDitaile).getCompanyAddress());
                     userMailCardOpen.setText(((Company)userDitaile).getCompanyName());//TODO ADD FILED mail IN Company
                     userPhoneCardOpen.setText(((Company)userDitaile).getCompanyPhone());
-
             }
 
         categoryTicketDetailsCardClosed.setText(ticket.getCategoryName());

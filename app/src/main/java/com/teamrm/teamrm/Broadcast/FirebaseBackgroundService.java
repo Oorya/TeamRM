@@ -34,7 +34,7 @@ public class FirebaseBackgroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, "FROM SERVICE ", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "FROM SERVICE ", Toast.LENGTH_SHORT).show();
 
         Log.w("from service", "create ");
         if (!UserSingleton.isUserLoaded()) {
@@ -48,7 +48,7 @@ public class FirebaseBackgroundService extends Service {
 
                     @Override
                     public void resultUser(Users user) {
-                        Toast.makeText(FirebaseBackgroundService.this, "INIT SERVICE ", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(FirebaseBackgroundService.this, "INIT SERVICE ", Toast.LENGTH_SHORT).show();
                         UserSingleton.init(user);
                     }
 
