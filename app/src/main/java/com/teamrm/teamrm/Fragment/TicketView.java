@@ -60,8 +60,6 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 
-
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -69,13 +67,14 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
     public static final String FRAGMENT_TRANSACTION = "TicketView";
     public static final int PERMISSION_PHONE_REQUEST_CODE = 1050;
-    CardView userDetailCard, approval, cancel, btnProfile;
+    CardView userDetailCard, btnProfile;
+    View approval, cancel;
     RelativeLayout userDetailOpen;
     RelativeLayout ticketDetailClose;
     RelativeLayout ticketDetailOpen;
-    TextView userNameClose, userProfile,userAreaCardOpen, userNameCardOpen, txtCancel, dateTimeChange, userNameCardClose, dateTimeOpen, ticketNumber, ticketStatus, productTicketDetailsCardClosed, categoryTicketDetailsCardClosed, regionTicketDetailsCardClosed, categoryTicketDetailsCardOpen, regionTicketDetailsCardOpen, addressTicketDetailsCardOpen, phoneTicketDetailsCardOpen, descriptionShortTicketDetailsCardOpen, descriptionLongTicketDetailsCardOpen, userMailCardOpen, userAddCardOpen, userPhoneCardOpen, productTicketDetailsCardOpen;
-    public static ImageView img1, img2, mailBtn, locationButton, phoneButton,navigateToAddressTicketDetailsCardOpen
-            ,callNumberTicketDetailsCardOpen;
+    TextView userNameClose, userProfile, userAreaCardOpen, userNameCardOpen, dateTimeChange, userNameCardClose, dateTimeOpen, ticketNumber, ticketStatus, productTicketDetailsCardClosed, categoryTicketDetailsCardClosed, regionTicketDetailsCardClosed, categoryTicketDetailsCardOpen, regionTicketDetailsCardOpen, addressTicketDetailsCardOpen, phoneTicketDetailsCardOpen, descriptionShortTicketDetailsCardOpen, descriptionLongTicketDetailsCardOpen, userMailCardOpen, userAddCardOpen, userPhoneCardOpen, productTicketDetailsCardOpen;
+    public static ImageView img1, img2, mailBtn, locationButton, phoneButton, navigateToAddressTicketDetailsCardOpen, callNumberTicketDetailsCardOpen;
+    TextView txtCancel;
     private static ProgressDialog mProgress;
     private Ticket ticket;
     static String ticketID, timeFormated;
@@ -104,7 +103,6 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         mProgress.setCanceledOnTouchOutside(false);
 
 
-
         utlAlarmManager = new UtlAlarmManager(getContext());
         if (bundle != null) {
             Log.d("TICKET_ID Bundle:  ", bundle.getString("ticketID", "error"));
@@ -114,11 +112,11 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                 String ticketId = bundle.getString("ticketID", "error");
                 Log.d("TICKET_ID Bundle:  ", ticketId);
                 ticketID = ticketId;
-                if(Ticket.getTickeyById(ticketId)!=null) {
+                if (Ticket.getTickeyById(ticketId) != null) {
                     this.ticket = Ticket.getTickeyById(ticketId);
 
                 } else
-                UtlFirebase.getTicketByKey(ticketID, this);
+                    UtlFirebase.getTicketByKey(ticketID, this);
 
             }
 
@@ -137,7 +135,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         stateActionButtons = new StateActionButtons();
 
         setListeners(view);
-        if(this.ticket!=null) {
+        if (this.ticket != null) {
             initializeUserDitile();
         }
         Typeface REGULAR = Typeface.createFromAsset(this.getContext().getAssets(), "Assistant-Regular.ttf");
@@ -151,7 +149,6 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         ((TextView) view.findViewById(R.id.dateTimeChange)).setTypeface(REGULAR);
         ((TextView) view.findViewById(R.id.dateTimeOpen)).setTypeface(REGULAR);
         ((TextView) view.findViewById(R.id.ticketNumber)).setTypeface(SEMI_BOLD);
-
 
 
         return view;
@@ -346,25 +343,23 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        callIntent.setData(Uri.parse("tel:"+phone));
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
-        {
+        callIntent.setData(Uri.parse("tel:" + phone));
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, PERMISSION_PHONE_REQUEST_CODE);
-            Log.d("openPhoneDialog",ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE)+"" );
+            Log.d("openPhoneDialog", ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) + "");
             return;
-        }
-        else
-        {
+        } else {
 
             getActivity().startActivity(callIntent);
         }
     }
+
     private void openGpsDialog(String addres) {
 
-        Address formataddres=null;
+        Address formataddres = null;
         String title = "בחר תוכנת ניווט";
         formataddres = getLocationFromAddress(addres);
-        if(formataddres!=null) {
+        if (formataddres != null) {
             double longitude = formataddres.getLongitude();
             double latitude = formataddres.getLatitude();
 
@@ -374,8 +369,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             if (navigateIntent.resolveActivity(getActivity().getPackageManager()) != null) {
                 startActivity(chooser);
             }
-        }else
-        {
+        } else {
             new MaterialDialog.Builder(getContext())
                     .title("לא הוזנה כתובת לתקלה זו!")
                     .titleColor(Color.BLACK)
@@ -395,37 +389,34 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
         String phone = null;
 
-        if(userDitaile instanceof Client)
-            phone = ((Client)userDitaile).getUserPhone();
+        if (userDitaile instanceof Client)
+            phone = ((Client) userDitaile).getUserPhone();
         else
-            phone = ((Company)userDitaile).getCompanyPhone();
+            phone = ((Company) userDitaile).getCompanyPhone();
 
 
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        callIntent.setData(Uri.parse("tel:"+phone));
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
-            {
-                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, PERMISSION_PHONE_REQUEST_CODE);
-                Log.d("openPhoneDialog",ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE)+"" );
-                return;
-            }
-        else
-            {
+        callIntent.setData(Uri.parse("tel:" + phone));
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, PERMISSION_PHONE_REQUEST_CODE);
+            Log.d("openPhoneDialog", ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) + "");
+            return;
+        } else {
 
-                getActivity().startActivity(callIntent);
-            }
+            getActivity().startActivity(callIntent);
+        }
     }
 
     private void openGpsDialog() {
 
         Address addres;
         String title = "בחר לנווט עם...";
-        if(getLocationFromAddress(ticket.getTicketAddress())!=null) {
-            if(userDitaile instanceof Client)
-                addres = getLocationFromAddress(((Client)userDitaile).getUserAddress());
+        if (getLocationFromAddress(ticket.getTicketAddress()) != null) {
+            if (userDitaile instanceof Client)
+                addres = getLocationFromAddress(((Client) userDitaile).getUserAddress());
             else
-                addres = getLocationFromAddress(((Company)userDitaile).getCompanyAddress());
+                addres = getLocationFromAddress(((Company) userDitaile).getCompanyAddress());
             double longitude = addres.getLongitude();
             double latitude = addres.getLatitude();
 
@@ -435,39 +426,38 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             if (navigateIntent.resolveActivity(getActivity().getPackageManager()) != null) {
                 startActivity(chooser);
             }
-        }else
-            {
-                new MaterialDialog.Builder(getContext())
-                        .title("לא קיימת כתובת למשתמש זה")
-                        .titleColor(Color.BLACK)
-                        .positiveText("הבנתי")
-                        .backgroundColor(Color.WHITE)
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+        } else {
+            new MaterialDialog.Builder(getContext())
+                    .title("לא קיימת כתובת למשתמש זה")
+                    .titleColor(Color.BLACK)
+                    .positiveText("הבנתי")
+                    .backgroundColor(Color.WHITE)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
 
-                            }
-                        })
-                        .show();
-            }
+                        }
+                    })
+                    .show();
+        }
     }
 
-    private void openMailDialog()
-    {
+    private void openMailDialog() {
         String email;
-        if(userDitaile instanceof Client)
-            email = ((Client)userDitaile).getUserEmail();
+        if (userDitaile instanceof Client)
+            email = ((Client) userDitaile).getUserEmail();
         else
-            email = ((Company)userDitaile).getCompanyName();
+            email = ((Company) userDitaile).getCompanyName();
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        Uri data = Uri.parse("mailto:?to=" + email );
+        Uri data = Uri.parse("mailto:?to=" + email);
         intent.setData(data);
         startActivity(intent);
     }
-    public Address getLocationFromAddress(String strAddress){
 
-        if (strAddress.length()==0)
+    public Address getLocationFromAddress(String strAddress) {
+
+        if (strAddress.length() == 0)
             return null;
         Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
         List<Address> addresses = null;
@@ -497,45 +487,45 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
         //ticket profile buttons
         userProfile = (TextView) view.findViewById(R.id.userProfileLabel);
-        btnProfile = (CardView)view.findViewById(R.id.btnProfile);
-        approval = (CardView) view.findViewById(R.id.ok);
-        cancel = (CardView) view.findViewById(R.id.cancel);
-        txtCancel = (TextView) view.findViewById(R.id.txtCancel);
+        btnProfile = (CardView) view.findViewById(R.id.btnProfile);
+        approval = (View) view.findViewById(R.id.btnOk);
+        cancel = (View) view.findViewById(R.id.btnCancel);
+        //txtCancel = (TextView) view.findViewById(R.id.txtCancel);
 
         //user card Close
         userNameCardClose = (TextView) view.findViewById(R.id.userNameCardClose);
 
         //user card open
-        userNameCardOpen = (TextView)view.findViewById(R.id.userNameCardOpen);
-        userMailCardOpen = (TextView)view.findViewById(R.id.userMailCardOpen);
-        userAddCardOpen = (TextView)view.findViewById(R.id.userAddCardOpen);
-        userPhoneCardOpen = (TextView)view.findViewById(R.id.userPhoneCardOpen);
-        userAreaCardOpen = (TextView)view.findViewById(R.id.userAreaCardOpen);
+        userNameCardOpen = (TextView) view.findViewById(R.id.userNameCardOpen);
+        userMailCardOpen = (TextView) view.findViewById(R.id.userMailCardOpen);
+        userAddCardOpen = (TextView) view.findViewById(R.id.userAddCardOpen);
+        userPhoneCardOpen = (TextView) view.findViewById(R.id.userPhoneCardOpen);
+        userAreaCardOpen = (TextView) view.findViewById(R.id.userAreaCardOpen);
 
         //ticket card Close
-        productTicketDetailsCardClosed = (TextView)view.findViewById(R.id.productTicketDetailsCardClosed);
-        categoryTicketDetailsCardClosed = (TextView)view.findViewById(R.id.categoryTicketDetailsCardClosed);
-        regionTicketDetailsCardClosed = (TextView)view.findViewById(R.id.regionTicketDetailsCardClosed);
+        productTicketDetailsCardClosed = (TextView) view.findViewById(R.id.productTicketDetailsCardClosed);
+        categoryTicketDetailsCardClosed = (TextView) view.findViewById(R.id.categoryTicketDetailsCardClosed);
+        regionTicketDetailsCardClosed = (TextView) view.findViewById(R.id.regionTicketDetailsCardClosed);
 
-       //ticket card open
-        productTicketDetailsCardOpen = (TextView)view.findViewById(R.id.productTicketDetailsCardOpen);
-        categoryTicketDetailsCardOpen = (TextView)view.findViewById(R.id.categoryTicketDetailsCardOpen);
-        regionTicketDetailsCardOpen = (TextView)view.findViewById(R.id.regionTicketDetailsCardOpen);
-        addressTicketDetailsCardOpen  = (TextView)view.findViewById(R.id.addressTicketDetailsCardOpen);
-        phoneTicketDetailsCardOpen  = (TextView)view.findViewById(R.id.phoneTicketDetailsCardOpen);
-        descriptionShortTicketDetailsCardOpen  = (TextView)view.findViewById(R.id.descriptionShortTicketDetailsCardOpen);
-        descriptionLongTicketDetailsCardOpen = (TextView)view.findViewById(R.id.descriptionLongTicketDetailsCardOpen);
+        //ticket card open
+        productTicketDetailsCardOpen = (TextView) view.findViewById(R.id.productTicketDetailsCardOpen);
+        categoryTicketDetailsCardOpen = (TextView) view.findViewById(R.id.categoryTicketDetailsCardOpen);
+        regionTicketDetailsCardOpen = (TextView) view.findViewById(R.id.regionTicketDetailsCardOpen);
+        addressTicketDetailsCardOpen = (TextView) view.findViewById(R.id.addressTicketDetailsCardOpen);
+        phoneTicketDetailsCardOpen = (TextView) view.findViewById(R.id.phoneTicketDetailsCardOpen);
+        descriptionShortTicketDetailsCardOpen = (TextView) view.findViewById(R.id.descriptionShortTicketDetailsCardOpen);
+        descriptionLongTicketDetailsCardOpen = (TextView) view.findViewById(R.id.descriptionLongTicketDetailsCardOpen);
 
-        navigateToAddressTicketDetailsCardOpen = (ImageView)view.findViewById(R.id.navigateToAddress);
-        callNumberTicketDetailsCardOpen = (ImageView)view.findViewById(R.id.callNumber);
+        navigateToAddressTicketDetailsCardOpen = (ImageView) view.findViewById(R.id.navigateToAddress);
+        callNumberTicketDetailsCardOpen = (ImageView) view.findViewById(R.id.callNumber);
 
         //ticket img
-        img1 = (ImageView)view.findViewById(R.id.photo1);
-        img2 = (ImageView)view.findViewById(R.id.photo2);
+        img1 = (ImageView) view.findViewById(R.id.photo1);
+        img2 = (ImageView) view.findViewById(R.id.photo2);
 
-        mailBtn =  (ImageView) view.findViewById(R.id.mailButton);
-        locationButton =  (ImageView) view.findViewById(R.id.locationButton);
-        phoneButton =  (ImageView) view.findViewById(R.id.phoneButton);
+        mailBtn = (ImageView) view.findViewById(R.id.mailButton);
+        locationButton = (ImageView) view.findViewById(R.id.locationButton);
+        phoneButton = (ImageView) view.findViewById(R.id.phoneButton);
 
         navigateToAddressTicketDetailsCardOpen.setOnClickListener(this);
         callNumberTicketDetailsCardOpen.setOnClickListener(this);
@@ -569,10 +559,8 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
     }
 
-    private void initializeUserDitile()
-    {
-        if(UserSingleton.getInstance().isUserIsAdmin())
-        {
+    private void initializeUserDitile() {
+        if (UserSingleton.getInstance().isUserIsAdmin()) {
             UtlFirebase.getClientByID(ticket.getClientID(), new ClientCallback() {
                 @Override
                 public void clientCallback(Client client) {
@@ -582,8 +570,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
                 }
             });
-        }else
-        {
+        } else {
             UtlFirebase.getCompanyByID(ticket.getCompanyID(), new CompanyCallback() {
                 @Override
                 public void companyCallback(Company company) {
@@ -600,31 +587,30 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     private void initializeTicket() {
 
 
-        ticketNumber.setText("מספר קריאה "+ticket.getTicketNumber());
+        ticketNumber.setText("מספר קריאה " + ticket.getTicketNumber());
 
         Log.d("initializeTicket", ticket.getTicketAssignedDateTime());
 
         //if(ticket.getTicketAssignedDateTime()!=null&&ticket.getTicketAssignedDateTime().length()!=0)
         dateTimeOpen.setText((ticket.getTicketOpenDateTime().split("-"))[1]);
 
-        if(userDitaile instanceof Client) {
+        if (userDitaile instanceof Client) {
 
-                    userNameCardClose.setText(((Users)userDitaile).getUserNameString());
-                    userNameCardOpen.setText(((Users)userDitaile).getUserNameString());
-                    userAddCardOpen.setText(((Users)userDitaile).getUserAddress());
-                    userMailCardOpen.setText(((Users)userDitaile).getUserEmail());
-                    userPhoneCardOpen.setText(((Users)userDitaile).getUserPhone());
-                    userAreaCardOpen.setText(((Users)userDitaile).getUserNameString());//TODO ADD FILED AREA TO USER
+            userNameCardClose.setText(((Users) userDitaile).getUserNameString());
+            userNameCardOpen.setText(((Users) userDitaile).getUserNameString());
+            userAddCardOpen.setText(((Users) userDitaile).getUserAddress());
+            userMailCardOpen.setText(((Users) userDitaile).getUserEmail());
+            userPhoneCardOpen.setText(((Users) userDitaile).getUserPhone());
+            userAreaCardOpen.setText(((Users) userDitaile).getUserNameString());//TODO ADD FILED AREA TO USER
 
 
-        }else
-            {
-                    userNameCardClose.setText(((Company)userDitaile).getCompanyName());
-                    userNameCardOpen.setText(((Company)userDitaile).getCompanyName());
-                    userAddCardOpen.setText(((Company)userDitaile).getCompanyAddress());
-                    userMailCardOpen.setText(((Company)userDitaile).getCompanyName());//TODO ADD FILED mail IN Company
-                    userPhoneCardOpen.setText(((Company)userDitaile).getCompanyPhone());
-            }
+        } else {
+            userNameCardClose.setText(((Company) userDitaile).getCompanyName());
+            userNameCardOpen.setText(((Company) userDitaile).getCompanyName());
+            userAddCardOpen.setText(((Company) userDitaile).getCompanyAddress());
+            userMailCardOpen.setText(((Company) userDitaile).getCompanyName());//TODO ADD FILED mail IN Company
+            userPhoneCardOpen.setText(((Company) userDitaile).getCompanyPhone());
+        }
 
         categoryTicketDetailsCardClosed.setText(ticket.getCategoryName());
         categoryTicketDetailsCardOpen.setText(ticket.getCategoryName());
@@ -637,25 +623,22 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         descriptionShortTicketDetailsCardOpen.setText(ticket.getDescriptionShort());
         descriptionLongTicketDetailsCardOpen.setText(ticket.getDescriptionLong());
 
-        if(!ticket.getTicketImage1().equals("error"))
-        {
-            UtlFirebase.downloadFile(ticket.getTicketID()+"/pic1.jpg",1);
+        if (!ticket.getTicketImage1().equals("error")) {
+            UtlFirebase.downloadFile(ticket.getTicketID() + "/pic1.jpg", 1);
         }
-        if(!ticket.getTicketImage2().equals("error"))
-        {
-            UtlFirebase.downloadFile(ticket.getTicketID()+"/pic2.jpg",2);
+        if (!ticket.getTicketImage2().equals("error")) {
+            UtlFirebase.downloadFile(ticket.getTicketID() + "/pic2.jpg", 2);
         }
-        if(ticket.getTicketAssignedDateTime().length()>0)
+        if (ticket.getTicketAssignedDateTime().length() > 0)
             dateTimeChange.setText(ticket.getTicketAssignedDateTime());
 
         mProgress.hide();
 
     }
 
-    private String date2String(Date date)
-    {
+    private String date2String(Date date) {
         SimpleDateFormat format1;
-        if(date.getHours()> 0)
+        if (date.getHours() > 0)
             format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         else
             format1 = new SimpleDateFormat("dd/MM/yyyy");
@@ -704,9 +687,9 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
     }
 
-    private void alternateRowColor(View view, int rowSetID){
+    private void alternateRowColor(View view, int rowSetID) {
         try {
-            RowSetLayout rowSetLayout = (RowSetLayout)view.findViewById(rowSetID);
+            RowSetLayout rowSetLayout = (RowSetLayout) view.findViewById(rowSetID);
             rowSetLayout.AlternateRowsBackground(rowSetLayout, R.color.listRow_alt, RowSetLayout.ALTER_EVEN_ROWS);
         } catch (Exception e) {
             e.printStackTrace();
