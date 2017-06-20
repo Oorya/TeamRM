@@ -3,10 +3,7 @@ package com.teamrm.teamrm.Type;
 import android.support.annotation.Nullable;
 
 import com.google.firebase.database.Exclude;
-import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
-
-import java.util.List;
 
 /**
  * Created by Oorya on 10/08/2016.

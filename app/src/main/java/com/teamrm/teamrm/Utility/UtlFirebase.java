@@ -34,7 +34,6 @@ import com.teamrm.teamrm.Interfaces.FireBaseAble;
 import com.teamrm.teamrm.Interfaces.FireBaseBooleanCallback;
 import com.teamrm.teamrm.Interfaces.PendingTechSingleCallback;
 import com.teamrm.teamrm.Interfaces.TechnicianCallback;
-import com.teamrm.teamrm.Interfaces.TechniciansObservable;
 import com.teamrm.teamrm.Interfaces.TicketStateObservable;
 import com.teamrm.teamrm.Interfaces.WorkShiftCallback;
 import com.teamrm.teamrm.Type.Admin;
@@ -112,7 +111,7 @@ public class UtlFirebase {
 
 ///////////////////////////// User /////////////////////////////
 
-    public static void loginUser(final FirebaseUser firebaseUser, final FireBaseAble fbHelper) {
+    public static void loginUser(final FirebaseUser firebaseUser, final String userImgPath, final FireBaseAble fbHelper) {
         Log.d(LOGINTAG, "Stage 5, check if in firebase exists " + firebaseUser.getEmail());
         final Query queryUserExists = USERS_ROOT_REFERENCE.orderByChild(Users.USER_EMAIL).equalTo(firebaseUser.getEmail());
         queryUserExists.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -121,6 +120,7 @@ public class UtlFirebase {
                 if (!dataSnapshot.exists()) {
                     Log.d(LOGINTAG, "Stage 6a, no such user " + firebaseUser.getEmail() + " exists, creating one");
                     Client clientToAdd = new Client(firebaseUser.getUid(), firebaseUser.getDisplayName(), firebaseUser.getEmail(), "", "");
+                    clientToAdd.setUserImgPath(userImgPath);
                     UtlFirebase.addClient(clientToAdd);
                     fbHelper.resultUser(clientToAdd);
                 } else {

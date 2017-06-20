@@ -50,7 +50,6 @@ import com.teamrm.teamrm.Utility.NiceToast;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.teamrm.teamrm.Utility.UserSingleton.LOGINTAG;
@@ -116,6 +115,8 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     public void onStart() {
         super.onStart();
         Log.d(TAG, "onStart: ");
+
+
 
 
         if (!UserSingleton.isUserLoaded()) {
@@ -260,9 +261,8 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
-                        UtlFirebase.setUserImg(task.getResult().getUser().getUid(), acct.getPhotoUrl().toString());
-                        Log.w("IMAGE GOOGLE ACCOUNT", acct.getPhotoUrl() == null ? "NULL" : acct.getPhotoUrl().getPath());
-                        logOnToApp(task.getResult().getUser());
+                        Log.w("IMAGE GOOGLE ACCOUNT", acct.getPhotoUrl() == null ? "NULL" : acct.getPhotoUrl().toString());
+                        logOnToApp(task.getResult().getUser(), acct.getPhotoUrl().toString());
 
                         if (!task.isSuccessful()) {
                             Log.w(LOGINTAG, "Stage 3 failed with error " + task.getException());
@@ -273,8 +273,8 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
                 });
     }
 
-    private void logOnToApp(FirebaseUser firebaseUser) {
-        UtlFirebase.loginUser(firebaseUser, new FireBaseAble() {
+    private void logOnToApp(FirebaseUser firebaseUser, String userImgPath) {
+        UtlFirebase.loginUser(firebaseUser, userImgPath, new FireBaseAble() {
             @Override
             public void resultTicket(Ticket ticket) {
 

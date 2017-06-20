@@ -1,7 +1,6 @@
 package com.teamrm.teamrm.Broadcast;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -41,7 +40,7 @@ public class FirebaseBackgroundService extends Service {
         if (!UserSingleton.isUserLoaded()) {
             if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                 Toast.makeText(this, "FROM SERVICE USER " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();
-                UtlFirebase.loginUser(FirebaseAuth.getInstance().getCurrentUser(), new FireBaseAble() {
+                UtlFirebase.loginUser(FirebaseAuth.getInstance().getCurrentUser(), "", new FireBaseAble() {
                     @Override
                     public void resultTicket(Ticket ticket) {
 
