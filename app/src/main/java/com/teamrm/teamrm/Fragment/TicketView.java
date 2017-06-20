@@ -29,7 +29,6 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.teamrm.teamrm.Activities.HomeScreen;
 import com.teamrm.teamrm.Interfaces.ClientCallback;
 import com.teamrm.teamrm.Interfaces.CompanyCallback;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
@@ -52,10 +51,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -267,7 +264,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             fragmentManager.replace(R.id.container_body, calendarView).addToBackStack(CalendarView.FRAGMENT_TRANSACTION).commit();
             (getActivity()).setTitle("יומן");
         }
-        /*else if(view.getId() == img1.getId())
+        else if(view.getId() == img1.getId())
         {
             if(null != bitmapImg1)
             {
@@ -300,7 +297,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                     e.printStackTrace();
                 }
             }
-        }*/
+        }
         else if (view.getId() == cancel.getId()) {
             switch (ticket.getTicketStateString()) {
                 case TicketStateStringable.STATE_A00: {
