@@ -156,7 +156,8 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/card_userDetails">
+                        android:layout_below="@id/card_userDetails"
+                        >
 
                         <include
                             android:id="@+id/ticketDetails"
@@ -264,11 +265,12 @@
 
     </com.teamrm.teamrm.Utility.RowSetLayout>
     <RelativeLayout
-
         android:layout_alignBottom="@id/ticketMain"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:id="@+id/ticketActions"
+        android:padding="4dp"
+        android:elevation="10dp"
         >
 
         <include layout="@layout/fragment_state_action_buttons"

@@ -13,16 +13,25 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@color/status_ok">
+        android:background="@drawable/rect_round_corners_right"
+        android:gravity="center"
+        >
 
-        <Button
-            android:id="@+id/btnRight"
-            style="@style/paddedBtn"
-            android:background="@android:color/transparent"
-            android:drawablePadding="16dp"
-            android:drawableStart="@drawable/ic_icon_ok"
-            android:text="אישור פתיחה"
-            android:textColor="#fff" />
+        <ImageView
+            android:id="@+id/btnOkIcon"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/ic_icon_ok"
+            android:layout_marginEnd="8dp"/>
+        <TextView
+            android:id="@+id/btnOkText"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:gravity="center"
+            android:textSize="15dp"
+            android:text="דחיית פתיחה"
+            android:textColor="#fff"
+            android:layout_toEndOf="@id/btnOkIcon"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -30,16 +39,26 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@color/status_error">
+        android:background="@drawable/rect_round_corners_left"
+        android:gravity="center"
+        >
 
-        <Button
-            android:id="@+id/btnLeft"
-            style="@style/paddedBtn"
-            android:background="@android:color/transparent"
-            android:drawablePadding="16dp"
-            android:drawableStart="@drawable/ic_icon_cancel"
+        <ImageView
+            android:id="@+id/btnCancelIcon"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/ic_icon_cancel"
+            android:layout_marginEnd="8dp"/>
+        <TextView
+            android:id="@+id/btnCancelText"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:gravity="center"
+            android:textSize="15dp"
             android:text="דחיית פתיחה"
-            android:textColor="#fff" />
+            android:textColor="#fff"
+            android:layout_toEndOf="@id/btnCancelIcon"
+            />
     </RelativeLayout>
 
 </LinearLayout>

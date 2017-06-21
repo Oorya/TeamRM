@@ -94,7 +94,7 @@ public class AdminSettingsAppPrefs extends Fragment implements CalendarHelper{
                 .title("delete all tickets and ticket states")
                 .content("sure about that?")
                 .positiveText("delete all")
-                .negativeText("cancel")
+                .negativeText("btnCancel")
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
