@@ -270,6 +270,10 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             {
                 try {
                     FullScreenImage fullScreenImage = new FullScreenImage();
+                    Bundle ticketData = new Bundle();
+                    ticketData.putString("ticketId", ticketID);
+                    ticketData.putInt("imgClicked", 1);
+                    fullScreenImage.setArguments(ticketData);
                     fullScreenImage.setBitmap(bitmapImg1);
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
@@ -287,6 +291,10 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
             {
                 try {
                     FullScreenImage fullScreenImage = new FullScreenImage();
+                    Bundle ticketData = new Bundle();
+                    ticketData.putString("ticketId", ticketID);
+                    ticketData.putInt("imgClicked", 2);
+                    fullScreenImage.setArguments(ticketData);
                     fullScreenImage.setBitmap(bitmapImg2);
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
