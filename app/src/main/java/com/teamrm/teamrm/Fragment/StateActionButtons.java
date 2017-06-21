@@ -26,8 +26,8 @@ public class StateActionButtons extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_state_action_buttons, container, false);
-        Button btnRight = (Button)view.findViewById(R.id.btnRight);
-        Button btnLeft = (Button)view.findViewById(R.id.btnLeft);
+       /* Button btnRight = (Button)view.findViewById(R.id.btnRight);
+        Button btnLeft = (Button)view.findViewById(R.id.btnLeft);*/
 
 
         return view;

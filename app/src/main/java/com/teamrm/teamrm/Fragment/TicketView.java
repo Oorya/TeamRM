@@ -42,6 +42,7 @@ import com.teamrm.teamrm.Type.Region;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.Users;
+import com.teamrm.teamrm.Utility.NiceToast;
 import com.teamrm.teamrm.Utility.RowSetLayout;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlAlarmManager;
@@ -65,7 +66,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     public static final String FRAGMENT_TRANSACTION = "TicketView";
     public static final int PERMISSION_PHONE_REQUEST_CODE = 1050;
     CardView userDetailCard, btnProfile;
-    View approval, cancel;
+    View btnApproval, btnCancel;
     RelativeLayout userDetailOpen;
     RelativeLayout ticketDetailClose;
     RelativeLayout ticketDetailOpen;
@@ -189,10 +190,9 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
 
         } else if (view.getId() == btnProfile.getId()) {
             Toast.makeText(getContext(), UserSingleton.getInstance().getUserNameString(), Toast.LENGTH_SHORT).show();
-        } else if (view.getId() == approval.getId()) {
-
-            Toast.makeText(getContext(), "ok", Toast.LENGTH_SHORT).show();
-            switch (ticket.getTicketStateString()) {
+        } else if (view.getId() == btnApproval.getId()) {
+            new NiceToast(getContext(), "Clicked approve", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_SHORT).show();
+            /*switch (ticket.getTicketStateString()) {
                 case TicketStateStringable.STATE_A00: {
                     ticket.updateTicketStateString(TicketStateStringable.STATE_A01, ticket);
                     ticket.getTicketStateObj().setView(this.getView());
@@ -251,7 +251,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                     ticket.updateTicketStateString(TicketStateStringable.STATE_E02, ticket);
                     break;
                 }
-            }
+            }*/
         } else if (view.getId() == dateTimeChange.getId()) {
             Bundle bundle = new Bundle();
             bundle.putString("ticketID", ticketID);
@@ -306,8 +306,9 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                 }
             }
         }
-        else if (view.getId() == cancel.getId()) {
-            switch (ticket.getTicketStateString()) {
+        else if (view.getId() == btnCancel.getId()) {
+            new NiceToast(getContext(), "Clicked cancel", NiceToast.NICETOAST_WARNING, Toast.LENGTH_SHORT).show();
+            /*switch (ticket.getTicketStateString()) {
                 case TicketStateStringable.STATE_A00: {
                     ticket.updateTicketStateString(TicketStateStringable.STATE_E00, ticket);
                     ticket.getTicketStateObj().setView(this.getView());
@@ -340,7 +341,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                     ticket.updateTicketStateString(TicketStateStringable.STATE_Z00, ticket);
                     break;
                 }
-            }
+            }*/
         }
     }
 
@@ -493,8 +494,8 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         //ticket profile buttons
         userProfile = (TextView) view.findViewById(R.id.userProfileLabel);
         btnProfile = (CardView) view.findViewById(R.id.btnProfile);
-        approval = (View) view.findViewById(R.id.btnOk);
-        cancel = (View) view.findViewById(R.id.btnCancel);
+        btnApproval = view.findViewById(R.id.btnOk);
+        btnCancel = view.findViewById(R.id.btnCancel);
         //txtCancel = (TextView) view.findViewById(R.id.txtCancel);
 
         //user card Close
@@ -543,8 +544,8 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         ticketDetailOpen.setOnClickListener(this);
         userProfile.setOnClickListener(this);
         btnProfile.setOnClickListener(this);
-        approval.setOnClickListener(this);
-        cancel.setOnClickListener(this);
+        btnApproval.setOnClickListener(this);
+        btnCancel.setOnClickListener(this);
         mailBtn.setOnClickListener(this);
         locationButton.setOnClickListener(this);
         phoneButton.setOnClickListener(this);

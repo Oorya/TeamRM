@@ -15,10 +15,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,7 +81,13 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
         Log.d(UserSingleton.LOGINTAG, "UserSingleton.getLoadedUserType = " + UserSingleton.getLoadedUserType());
 
-        setContentView(R.layout.activity_home_screen);
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int mScreenWidth = displaymetrics.widthPixels;
+        int mScreenHeight = displaymetrics.heightPixels;
+        View view = getLayoutInflater().inflate(R.layout.activity_home_screen, null);
+        setContentView(view, new ViewGroup.LayoutParams(mScreenWidth, mScreenHeight));
+
         new NiceToast(this, "User " + UserSingleton.getInstance().getUserEmail() + "\n"
                 + "logged in as " + UserSingleton.getLoadedUserType(), NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_LONG).show();
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);

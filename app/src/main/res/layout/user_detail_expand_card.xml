@@ -12,8 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layoutDirection="rtl"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="6dp"
         app:cardElevation="5dp"
+        app:cardUseCompatPadding="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
 
