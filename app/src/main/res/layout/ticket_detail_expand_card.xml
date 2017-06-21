@@ -12,10 +12,9 @@
         android:layout_marginBottom="12dp"
         android:layout_marginTop="12dp"
         android:layoutDirection="rtl"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="6dp"
         app:cardElevation="5dp"
-
-        >
+        app:cardUseCompatPadding="true">
 
         <com.teamrm.teamrm.Utility.RowSetLayout
             android:layout_width="wrap_content"
@@ -25,8 +24,7 @@
             <com.teamrm.teamrm.Utility.RowViewLayout
                 android:id="@+id/ticketHeadingExpand"
                 style="@style/CardRow"
-                android:layout_height="42dp"
-                >
+                android:layout_height="42dp">
 
                 <ImageView
                     android:id="@+id/userIcon"
@@ -74,8 +72,7 @@
 
             <com.teamrm.teamrm.Utility.RowViewLayout
                 android:id="@+id/categoryRow"
-                style="@style/CardRow"
-                >
+                style="@style/CardRow">
 
                 <ImageView
                     android:id="@+id/ClassificationIcon"
@@ -100,7 +97,7 @@
                 android:id="@+id/addressRow"
                 style="@style/CardRow"
                 android:layout_height="wrap_content"
-                
+
                 android:minHeight="48dp"
                 android:paddingBottom="8dp"
                 android:paddingTop="8dp">
@@ -190,8 +187,7 @@
                 <RelativeLayout
                     android:id="@+id/labelDescription"
                     style="@style/CardRow"
-                    android:layout_below="@id/phoneRow"
-                    >
+                    android:layout_below="@id/phoneRow">
 
                     <ImageView
                         android:id="@+id/descriptionIcon"
@@ -210,7 +206,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/labelDescription"
-                    
+
                     android:paddingBottom="16dp"
                     android:paddingEnd="32dp"
                     android:paddingStart="32dp">
@@ -257,6 +253,7 @@
             <com.teamrm.teamrm.Utility.RowViewLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+
                 <RelativeLayout
                     android:id="@+id/photos"
                     style="@style/CardRow"
@@ -274,7 +271,7 @@
                         android:layout_toEndOf="@id/photoIcon"
                         android:text="תמונות מצורפות" />
                 </RelativeLayout>
-                
+
                 <LinearLayout
                     android:id="@+id/photosLayout"
                     android:layout_width="match_parent"
@@ -292,8 +289,7 @@
                         android:layout_height="120dp"
                         android:layout_weight="1"
                         android:background="#e7e7e7"
-                        android:src="@drawable/ic_image_black_24dp"
-                        />
+                        android:src="@drawable/ic_image_black_24dp" />
 
                     <View
                         android:layout_width="1dp"

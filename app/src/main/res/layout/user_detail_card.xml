@@ -13,8 +13,9 @@
         android:layout_marginBottom="12dp"
         android:layout_marginTop="12dp"
         android:layoutDirection="rtl"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="6dp"
         app:cardElevation="5dp"
+        app:cardUseCompatPadding="true"
         >
 
         <RelativeLayout
