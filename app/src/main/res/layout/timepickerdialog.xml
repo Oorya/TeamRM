@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content" android:layout_height="wrap_content"
-    android:padding="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layoutDirection="rtl"
+    android:padding="5dp"
 
     >
 
@@ -97,37 +98,39 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/pikDite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_below="@id/startTime"
+        android:orientation="horizontal"
         android:padding="10dp"
-        android:visibility="gone"
-        android:id="@+id/pikDite">
+        android:visibility="gone">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:id="@+id/daite"
-            android:text="שעת סיום תיפול"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="שעת סיום תיפול" />
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-       android:layout_weight="1"
-        android:id="@+id/SelectManet"/>
+        <Spinner
+            android:id="@+id/SelectManet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textAlignment="center"
-            android:text=":"/>
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:id="@+id/SelectHour"/>
+            android:text=":"
+            android:textAlignment="center" />
+
+        <Spinner
+            android:id="@+id/SelectHour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
     </LinearLayout>
 
 
@@ -175,12 +178,11 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/pikTech"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/durationTime"
-        android:id="@+id/pikTech"
-        android:padding="10dp"
-        >
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/tech"
@@ -190,15 +192,15 @@
             android:text="בחר טכנאי"
             android:textAlignment="textEnd"
             android:textStyle="bold" />
+
         <Spinner
+            android:id="@+id/SelectTech"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tech"
-            android:id="@+id/SelectTech"/>
+            android:layout_below="@id/tech" />
 
 
     </LinearLayout>
-
 
 
     <Button

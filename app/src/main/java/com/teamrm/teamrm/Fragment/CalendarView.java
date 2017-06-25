@@ -1,6 +1,7 @@
 package com.teamrm.teamrm.Fragment;
 
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.RectF;
@@ -21,11 +22,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
@@ -310,105 +313,83 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
 
         Log.d("onEmptyViewClicked", time.toString());
         if (ticketID != null) {
+            final int[] thecNum = new int[1];
+            final String startTimeString;
+            final MaterialDialog setTechEndTimeDialog = new MaterialDialog.Builder(getContext())
+
+                    .customView(R.layout.set_time_date_tech_dialog, false)
+                    .positiveText(R.string.label_button_save)
+                    .contentColorRes(R.color.textColor_primary)
+                    .contentGravity(GravityEnum.CENTER)
+                    .negativeText(R.string.label_button_cancel)
+                    .titleGravity(GravityEnum.END)
+                    .buttonsGravity(GravityEnum.END)
+                    .backgroundColorRes(R.color.app_bg)
+                    .widgetColorRes(R.color.textColor_primary)
+                    .titleColorRes(R.color.textColor_lighter)
+                    .positiveColorRes(R.color.colorPrimary)
+                    .negativeColorRes(R.color.colorPrimaryDark)
+                    .dividerColorRes(R.color.textColor_lighter)
+                    .build();
+
+            View btnNegativ =  setTechEndTimeDialog.getActionButton(DialogAction.NEGATIVE);
+            View btnPositive = setTechEndTimeDialog.getActionButton(DialogAction.POSITIVE);
+            final TextView tehcName = (TextView) setTechEndTimeDialog.findViewById(R.id.techName);
+            final TextView date = (TextView) setTechEndTimeDialog.findViewById(R.id.date);
+            NumberPicker duration = (NumberPicker) setTechEndTimeDialog.findViewById(R.id.duration);
+            NumberPicker startHour = (NumberPicker) setTechEndTimeDialog.findViewById(R.id.startHour);
+            NumberPicker startMinit = (NumberPicker) setTechEndTimeDialog.findViewById(R.id.startMinit);
+
+            duration.setMinValue(1);
+            duration.setMaxValue(24);
+            startHour.setMinValue(0);
+            startHour.setMaxValue(24);
+            startMinit.setMinValue(0);
+            startMinit.setMaxValue(60);
 
 
-            final Dialog dialog = new Dialog(getContext());
-            dialog.setContentView(R.layout.timepickerdialog);
-            dialog.setTitle("בחר שעה");
-            Button cancel = (Button) dialog.findViewById(R.id.cancel);
-            Button enter = (Button) dialog.findViewById(R.id.enter);
-            NumberPicker hoursPicker = (NumberPicker) dialog.findViewById(R.id.HoursPicker);
-            NumberPicker minitPicker = (NumberPicker) dialog.findViewById(R.id.minitPicker);
+            duration.setWrapSelectorWheel(true);
+            startHour.setWrapSelectorWheel(true);
+            startMinit.setWrapSelectorWheel(true);
 
-            NumberPicker startTimeMin = (NumberPicker) dialog.findViewById(R.id.startTimeMin);
-            NumberPicker startTimeHour = (NumberPicker) dialog.findViewById(R.id.startTimeHour);
-            NumberPicker startTimeDay = (NumberPicker) dialog.findViewById(R.id.startTimeDay);
-            NumberPicker startTimeMunt = (NumberPicker) dialog.findViewById(R.id.startTimeMunt);
-            startTimeDay.setMinValue(1);
-            startTimeDay.setMaxValue(31);
-            startTimeMunt.setMinValue(1);
-            startTimeMunt.setMaxValue(12);
-            startTimeMin.setMinValue(0);
-            startTimeMin.setMaxValue(60);
-            startTimeHour.setMinValue(0);
-            startTimeHour.setMaxValue(24);
 
-            startTimeDay.setWrapSelectorWheel(true);
-            startTimeHour.setWrapSelectorWheel(true);
-            startTimeMin.setWrapSelectorWheel(true);
-            startTimeMunt.setWrapSelectorWheel(true);
+            date.setText(DATE_FORMAT_WITH_TIME.format(time.getTime()));
 
-            startTimeDay.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+
+            date.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                    time.set(Calendar.DAY_OF_MONTH,newVal);
-                    Log.d("onValueChange", "DAY_OF_MONTH: "+time.get(Calendar.DAY_OF_MONTH));
+                public void onClick(View v) {
+                    DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+                            new DatePickerDialog.OnDateSetListener() {
 
-                }
-            });
-            startTimeHour.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-                @Override
-                public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                    time.set(Calendar.HOUR_OF_DAY,newVal);
-                    Log.d("onValueChange", "HOUR_OF_DAY: "+time.get(Calendar.HOUR_OF_DAY));
+                                @Override
+                                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-                }
-            });
-            startTimeMin.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-                @Override
-                public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                    time.set(Calendar.MINUTE,newVal);
-                    Log.d("onValueChange", "MINUTE: "+time.get(Calendar.MINUTE));
-
-                }
-            });
-            startTimeMunt.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-                @Override
-                public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                    time.set(Calendar.MONTH,newVal-1);
-                    Log.d("onValueChange", "MONTH: "+time.get(Calendar.MONTH));
-
-                }
-            });
-            minitPicker.setWrapSelectorWheel(true);
-            hoursPicker.setWrapSelectorWheel(true);
-            hoursPicker.setMinValue(0);
-            hoursPicker.setMaxValue(24);
-            minitPicker.setMaxValue(60);
-            minitPicker.setMinValue(1);
-            final Calendar endTime = Calendar.getInstance();
-            endTime.setTime(time.getTime());
+                                    time.set(Calendar.YEAR,year);
+                                    time.set(Calendar.MONTH,monthOfYear);
+                                    time.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+                                    date.setText(DATE_FORMAT_WITH_TIME.format(time.getTime()));
 
 
-            minitPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-                @Override
-                public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-
-                    ticketAssignedDurationMin = newVal;
-                    Log.d("onValueChange", "ticketAssignedDurationMin: "+  ticketAssignedDurationMin );
+                                }
+                            }, time.get(Calendar.YEAR), time.get(Calendar.MONTH), time.get(Calendar.DAY_OF_MONTH));
+                    datePickerDialog.show();
                 }
             });
 
-            hoursPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-                @Override
-                public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
 
-                    ticketAssignedDurationHours = newVal;
-                    Log.d("onValueChange", "ticketAssignedDurationHours: "+ticketAssignedDurationHours);
-                }
-            });
 
-            Spinner tech = (Spinner) dialog.findViewById(R.id.SelectTech);
+            Spinner tech = (Spinner) setTechEndTimeDialog.findViewById(R.id.techList);
             listTechAdapter = new GenericPrefListAdapter(getContext(), Technician.getTechnicianList());
             tech.setAdapter(listTechAdapter);
             tech.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                    UtlFirebase.assignTechToTicket(
-                            Ticket.getTickeyById(ticketID),
-                            (Technician.getTechnicianList().get(position)).getUserID(),
-                            Technician.getTechnicianList().get(position).getUserNameString());
+
+                    thecNum[0] = position;
+                    tehcName.setText((Technician.getTechnicianList().get(position).getUserNameString()));
+
                 }
 
                 @Override
@@ -417,43 +398,69 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
                 }
             });
 
+            setTechEndTimeDialog.show();
 
-
-               cancel.setOnClickListener(new View.OnClickListener() {
+            startHour.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
                 @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
+                public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                    time.set(Calendar.HOUR_OF_DAY,newVal);
+                    Log.d("onValueChange", "HOUR_OF_DAY: "+time.get(Calendar.HOUR_OF_DAY));
+
+                    date.setText(DATE_FORMAT_WITH_TIME.format(time.getTime()));
+
                 }
             });
-            enter.setOnClickListener(new View.OnClickListener() {
+            startMinit.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+                @Override
+                public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                    time.set(Calendar.MINUTE,newVal);
+                    Log.d("onValueChange", "MINUTE: "+time.get(Calendar.MINUTE));
+                    date.setText(DATE_FORMAT_WITH_TIME.format(time.getTime()));
+
+                }
+            });
+            duration.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+                @Override
+                public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+
+                    ticketAssignedDurationHours = newVal;
+                    Log.d("onValueChange", "ticketAssignedDurationHours: "+ticketAssignedDurationHours);
+                }
+            });
+
+
+            btnNegativ.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //"HH:mm:ss - dd/MM/yyyy"
-                    String startTimeString = DATE_FORMAT_WITH_TIME.format(time.getTime());
+                    setTechEndTimeDialog.dismiss();
+                }
+            });
+            btnPositive.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String startTimeformatted = DATE_FORMAT_WITH_TIME.format(time.getTime());
                     time.add(Calendar.HOUR_OF_DAY,ticketAssignedDurationHours);
-                    time.add(Calendar.MINUTE,ticketAssignedDurationMin);
                     Log.d("onValueChange", "time: "+time.get(Calendar.HOUR_OF_DAY));
                     Log.d("onValueChange", "time: "+time.get(Calendar.MINUTE));
-
-
-
 
                     String endTimeformatted = DATE_FORMAT_WITH_TIME.format(time.getTime());
                     String ticketAssignedDuration = ticketAssignedDurationHours+":"+ticketAssignedDurationMin;
 
-                    Log.d("onValueChange", "startTimeString: "+startTimeString);
+                    Log.d("onValueChange", "startTimeString: "+startTimeformatted);
                     Log.d("onValueChange", "endTimeformatted: "+endTimeformatted);
 
                         Map<String, String> updates = new HashMap<>();
                         updates.put("ticketAssignedDuration", ticketAssignedDuration);
-                        updates.put("ticketAssignedDateTime", startTimeString);
+                        updates.put("ticketAssignedDateTime", startTimeformatted);
                         updates.put("ticketCloseDateTime", endTimeformatted);
+                        updates.put("techID",(Technician.getTechnicianList().get(thecNum[0])).getUserID());
+                        updates.put("techNameString",(Technician.getTechnicianList().get(thecNum[0])).getUserNameString());
                         UtlFirebase.updateTicket(ticketID, (HashMap<String, String>) updates);
                         getActivity().getSupportFragmentManager().popBackStack();
-                      dialog.dismiss();
+                    setTechEndTimeDialog.dismiss();
                 }
             });
-            dialog.show();
+            setTechEndTimeDialog.show();
         } else {
             FragmentTransaction fragmentManager = (getActivity().getSupportFragmentManager())
                     .beginTransaction();

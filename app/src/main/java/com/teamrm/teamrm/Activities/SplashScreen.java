@@ -46,6 +46,7 @@ import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.App;
+import com.teamrm.teamrm.Utility.InternetAvailable;
 import com.teamrm.teamrm.Utility.NiceToast;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
@@ -84,6 +85,10 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
 
         setContentView(R.layout.activity_splashscreen);
+        if(InternetAvailable.isConnectingToInternet(this)){
+            NiceToast niceToast = new NiceToast(this,"בדוק חיבור לאינטרנט",NiceToast.NICETOAST_INFORMATION,Toast.LENGTH_LONG);
+            niceToast.show();
+        }
         mGoogleApiClient = App.getGoogleApiHelper().getGoogleApiClient();
         gso = App.getGoogleApiHelper().getGso();
         firebaseAuth = FirebaseAuth.getInstance();

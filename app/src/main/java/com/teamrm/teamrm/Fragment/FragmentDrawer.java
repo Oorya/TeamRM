@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -125,9 +126,10 @@ public class FragmentDrawer extends Fragment {
 
             }
         }));
-
+        Log.d("img", "onCreateView: "+UserSingleton.getInstance().getUserImgPath());
        if(UserSingleton.getInstance().getUserImgPath() != null)
        {
+
             UtlBitmapUrl bitmapUrl = new UtlBitmapUrl(imageAvatar);
             bitmapUrl.execute(UserSingleton.getInstance().getUserImgPath().toString());
        }

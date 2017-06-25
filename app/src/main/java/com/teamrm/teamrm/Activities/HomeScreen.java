@@ -47,6 +47,7 @@ import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.EnrollmentCode;
 import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.App;
+import com.teamrm.teamrm.Utility.InternetAvailable;
 import com.teamrm.teamrm.Utility.NiceToast;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;

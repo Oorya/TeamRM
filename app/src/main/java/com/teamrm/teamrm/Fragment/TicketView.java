@@ -116,6 +116,8 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                 } else
                     UtlFirebase.getTicketByKey(ticketID, this);
 
+            }else {
+                UtlFirebase.getTicketByKey(ticketID, this);
             }
 
         }
@@ -562,7 +564,8 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     @Override
     public void onResume() {
         super.onResume();
-
+        initializeUserDitile();
+        Log.d("onResume", "onResume: ");
     }
 
     private void initializeUserDitile() {
