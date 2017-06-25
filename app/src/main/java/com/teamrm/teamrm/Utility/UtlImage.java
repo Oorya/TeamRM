@@ -87,7 +87,7 @@ public class UtlImage
     public static byte[] bitmapToByte(Bitmap img)
     {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        img.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        img.compress(Bitmap.CompressFormat.JPEG, 50, baos);
         byte[] data = baos.toByteArray();
         return data;
     }

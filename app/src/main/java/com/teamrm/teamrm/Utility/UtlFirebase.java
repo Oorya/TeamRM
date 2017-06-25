@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -25,7 +26,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.teamrm.teamrm.Fragment.TicketView;
 import com.teamrm.teamrm.Interfaces.ClientCallback;
 import com.teamrm.teamrm.Interfaces.CompanyCallback;
 import com.teamrm.teamrm.Interfaces.EnrollmentCodeSingleCallback;
@@ -1467,24 +1467,13 @@ public class UtlFirebase {
         }
     }
 
-    public static void downloadFile(String path, final int imgNum) {
+    public static void downloadFile(String path, final ImageView img) {
         final long ONE_MEGABYTE = 1024 * 1024;
         STORAGE_REFERENCE.child(path).getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                switch (imgNum) {
-                    case 1:
-                        TicketView.img1.setImageBitmap(bitmap);
-                        TicketView.bitmapImg1 = bitmap;
-                        break;
-                    case 2:
-                        TicketView.img2.setImageBitmap(bitmap);
-                        TicketView.bitmapImg2 = bitmap;
-                        break;
-                    default:
-                        TicketView.img1.setImageBitmap(bitmap);
-                }
+                img.setImageBitmap(bitmap);
 
             }
         }).addOnFailureListener(new OnFailureListener() {

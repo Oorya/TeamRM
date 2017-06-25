@@ -3,7 +3,6 @@ package com.teamrm.teamrm.Fragment;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -49,13 +48,13 @@ public class FullScreenImage extends Fragment {
         view.findViewById(R.id.rotate).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bitmap bitmapOrg = ((BitmapDrawable) touchImageView.getDrawable()).getBitmap();
-                if (bitmapOrg != null) {
+                //Bitmap bitmapOrg = ((BitmapDrawable) touchImageView.getDrawable()).getBitmap();
+                if (bitmap != null) {
                     Matrix matrix = new Matrix();
 
                     matrix.postRotate(90);
 
-                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmapOrg, bitmapOrg.getWidth(), bitmapOrg.getHeight(), true);
+                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
 
                     Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
                     touchImageView.setImageBitmap(rotatedBitmap);

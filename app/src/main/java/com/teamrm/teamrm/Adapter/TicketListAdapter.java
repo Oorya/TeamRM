@@ -2,7 +2,6 @@ package com.teamrm.teamrm.Adapter;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -159,8 +158,6 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
 
                 Bundle bundle = new Bundle();
                 bundle.putString("ticketID", item.getTicketID());
-                TicketView.bitmapImg1 = null;
-                TicketView.bitmapImg2 = null;
                 FragmentTransaction fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager()
                         .beginTransaction();
                 TicketView ticketView = new TicketView();

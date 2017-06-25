@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -32,7 +33,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.teamrm.teamrm.Interfaces.ClientCallback;
 import com.teamrm.teamrm.Interfaces.CompanyCallback;
 import com.teamrm.teamrm.Interfaces.FireBaseAble;
-import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Category;
 import com.teamrm.teamrm.Type.Client;
@@ -67,12 +67,10 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     public static final int PERMISSION_PHONE_REQUEST_CODE = 1050;
     CardView userDetailCard, btnProfile;
     View btnApproval, btnCancel;
-    RelativeLayout userDetailOpen;
-    RelativeLayout ticketDetailClose;
-    RelativeLayout ticketDetailOpen;
-    TextView userNameClose, userProfile, userAreaCardOpen, userNameCardOpen, dateTimeChange, userNameCardClose, dateTimeOpen, ticketNumber, ticketStatus, productTicketDetailsCardClosed, categoryTicketDetailsCardClosed, regionTicketDetailsCardClosed, categoryTicketDetailsCardOpen, regionTicketDetailsCardOpen, addressTicketDetailsCardOpen, phoneTicketDetailsCardOpen, descriptionShortTicketDetailsCardOpen, descriptionLongTicketDetailsCardOpen, userMailCardOpen, userAddCardOpen, userPhoneCardOpen, productTicketDetailsCardOpen;
-    public static ImageView img1, img2, mailBtn, locationButton, phoneButton, navigateToAddressTicketDetailsCardOpen, callNumberTicketDetailsCardOpen;
-    TextView txtCancel;
+    private RelativeLayout userDetailOpen, ticketDetailClose, ticketDetailOpen;
+    TextView txtCancel, userNameClose, userProfile, userAreaCardOpen, userNameCardOpen, dateTimeChange, userNameCardClose, dateTimeOpen, ticketNumber, ticketStatus, productTicketDetailsCardClosed, categoryTicketDetailsCardClosed, regionTicketDetailsCardClosed, categoryTicketDetailsCardOpen, regionTicketDetailsCardOpen, addressTicketDetailsCardOpen, phoneTicketDetailsCardOpen, descriptionShortTicketDetailsCardOpen, descriptionLongTicketDetailsCardOpen, userMailCardOpen, userAddCardOpen, userPhoneCardOpen, productTicketDetailsCardOpen;
+    private ImageView img1, img2;
+    public static ImageView mailBtn, locationButton, phoneButton, navigateToAddressTicketDetailsCardOpen, callNumberTicketDetailsCardOpen;
     private static ProgressDialog mProgress;
     private Ticket ticket;
     static String ticketID, timeFormated;
@@ -82,7 +80,6 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     Fragment stateActionButtons;
     UtlAlarmManager utlAlarmManager;
     private Object userDitaile;
-    public static Bitmap bitmapImg1, bitmapImg2;
 
     public TicketView() {
         // Required empty public constructor
@@ -149,7 +146,6 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         ((TextView) view.findViewById(R.id.dateTimeChange)).setTypeface(REGULAR);
         ((TextView) view.findViewById(R.id.dateTimeOpen)).setTypeface(REGULAR);
         ((TextView) view.findViewById(R.id.ticketNumber)).setTypeface(SEMI_BOLD);
-
 
         return view;
     }
@@ -268,7 +264,8 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         }
         else if(view.getId() == img1.getId())
         {
-            if(null != bitmapImg1)
+            Bitmap bitmapOrg = ((BitmapDrawable) img1.getDrawable()).getBitmap();
+            if(null != bitmapOrg)
             {
                 try {
                     FullScreenImage fullScreenImage = new FullScreenImage();
@@ -276,7 +273,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                     ticketData.putString("ticketId", ticketID);
                     ticketData.putInt("imgClicked", 1);
                     fullScreenImage.setArguments(ticketData);
-                    fullScreenImage.setBitmap(bitmapImg1);
+                    fullScreenImage.setBitmap(bitmapOrg);
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
                     ft.add(R.id.container_body, fullScreenImage, FullScreenImage.FRAGMENT_TRANSACTION);
@@ -289,7 +286,8 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         }
         else if(view.getId() == img2.getId())
         {
-            if(null != bitmapImg2)
+            Bitmap bitmapOrg = ((BitmapDrawable) img2.getDrawable()).getBitmap();
+            if(null != bitmapOrg)
             {
                 try {
                     FullScreenImage fullScreenImage = new FullScreenImage();
@@ -297,7 +295,7 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                     ticketData.putString("ticketId", ticketID);
                     ticketData.putInt("imgClicked", 2);
                     fullScreenImage.setArguments(ticketData);
-                    fullScreenImage.setBitmap(bitmapImg2);
+                    fullScreenImage.setBitmap(bitmapOrg);
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
                     ft.add(R.id.container_body, fullScreenImage, FullScreenImage.FRAGMENT_TRANSACTION);
@@ -633,16 +631,15 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         descriptionLongTicketDetailsCardOpen.setText(ticket.getDescriptionLong());
 
         if (!ticket.getTicketImage1().equals("error")) {
-            UtlFirebase.downloadFile(ticket.getTicketID() + "/pic1.jpg", 1);
+            UtlFirebase.downloadFile(ticket.getTicketID() + "/pic1.jpg", img1);
         }
         if (!ticket.getTicketImage2().equals("error")) {
-            UtlFirebase.downloadFile(ticket.getTicketID() + "/pic2.jpg", 2);
+            UtlFirebase.downloadFile(ticket.getTicketID() + "/pic2.jpg", img2);
         }
         if (ticket.getTicketAssignedDateTime().length() > 0)
             dateTimeChange.setText(ticket.getTicketAssignedDateTime());
 
         mProgress.hide();
-
     }
 
     private String date2String(Date date) {
