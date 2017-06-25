@@ -1447,6 +1447,26 @@ public class UtlFirebase {
         }
     }
 
+    public static void uploadFileByte(String path, byte[] bytes, Context context , final FireBaseBooleanCallback fireBaseBooleanCallback)
+    {
+        if(null != bytes)
+        {
+            STORAGE_REFERENCE.child(path).putBytes(bytes)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        fireBaseBooleanCallback.booleanCallback(true);
+                    }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+        }
+    }
+
     public static void downloadFile(String path, final int imgNum) {
         final long ONE_MEGABYTE = 1024 * 1024;
         STORAGE_REFERENCE.child(path).getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {

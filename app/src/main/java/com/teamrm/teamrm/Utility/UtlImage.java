@@ -84,10 +84,11 @@ public class UtlImage
         return myBitmap;
     }
 
-    public static Uri bitmapToUri(Context context, Bitmap img) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        img.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), img,null, null);
-        return Uri.parse(path);
+    public static byte[] bitmapToByte(Bitmap img)
+    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        img.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+        return data;
     }
 }
