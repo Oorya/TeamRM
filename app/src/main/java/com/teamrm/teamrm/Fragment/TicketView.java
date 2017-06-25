@@ -264,10 +264,10 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         }
         else if(view.getId() == img1.getId())
         {
-            Bitmap bitmapOrg = ((BitmapDrawable) img1.getDrawable()).getBitmap();
-            if(null != bitmapOrg)
+            if(!img1.getDrawable().toString().contains("Vector"))
             {
                 try {
+                    Bitmap bitmapOrg = ((BitmapDrawable) img1.getDrawable()).getBitmap();
                     FullScreenImage fullScreenImage = new FullScreenImage();
                     Bundle ticketData = new Bundle();
                     ticketData.putString("ticketId", ticketID);
@@ -286,10 +286,10 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         }
         else if(view.getId() == img2.getId())
         {
-            Bitmap bitmapOrg = ((BitmapDrawable) img2.getDrawable()).getBitmap();
-            if(null != bitmapOrg)
+            if(!img1.getDrawable().toString().contains("Vector"))
             {
                 try {
+                    Bitmap bitmapOrg = ((BitmapDrawable) img2.getDrawable()).getBitmap();
                     FullScreenImage fullScreenImage = new FullScreenImage();
                     Bundle ticketData = new Bundle();
                     ticketData.putString("ticketId", ticketID);

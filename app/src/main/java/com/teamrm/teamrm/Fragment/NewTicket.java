@@ -78,15 +78,15 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
 
     Context context;
 
-    public NewTicket() {}
+    public NewTicket() {
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         companiesList.addAll(Company.getCompanyList());
         Bundle bundle = this.getArguments();
-        if (bundle != null)
-        {
+        if (bundle != null) {
             startTime = bundle.getString("NEW_TICKET", "error");
 
         }
@@ -107,8 +107,8 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         ticketPhone = (EditText) view.findViewById(R.id.txtPhone);
         descriptionShort = (EditText) view.findViewById(R.id.descriptionShort);
         descriptionLong = (EditText) view.findViewById(R.id.descriptionLong);
-        imageView1 = (ImageView)view.findViewById(R.id.photoChooser1);
-        imageView2 = (ImageView)view.findViewById(R.id.photoChooser2);
+        imageView1 = (ImageView) view.findViewById(R.id.photoChooser1);
+        imageView2 = (ImageView) view.findViewById(R.id.photoChooser2);
 
         selectCompany = (Spinner) view.findViewById(R.id.selectCompanySpinner);
         selectProduct = (Spinner) view.findViewById(R.id.selectProductSpinner);
@@ -132,7 +132,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
             public void onClick(View v) {
                 if (checkEntries()) {
 
-                    submitTicket(view);
+                    submitTicket();
                 }
             }
         });
@@ -249,7 +249,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         return true;
     }
 
-    private void submitTicket(View view) {
+    private void submitTicket() {
         String uid = UUID.randomUUID().toString();
         uploadPicture(uid);
 
@@ -260,10 +260,9 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         final Ticket newTicket = new Ticket(UserSingleton.getInstance().getUserID(), this.ticketPhone.getText().toString(), this.ticketAddress.getText().toString(), uid,
                 selectedCompany.getCompanyID(), selectedCompany.getCompanyName(),
                 this.selectedProduct, this.selectedCategory, this.selectedRegion, this.descriptionShort.getText().toString(), this.descriptionLong.getText().toString(),
-                imgUri1 != null ? uid + "/pic1.jpg" : "error", imgUri2 != null ? uid + "/pic2.jpg" : "error", startTime, "", "" );
+                imgUri1 != null ? uid + "/pic1.jpg" : "error", imgUri2 != null ? uid + "/pic2.jpg" : "error", startTime, "", "");
 
-        if(imgUri1 != null && imgUri2 != null)
-        {
+        if (imgUri1 != null && imgUri2 != null) {
             UtlFirebase.uploadFile(uid + "/pic1.jpg", imgUri1, getContext(), new FireBaseBooleanCallback() {
                 @Override
                 public void booleanCallback(boolean isTrue) {
@@ -274,39 +273,41 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
                 @Override
                 public void booleanCallback(boolean isTrue) {
                     saveTicket(newTicket);
+                    closeThisFragment();
                 }
             });
             imgUri1 = null;
             imgUri2 = null;
-        }
-        else if (imgUri1 != null) {
+        } else if (imgUri1 != null) {
             UtlFirebase.uploadFile(uid + "/pic1.jpg", imgUri1, getContext(), new FireBaseBooleanCallback() {
                 @Override
                 public void booleanCallback(boolean isTrue) {
                     saveTicket(newTicket);
+                    closeThisFragment();
                 }
             });
             imgUri1 = null;
-        }
-        else if (imgUri2 != null) {
+        } else if (imgUri2 != null) {
             UtlFirebase.uploadFile(uid + "/pic2.jpg", imgUri2, getContext(), new FireBaseBooleanCallback() {
                 @Override
                 public void booleanCallback(boolean isTrue) {
                     saveTicket(newTicket);
+                    closeThisFragment();
                 }
             });
             imgUri2 = null;
-        }
-        else
-        {
+        } else {
             saveTicket(newTicket);
+            closeThisFragment();
         }
-        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+    }
+
+    private void closeThisFragment() {
+        getActivity().getSupportFragmentManager().beginTransaction().remove(NewTicket.this).commit();
         getActivity().getSupportFragmentManager().popBackStack();
     }
 
-    private void saveTicket(Ticket newTicket)
-    {
+    private void saveTicket(Ticket newTicket) {
         UtlFirebase.addTicket(newTicket);
         newTicket.updateTicketStateString(TicketStateStringable.STATE_A01, newTicket);
     }
