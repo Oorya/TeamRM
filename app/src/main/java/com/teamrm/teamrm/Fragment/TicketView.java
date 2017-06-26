@@ -3,6 +3,7 @@ package com.teamrm.teamrm.Fragment;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -89,8 +90,8 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Toast.makeText(getContext(), UserSingleton.getInstance().getUserEmail(), Toast.LENGTH_SHORT).show();
-        userProfileObj = UserSingleton.getInstance();
+
+
         Bundle bundle = this.getArguments();
 
         mProgress = new ProgressDialog(getContext());
@@ -107,17 +108,18 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
                 String ticketId = bundle.getString("ticketID", "error");
                 Log.d("TICKET_ID Bundle:  ", ticketId);
                 ticketID = ticketId;
+
                 if (Ticket.getTickeyById(ticketId) != null) {
                     this.ticket = Ticket.getTickeyById(ticketId);
 
                 } else
                     UtlFirebase.getTicketByKey(ticketID, this);
 
-            }else {
-                UtlFirebase.getTicketByKey(ticketID, this);
             }
 
         }
+        Log.d("lifeCycel", "onCreate: ");
+
     }
 
     @Override
@@ -147,8 +149,33 @@ public class TicketView extends Fragment implements View.OnClickListener, FireBa
         ((TextView) view.findViewById(R.id.dateTimeOpen)).setTypeface(REGULAR);
         ((TextView) view.findViewById(R.id.ticketNumber)).setTypeface(SEMI_BOLD);
 
+        Log.d("lifeCycel", "onCreateView: ");
+
         return view;
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //initializeUserDitile();
+        UtlFirebase.getTicketByKey(ticketID, this);
+        Log.d("lifeCycel", "onStart: ");
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.d("lifeCycel", "onAttach: ");
+
+    }
+
+    @Override
+    public void onActivityCreated(@android.support.annotation.Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.d("lifeCycel", "onActivityCreated: ");
+
+    }
+
 
     @Override
     public void onClick(View view) {

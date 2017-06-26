@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    >
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -11,13 +13,14 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:background="?android:attr/colorButtonNormal"
-        android:padding="5dp">
+        android:padding="5dp"
+        >
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/noteIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_alignParentEnd="false"
             android:background="@drawable/ic_insert_comment_black_24px" />
 
         <TextView
@@ -47,43 +50,48 @@
             android:id="@+id/textView7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_alignParentEnd="false"
             android:layout_alignParentTop="true"
             android:text="טכנאי" />
 
-        <RelativeLayout
+
+        <com.teamrm.teamrm.Utility.RowViewLayout
             android:id="@+id/relativeLayout2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
+            style="@style/RegularRow"
             android:layout_below="@id/textView7">
 
-            <android.support.v7.widget.AppCompatImageView
+            <ImageView
                 android:id="@+id/techIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="12dp"
                 android:background="@drawable/ic_icon_tech" />
 
-            <TextView
-                android:id="@+id/techName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:text="בחר טכנאי"
-                android:layout_alignParentTop="true"
-                android:layout_toStartOf="@+id/techIcon" />
+
+
+
+            <ImageView
+                android:id="@+id/selectCompanyIcon"
+                style="@style/RegularRowItem"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_icon_down" />
 
             <Spinner
                 android:id="@+id/techList"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/techName"
-                android:contextClickable="true" />
+                style="@style/RegularRowItem.Spinner"
+                android:layout_toEndOf="@id/techIcon"
+                android:dropDownWidth="match_parent" />
 
 
-        </RelativeLayout>
+        </com.teamrm.teamrm.Utility.RowViewLayout>
+
+
+
+
+
 
     </RelativeLayout>
 
@@ -112,7 +120,7 @@
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_alignParentEnd="false"
             android:layout_alignParentTop="true"
             android:text="תאריך" />
 
@@ -143,6 +151,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/separator2"
+        android:layout_centerHorizontal="false"
+        android:layout_centerInParent="false"
+        android:layout_centerVertical="false"
         android:layout_marginEnd="36dp"
         android:layout_marginStart="36dp"
         android:orientation="horizontal">
@@ -154,12 +165,12 @@
 
             <TextView
                 android:id="@+id/textView9"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginEnd="18dp"
-                android:text="משך טיפול" />
+                android:text="משך טיפול"
+                android:textAlignment="center" />
 
             <NumberPicker
                 android:id="@+id/duration"
@@ -175,54 +186,56 @@
         <View
             android:layout_width="0.5dp"
             android:layout_height="fill_parent"
-            android:layout_margin="5dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
             android:background="@color/__picker_text_120" />
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
             <TextView
                 android:id="@+id/textView10"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/relativeLayout3"
                 android:layout_alignParentTop="true"
-                android:text="תחילת טיפול" />
+                android:elevation="0dp"
+                android:text="תחילת טיפול"
+                android:textAlignment="center" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/relativeLayout3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerHorizontal="false"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="false"
                 android:layout_marginTop="33dp">
 
                 <NumberPicker
                     android:id="@+id/startMinit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/startHour" />
+                    android:layout_toRightOf="@+id/startHour"
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/view3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
                     android:text=":"
+                    android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:textSize="30sp"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/startHour"
-                     />
+                    android:textSize="30sp" />
 
                 <NumberPicker
                     android:id="@+id/startHour"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    />
-            </RelativeLayout>
+                    android:layout_weight="1" />
+            </LinearLayout>
 
         </RelativeLayout>
     </LinearLayout>

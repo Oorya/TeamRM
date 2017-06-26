@@ -334,7 +334,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
 
             View btnNegativ =  setTechEndTimeDialog.getActionButton(DialogAction.NEGATIVE);
             View btnPositive = setTechEndTimeDialog.getActionButton(DialogAction.POSITIVE);
-            final TextView tehcName = (TextView) setTechEndTimeDialog.findViewById(R.id.techName);
+           // final TextView tehcName = (TextView) setTechEndTimeDialog.findViewById(R.id.techName);
             final TextView date = (TextView) setTechEndTimeDialog.findViewById(R.id.date);
             NumberPicker duration = (NumberPicker) setTechEndTimeDialog.findViewById(R.id.duration);
             NumberPicker startHour = (NumberPicker) setTechEndTimeDialog.findViewById(R.id.startHour);
@@ -347,6 +347,8 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
             startMinit.setMinValue(0);
             startMinit.setMaxValue(60);
 
+            startHour.setValue(time.get(Calendar.HOUR));
+            startMinit.setValue(time.get(Calendar.MINUTE));
 
             duration.setWrapSelectorWheel(true);
             startHour.setWrapSelectorWheel(true);
@@ -388,7 +390,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
 
 
                     thecNum[0] = position;
-                    tehcName.setText((Technician.getTechnicianList().get(position).getUserNameString()));
+                   // tehcName.setText((Technician.getTechnicianList().get(position).getUserNameString()));
 
                 }
 
