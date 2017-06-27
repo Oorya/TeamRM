@@ -1,14 +1,19 @@
 package com.teamrm.teamrm.Fragment;
 
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Utility.NiceToast;
 import com.teamrm.teamrm.Utility.RowViewLayout;
 
 /**
@@ -71,9 +76,59 @@ public class AdminSettingsAdvanced extends Fragment {
                 ft.commit();
             }
         });
+
+        view.findViewById(R.id.contactUs).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendMail();
+            }
+        });
+
+        view.findViewById(R.id.shareApp).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareApp();
+            }
+        });
+
+        view.findViewById(R.id.about).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new NiceToast(getContext(), "אודות", NiceToast.NICETOAST_INFORMATION, Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
     private void startDialogDetails() {
 
     }
+
+    private void shareApp() {
+        try {
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("text/plain");
+            i.putExtra(Intent.EXTRA_SUBJECT, "Team RM");
+            String sAux = "\nLet me recommend you this application\n\n";
+            sAux = sAux + "https://play.google.com/store/apps/details?id=Orion.Soft \n\n";
+            i.putExtra(Intent.EXTRA_TEXT, sAux);
+            startActivity(Intent.createChooser(i, "Choose one"));
+        } catch(Exception e) {
+            //e.toString();
+        }
+    }
+
+    private void sendMail() {
+        String mailTo = "mailto:teamrm@farberz.info";
+
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+        emailIntent.setData(Uri.parse(mailTo));
+
+        try {
+            startActivity(emailIntent);
+        } catch (ActivityNotFoundException e) {
+            //TODO: Handle case where no email app is available
+        }
+    }
+
 }

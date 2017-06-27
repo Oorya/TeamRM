@@ -202,12 +202,10 @@
                     <EditText
                         android:id="@+id/txtAddress"
                         style="@style/RegularRowItem.EditText"
-
+                        android:imeOptions="actionNext"
                         android:focusableInTouchMode="true"
-                        android:imeOptions="actionUnspecified"
                         android:maxLength="30">
 
-                        <requestFocus></requestFocus>
                     </EditText>
                 </android.support.design.widget.TextInputLayout>
 
@@ -242,6 +240,7 @@
                     style="@style/RegularRowItem.EditText"
                     android:layout_toEndOf="@id/phoneLabel"
                     android:inputType="phone"
+                    android:imeOptions="actionNext"
                     android:maxLength="13"/>
             </com.teamrm.teamrm.Utility.RowViewLayout>
 
@@ -287,6 +286,7 @@
                         android:layout_marginBottom="8dp"
                         android:background="@drawable/dotted_rect"
                         android:hint="הקלד כותרת לקריאה"
+                        android:imeOptions="actionNext"
                         android:maxLength="30"
                         android:minHeight="32dp"
                         android:paddingEnd="16dp"
@@ -306,6 +306,7 @@
                         android:layout_below="@+id/descriptionShort"
                         android:background="@drawable/dotted_rect"
                         android:gravity="top"
+                        android:imeOptions="actionNext"
                         android:hint="הקלד תאור מפורט"
                         android:maxLength="400"
                         android:minHeight="48dp"

@@ -14,11 +14,11 @@ import com.teamrm.teamrm.Interfaces.FireBaseBooleanCallback;
 import com.teamrm.teamrm.R;
 import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Utility.App;
+import com.teamrm.teamrm.Utility.EditTextValidation;
 import com.teamrm.teamrm.Utility.NiceToast;
-import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
-import java.util.UUID;
+import java.util.Arrays;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,8 +50,13 @@ public class ClientSettingsCreateCompany extends Fragment {
         btnCreateCompany.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (companyNameInput.length() > 0 && companyAddressInput.length() > 0 && companyPhoneInput.length() > 0 && companyMailInput.length() > 0) {
-                    Company newCompany = new Company(companyNameInput.getText().toString(), companyAddressInput.getText().toString(), companyPhoneInput.getText().toString(), companyMailInput.getText().toString());
+
+
+                EditTextValidation.checkMailRegex(companyMailInput);
+                if(!EditTextValidation.checkEt(Arrays.asList(companyNameInput, companyAddressInput, companyPhoneInput, companyMailInput))
+                        && EditTextValidation.checkPhoneRegex(companyPhoneInput)
+                        && EditTextValidation.checkMailRegex(companyMailInput)){
+                    Company newCompany = new Company(companyNameInput.getText().toString(), companyAddressInput.getText().toString(), companyPhoneInput.getText().toString().trim(), companyMailInput.getText().toString().trim());
                     UtlFirebase.addCompany(newCompany, new FireBaseBooleanCallback() {
                         @Override
                         public void booleanCallback(boolean isTrue) {

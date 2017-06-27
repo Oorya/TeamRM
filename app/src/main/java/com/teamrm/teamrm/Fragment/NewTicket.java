@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +32,7 @@ import com.teamrm.teamrm.Type.Region;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.Users;
+import com.teamrm.teamrm.Utility.EditTextValidation;
 import com.teamrm.teamrm.Utility.NiceToast;
 import com.teamrm.teamrm.Utility.RowSetLayout;
 import com.teamrm.teamrm.Utility.UserSingleton;
@@ -136,7 +136,9 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
             @Override
             public void onClick(View v) {
 
-                if (checkEntries())
+
+                if (!EditTextValidation.checkEt(Arrays.asList(ticketAddress,ticketPhone,descriptionShort))
+                        && EditTextValidation.checkPhoneRegex(ticketPhone))
                 {
                     submitTicket();
                 }
@@ -230,41 +232,6 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
                 selectRegion.setSelection(position);
                 selectedRegion = (Region) selectRegion.getSelectedItem();
                 break;
-        }
-    }
-
-    private boolean checkEntries() {
-        //add method
-        if(ticketAddress.getText().toString().trim().isEmpty()
-                || ticketPhone.getText().toString().trim().isEmpty() || descriptionShort.getText().toString().trim().isEmpty())
-        {
-            checkEt();
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-
-    private void checkEt() {
-        isFocused = false;
-
-
-        List<EditText> etList = Arrays.asList(
-                ticketAddress,
-                ticketPhone,
-                descriptionShort);
-        for (EditText et : etList) {
-            if (et.getText().toString().trim().length() == 0) {
-                et.setError("מלא שדה זה");
-                Log.d(":::isFocused", Boolean.toString(isFocused));
-                if (!isFocused) {
-                    et.requestFocus();
-                    //scrollToView(et);
-                    isFocused = true;
-                }
-            }
         }
     }
 

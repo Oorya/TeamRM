@@ -41,14 +41,14 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="8dp"
                     android:layout_toEndOf="@+id/companyIcon"
-                    android:text="שם חברה" />
+                    android:text="שם חברה:" />
 
                 <EditText
                     android:id="@+id/txtcompany"
                     style="@style/RegularRowItem.EditText"
                     android:layout_toEndOf="@id/companyLabel"
                     android:maxLength="48">
-
+                    <requestFocus></requestFocus>
                 </EditText>
             </com.teamrm.teamrm.Utility.RowViewLayout>
 
@@ -81,8 +81,8 @@
                     android:layout_toEndOf="@id/addressLabel"
                     android:maxLength="120">
 
-                    <requestFocus></requestFocus>
-                </EditText>
+
+            </EditText>
             </com.teamrm.teamrm.Utility.RowViewLayout>
 
             <com.teamrm.teamrm.Utility.RowViewLayout
@@ -105,14 +105,14 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="8dp"
                     android:layout_toEndOf="@+id/phoneIcon"
-                    android:text="טלפון:"
-                    android:inputType="phone"
-                    android:digits="0123456789+"
-                    android:maxLength="13"/>
+                    android:text="טלפון:" />
 
                 <EditText
                     android:id="@+id/txtPhone"
                     style="@style/RegularRowItem.EditText"
+                    android:inputType="phone"
+                    android:digits="0123456789+"
+                    android:maxLength="13"
                     android:layout_toEndOf="@id/phoneLabel">
                 </EditText>
             </com.teamrm.teamrm.Utility.RowViewLayout>
@@ -129,14 +129,17 @@
 
                 <TextView
                     android:id="@+id/companyMailLabel"
-                    style="@style/CardRowLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_centerVertical="true"
+
                     android:layout_toEndOf="@id/companyMailIcon"
                     android:text="דואל:" />
 
                 <EditText
 
                     android:id="@+id/companyMailText"
-                    android:hint="mail"
                     style="@style/RegularRowItem.EditText"
                     android:layout_toEndOf="@id/companyMailLabel"
                      />
@@ -150,6 +153,7 @@
     <Button
         android:id="@+id/btnUpdateUser"
         style="@style/paddedBtn"
+        android:background="@drawable/rect_round_corners"
         android:layout_below="@id/phoneRow"
         android:backgroundTint="@color/status_ok"
         android:layout_marginBottom="700dp"

@@ -120,17 +120,17 @@
     <View style="@style/Separator4dp" />
 
     <com.teamrm.teamrm.Utility.RowViewLayout
-        android:id="@+id/defineCategoryA"
+        android:id="@+id/contactUs"
         style="@style/PrefRowBig"
         android:background="@color/listRow_alt">
 
         <ImageView
-            android:id="@+id/categoryAIcon"
+            android:id="@+id/contactUsIcon"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_centerVertical="true"
             android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_icon_sivug" />
+            android:src="@drawable/ic_icon_contact_us" />
 
         <TextView
             android:id="@+id/categoryALabel"
@@ -138,7 +138,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="12dp"
-            android:layout_toEndOf="@id/categoryAIcon"
+            android:layout_toEndOf="@id/contactUsIcon"
             android:text="צור קשר"
             android:textColor="@color/textColor_primary"
             android:textSize="18sp" />
@@ -148,25 +148,25 @@
     <View style="@style/Separator4dp" />
 
     <com.teamrm.teamrm.Utility.RowViewLayout
-        android:id="@+id/defineCategoryB"
+        android:id="@+id/shareApp"
         style="@style/PrefRowBig"
         android:background="@color/listRow_alt">
 
         <ImageView
-            android:id="@+id/categoryBIcon"
+            android:id="@+id/shareIcon"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_centerVertical="true"
             android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_icon_sivug" />
+            android:src="@drawable/ic_icon_share" />
 
         <TextView
-            android:id="@+id/categoryBLabel"
+            android:id="@+id/shareLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="12dp"
-            android:layout_toEndOf="@id/categoryBIcon"
+            android:layout_toEndOf="@id/shareIcon"
             android:text="שתף"
             android:textColor="@color/textColor_primary"
             android:textSize="18sp" />
@@ -176,25 +176,25 @@
     <View style="@style/Separator4dp" />
 
     <com.teamrm.teamrm.Utility.RowViewLayout
-        android:id="@+id/defineRegion"
+        android:id="@+id/about"
         style="@style/PrefRowBig"
         android:background="@color/listRow_alt">
 
         <ImageView
-            android:id="@+id/regionIcon"
+            android:id="@+id/aboutIcon"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_centerVertical="true"
             android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_icon_location" />
+            android:src="@drawable/ic_icon_about_outline" />
 
         <TextView
-            android:id="@+id/regionLabel"
+            android:id="@+id/aboutLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="12dp"
-            android:layout_toEndOf="@id/regionIcon"
+            android:layout_toEndOf="@id/aboutIcon"
             android:text="אודות"
             android:textColor="@color/textColor_primary"
             android:textSize="18sp" />
