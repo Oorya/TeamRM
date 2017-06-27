@@ -38,9 +38,12 @@ import com.google.api.services.calendar.model.Event;
 import com.teamrm.teamrm.Adapter.GenericPrefListAdapter;
 import com.teamrm.teamrm.Adapter.TechAdpter;
 import com.teamrm.teamrm.R;
+import com.teamrm.teamrm.Type.Admin;
 import com.teamrm.teamrm.Type.Technician;
 import com.teamrm.teamrm.Type.Ticket;
+import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Type.WeekViewEventCustom;
+import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.lang.reflect.Array;
@@ -210,7 +213,8 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
             if (EVENT.getTicketAssignedDateTime()!=null && EVENT.getTicketAssignedDateTime().length() > 0) {
                 WeekViewEventCustom weekViewEventCustom = new WeekViewEventCustom(EVENT.getTicketID()
                         , id++, EVENT.getDescriptionShort(), convertStart(EVENT), convertEnd(EVENT));
-                weekViewEventCustom.setColor(EVENT.getTechColor());
+                weekViewEventCustom.setColor(Color.parseColor(EVENT.getTechColor()));
+
                 mWeeViewEvent.add(weekViewEventCustom);
             }
 
@@ -356,7 +360,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
 
 
             startHour.setValue(time.get(Calendar.HOUR));
-            startMinit.setValue(time.get(Calendar.MINUTE));
+            //startMinit.setValue(time.get(Calendar.MINUTE));
 
             startMinitDuration.setWrapSelectorWheel(true);
             startHour.setWrapSelectorWheel(true);
@@ -389,7 +393,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
 
 
 
-            Spinner tech = (Spinner) setTechEndTimeDialog.findViewById(R.id.techList);
+            final Spinner tech = (Spinner) setTechEndTimeDialog.findViewById(R.id.techList);
             listTechAdapter = new GenericPrefListAdapter(getContext(), Technician.getTechnicianList());
             tech.setAdapter(listTechAdapter);
             tech.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -472,6 +476,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
                         updates.put("ticketAssignedDuration", ticketAssignedDuration);
                         updates.put("ticketAssignedDateTime", startTimeformatted);
                         updates.put("ticketCloseDateTime", endTimeformatted);
+                        updates.put("techColor", (Technician.getTechnicianList().get(thecNum[0])).getTechColor());
                         updates.put("techID",(Technician.getTechnicianList().get(thecNum[0])).getUserID());
                         updates.put("techNameString",(Technician.getTechnicianList().get(thecNum[0])).getUserNameString());
                         UtlFirebase.updateTicket(ticketID, (HashMap<String, String>) updates);
