@@ -331,31 +331,39 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
                     .negativeColorRes(R.color.colorPrimaryDark)
                     .dividerColorRes(R.color.textColor_lighter)
                     .build();
-
+            final String[] quarterHoursArray = getActivity().getResources().getStringArray(R.array.quarter_hour);
+            final String[] hoursArray = getActivity().getResources().getStringArray(R.array.hour_array);
             View btnNegativ =  setTechEndTimeDialog.getActionButton(DialogAction.NEGATIVE);
             View btnPositive = setTechEndTimeDialog.getActionButton(DialogAction.POSITIVE);
            // final TextView tehcName = (TextView) setTechEndTimeDialog.findViewById(R.id.techName);
             final TextView date = (TextView) setTechEndTimeDialog.findViewById(R.id.date);
-            NumberPicker duration = (NumberPicker) setTechEndTimeDialog.findViewById(R.id.duration);
+            NumberPicker startMinitDuration = (NumberPicker) setTechEndTimeDialog.findViewById(R.id.startMinitDuration);
+            NumberPicker startHourDuration = (NumberPicker) setTechEndTimeDialog.findViewById(R.id.startHourDuration);
             NumberPicker startHour = (NumberPicker) setTechEndTimeDialog.findViewById(R.id.startHour);
             NumberPicker startMinit = (NumberPicker) setTechEndTimeDialog.findViewById(R.id.startMinit);
 
-            duration.setMinValue(1);
-            duration.setMaxValue(24);
+            startMinitDuration.setDisplayedValues(quarterHoursArray);
+            startHourDuration.setDisplayedValues(hoursArray);
+            startMinit.setDisplayedValues(quarterHoursArray);
+            startHourDuration.setMinValue(0);
+            startHourDuration.setMaxValue(hoursArray.length-1);
+            startMinitDuration.setMinValue(0);
+            startMinitDuration.setMaxValue(quarterHoursArray.length-1);
             startHour.setMinValue(0);
             startHour.setMaxValue(24);
             startMinit.setMinValue(0);
-            startMinit.setMaxValue(60);
+            startMinit.setMaxValue(quarterHoursArray.length-1);
+
 
             startHour.setValue(time.get(Calendar.HOUR));
             startMinit.setValue(time.get(Calendar.MINUTE));
 
-            duration.setWrapSelectorWheel(true);
+            startMinitDuration.setWrapSelectorWheel(true);
             startHour.setWrapSelectorWheel(true);
             startMinit.setWrapSelectorWheel(true);
 
 
-            date.setText(DATE_FORMAT_WITH_TIME.format(time.getTime()));
+            date.setText(DATE_FORMAT_NO_TIME.format(time.getTime()));
 
 
             date.setOnClickListener(new View.OnClickListener() {
@@ -415,17 +423,25 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
             startMinit.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
                 @Override
                 public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                    time.set(Calendar.MINUTE,newVal);
+                    time.set(Calendar.MINUTE,Integer.parseInt(quarterHoursArray[newVal]));
                     Log.d("onValueChange", "MINUTE: "+time.get(Calendar.MINUTE));
                     date.setText(DATE_FORMAT_WITH_TIME.format(time.getTime()));
 
                 }
             });
-            duration.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            startMinitDuration.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
                 @Override
                 public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
 
-                    ticketAssignedDurationHours = newVal;
+                    ticketAssignedDurationMin = Integer.parseInt(quarterHoursArray[newVal]);
+                    Log.d("onValueChange", "ticketAssignedDurationHours: "+ticketAssignedDurationHours);
+                }
+            });
+            startMinitDuration.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+                @Override
+                public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+
+                    ticketAssignedDurationHours = Integer.parseInt(hoursArray[newVal]);
                     Log.d("onValueChange", "ticketAssignedDurationHours: "+ticketAssignedDurationHours);
                 }
             });
@@ -442,6 +458,7 @@ public class CalendarView extends android.support.v4.app.Fragment implements Wee
                 public void onClick(View v) {
                     String startTimeformatted = DATE_FORMAT_WITH_TIME.format(time.getTime());
                     time.add(Calendar.HOUR_OF_DAY,ticketAssignedDurationHours);
+                    time.add(Calendar.MINUTE,ticketAssignedDurationMin);
                     Log.d("onValueChange", "time: "+time.get(Calendar.HOUR_OF_DAY));
                     Log.d("onValueChange", "time: "+time.get(Calendar.MINUTE));
 

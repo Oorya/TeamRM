@@ -172,14 +172,41 @@
                 android:text="משך טיפול"
                 android:textAlignment="center" />
 
-            <NumberPicker
-                android:id="@+id/duration"
+
+
+
+            <LinearLayout
+                android:id="@+id/relativeLayout6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="false"
-                android:layout_below="@+id/textView9"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="15dp" />
+                android:layout_centerVertical="false"
+                android:layout_marginTop="33dp">
+
+                <NumberPicker
+                    android:id="@+id/startMinitDuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/startHour"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/view6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:text=":"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="30sp" />
+
+                <NumberPicker
+                    android:id="@+id/startHourDuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
 
         </RelativeLayout>
 
