@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
@@ -97,7 +96,7 @@ public class AdminSettingsDefineCategory extends Fragment implements FireBaseAbl
                 .input("", "", new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                        //Toast.makeText(getContext(),  input.toString(), Toast.LENGTH_SHORT).show();
+
                         UtlFirebase.addCategory(UserSingleton.getInstance().getAssignedCompanyID(), input.toString());
                     }
                 })
@@ -107,7 +106,7 @@ public class AdminSettingsDefineCategory extends Fragment implements FireBaseAbl
                         //Toast.makeText(getContext(), "positive", Toast.LENGTH_SHORT).show();
                     }
                 })
-                .inputRange(1, 24, Color.RED)
+                .inputRange(2, 24, Color.RED)
                 .positiveText(R.string.label_button_save)
                 .contentColorRes(R.color.textColor_primary)
                 .contentGravity(GravityEnum.CENTER)

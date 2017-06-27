@@ -188,6 +188,7 @@
                     android:layout_marginEnd="12dp"
                     android:src="@drawable/ic_icon_location" />
 
+
                 <TextView
                     android:id="@+id/addressLabel"
                     android:layout_width="wrap_content"
@@ -198,14 +199,23 @@
                     android:nextFocusDown="@id/txtPhone"
                     android:text="@string/label_address" />
 
-                <EditText
-                    android:id="@+id/txtAddress"
-                    style="@style/RegularRowItem.EditText"
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_toEndOf="@id/addressLabel"
-                    android:maxLength="20">
+                    >
+                    <EditText
+                        android:id="@+id/txtAddress"
+                        style="@style/RegularRowItem.EditText"
 
-                    <requestFocus></requestFocus>
-                </EditText>
+                        android:focusableInTouchMode="true"
+                        android:imeOptions="actionUnspecified"
+                        android:maxLength="30">
+
+                        <requestFocus></requestFocus>
+                    </EditText>
+                </android.support.design.widget.TextInputLayout>
+
             </com.teamrm.teamrm.Utility.RowViewLayout>
 
             <com.teamrm.teamrm.Utility.RowViewLayout
@@ -230,14 +240,14 @@
                     android:layout_toEndOf="@+id/phoneIcon"
                     android:digits="0123456789+"
                     android:inputType="phone"
-                    android:maxLength="13"
                     android:text="@string/label_phone_number" />
 
                 <EditText
                     android:id="@+id/txtPhone"
                     style="@style/RegularRowItem.EditText"
                     android:layout_toEndOf="@id/phoneLabel"
-                    android:inputType="phone" />
+                    android:inputType="phone"
+                    android:maxLength="13"/>
             </com.teamrm.teamrm.Utility.RowViewLayout>
 
             <com.teamrm.teamrm.Utility.RowViewLayout
@@ -282,7 +292,7 @@
                         android:layout_marginBottom="8dp"
                         android:background="@drawable/dotted_rect"
                         android:hint="הקלד כותרת לקריאה"
-                        android:maxLength="24"
+                        android:maxLength="30"
                         android:minHeight="32dp"
                         android:paddingEnd="16dp"
                         android:paddingStart="16dp"
@@ -302,7 +312,7 @@
                         android:background="@drawable/dotted_rect"
                         android:gravity="top"
                         android:hint="הקלד תאור מפורט"
-                        android:maxLength="100"
+                        android:maxLength="400"
                         android:minHeight="48dp"
                         android:paddingBottom="8dp"
                         android:paddingEnd="16dp"
@@ -406,6 +416,7 @@
             <Button
                 android:id="@+id/btnSubmitTicket"
                 style="@style/paddedBtn"
+                android:background="@drawable/rect_round_corners"
                 android:layout_below="@id/photoChooser"
                 android:layout_gravity="center_horizontal"
                 android:backgroundTint="@color/status_ok"

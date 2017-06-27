@@ -85,7 +85,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
 
         setContentView(R.layout.activity_splashscreen);
-        if(InternetAvailable.isConnectingToInternet(this)){
+        if(!InternetAvailable.isConnectingToInternet(this)){
             NiceToast niceToast = new NiceToast(this,"בדוק חיבור לאינטרנט",NiceToast.NICETOAST_INFORMATION,Toast.LENGTH_LONG);
             niceToast.show();
         }

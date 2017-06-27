@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.teamrm.teamrm.Adapter.GenericPrefListAdapter;
 import com.teamrm.teamrm.Adapter.PhotoAdapter;
@@ -31,11 +33,13 @@ import com.teamrm.teamrm.Type.Region;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.Users;
+import com.teamrm.teamrm.Utility.NiceToast;
 import com.teamrm.teamrm.Utility.RowSetLayout;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,6 +58,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     private Product selectedProduct;
     private Category selectedCategory;
     private Region selectedRegion;
+    private boolean isFocused;
     private EditText ticketAddress, ticketPhone, descriptionShort, descriptionLong;
     private GenericPrefListAdapter listCompanyAdapter;
     private GenericPrefListAdapter listProductAdapter;
@@ -130,9 +135,14 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         btnSubmitTicket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkEntries()) {
 
+                if (checkEntries())
+                {
                     submitTicket();
+                }
+                else
+                {
+                   new NiceToast(getContext(), "אנא מלא את שדות החובה", NiceToast.NICETOAST_ERROR, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -223,6 +233,41 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         }
     }
 
+    private boolean checkEntries() {
+        //add method
+        if(ticketAddress.getText().toString().trim().isEmpty()
+                || ticketPhone.getText().toString().trim().isEmpty() || descriptionShort.getText().toString().trim().isEmpty())
+        {
+            checkEt();
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    private void checkEt() {
+        isFocused = false;
+
+
+        List<EditText> etList = Arrays.asList(
+                ticketAddress,
+                ticketPhone,
+                descriptionShort);
+        for (EditText et : etList) {
+            if (et.getText().toString().trim().length() == 0) {
+                et.setError("מלא שדה זה");
+                Log.d(":::isFocused", Boolean.toString(isFocused));
+                if (!isFocused) {
+                    et.requestFocus();
+                    //scrollToView(et);
+                    isFocused = true;
+                }
+            }
+        }
+    }
+
     private void setSpinnerAdapters() {
         if (selectedCompany == null) {
             selectedCompany = (Company) companiesList.get(0);
@@ -241,12 +286,6 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
-    }
-
-    private boolean checkEntries() {
-        //add method
-
-        return true;
     }
 
     private void submitTicket() {
