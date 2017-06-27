@@ -289,7 +289,7 @@
                         android:layout_height="120dp"
                         android:layout_weight="1"
                         android:background="#e7e7e7"
-                        android:src="@drawable/ic_image_black_24dp" />
+                        android:src="@drawable/ic_image_black_transp_24dp" />
 
                     <View
                         android:layout_width="1dp"
@@ -302,7 +302,7 @@
                         android:layout_height="120dp"
                         android:layout_weight="1"
                         android:background="#e7e7e7"
-                        android:src="@drawable/ic_image_black_24dp" />
+                        android:src="@drawable/ic_image_black_transp_24dp" />
 
                 </LinearLayout>
             </com.teamrm.teamrm.Utility.RowViewLayout>

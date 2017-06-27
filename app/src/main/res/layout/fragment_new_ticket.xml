@@ -1,9 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
     android:background="@color/app_bg"
+    android:layoutDirection="rtl"
     tools:nContext="com.teamrm.teamrm.Fragment.NewTicket"
     tools:paddingTop="25dp">
 
@@ -363,7 +364,8 @@
                             android:layout_height="120dp"
                             android:layout_weight="1"
                             android:background="#e7e7e7"
-                            android:src="@drawable/ic_image_black_24dp" />
+                            android:src="@drawable/ic_image_black_transp_24dp"
+                            />
 
                         <View
                             android:layout_width="1dp"
@@ -377,7 +379,8 @@
                             android:layout_toEndOf="@id/photoChooser1"
                             android:layout_weight="1"
                             android:background="#e7e7e7"
-                            android:src="@drawable/ic_image_black_24dp" />
+                            android:src="@drawable/ic_image_black_transp_24dp"
+                            />
 
                     </LinearLayout>
                 </com.teamrm.teamrm.Utility.RowViewLayout>
@@ -406,7 +409,12 @@
                 android:layout_below="@id/photoChooser"
                 android:layout_gravity="center_horizontal"
                 android:backgroundTint="@color/status_ok"
-                android:text="פתח קריאה" />
+                android:text="פתח קריאה"
+                android:textColor="#fff"
+                android:padding="12dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                />
 
             <View
                 android:layout_width="match_parent"
