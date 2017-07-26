@@ -21,9 +21,11 @@ import java.util.List;
  */
 public class Ticket {
 
-    @Exclude public static final TicketFactory TicketFactory = new TicketFactory();
+    @Exclude
+    public static final TicketFactory TicketFactory = new TicketFactory();
 
-    @Exclude private static List<Ticket> ticketList = new ArrayList<>();
+    @Exclude
+    private static List<Ticket> ticketList = new ArrayList<>();
 
     private String clientID;
     private String clientEmail;
@@ -92,16 +94,20 @@ public class Ticket {
     public static final String TECH_NAME_STRING = "techNameString";
     public static final String TICKET_PRESENTATION = "ticketPresentation";
 
-    public static void clearList()
-    {
+    public static void clearList() {
         ticketList.clear();
     }
-    public Ticket() {}  //empty constructor, must have
 
-    public Ticket(String ticketID, String ticketStateString)
-    {
-        this.ticketID=ticketID;
-        this.ticketStateString=ticketStateString;
+    public Ticket() {
+    }  //empty constructor, must have
+
+    public Ticket(String ticketID, String ticketStateString) {
+        this.ticketID = ticketID;
+        this.ticketStateString = ticketStateString;
+    }
+
+    public Ticket(String ticketID){
+        this.ticketID = ticketID;
     }
 
     public Ticket(String clientID,
@@ -133,7 +139,7 @@ public class Ticket {
         this.ticketImage2 = ticketImage2;
         this.ticketStateString = TicketStateStringable.STATE_A00;
         this.ticketPresentation = TicketStateAble.TICKET_LIST_PRESENTATION_URGENT;
-        this.ticketOpenDateTime = startTime==null?getCurrentTime():startTime;
+        this.ticketOpenDateTime = startTime == null ? getCurrentTime() : startTime;
 
         this.ticketAssignedDateTime = "";
         this.ticketAssignedDuration = "";
@@ -145,6 +151,7 @@ public class Ticket {
         this.techNameString = "";
         // this.ticketStateObj = TicketFactory.getNewState(UserSingleton.getInstance().getStatus(),TicketStateStringable.STATE_A00,this);
     }
+
     public void setTicketCloseDateTime(String ticketCloseDateTime) {
         this.ticketCloseDateTime = ticketCloseDateTime;
     }
@@ -217,7 +224,8 @@ public class Ticket {
         UtlFirebase.updateTicketPresentation(ticket.ticketID, ticketPresentation);
     }
 
-    @Exclude public Integer getUrgency() {
+    @Exclude
+    public Integer getUrgency() {
         Integer urgency;
 
         switch (this.ticketStateString) {
@@ -584,23 +592,16 @@ public class Ticket {
         return ticketList;
     }
 
+    public static void addTicketToList(Ticket ticket){
+        ticketList.add(ticket);
+    }
+
     public static void setTicketList(List<Ticket> ticketList) {
         Ticket.ticketList = ticketList;
     }
 
-    public static Ticket getTickeyById(String ticketId) {
-
-        for (Ticket item:ticketList)
-        {
-            if(item.getTicketID().equals(ticketId))
-            {
-                return item;
-            }
-
-        }
-
-        return null;
-
+    public static Ticket getTicketById(String ticketId) {
+       return ticketList.get(ticketList.indexOf(new Ticket(ticketId)));
     }
 
     public String getTicketAssignedDateTime() {
@@ -623,5 +624,20 @@ public class Ticket {
     public int hashCode() {
         return this.ticketID.hashCode();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Ticket) {
+            Ticket another = (Ticket) obj;
+            if (this.ticketID.equals(another.ticketID)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
+
+
+
 

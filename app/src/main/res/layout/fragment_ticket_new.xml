@@ -1,0 +1,214 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    android:layoutDirection="rtl"
+    tools:nContext="com.teamrm.teamrm.Fragment.TicketView"
+    tools:paddingTop="25dp">
+
+
+    <com.teamrm.teamrm.Utility.RowSetLayout
+        android:id="@+id/ticketMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.teamrm.teamrm.Utility.RowViewLayout
+            android:id="@+id/had"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/title">
+
+            <TextView
+                android:id="@+id/ticketNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="9dp"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                tools:text="קריאה FG9D89DH" />
+        </com.teamrm.teamrm.Utility.RowViewLayout>
+
+        <com.teamrm.teamrm.Utility.RowViewLayout
+            android:id="@+id/ticketStatusRow"
+            style="@style/RegularRow"
+            android:layout_height="wrap_content"
+            android:background="@color/status_urgent"
+            android:layoutDirection="inherit"
+            android:padding="2dp">
+
+            <ImageView
+                android:id="@+id/ticketStatusIcon"
+                style="@style/RegularRowItem.ImageStart"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginEnd="8dp"
+                android:padding="1dp"
+                android:src="@drawable/ic_icon_alert2" />
+
+            <TextView
+                android:id="@+id/ticketStatusString"
+                style="@style/RegularRowItem"
+                android:layout_toEndOf="@id/ticketStatusIcon"
+                android:text="קריאה ממתינה לאישור פתיחה"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+        </com.teamrm.teamrm.Utility.RowViewLayout>
+
+        <com.teamrm.teamrm.Utility.RowViewLayout
+            android:id="@+id/timeRow"
+            style="@style/RegularRow"
+            android:layout_height="wrap_content"
+            android:background="#f7f7f7"
+            android:padding="2dp">
+
+            <ImageView
+                android:id="@+id/ticketOpenIcon"
+                style="@style/RegularRowItem.ImageStart"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:padding="1dp"
+                android:src="@drawable/ic_icon_clock" />
+
+            <TextView
+                android:id="@+id/dateTimeOpen"
+                style="@style/RegularRowItem"
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_toEndOf="@id/ticketOpenIcon"
+                android:maxLines="1"
+                android:text="@string/label_ticket_time_opened"
+                android:textSize="14sp" />
+
+            <RelativeLayout
+                android:id="@+id/dateTimeAssignedLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/dateTimeOpen">
+
+                <View
+                    android:id="@+id/timeSeparator"
+                    style="@style/SeparatorVertical"
+                    android:layout_height="22dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@color/icon_gray" />
+
+                <TextView
+                    android:id="@+id/dateTimeAssigned"
+                    style="@style/RegularRowItem"
+                    android:layout_width="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_toEndOf="@id/timeSeparator"
+                    android:maxLines="1"
+                    android:text="@string/label_ticket_time_assigned"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/dateTimeClosedLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/dateTimeOpen">
+
+                <View
+                    android:id="@+id/timeSeparator2"
+                    style="@style/SeparatorVertical"
+                    android:layout_height="22dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@color/icon_gray" />
+
+                <TextView
+                    android:id="@+id/dateTimeClosed"
+                    style="@style/RegularRowItem"
+                    android:layout_width="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_toEndOf="@id/timeSeparator2"
+                    android:maxLines="1"
+                    android:text="@string/label_ticket_time_closed"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+        </com.teamrm.teamrm.Utility.RowViewLayout>
+
+
+        <com.teamrm.teamrm.Utility.RowViewLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.teamrm.teamrm.Utility.RowSetLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.teamrm.teamrm.Utility.RowViewLayout
+                        android:id="@+id/row_userDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <include
+                            android:id="@+id/userDetailsCardLayout"
+                            layout="@layout/user_detail_expandable" />
+
+                    </com.teamrm.teamrm.Utility.RowViewLayout>
+
+                    <com.teamrm.teamrm.Utility.RowViewLayout
+                        android:id="@+id/row_companyDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <include
+                            android:id="@+id/companyDetailsCardLayout"
+                            layout="@layout/company_detail_expandable" />
+
+                    </com.teamrm.teamrm.Utility.RowViewLayout>
+
+                    <com.teamrm.teamrm.Utility.RowViewLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <include
+                            android:id="@+id/ticketDetails"
+                            layout="@layout/ticket_detail_expandable" />
+                    </com.teamrm.teamrm.Utility.RowViewLayout>
+
+                    <com.teamrm.teamrm.Utility.RowViewLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="54dp" />
+                    </com.teamrm.teamrm.Utility.RowViewLayout>
+
+                </com.teamrm.teamrm.Utility.RowSetLayout>
+            </ScrollView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="18dp"
+                android:background="@drawable/shadow_linear" />
+        </com.teamrm.teamrm.Utility.RowViewLayout>
+
+
+    </com.teamrm.teamrm.Utility.RowSetLayout>
+
+    <com.teamrm.teamrm.Utility.RowViewLayout
+        android:id="@+id/ticketActions"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignBottom="@id/ticketMain"
+        android:elevation="10dp"
+        android:padding="4dp">
+
+        <include layout="@layout/fragment_state_action_buttons" />
+    </com.teamrm.teamrm.Utility.RowViewLayout>
+
+</RelativeLayout>

@@ -9,12 +9,15 @@ import com.teamrm.teamrm.Interfaces.GenericKeyValueTypeable;
  * Created by Oorya on 10/08/2016.
  */
 public class Client extends Users implements GenericKeyValueTypeable {
+
+    private String clientRegion;
+
     public Client() {
     }
 
-    public Client(String clientID, String userNameString, String userEmail, @Nullable String userPhone, @Nullable String userAddress) {
+    public Client(String clientID, String userNameString, String userEmail, @Nullable String userPhone, @Nullable String clientRegion, @Nullable String userAddress) {
         super(clientID, userNameString, userEmail);
-
+        this.clientRegion = clientRegion;
     }
 
     @Override
@@ -27,5 +30,13 @@ public class Client extends Users implements GenericKeyValueTypeable {
     @Exclude
     public String getItemValue() {
         return super.getUserNameString();
+    }
+
+    public String getClientRegion() {
+        return clientRegion;
+    }
+
+    public void setClientRegion(String clientRegion) {
+        this.clientRegion = clientRegion;
     }
 }

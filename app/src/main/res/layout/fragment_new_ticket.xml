@@ -231,8 +231,6 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="8dp"
                     android:layout_toEndOf="@+id/phoneIcon"
-                    android:digits="0123456789+"
-                    android:inputType="phone"
                     android:text="@string/label_phone_number" />
 
                 <EditText
@@ -240,6 +238,7 @@
                     style="@style/RegularRowItem.EditText"
                     android:layout_toEndOf="@id/phoneLabel"
                     android:inputType="phone"
+                    android:digits="0123456789+"
                     android:imeOptions="actionNext"
                     android:maxLength="13"/>
             </com.teamrm.teamrm.Utility.RowViewLayout>

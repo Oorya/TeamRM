@@ -172,7 +172,7 @@ public class HomeScreen extends AppCompatActivity implements FragmentDrawer.Frag
 
         if (requestCode == TicketView.PERMISSION_PHONE_REQUEST_CODE) {
             TicketView ticketListFragment = (TicketView) getSupportFragmentManager().findFragmentByTag(TicketView.FRAGMENT_TRANSACTION);
-            ticketListFragment.openPhoneDialog();
+            //ticketListFragment.openPhoneDialog();
         } else if (requestCode == FROM_PHOTO_ADAPTER) {
             /*PhotoPicker.builder()
                     .setPhotoCount(PhotoAdapter.MAX)

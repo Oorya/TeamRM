@@ -104,7 +104,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_new_ticket, container, false);
         RowSetLayout rowSetLayout = (RowSetLayout) view.findViewById(R.id.rowSet1);
-        rowSetLayout.AlternateRowsBackground(rowSetLayout, R.color.listRow_alt, RowSetLayout.ALTER_ODD_ROWS);
+        rowSetLayout.alternateRowsBackground(R.color.listRow_alt, RowSetLayout.ALTER_ODD_ROWS);
         context = this.getContext();
         getActivity().findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
 

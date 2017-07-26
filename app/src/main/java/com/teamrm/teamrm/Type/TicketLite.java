@@ -3,6 +3,7 @@ package com.teamrm.teamrm.Type;
 import com.google.firebase.database.Exclude;
 import com.teamrm.teamrm.Interfaces.TicketStateStringable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,9 +12,9 @@ import java.util.List;
  * Created by root on 27/01/2017.
  */
 
-public class TicketLite {
+public class TicketLite implements Serializable{
 
-    private static List<TicketLite> ticketLiteList = Collections.EMPTY_LIST;
+    private static List<TicketLite> ticketLiteList = new ArrayList<>();
 
     private String clientID;
     private String clientNameString;
@@ -33,6 +34,8 @@ public class TicketLite {
     private String ticketStateString;
 
     private String ticketOpenDateTime;
+    private String ticketAssignedDateTime;
+    private String ticketAssignedDuration;
     private String ticketCloseDateTime;
 
     private String techID;
@@ -79,6 +82,8 @@ public class TicketLite {
         this.ticketStateString = ticket.getTicketStateString();
 
         this.ticketOpenDateTime = ticket.getTicketOpenDateTime();
+        this.ticketAssignedDateTime = ticket.getTicketAssignedDateTime();
+        this.ticketAssignedDuration = ticket.getTicketAssignedDuration();
         this.ticketCloseDateTime = ticket.getTicketCloseDateTime();
 
         this.techID = ticket.getTechID();
@@ -287,6 +292,22 @@ public class TicketLite {
 
     public void setTechID(String techID) {
         this.techID = techID;
+    }
+
+    public String getTicketAssignedDateTime() {
+        return ticketAssignedDateTime;
+    }
+
+    public void setTicketAssignedDateTime(String ticketAssignedDateTime) {
+        this.ticketAssignedDateTime = ticketAssignedDateTime;
+    }
+
+    public String getTicketAssignedDuration() {
+        return ticketAssignedDuration;
+    }
+
+    public void setTicketAssignedDuration(String ticketAssignedDuration) {
+        this.ticketAssignedDuration = ticketAssignedDuration;
     }
 
     @Override

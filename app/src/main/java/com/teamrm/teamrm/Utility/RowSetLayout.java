@@ -20,7 +20,7 @@ import java.util.List;
  */
 
 public class RowSetLayout extends LinearLayout {
-    public static final String TAG = "RowSetLayout";
+    public static final String TAG = ":::RowSetLayout";
     public static final int ALTER_ODD_ROWS = 0;
     public static final int ALTER_EVEN_ROWS = 1;
 
@@ -40,11 +40,12 @@ public class RowSetLayout extends LinearLayout {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public void AlternateRowsBackground(RowSetLayout rowSetLayout, int backgroundResource, int alterOddOrEvenRows) {
+    public void alternateRowsBackground(int backgroundResource, int alterOddOrEvenRows) {
+        Log.d(TAG, "alternateRowsBackground called for ID " + this.getId());
         List<RowViewLayout> targetChildren = new ArrayList<>();
-        if (rowSetLayout.getChildCount() > 0) {
-            for (int count = 0; count <= rowSetLayout.getChildCount(); count += 1) {
-                View child = rowSetLayout.getChildAt(count);
+        if (this.getChildCount() > 0) {
+            for (int count = 0; count <= this.getChildCount(); count += 1) {
+                View child = this.getChildAt(count);
                 if (child instanceof RowViewLayout) {
                     Log.d(TAG, child.toString());
                     try {

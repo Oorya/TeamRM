@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/userDetail"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true"
+    android:layoutDirection="rtl"
+    app:cardCornerRadius="6dp"
+    app:cardElevation="5dp"
+    app:cardUseCompatPadding="true"
+    tools:showIn="@layout/fragment_ticket_new">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.teamrm.teamrm.Utility.RowViewLayout
+            android:id="@+id/userNameRow"
+            style="@style/CardRow">
+
+            <ImageView
+                android:id="@+id/userProfileImage"
+                style="@style/CardRowImageStart"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_icon_person" />
+
+            <TextView
+                android:id="@+id/userNameString"
+                style="@style/CardRowText"
+                android:layout_toEndOf="@id/userProfileImage"
+                android:text="ישראל ישראלי"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/userLoadingIcon"
+                style="@style/CardRowImageEnd"
+                android:src="@drawable/ic_wait"
+                android:visibility="visible"
+                android:tint="@color/icon_gray"
+                android:alpha="0.5"/>
+
+            <ImageView
+                android:id="@+id/userExpandIcon"
+                style="@style/CardRowImageEnd"
+                android:src="@drawable/ic_icon_down"
+                android:visibility="gone"/>
+        </com.teamrm.teamrm.Utility.RowViewLayout>
+
+        <View style="@style/Separator1px" />
+
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/userCardExpandableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:el_expanded="false">
+
+            <com.teamrm.teamrm.Utility.RowSetLayout
+                android:id="@+id/rowSet2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.teamrm.teamrm.Utility.RowViewLayout
+                    android:id="@+id/userEmailRow"
+                    style="@style/CardRow">
+
+                    <ImageView
+                        android:id="@+id/userEmailIcon"
+                        style="@style/CardRowImageStart"
+                        android:src="@drawable/ic_icon_mail" />
+
+                    <TextView
+                        android:id="@+id/userEmailLabel"
+                        style="@style/CardRowLabel"
+                        android:layout_toEndOf="@id/userEmailIcon"
+                        android:text="@string/label_mail" />
+
+                    <TextView
+                        android:id="@+id/userEmailText"
+                        style="@style/CardRowLabel"
+                        android:layout_toEndOf="@id/userEmailLabel"
+                        tools:text="xxx@xxxx" />
+
+                    <ImageView
+                        android:id="@+id/btnUserEmailSend"
+                        style="@style/CardRowImageEnd"
+                        android:src="@drawable/ic_icon_newmail" />
+
+                </com.teamrm.teamrm.Utility.RowViewLayout>
+
+                <com.teamrm.teamrm.Utility.RowViewLayout
+                    android:id="@+id/userRegionRow"
+                    style="@style/CardRow">
+
+                    <ImageView
+                        android:id="@+id/userRegionIcon"
+                        style="@style/CardRowImageStart"
+                        android:src="@drawable/ic_region_new" />
+
+                    <TextView
+                        android:id="@+id/userRegionLabel"
+                        style="@style/CardRowLabel"
+                        android:layout_toEndOf="@id/userRegionIcon"
+                        android:text="@string/label_region" />
+
+                    <TextView
+                        android:id="@+id/userRegionText"
+                        style="@style/CardRowText"
+                        android:layout_toEndOf="@id/userRegionLabel"
+                        tools:text="אזור" />
+
+
+                </com.teamrm.teamrm.Utility.RowViewLayout>
+
+                <com.teamrm.teamrm.Utility.RowViewLayout
+                    android:id="@+id/userAddressRow"
+                    style="@style/CardRow">
+
+                    <ImageView
+                        android:id="@+id/userAddressIcon"
+                        style="@style/CardRowImageStart"
+                        android:src="@drawable/ic_icon_location" />
+
+                    <TextView
+                        android:id="@+id/userAddressLabel"
+                        style="@style/CardRowLabel"
+                        android:layout_toEndOf="@id/userAddressIcon"
+                        android:text="@string/label_address" />
+
+                    <TextView
+                        android:id="@+id/userAddressText"
+                        style="@style/CardRowText"
+                        android:layout_toEndOf="@id/userAddressLabel"
+                        tools:text="xxxxxxx" />
+
+                    <ImageView
+                        android:id="@+id/btnUserAddressNavigate"
+                        style="@style/CardRowImageEnd"
+                        android:src="@drawable/ic_icon_nav" />
+
+                </com.teamrm.teamrm.Utility.RowViewLayout>
+
+                <com.teamrm.teamrm.Utility.RowViewLayout
+                    android:id="@+id/userPhoneRow"
+                    style="@style/CardRow">
+
+                    <ImageView
+                        android:id="@+id/userPhoneIcon"
+                        style="@style/CardRowImageStart"
+                        android:src="@drawable/ic_icon_phone" />
+
+                    <TextView
+                        android:id="@+id/userPhoneLabel"
+                        style="@style/CardRowLabel"
+                        android:layout_toEndOf="@id/userPhoneIcon"
+                        android:text="@string/label_phone_number" />
+
+                    <TextView
+                        android:id="@+id/userPhoneText"
+                        style="@style/CardRowText"
+                        android:layout_toEndOf="@id/userPhoneLabel"
+                        tools:text="xxxxxxx" />
+
+                    <ImageView
+                        android:id="@+id/btnUserPhoneCall"
+                        style="@style/CardRowImageEnd"
+                        android:src="@drawable/ic_call_24px" />
+
+                </com.teamrm.teamrm.Utility.RowViewLayout>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/btnUserProfileOpen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/userPhone"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layoutDirection="rtl"
+                    app:cardBackgroundColor="@color/listRow_alt"
+                    app:cardCornerRadius="5dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="4dp"
+                        android:paddingEnd="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingTop="4dp">
+
+                        <ImageView
+                            android:id="@+id/userIconBtn"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/ic_icon_person" />
+
+                        <TextView
+                            android:id="@+id/userProfileLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@id/userIconBtn"
+                            android:text="פרופיל משתמש" />
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+            </com.teamrm.teamrm.Utility.RowSetLayout>
+        </net.cachapa.expandablelayout.ExpandableLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+

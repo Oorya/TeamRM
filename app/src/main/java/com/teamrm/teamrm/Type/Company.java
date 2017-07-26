@@ -34,6 +34,10 @@ public class Company implements GenericKeyValueTypeable {
         this.companyCreationTime = getCurrentTime();
     }
 
+    public Company(String companyID){
+        this.companyID = companyID;
+    }
+
     public static List<Company> getCompanyList() {
         return companyList;
     }
@@ -117,5 +121,22 @@ public class Company implements GenericKeyValueTypeable {
     @Exclude
     public String getItemValue() {
         return this.companyName;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.companyID.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Company) {
+            Company another = (Company) obj;
+            if (this.companyID.equals(another.companyID)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

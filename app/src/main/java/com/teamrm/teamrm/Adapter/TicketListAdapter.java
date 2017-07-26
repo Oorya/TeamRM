@@ -157,7 +157,12 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Cu
             public void onClick(View view) {
 
                 Bundle bundle = new Bundle();
-                bundle.putString("ticketID", item.getTicketID());
+                bundle.putSerializable("mTicketLite", item);
+                /*bundle.putString("ticketID", item.getTicketID());
+                bundle.putString("ticketClientID", item.getClientID());
+                bundle.putString("ticketClientNameString", item.getClientNameString());
+                bundle.putString("ticketCompanyID", item.getCompanyID());
+                bundle.putString("ticketCompanyName", item.getCompanyName());*/
                 FragmentTransaction fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager()
                         .beginTransaction();
                 TicketView ticketView = new TicketView();

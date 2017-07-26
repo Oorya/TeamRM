@@ -119,7 +119,7 @@ public class UtlFirebase {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()) {
                     Log.d(LOGINTAG, "Stage 6a, no such user " + firebaseUser.getEmail() + " exists, creating one");
-                    Client clientToAdd = new Client(firebaseUser.getUid(), firebaseUser.getDisplayName(), firebaseUser.getEmail(), "", "");
+                    Client clientToAdd = new Client(firebaseUser.getUid(), firebaseUser.getDisplayName(), firebaseUser.getEmail(), "", "" , "");
                     clientToAdd.setUserImgPath(userImgPath);
                     UtlFirebase.addClient(clientToAdd);
                     fbHelper.resultUser(clientToAdd);
@@ -936,18 +936,20 @@ public class UtlFirebase {
         TECH_TICKET_STATES_REFERENCE.removeValue();
     }
 
-    public static void getTicketByKey(final String key, final FireBaseAble fbHelper) {
+    public static void getTicketByKey(final String key, final FireBaseBooleanCallback fbCallBack) {
         Query query = TICKET_ROOT_REFERENCE.orderByKey().equalTo(key);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    fbHelper.resultTicket(item.getValue(Ticket.class));
+                    Ticket.addTicketToList(item.getValue(Ticket.class));
+                    fbCallBack.booleanCallback(true);
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                fbCallBack.booleanCallback(false);
                 toastTheError("Err_31", databaseError);
             }
         });

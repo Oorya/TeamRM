@@ -51,7 +51,11 @@ public class AdminSettingsAdvanced extends Fragment {
         userDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startDialogDetails();
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.setCustomAnimations(R.anim.slide_in_from_right_rtl, FragmentTransaction.TRANSIT_NONE, R.anim.slide_in_from_left_rtl, FragmentTransaction.TRANSIT_NONE);
+                ft.replace(R.id.container_body, new EditUserDetails(), null);
+                ft.addToBackStack(EditUserDetails.FRAGMENT_TRANSACTION);
+                ft.commit();
             }
         });
 
@@ -98,10 +102,6 @@ public class AdminSettingsAdvanced extends Fragment {
 
             }
         });
-    }
-
-    private void startDialogDetails() {
-
     }
 
     private void shareApp() {

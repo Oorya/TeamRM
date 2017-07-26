@@ -223,6 +223,12 @@
     <string name="label_client">לקוח</string>
     <string name="label_accept_tech_btn">אשר הרשמה</string>
     <string name="label_decline_tech_btn">דחה הרשמה</string>
+    <string name="label_ticket_number">מספר קריאה %1$s</string>
+    <string name="label_ticket_time_opened">פתיחה: %1$s</string>
+    <string name="label_ticket_time_assigned">מועד טיפול: %1$s</string>
+    <string name="label_ticket_time_closed">סגירה: %1$s</string>
+
+
 
 
     <!--/labels-->
