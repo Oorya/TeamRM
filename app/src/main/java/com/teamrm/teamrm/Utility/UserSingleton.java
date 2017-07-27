@@ -240,10 +240,7 @@ public class UserSingleton extends Users {
 
             } catch (Exception e) {
                 //test
-                DatabaseReference test = FirebaseDatabase.getInstance().getReference("test");
-                test.push().setValue(UserSingleton.getInstance().getUserStatus() + "States." + ticketState.getTicketStateString());
-                test.push().setValue(e.getMessage() + " " + e.getLocalizedMessage());
-                test.push().setValue(e.toString());
+                Log.e(STATELISTENERTAG, "Error injecting state object");
             }
 
         }
