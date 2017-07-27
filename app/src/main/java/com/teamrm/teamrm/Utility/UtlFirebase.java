@@ -252,7 +252,7 @@ public class UtlFirebase {
         USERS_ROOT_REFERENCE.child(userID).removeValue();
     }
 
-    public static void updateUser(String userId, final Map<String, Object> updates) {
+    public static void updateUser(String userId, final HashMap<String, Object> updates) {
         USERS_ROOT_REFERENCE.child(userId).updateChildren(updates, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {

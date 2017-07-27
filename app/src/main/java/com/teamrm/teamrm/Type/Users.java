@@ -31,7 +31,7 @@ public abstract class Users {
     public static final String USER_ADDRESS = "userAddress";
     public static final String USER_IMG_PATH = "userImgPath";
     public static final String ASSIGNED_COMPANY_ID = "assignedCompanyID";
-
+    public static final String USER_LAST_SEEN = "userLastSeen";
 
 
     public Users() {

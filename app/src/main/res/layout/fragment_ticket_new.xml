@@ -193,10 +193,9 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="18dp"
+                android:layout_height="8dp"
                 android:background="@drawable/shadow_linear" />
         </com.teamrm.teamrm.Utility.RowViewLayout>
-
 
     </com.teamrm.teamrm.Utility.RowSetLayout>
 

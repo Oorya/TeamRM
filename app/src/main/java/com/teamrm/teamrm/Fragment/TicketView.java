@@ -758,7 +758,7 @@ public class TicketView extends Fragment {
 
     private void openGpsDialog(String strAddress) {
 
-        Address formattedAddress = null;
+        Address formattedAddress;
         String title = "בחר תוכנת ניווט";
         formattedAddress = getLocationFromAddress(strAddress);
         if (formattedAddress != null) {
