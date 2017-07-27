@@ -17,6 +17,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.GravityEnum;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -345,10 +348,59 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     }
 
     void startApp() {
+       // if (null == UserSingleton.getInstance().getUserLastSeen()) {
 
-        Intent homeScreenIntent = new Intent(this, HomeScreen.class);
-        startActivity(homeScreenIntent);
-        finish();
+          //  setUserInitialDetail();
+        //}else {
+            App.getInstance().startLastSeenRunnable();
+            Intent homeScreenIntent = new Intent(this, HomeScreen.class);
+            startActivity(homeScreenIntent);
+            finish();
+        //}
+    }
+
+    private void setUserInitialDetail() {
+       /*
+        final MaterialDialog userInitialDetail = new MaterialDialog.Builder(this)
+
+                .customView(R.layout.set_time_date_tech_dialog, false)
+                .positiveText(R.string.label_button_save)
+                .contentColorRes(R.color.textColor_primary)
+                .contentGravity(GravityEnum.CENTER)
+                .negativeText(R.string.label_button_cancel)
+                .titleGravity(GravityEnum.END)
+                .buttonsGravity(GravityEnum.END)
+                .backgroundColorRes(R.color.app_bg)
+                .widgetColorRes(R.color.textColor_primary)
+                .titleColorRes(R.color.textColor_lighter)
+                .positiveColorRes(R.color.colorPrimary)
+                .negativeColorRes(R.color.colorPrimaryDark)
+                .dividerColorRes(R.color.textColor_lighter)
+                .build();
+
+        View btnNegativ = userInitialDetail.getActionButton(DialogAction.NEGATIVE);
+
+            btnNegativ.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    userInitialDetail.dismiss();
+                }
+            });
+        View btnPositive = userInitialDetail.getActionButton(DialogAction.POSITIVE);
+
+        btnPositive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                App.getInstance().startLastSeenRunnable();
+                Intent homeScreenIntent = new Intent(getApplicationContext(), HomeScreen.class);
+                startActivity(homeScreenIntent);
+                finish();
+                userInitialDetail.dismiss();
+            }
+        });
+
+        userInitialDetail.show();
+        */
     }
 
     public void permissionToDrawOverlays() {

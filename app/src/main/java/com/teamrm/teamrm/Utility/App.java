@@ -2,6 +2,7 @@ package com.teamrm.teamrm.Utility;
 
 import android.app.Application;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.auth.api.Auth;
@@ -21,6 +22,8 @@ import com.teamrm.teamrm.Type.TicketLite;
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,9 +33,9 @@ import java.util.List;
 public class App extends Application {
     private GoogleApiHelper googleApiHelper;
     private static App mInstance;
-
+    private Handler handler;
     private Intent serviceIntent;
-
+    private boolean isHandlerRun = true;
 
 
 
@@ -93,4 +96,25 @@ public class App extends Application {
     public void stopService(){
         this.stopService(serviceIntent);
     }
+    public void startLastSeenRunnable(){
+        handler = new Handler();
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                if(UserSingleton.isUserLoaded() && InternetAvailable.isConnectingToInternet(getApplicationContext())) {
+                    Calendar calendar = Calendar.getInstance();
+                    String LastSeen = calendar.toString();
+                    UserSingleton.getInstance().setUserLastSeen(LastSeen);
+                    startLastSeenRunnable();
+
+                }
+            }
+        }, 1000);
+
+
+
+    }
+
 }

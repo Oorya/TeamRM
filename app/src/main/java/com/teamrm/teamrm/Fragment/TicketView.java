@@ -739,15 +739,20 @@ public class TicketView extends Fragment {
 
     public void openPhoneDialog(String phone) {
 
-        Intent callIntent = new Intent(Intent.ACTION_CALL);
-        callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        callIntent.setData(Uri.parse("tel:" + phone));
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, PERMISSION_PHONE_REQUEST_CODE);
-            Log.d("openPhoneDialog", ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) + "");
-        } else {
+        if(phone!=null) {
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            callIntent.setData(Uri.parse("tel:" + phone));
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, PERMISSION_PHONE_REQUEST_CODE);
+                Log.d("openPhoneDialog", ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) + "");
+            } else {
 
-            getActivity().startActivity(callIntent);
+                getActivity().startActivity(callIntent);
+            }
+        }else {
+            new NiceToast(getContext(), "phone number is not available", NiceToast.NICETOAST_ERROR, Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -783,15 +788,20 @@ public class TicketView extends Fragment {
     }
 
     private void openMailDialog(String strEmail) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        Uri data = Uri.parse("mailto:?to=" + strEmail);
-        intent.setData(data);
-        startActivity(intent);
+        if(strEmail.length()>1) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            Uri data = Uri.parse("mailto:?to=" + strEmail);
+            intent.setData(data);
+            startActivity(intent);
+        }else {
+            new NiceToast(getContext(), "Email adders is not available", NiceToast.NICETOAST_ERROR, Toast.LENGTH_SHORT).show();
+
+        }
     }
 
     public Address getLocationFromAddress(String strAddress) {
 
-        if (strAddress.length() == 0) {
+        if (strAddress == null) {
             return null;
         }
         Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());

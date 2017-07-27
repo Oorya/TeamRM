@@ -1,5 +1,7 @@
 package com.teamrm.teamrm.Type;
 
+import java.util.Date;
+
 /**
  * Created byאOorya on 07/07/2016.
  */
@@ -18,6 +20,7 @@ public abstract class Users {
     private String userAddress;
     private String userImgPath;
     private String assignedCompanyID;
+    private String userLastSeen;
 
     public static final String USER_ID = "userID";
     public static final String USER_NAME_STRING = "userNameString";
@@ -40,6 +43,7 @@ public abstract class Users {
         this.userEmail = userEmail;
         this.userStatus = STATUS_CLIENT;
         this.userIsAdmin = false;
+
     }
 
     public Users(Users otherUser) {
@@ -52,8 +56,16 @@ public abstract class Users {
         this.userAddress = otherUser.userAddress;
         this.userImgPath = otherUser.userImgPath;
         this.assignedCompanyID = otherUser.assignedCompanyID;
+
     }
 
+    public String getUserLastSeen() {
+        return userLastSeen;
+    }
+
+    public void setUserLastSeen(String userLastSeen) {
+        this.userLastSeen = userLastSeen;
+    }
 
     public String getUserID() {
         return userID;
