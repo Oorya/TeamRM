@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ import com.teamrm.teamrm.Type.Category;
 import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.Product;
 import com.teamrm.teamrm.Type.Region;
+import com.teamrm.teamrm.Type.Technician;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.Users;
@@ -54,7 +56,9 @@ import com.teamrm.teamrm.Utility.NiceToast;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.teamrm.teamrm.Utility.UserSingleton.LOGINTAG;
 
@@ -348,27 +352,29 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     }
 
     void startApp() {
-       // if (null == UserSingleton.getInstance().getUserLastSeen()) {
+        Log.d(LOGINTAG, "startApp "+UserSingleton.getLoadedUserObject().getUserLastSeen()+"");
+        if (UserSingleton.isUserLoaded()&&UserSingleton.getLoadedUserObject().getUserLastSeen()==null) {
 
-          //  setUserInitialDetail();
-        //}else {
+            setUserInitialDetail();
+        }else {
             App.getInstance().startLastSeenRunnable();
             Intent homeScreenIntent = new Intent(this, HomeScreen.class);
             startActivity(homeScreenIntent);
             finish();
-        //}
+        }
     }
 
     private void setUserInitialDetail() {
-       /*
+
         final MaterialDialog userInitialDetail = new MaterialDialog.Builder(this)
 
-                .customView(R.layout.set_time_date_tech_dialog, false)
+                .customView(R.layout.user_information_first_login, false)
+                .title("לצורך התחברות ראשונית יש למלא את הפרטים הבאים")
                 .positiveText(R.string.label_button_save)
                 .contentColorRes(R.color.textColor_primary)
                 .contentGravity(GravityEnum.CENTER)
                 .negativeText(R.string.label_button_cancel)
-                .titleGravity(GravityEnum.END)
+                .titleGravity(GravityEnum.START)
                 .buttonsGravity(GravityEnum.END)
                 .backgroundColorRes(R.color.app_bg)
                 .widgetColorRes(R.color.textColor_primary)
@@ -391,16 +397,25 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         btnPositive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                App.getInstance().startLastSeenRunnable();
+
+                EditText userName = (EditText) userInitialDetail.findViewById(R.id.userName);
+                EditText phone = (EditText) userInitialDetail.findViewById(R.id.phone);
+                HashMap<String, Object> updates = new HashMap<>();
+                updates.put(UserSingleton.getInstance().USER_PHONE,phone.getText() );
+                updates.put(UserSingleton.getInstance().USER_NAME_STRING,userName.getText() );
+
+                UtlFirebase.updateUser(UserSingleton.getInstance().getUserID(),updates);
                 Intent homeScreenIntent = new Intent(getApplicationContext(), HomeScreen.class);
                 startActivity(homeScreenIntent);
-                finish();
                 userInitialDetail.dismiss();
+                finish();
+                App.getInstance().startLastSeenRunnable();
+
             }
         });
 
         userInitialDetail.show();
-        */
+
     }
 
     public void permissionToDrawOverlays() {
