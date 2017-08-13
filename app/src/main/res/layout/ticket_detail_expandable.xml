@@ -339,5 +339,12 @@
 
         </LinearLayout>
         </net.cachapa.expandablelayout.ExpandableLayout>
+        <com.teamrm.teamrm.Utility.RowViewLayout
+            android:layout_width="match_parent"
+            android:layout_height="16dp">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="16dp"/>
+        </com.teamrm.teamrm.Utility.RowViewLayout>
     </com.teamrm.teamrm.Utility.RowSetLayout>
 </android.support.v7.widget.CardView>

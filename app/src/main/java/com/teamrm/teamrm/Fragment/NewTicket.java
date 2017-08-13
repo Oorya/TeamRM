@@ -309,7 +309,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
     }
 
     private void closeThisFragment() {
-        getActivity().getSupportFragmentManager().beginTransaction().remove(NewTicket.this).commit();
+        //getActivity().getSupportFragmentManager().beginTransaction().remove(NewTicket.this).commit();
         getActivity().getSupportFragmentManager().popBackStack();
     }
 
