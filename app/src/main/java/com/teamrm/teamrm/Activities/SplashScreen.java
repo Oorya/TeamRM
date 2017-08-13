@@ -401,8 +401,8 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
                 EditText userName = (EditText) userInitialDetail.findViewById(R.id.userName);
                 EditText phone = (EditText) userInitialDetail.findViewById(R.id.phone);
                 HashMap<String, Object> updates = new HashMap<>();
-                updates.put(UserSingleton.getInstance().USER_PHONE,phone.getText().toString() );
-                updates.put(UserSingleton.getInstance().USER_NAME_STRING,userName.getText().toString() );
+                updates.put(UserSingleton.USER_PHONE,phone.getText().toString() );
+                updates.put(UserSingleton.USER_NAME_STRING,userName.getText().toString() );
 
                 UtlFirebase.updateUser(UserSingleton.getInstance().getUserID(),updates);
                 Intent homeScreenIntent = new Intent(getApplicationContext(), HomeScreen.class);

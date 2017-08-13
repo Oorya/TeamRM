@@ -107,7 +107,7 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         rowSetLayout.alternateRowsBackground(R.color.listRow_alt, RowSetLayout.ALTER_ODD_ROWS);
         context = this.getContext();
         getActivity().findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
-
+        getActivity().setTitle(getResources().getStringArray(R.array.nav_list)[1]);
         ticketAddress = (EditText) view.findViewById(R.id.txtAddress);
         ticketPhone = (EditText) view.findViewById(R.id.txtPhone);
         descriptionShort = (EditText) view.findViewById(R.id.descriptionShort);
