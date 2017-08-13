@@ -80,7 +80,7 @@ public class TicketView extends Fragment {
     //user card
     private RowViewLayout userDetailsRow;
     private ExpandableLayout userDetailsCardExpandableLayout;
-    private TextView userNameString, userEmail, userRegion, userAddress, userPhone;
+    private TextView userNameString, userEmail, userAddress, userPhone;
     private CardView btnUserProfileOpen;
     private ImageView userProfileImage, btnUserEmailSend, btnUserAddressNavigate, btnUserPhoneCall, userExpandIcon, userLoadingIcon;
     private RowViewLayout btnUserExpandToggle;
@@ -213,7 +213,6 @@ public class TicketView extends Fragment {
         userDetailsCardExpandableLayout = (ExpandableLayout) view.findViewById(R.id.userCardExpandableLayout);
         userNameString = (TextView) view.findViewById(R.id.userNameString);
         userEmail = (TextView) view.findViewById(R.id.userEmailText);
-        userRegion = (TextView) view.findViewById(R.id.userRegionText);
         userAddress = (TextView) view.findViewById(R.id.userAddressText);
         userPhone = (TextView) view.findViewById(R.id.userPhoneText);
 
@@ -355,11 +354,8 @@ public class TicketView extends Fragment {
                         //TODO: set userProfileImage
                         userEmail.setText(objUser.getUserEmail());
                         if (objUser.getUserStatus().equals(Users.STATUS_CLIENT)) {
-                            userRegion.setText(objUser.getClientRegion());
-                            view.findViewById(R.id.userRegionRow).setVisibility(View.VISIBLE);
                             view.findViewById(R.id.btnUserProfileOpen).setVisibility(View.VISIBLE);
                         } else {
-                            view.findViewById(R.id.userRegionRow).setVisibility(View.GONE);
                             view.findViewById(R.id.btnUserProfileOpen).setVisibility(View.GONE);
                         }
                         //TODO: indicate that ticket was opened by Admin or Tech
