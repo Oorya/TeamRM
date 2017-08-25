@@ -4,6 +4,8 @@ import android.view.View;
 
 import com.teamrm.teamrm.Type.Ticket;
 
+import java.util.Date;
+
 /**
  * Created by root on 01/09/2016.
  */
@@ -19,8 +21,11 @@ public interface TicketStateAble {
     int TTL_END_TICKET_DATE = 8;
     int TTL_END_TIKCET_TIME_EXTENSION = 9;
     int TECH_START_WORK_ON_TICkET = 10;
+    int COORDINATION_ATTEMPTS = 5;
     TicketStateAble getNewState(Ticket ticket);
     View setView(View view);
+    //void setTtl(Date endOfAlarm);
+    //boolean CoordinationAttemptsIsOver();
 
          
 }

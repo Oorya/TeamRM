@@ -56,6 +56,7 @@ import com.teamrm.teamrm.Utility.NiceToast;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -389,6 +390,9 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
             btnNegativ.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    App.getInstance().signOut();
+                    signInButton.setVisibility(View.VISIBLE);
+                    linearLayout.setVisibility(View.GONE);
                     userInitialDetail.dismiss();
                 }
             });
@@ -405,6 +409,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
                 updates.put(UserSingleton.USER_PHONE,phone.getText().toString() );
                 updates.put(UserSingleton.USER_NAME_STRING,userName.getText().toString() );
                 updates.put(UserSingleton.USER_ADDRESS,address.getText().toString() );
+                updates.put(UserSingleton.USER_LAST_SEEN, Calendar.getInstance().toString());
 
                 UtlFirebase.updateUser(UserSingleton.getInstance().getUserID(),updates);
                 Intent homeScreenIntent = new Intent(getApplicationContext(), HomeScreen.class);
