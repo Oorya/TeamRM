@@ -256,7 +256,7 @@ public class UtlFirebase {
         USERS_ROOT_REFERENCE.child(userId).updateChildren(updates, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                toastSuccessOrError(updates.toString(), "Err_05", databaseError);
+               // toastSuccessOrError(updates.toString(), "Err_05", databaseError);
             }
         });
     }

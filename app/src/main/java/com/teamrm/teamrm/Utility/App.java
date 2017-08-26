@@ -24,6 +24,7 @@ import net.danlew.android.joda.JodaTimeAndroid;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -107,11 +108,17 @@ public class App extends Application {
                     Calendar calendar = Calendar.getInstance();
                     String LastSeen = calendar.toString();
                     UserSingleton.getInstance().setUserLastSeen(LastSeen);
+
+                    HashMap<String, Object> updates = new HashMap<>();
+                    updates.put(UserSingleton.getInstance().USER_LAST_SEEN,LastSeen );
+
+                    UtlFirebase.updateUser(UserSingleton.getInstance().getUserID(),updates);
+
                     startLastSeenRunnable();
 
                 }
             }
-        }, 1000);
+        }, 60000);
 
 
 

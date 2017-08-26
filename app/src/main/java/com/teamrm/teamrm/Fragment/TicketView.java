@@ -60,6 +60,8 @@ import javax.annotation.Nullable;
  */
 public class TicketView extends Fragment {
 
+    private String tStatus;
+
     public static final String TAG = ":::TicketView";
 
     public static final String FRAGMENT_TRANSACTION = "TicketView";
@@ -78,7 +80,7 @@ public class TicketView extends Fragment {
     //user card
     private RowViewLayout userDetailsRow;
     private ExpandableLayout userDetailsCardExpandableLayout;
-    private TextView userNameString, userEmail, userRegion, userAddress, userPhone;
+    private TextView userNameString, userEmail, userAddress, userPhone;
     private CardView btnUserProfileOpen;
     private ImageView userProfileImage, btnUserEmailSend, btnUserAddressNavigate, btnUserPhoneCall, userExpandIcon, userLoadingIcon;
     private RowViewLayout btnUserExpandToggle;
@@ -102,7 +104,7 @@ public class TicketView extends Fragment {
 
 
     //Ticket card
-    private TextView ticketProduct, ticketCategory, ticketRegion, ticketAddress, ticketDescShort, ticketDescLong;
+    private TextView ticketProduct, ticketCategory, ticketRegion, ticketAddress, ticketPhone, ticketDescShort, ticketDescLong;
     private ImageView ticketImg1, ticketImg2;
     private ImageView btnTicketAddressNavigate, btnTicketPhoneCall, ticketExpandIcon, ticketLoadingIcon;
     private RowViewLayout btnTicketExpandToggle;
@@ -211,7 +213,6 @@ public class TicketView extends Fragment {
         userDetailsCardExpandableLayout = (ExpandableLayout) view.findViewById(R.id.userCardExpandableLayout);
         userNameString = (TextView) view.findViewById(R.id.userNameString);
         userEmail = (TextView) view.findViewById(R.id.userEmailText);
-        userRegion = (TextView) view.findViewById(R.id.userRegionText);
         userAddress = (TextView) view.findViewById(R.id.userAddressText);
         userPhone = (TextView) view.findViewById(R.id.userPhoneText);
 
@@ -250,6 +251,7 @@ public class TicketView extends Fragment {
         ticketCategory = (TextView) view.findViewById(R.id.ticketCategoryText);
         ticketRegion = (TextView) view.findViewById(R.id.ticketRegionText);
         ticketAddress = (TextView) view.findViewById(R.id.ticketAddressText);
+        ticketPhone = (TextView) view.findViewById(R.id.ticketPhoneText);
         ticketDescShort = (TextView) view.findViewById(R.id.ticketDescriptionShortText);
         ticketDescLong = (TextView) view.findViewById(R.id.ticketDescriptionLongText);
 
@@ -274,8 +276,16 @@ public class TicketView extends Fragment {
 
         //header start
         ticketNumber.setText(getContext().getString(R.string.label_ticket_number, objTicketLite.getTicketNumber()));
-        ticketStatus.setText(objTicketLite.getTicketStateString());//TODO: replace with icon and text
-        dateTimeOpen.setText(objTicketLite.getTicketOpenDateTime());
+
+        switch (objTicketLite.getTicketStateString()) {
+            case ("A01"):
+                tStatus = "קריאה ממתינה לאישור פתיחה";
+                break;
+            default:
+                tStatus = "Undefined";
+        }
+        ticketStatus.setText(tStatus);//TODO: replace with icon and text
+        dateTimeOpen.setText("פתיחה: " + objTicketLite.getTicketOpenDateTime());
         //show Assigned or Closed date time
         switch (objTicketLite.getTicketStateString()) {
             case ("Z00"):
@@ -344,15 +354,13 @@ public class TicketView extends Fragment {
                         //TODO: set userProfileImage
                         userEmail.setText(objUser.getUserEmail());
                         if (objUser.getUserStatus().equals(Users.STATUS_CLIENT)) {
-                            userRegion.setText(objUser.getClientRegion());
-                            view.findViewById(R.id.userRegionRow).setVisibility(View.VISIBLE);
                             view.findViewById(R.id.btnUserProfileOpen).setVisibility(View.VISIBLE);
                         } else {
-                            view.findViewById(R.id.userRegionRow).setVisibility(View.GONE);
                             view.findViewById(R.id.btnUserProfileOpen).setVisibility(View.GONE);
                         }
                         //TODO: indicate that ticket was opened by Admin or Tech
                         userAddress.setText(objUser.getUserAddress());
+                        userPhone.setText(objUser.getUserPhone());
                         userLoadingIcon.clearAnimation();
                         userLoadingIcon.setVisibility(View.GONE);
                         userExpandIcon.setVisibility(View.VISIBLE);
@@ -478,6 +486,7 @@ public class TicketView extends Fragment {
             ticketCategory.setText(objTicket.getCategoryName());
             ticketRegion.setText(objTicket.getRegionName());
             ticketAddress.setText(objTicket.getTicketAddress());
+            ticketPhone.setText(objTicket.getTicketPhone());
             ticketDescShort.setText(objTicket.getDescriptionShort());
             if (null != objTicket.getDescriptionLong() && objTicket.getDescriptionLong().length() > 1) {
                 view.findViewById(R.id.ticketDescriptionLongText).setVisibility(View.VISIBLE);
@@ -739,7 +748,7 @@ public class TicketView extends Fragment {
 
     public void openPhoneDialog(String phone) {
 
-        if(phone!=null) {
+        if (phone != null) {
             Intent callIntent = new Intent(Intent.ACTION_CALL);
             callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             callIntent.setData(Uri.parse("tel:" + phone));
@@ -750,7 +759,7 @@ public class TicketView extends Fragment {
 
                 getActivity().startActivity(callIntent);
             }
-        }else {
+        } else {
             new NiceToast(getContext(), "phone number is not available", NiceToast.NICETOAST_ERROR, Toast.LENGTH_SHORT).show();
 
         }
@@ -788,12 +797,12 @@ public class TicketView extends Fragment {
     }
 
     private void openMailDialog(String strEmail) {
-        if(strEmail.length()>1) {
+        if (strEmail.length() > 1) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             Uri data = Uri.parse("mailto:?to=" + strEmail);
             intent.setData(data);
             startActivity(intent);
-        }else {
+        } else {
             new NiceToast(getContext(), "Email adders is not available", NiceToast.NICETOAST_ERROR, Toast.LENGTH_SHORT).show();
 
         }

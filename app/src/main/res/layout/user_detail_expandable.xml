@@ -95,30 +95,6 @@
                 </com.teamrm.teamrm.Utility.RowViewLayout>
 
                 <com.teamrm.teamrm.Utility.RowViewLayout
-                    android:id="@+id/userRegionRow"
-                    style="@style/CardRow">
-
-                    <ImageView
-                        android:id="@+id/userRegionIcon"
-                        style="@style/CardRowImageStart"
-                        android:src="@drawable/ic_region_new" />
-
-                    <TextView
-                        android:id="@+id/userRegionLabel"
-                        style="@style/CardRowLabel"
-                        android:layout_toEndOf="@id/userRegionIcon"
-                        android:text="@string/label_region" />
-
-                    <TextView
-                        android:id="@+id/userRegionText"
-                        style="@style/CardRowText"
-                        android:layout_toEndOf="@id/userRegionLabel"
-                        tools:text="אזור" />
-
-
-                </com.teamrm.teamrm.Utility.RowViewLayout>
-
-                <com.teamrm.teamrm.Utility.RowViewLayout
                     android:id="@+id/userAddressRow"
                     style="@style/CardRow">
 

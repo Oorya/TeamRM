@@ -56,6 +56,7 @@ public abstract class Users {
         this.userAddress = otherUser.userAddress;
         this.userImgPath = otherUser.userImgPath;
         this.assignedCompanyID = otherUser.assignedCompanyID;
+        this.userLastSeen = otherUser.userLastSeen;
 
     }
 
