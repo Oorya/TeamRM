@@ -46,20 +46,20 @@ import com.teamrm.teamrm.Type.Category;
 import com.teamrm.teamrm.Type.Company;
 import com.teamrm.teamrm.Type.Product;
 import com.teamrm.teamrm.Type.Region;
-import com.teamrm.teamrm.Type.Technician;
 import com.teamrm.teamrm.Type.Ticket;
 import com.teamrm.teamrm.Type.TicketLite;
 import com.teamrm.teamrm.Type.Users;
 import com.teamrm.teamrm.Utility.App;
+import com.teamrm.teamrm.Utility.EditTextValidation;
 import com.teamrm.teamrm.Utility.InternetAvailable;
 import com.teamrm.teamrm.Utility.NiceToast;
 import com.teamrm.teamrm.Utility.UserSingleton;
 import com.teamrm.teamrm.Utility.UtlFirebase;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.teamrm.teamrm.Utility.UserSingleton.LOGINTAG;
 
@@ -405,19 +405,23 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
                 EditText userName = (EditText) userInitialDetail.findViewById(R.id.userName);
                 EditText phone = (EditText) userInitialDetail.findViewById(R.id.phone);
                 EditText address = (EditText) userInitialDetail.findViewById(R.id.address);
-                HashMap<String, Object> updates = new HashMap<>();
-                updates.put(UserSingleton.USER_PHONE,phone.getText().toString() );
-                updates.put(UserSingleton.USER_NAME_STRING,userName.getText().toString() );
-                updates.put(UserSingleton.USER_ADDRESS,address.getText().toString() );
-                updates.put(UserSingleton.USER_LAST_SEEN, Calendar.getInstance().toString());
 
-                UtlFirebase.updateUser(UserSingleton.getInstance().getUserID(),updates);
-                Intent homeScreenIntent = new Intent(getApplicationContext(), HomeScreen.class);
-                startActivity(homeScreenIntent);
-                userInitialDetail.dismiss();
-                finish();
-                App.getInstance().startLastSeenRunnable();
+                if(!EditTextValidation.checkEt(Arrays.asList(userName,phone,address))
+                        && EditTextValidation.checkPhoneRegex(phone))
+                {
+                    HashMap<String, Object> updates = new HashMap<>();
+                    updates.put(UserSingleton.USER_PHONE,phone.getText().toString() );
+                    updates.put(UserSingleton.USER_NAME_STRING,userName.getText().toString() );
+                    updates.put(UserSingleton.USER_ADDRESS,address.getText().toString() );
+                    updates.put(UserSingleton.USER_LAST_SEEN, Calendar.getInstance().toString());
 
+                    UtlFirebase.updateUser(UserSingleton.getInstance().getUserID(),updates);
+                    Intent homeScreenIntent = new Intent(getApplicationContext(), HomeScreen.class);
+                    startActivity(homeScreenIntent);
+                    userInitialDetail.dismiss();
+                    finish();
+                    App.getInstance().startLastSeenRunnable();
+                }
             }
         });
 

@@ -3,52 +3,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:layoutDirection="rtl"
+    android:orientation="vertical"
     android:paddingEnd="32dp"
     android:paddingStart="32dp"
     android:textDirection="rtl"
-    tools:paddingTop="25dp"
-    >
+    tools:paddingTop="25dp">
 
-
-    <EditText
-        android:id="@+id/userName"
-        style="@style/CardRowEditText"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:hint="@string/userName"
-        android:paddingTop="16dp"
-        android:layout_marginBottom="25dp"
-        android:textDirection="inherit"
-        android:inputType="textPersonName"
-         />
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/userName"
+            style="@style/CardRowEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:hint="@string/userName"
+            android:inputType="textPersonName"
+            android:paddingTop="16dp"
+            android:textAlignment="center"
+            android:textDirection="inherit" />
+    </android.support.design.widget.TextInputLayout>
 
 
-    <EditText
-        android:id="@+id/phone"
-        style="@style/CardRowEditText"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/userName"
-        android:textAlignment="center"
-        android:hint="@string/label_phone_number"
-        android:paddingTop="16dp"
-        android:layout_marginBottom="25dp"
-        android:textDirection="inherit"
-        android:inputType="phone" />
-    <EditText
-        android:id="@+id/address"
-        style="@style/CardRowEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/phone"
-        android:textAlignment="center"
-        android:hint="@string/label_post_address"
-        android:paddingTop="16dp"
-        android:layout_marginBottom="25dp"
-        android:textDirection="inherit"
-        android:inputType="text" />
+        android:layout_height="wrap_content">
 
+        <EditText
+            android:id="@+id/phone"
+            style="@style/CardRowEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/userName"
+            android:layout_marginBottom="25dp"
+            android:hint="@string/label_phone_number"
+            android:inputType="phone"
+            android:paddingTop="16dp"
+            android:textAlignment="center"
+            android:textDirection="inherit" />/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/address"
+            style="@style/CardRowEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/phone"
+            android:layout_marginBottom="25dp"
+            android:hint="@string/label_post_address"
+            android:inputType="text"
+            android:paddingTop="16dp"
+            android:textAlignment="center"
+            android:textDirection="inherit" />
+    </android.support.design.widget.TextInputLayout>
 </LinearLayout>

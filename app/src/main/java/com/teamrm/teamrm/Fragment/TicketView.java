@@ -138,7 +138,7 @@ public class TicketView extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_ticket_new, container, false);
+        View view = inflater.inflate(R.layout.fragment_ticket_view, container, false);
 
         getActivity().setTitle(getContext().getResources().getString(R.string.ticket_new));
         getActivity().findViewById(R.id.toolbar).findViewById(R.id.toolBarItem).setVisibility(View.VISIBLE);
