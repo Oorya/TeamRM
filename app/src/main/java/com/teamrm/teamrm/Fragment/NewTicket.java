@@ -131,6 +131,15 @@ public class NewTicket extends Fragment implements AdapterView.OnItemSelectedLis
         pref = getContext().getSharedPreferences("strImg", MODE_PRIVATE);
         editor = pref.edit();
         selectCompany.setOnItemSelectedListener(this);
+
+        if(UserSingleton.getInstance().getUserAddress() != null)
+        {
+            ticketAddress.setText(UserSingleton.getInstance().getUserAddress());
+        }
+        if(UserSingleton.getInstance().getUserPhone() != null)
+        {
+            ticketPhone.setText(UserSingleton.getInstance().getUserPhone());
+        }
         btnSubmitTicket = (Button) view.findViewById(R.id.btnSubmitTicket);
         btnSubmitTicket.setOnClickListener(new View.OnClickListener() {
             @Override
